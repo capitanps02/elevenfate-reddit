@@ -2,7 +2,7 @@ import { createCutscenePlayer } from './cutscene-player.js';
 import { formatClubName } from './club-names.js';
 import { createIndexedSaveStore } from './indexed-save-store.js';
 // UI reads PlayerView only. All career mutations go through GameSession commands.
-export function mountGame({root, GameSession, assets, css, storageKey='historia-jugador.preview.session.v1', events, cutsceneUrl=clip=>'/web/assets/cutscenes/'+clip.file}) {
+export function mountGame({root, GameSession, assets, css, storageKey='historia-jugador.preview.session.v1', events, saveStore, cutsceneFactory=createCutscenePlayer, saveDescription='local', cutsceneUrl=clip=>'/web/assets/cutscenes/'+clip.file}) {
   const KEY=storageKey;
   let session=null, busy=false, busyLabel='Guardando…', paused=false, platformSuspended=false, view='home', cinematic=false, message='', replacement=null, lastArt='stadium_bg', autoTimer=null, autoVisualTimer=null, lastAutoVisualAt=0;
   const AUTO_VISUAL_MIN_MS=280;
@@ -14,13 +14,13 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     if(!v.cutscene)return;
     const sceneKey=[v.sessionId,v.cutscene.file,v.screen,v.decisionsMade].join(':');
     const posterKey=v.cutscene.eventId==='PROLOGUE'?'hero_player':v.cutscene.eventId==='EPILOGUE'?'stadium_bg':lastArt;
-    const player=createCutscenePlayer({document:doc,clip:v.cutscene,url:cutsceneUrl(v.cutscene),posterUrl:assets[posterKey]||assets.stadium_bg||assets.prematch_scene||null,autoplay:!watchedScenes.has(sceneKey),onStarted(){watchedScenes.add(sceneKey);try{localStorage.setItem(watchedKey,JSON.stringify([...watchedScenes].slice(-512)));}catch{}}});
+    const player=cutsceneFactory({document:doc,clip:v.cutscene,url:cutsceneUrl(v.cutscene),posterUrl:assets[posterKey]||assets.stadium_bg||assets.prematch_scene||null,autoplay:!watchedScenes.has(sceneKey),onStarted(){watchedScenes.add(sceneKey);try{localStorage.setItem(watchedKey,JSON.stringify([...watchedScenes].slice(-512)));}catch{}}});
     if(player){player.element.dataset.cutsceneKind=v.cutscene.eventId==='PROLOGUE'?'prologue':v.cutscene.eventId==='EPILOGUE'?'epilogue':'event';target.append(player.element);disposeCutscene=player.dispose;}
   }
   let playerActionUi={screen:'career',categoryId:null,actionId:null,targetId:null,resultExecutionId:null};
 
   const sessionOptions=events?{events}:{};
-  const store=createIndexedSaveStore({storage:localStorage,indexedDB:globalThis.indexedDB,key:KEY,validate:raw=>GameSession.migrateFromSave(raw,sessionOptions)});
+  const store=saveStore||createIndexedSaveStore({storage:localStorage,indexedDB:globalThis.indexedDB,key:KEY,validate:raw=>GameSession.migrateFromSave(raw,sessionOptions)});
   const doc=root.ownerDocument, win=doc.defaultView||globalThis, el=(tag,text,cls)=>{const n=doc.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
   doc.title='ELEVENFATE';
   const style=el('style');style.textContent=css;root.append(style);
@@ -702,7 +702,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   function saves(v,main){
     main.classList.add('p8-save');
     const intro=el('header',undefined,'save-intro');
-    intro.append(el('span','CONTINÚA DONDE LO DEJASTE','eyebrow'),el('h1','Tu partida'),el('p','Gestiona la copia local de esta carrera, recupera una copia existente o empieza otra historia.','muted'));main.append(intro);
+    intro.append(el('span','CONTINÚA DONDE LO DEJASTE','eyebrow'),el('h1','Tu partida'),el('p',saveDescription==='reddit'?'Tu carrera se guarda en esta comunidad de Reddit. Continúa desde otro dispositivo con la misma cuenta.':'Gestiona la copia local de esta carrera, recupera una copia existente o empieza otra historia.','muted'));main.append(intro);
     const build=globalThis.ELEVENFATE_BUILD_INFO;
     if(build){const info=el('p',`ELEVENFATE ${build.appVersion} · Build ${build.buildId}`,'muted build-info');info.title=`Motor ${build.engineVersion} · Catálogo ${build.catalogVersion}`;intro.append(info);}
 
@@ -713,7 +713,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     current.append(currentActions,el('p','Guardado automático activo','save-auto-status'));main.append(current);
 
     const recovery=panel('Copias y recuperación');recovery.classList.add('save-recovery');
-    recovery.append(el('p','Estas opciones trabajan únicamente con copias locales de tu partida. Antes de sustituirla se mostrará una confirmación.','muted'));
+    recovery.append(el('p',saveDescription==='reddit'?'Puedes descargar una copia o recuperar una anterior. Antes de sustituir tu carrera se mostrará una confirmación.':'Estas opciones trabajan únicamente con copias locales de tu partida. Antes de sustituirla se mostrará una confirmación.','muted'));
     const support=el('div',undefined,'save-support-grid');
 
     const importBlock=el('section',undefined,'save-support-card save-import');
@@ -737,6 +737,11 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     const codeLabel=el('label','Código de historia','file-label');const seed=el('input');seed.type='number';seed.min='0';seed.max='4294967295';seed.value='424242';seed.setAttribute('aria-label','Código de historia de la nueva carrera');codeLabel.append(seed);
     fields.append(nameLabel,codeLabel);n.append(fields,button('Empezar otra carrera',async()=>{const displayName=newPlayerName.value;if(!displayName.trim()){message='Introduce el nombre del jugador para empezar otra carrera.';render();return;}const selected=Number(seed.value);if(!Number.isSafeInteger(selected)||selected<0||selected>4294967295){message='Introduce un código de historia entre 0 y 4294967295.';render();return;}let old;try{old=await store.readRaw();}catch(e){message=e.message;render();return;}confirmReplace('Empezar otra carrera','La partida actual pasará a la copia anterior.',async()=>{replacement=old;session=await GameSession.create(selected,{...sessionOptions,commit,playerDisplayName:displayName});view='home';cinematic=false;replaceRouteState();});}));
     main.append(n);
+    if(store.remove){
+      const privacy=panel('Eliminar tu carrera');
+      privacy.append(el('p','Elimina de esta comunidad tu carrera y su copia anterior. Descarga una copia antes si quieres conservarla.','muted'),button('Eliminar carrera de Reddit',()=>confirmReplace('Eliminar carrera de Reddit','Se eliminarán tu partida y su copia anterior. Esta acción no se puede deshacer sin una exportación.',async()=>{await store.remove();suspendAutoScheduler();session=null;savedRaw=null;replacement=null;message='Carrera eliminada. Puedes empezar otra cuando quieras.';view='save';})));
+      main.append(privacy);
+    }
     if(win.AndroidBridge?.getAdStatus){
       const privacy=panel('Privacidad');
       privacy.append(el('p','Adapta las opciones de privacidad a tu grupo de edad.','muted'),button('Grupo de edad',()=>win.AndroidBridge.showAgeOptions()));

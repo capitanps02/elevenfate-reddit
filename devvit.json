@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
+  "name": "elevenfate",
+  "post": {
+    "dir": "reddit/public",
+    "entrypoints": {
+      "default": {
+        "entry": "splash.html",
+        "height": "tall"
+      },
+      "game": {
+        "entry": "game.html",
+        "height": "tall"
+      }
+    }
+  },
+  "server": {
+    "dir": "reddit/build/server",
+    "entry": "index.cjs"
+  },
+  "permissions": {
+    "redis": true,
+    "reddit": true
+  },
+  "menu": {
+    "items": [
+      {
+        "label": "Crear publicaci\u00f3n de ElevenFate",
+        "description": "Crear una publicaci\u00f3n jugable de la carrera.",
+        "location": "subreddit",
+        "forUserType": "moderator",
+        "endpoint": "/internal/menu/create-post"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs && node scripts/build-reddit.mjs",
+    "dev": "node scripts/build.mjs && node scripts/build-reddit.mjs --watch"
+  },
+  "sourceIgnores": [
+    "android/",
+    "playcanvas/",
+    "preview/",
+    "analysis/",
+    "qa/",
+    "design/",
+    "docs/android/",
+    "web/assets/cutscenes/",
+    "reddit/public/",
+    "reddit/build/",
+    "docs/reddit/source-copy.json"
+  ]
+}

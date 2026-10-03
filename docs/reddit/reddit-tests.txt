@@ -1,0 +1,16 @@
+✔ PC save continues on a second device; accounts remain isolated (43.368834ms)
+✔ stale device cannot overwrite progress, but user can reload and retry (4.367033ms)
+✔ concurrent saves allow exactly one writer and retain the recovery copy (0.764349ms)
+✔ retry after a lost response is idempotent; old unrelated save is rejected (0.679551ms)
+✔ invalid, oversized and anonymous writes never change a confirmed save (3.491748ms)
+✔ network failure cannot be presented as a successful cloud save (2.827104ms)
+✔ deletion removes active and recovery data and rejects stale-device resurrection (0.889872ms)
+✔ real ElevenFate snapshots survive cloud roundtrip with unchanged RNG and view (3965.788217ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4336.731158

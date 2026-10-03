@@ -1,13 +1,11 @@
 {
-  "name": "multihistoria-engine",
+  "name": "elevenfate-reddit",
   "version": "0.8.0",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "build:playcanvas": "npm run build && node scripts/build-playcanvas.mjs",
     "play": "npm run build:playcanvas && node scripts/serve-preview.mjs",
-    "test:playcanvas": "npm run build:playcanvas && node --test scripts/test-session.mjs scripts/test-saves.mjs scripts/test-t5-retirement-save-known-bug.mjs scripts/test-playcanvas.mjs scripts/test-t55-a19-ui.mjs scripts/test-player-actions-ui-contract.mjs",
     "test:session": "npm run build && node --test scripts/test-player-actions-session.mjs scripts/test-session.mjs scripts/test-t55-auto-simulation.mjs",
     "test:saves": "npm run build && node --test scripts/test-session.mjs scripts/test-saves.mjs scripts/test-t5-retirement-save-known-bug.mjs",
     "validate": "npm run build && node scripts/final-gate-v08.mjs",
@@ -47,10 +45,6 @@
     "test:t53": "npm run build && node scripts/audit-t53.mjs --check && node --test scripts/test-t53.mjs scripts/test-t53-epistemic.mjs scripts/test-t53-transmission.mjs scripts/test-t53-contacts.mjs scripts/test-t53-reconciliation.mjs",
     "test:offers": "npm run build:playcanvas && node --test scripts/test-offers.mjs scripts/test-t51-offer-bridge.mjs scripts/test-t51-offer-bridge-provenance.mjs scripts/test-playcanvas.mjs",
     "qa:offers:fixture": "npm run build && node scripts/build-offer-fixture.mjs",
-    "android:offline": "npm run build && node scripts/build-android-offline.mjs",
-    "test:android:offline": "npm run android:offline && node --test scripts/test-android-offline.mjs",
-    "android:apk": "npm run android:offline && node scripts/build-android-apk.mjs",
-    "test:android:t34": "node scripts/test-android-t34.mjs",
     "test:t51:offer-bridge": "npm run build && node scripts/generate-t51-offer-bridge-evidence.mjs --check && node --test scripts/test-t51-offer-bridge.mjs scripts/test-t51-offer-bridge-provenance.mjs",
     "test:t51:transition-priority": "npm run build && node --test scripts/test-t51-transition-priority.mjs",
     "test:t51:renewal-intent": "npm run build && node --test scripts/test-t51-renewal-intent.mjs",
@@ -78,17 +72,23 @@
     "test:football-balance": "npm run build && node --test scripts/test-football-catalog.mjs scripts/test-football-catalog-balance.mjs",
     "test:football-persistence": "npm run build && node --test scripts/test-football-database-v2-persistence.mjs scripts/test-saves.mjs scripts/test-persistence.mjs",
     "test:football-platforms": "npm run build:playcanvas && node --test scripts/test-club-names.mjs scripts/test-playcanvas.mjs && npm run android:offline && node --test scripts/test-android-offline.mjs",
-    "android:qa": "npm run android:offline && node scripts/build-android-apk.mjs --qa",
-    "android:release": "npm run android:offline && node scripts/build-android-apk.mjs --release --bundle",
-    "android:check": "npm run android:offline && node scripts/build-android-apk.mjs --check",
-    "qa:android:careers": "node scripts/qa-android-careers.mjs",
-    "audit:android": "node scripts/audit-android-package.mjs",
-    "android:prepare-upload": "node scripts/prepare-android-upload-key.mjs",
-    "android:playtest": "npm run android:offline && node scripts/build-android-apk.mjs --playtest",
-    "test:android:play-bundle": "node scripts/test-android-play-bundle.mjs",
-    "android:publication-check": "node scripts/check-android-publication.mjs"
+    "build:reddit": "node scripts/build.mjs && node scripts/build-reddit.mjs",
+    "dev:reddit": "devvit playtest",
+    "preview:reddit": "node scripts/serve-reddit-preview.mjs",
+    "test:reddit": "node --test reddit/test/*.test.mjs",
+    "verify:reddit": "pnpm run build:reddit && node scripts/check-reddit-config.mjs && pnpm run test:reddit",
+    "upload:reddit": "devvit upload",
+    "publish:reddit": "devvit publish"
   },
   "devDependencies": {
+    "@devvit/web": "0.14.6",
+    "devvit": "0.14.6",
+    "esbuild": "0.28.2",
+    "express": "5.2.1",
     "typescript": "5.8.3"
+  },
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": ">=24.0.0"
   }
 }

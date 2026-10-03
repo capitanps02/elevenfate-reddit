@@ -1,0 +1,36 @@
+✔ A4-001 CAREER MENU: career UI exposes optional Player Actions entry (280.786159ms)
+✔ A4-002 SIMULATE PRIMARY: SIMULAR remains the primary career CTA (0.636157ms)
+✔ A4-003 DECISION LOCK: Player Actions are not executable during narrative decision (229.505076ms)
+✔ A4-004 OFFER LOCK: Player Actions are not executable with pending offer (48.348225ms)
+✔ A4-005 AUTO LOCK: auto-sim and paused block actions; stop restores them (13.297858ms)
+✔ A4-006 CATEGORY: UI renders public categories/actions dynamically (95.635926ms)
+✔ A4-007 COOLDOWN: action becomes disabled and web UI preserves exact public cooldown expiry (95.180537ms)
+✔ A4-008 EXECUTE: available action dispatches the canonical player_action command (88.940062ms)
+✔ A4-009 RESULT: public lastResult is rendered without reading GameState (92.227296ms)
+✔ A4-010 RETURN: Player Action execution does not advance calendar time (90.878098ms)
+✔ A4-011 MULTIPLE ACTIONS: compatible actions can run in the same game date (99.462059ms)
+✔ A4-012 DOUBLE CLICK: UI blocks re-entry while a command is executing (0.331119ms)
+✔ A4-013 STALE: stale revision is safe and has player-facing recovery copy (85.065374ms)
+✔ A4-014 MOBILE: Player Actions use one-column mobile layout without fixed horizontal canvas (0.405865ms)
+✔ A4-015 ACCESSIBILITY: buttons, aria-busy, focus and explicit back paths remain present (0.279446ms)
+✔ A4-016 TARGET FLOW: public coach target can be selected and dispatched end to end (88.068062ms)
+✔ A4-017 HISTORY: Player Actions are projected into Tu recorrido without reading GameState (87.034898ms)
+✔ A4-018 TARGET PRIVACY: UI consumes only public target fields and stale target errors remain safe (99.598081ms)
+✔ A4-019 TARGET RESET: navigation never carries a selected target into another action (0.792215ms)
+✔ A4-019 RESULT BACK: web result labels the real simulation-home destination (0.756852ms)
+✔ A19 onboarding explains the simulated career loop and player variables (1.436349ms)
+✔ A19 player-facing micro UX uses clear history, save and relationship language (0.99828ms)
+✔ A19 consumes factual A15 career records through PlayerView (271.770894ms)
+✔ A19 exposes real retirement states without inventing another state machine (0.486498ms)
+✔ A19 has explicit responsive treatment for phone, tablet and desktop constraints (0.209071ms)
+✔ A19 consumes A14/A16 presentation contracts without remapping their logic (0.234971ms)
+✔ A19 retirement stays on the canonical narrative path and is player-visible (0.21443ms)
+✔ A19 career renders only factual complete-ledger milestones (0.180101ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1842.366741

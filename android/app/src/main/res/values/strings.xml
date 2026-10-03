@@ -1,6 +1,0 @@
-<resources>
-    <string name="export_saved">Copia guardada.</string>
-    <string name="export_failed">No se pudo guardar la copia. Descárgala de nuevo desde Tu partida.</string>
-    <string name="advertisement">Publicidad</string>
-    <string name="close_advertisement">Cerrar anuncio</string>
-</resources>

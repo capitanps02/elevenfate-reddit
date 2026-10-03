@@ -1,0 +1,17 @@
+name: ElevenFate Reddit
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install -g pnpm@11.19.0
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run verify:reddit
+      - run: node --test scripts/test-session.mjs scripts/test-saves.mjs scripts/test-player-actions-session.mjs
+      - run: node --test scripts/test-player-actions-ui-contract.mjs scripts/test-t55-a19-ui.mjs

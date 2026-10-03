@@ -31,3 +31,7 @@ analysis/**/tools/package/
 
 android/release.properties
 android/.local/
+
+# Reddit generated packages
+reddit/public/
+reddit/build/
