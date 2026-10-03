@@ -9,3 +9,7 @@ Tu partida permite exportar y eliminar la carrera activa y su copia anterior. Tr
 Esta primera integración no incorpora anuncios, compras, cookies publicitarias ni envío de partidas a un servidor externo. Actualizar esta descripción antes de incorporar analíticas propias o nuevas funciones que traten datos.
 
 La vista previa local usa una cuenta simulada y memoria; no representa el almacenamiento real de Reddit.
+
+Daily y práctica conservan intentos separados por cuenta, día UTC y versión de reglas. Los intentos escritos desde la versión 0.0.3 caducan siete días después del cambio de día; la carrera libre no recibe esta caducidad. El Daily iniciado en versiones anteriores recibe la caducidad en su próxima escritura.
+
+Publicar el resultado en el ranking es voluntario. El servidor guarda identificador de cuenta y puntuación confirmada para evitar entradas duplicadas; la clasificación muestra posiciones, puntos y la propia entrada, sin nombres ni identificadores públicos. El ranking caduca ocho días después de su última publicación. La práctica nunca publica resultados en la clasificación.

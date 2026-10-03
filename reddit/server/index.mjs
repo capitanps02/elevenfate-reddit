@@ -6,7 +6,7 @@ import {createDailyService} from './daily-service.mjs';
 const app=express();app.use(express.json({limit:'2mb'}));
 const careers=createCareerService({redis,validate:raw=>GameSession.migrateFromSave(raw)});
 const daily=createDailyService({redis});
-app.get('/api/daily',async(_req,res,next)=>{try{res.json(await daily.read(context.userId));}catch(error){next(error);}});
+app.get('/api/daily',async(req,res,next)=>{try{res.json(await daily.read(context.userId,req.query.mode??'daily'));}catch(error){next(error);}});
 app.post('/api/daily',async(req,res,next)=>{try{res.json(await daily.act(context.userId,req.body));}catch(error){next(error);}});
 app.get('/api/init',(_req,res)=>res.json({userId:context.userId??null,subredditId:context.subredditId??null}));
 app.get('/api/career',async(_req,res,next)=>{try{res.json(await careers.read(context.userId));}catch(error){next(error);}});

@@ -47,7 +47,7 @@ Auditoría de una carrera completa (seed 424242, primera opción, 447 comandos):
 
 ## Verificación y publicación
 
-217 pruebas locales aprobadas: 177 originales de sesión/guardado/acciones, 28 de interfaz y acciones, y 12 nuevas. Las 12 nuevas se han repetido tras incorporar el prototipo Daily; motor y estilos originales no han cambiado en esta revisión. Configuración validada por Devvit 0.14.6. Inicio, decisión, desenlace y recarga comprobados en navegador; primera decisión a 390 × 844.
+218 pruebas locales aprobadas: 177 originales de sesión/guardado/acciones, 28 de interfaz y acciones, y 13 nuevas. Las 13 nuevas se han repetido tras incorporar práctica y ranking Daily; motor y estilos originales no han cambiado en esta revisión. Configuración validada por Devvit 0.14.6. Inicio, decisión, desenlace y recarga comprobados en navegador; primera decisión a 390 × 844.
 
 Pendientes: playtest con Redis real, Reddit Android/iOS/web, actualización conservando partidas, roles y medición de carga. Tras completarlos:
 
@@ -55,7 +55,7 @@ Pendientes: playtest con Redis real, Reddit Android/iOS/web, actualización cons
 pnpm exec devvit publish
 ```
 
-Después de aprobación, instalar versión aprobada y verificar post definitivo desde una cuenta normal. Daily tiene un [prototipo y plan de pruebas](docs/reddit/DAILY.md), accesible mediante «Daily · prueba». Rankings, inglés y Gold siguen pendientes.
+Después de aprobación, instalar versión aprobada y verificar post definitivo desde una cuenta normal. Daily tiene un [prototipo y plan de pruebas](docs/reddit/DAILY.md), accesible mediante «Daily · prueba», práctica separada y ranking diario con publicación voluntaria. Ranking semanal/histórico, inglés y Gold siguen pendientes.
 
 ## Datos y origen
 

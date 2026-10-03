@@ -20,40 +20,57 @@ async function reachPlayable(session){
   }
   if(session.getView().screen==='career')throw new CareerError(503,'No se pudo preparar la siguiente decisión. Tu intento se conserva.');
 }
-function projected(config,session){
-  if(!session)return {config,started:false};
+function projected(config,session,mode='daily'){
+  if(!session)return {config,mode,started:false};
   const snapshot=session.exportSnapshot(),view=session.getView();
   const resolved=snapshot.journal.length,finished=resolved>=config.decisions||view.screen==='epilogue';
-  return {config,started:true,resolved,finished,view,score:finished?dailyScore(snapshot.state):null};
+  return {config,mode,started:true,resolved,finished,view,score:finished?dailyScore(snapshot.state):null};
 }
 // Namespace each day separately; reuse the tested save protocol, never the career key.
 export function createDailyService({redis,now=()=>new Date()}){
-  function store(config){
-    const key=k=>`${config.id}:${k}`;
+  function store(config,mode){
+    const key=k=>`${mode==='practice'?'practice:':''}${config.id}:${k}`;
+    const expiration=new Date(Date.parse(config.resetsAt)+7*86400000);
     const scoped={get:k=>redis.get(key(k)),watch:async k=>{
       const transaction=await redis.watch(key(k));
-      return {multi:()=>transaction.multi(),set:(k,v)=>transaction.set(key(k),v),exec:()=>transaction.exec(),discard:()=>transaction.discard()};
+      return {multi:()=>transaction.multi(),set:(k,v)=>transaction.set(key(k),v,{expiration}),exec:()=>transaction.exec(),discard:()=>transaction.discard()};
     }};
     return createCareerService({redis:scoped,validate:raw=>GameSession.migrateFromSave(raw)});
   }
   return {
-    async read(userId){
-      const config=dailyConfig(now()),record=await store(config).read(userId);
-      return projected(config,record.active?await GameSession.migrateFromSave(record.active):null);
+    async read(userId,mode='daily'){
+      if(!['daily','practice'].includes(mode))throw new CareerError(400,'Modo Daily inválido.');
+      const config=dailyConfig(now()),record=await store(config,mode).read(userId);
+      const result=projected(config,record.active?await GameSession.migrateFromSave(record.active):null,mode);
+      if(mode==='daily')result.leaderboard=await leaderboard(config,userId);
+      return result;
     },
     async act(userId,body={}){
       const config=dailyConfig(now());
+      const mode=body.mode??'daily';
+      if(!['daily','practice'].includes(mode))throw new CareerError(400,'Modo Daily inválido.');
       if(body.dailyId!==config.id)throw new CareerError(409,'Ha comenzado un nuevo Daily. Abre el reto de hoy.');
-      const saves=store(config),record=await saves.read(userId);
+      const saves=store(config,mode),record=await saves.read(userId);
       let session;
+      if(body.action==='publish'){
+        if(mode==='practice'||!record.active)throw new CareerError(400,'Solo el Daily terminado entra en el ranking.');
+        session=await GameSession.migrateFromSave(record.active);
+        const result=projected(config,session,mode);
+        if(!result.finished)throw new CareerError(400,'Termina las decisiones antes de publicar.');
+        // Score and identity come exclusively from the confirmed server attempt.
+        await redis.zAdd(`${config.id}:ranking`,{member:userId,score:result.score.total});
+        await redis.expire(`${config.id}:ranking`,8*86400);
+        result.leaderboard=await leaderboard(config,userId);
+        return result;
+      }
       if(body.action==='start'){
-        if(record.active)return projected(config,await GameSession.migrateFromSave(record.active));
+        if(record.active)return this.read(userId,mode);
         session=await GameSession.create(config.seed,{sessionId:config.id});
         await reachPlayable(session);
       }else{
         if(!record.active)throw new CareerError(400,'Empieza el reto antes de elegir.');
         session=await GameSession.migrateFromSave(record.active);
-        const current=projected(config,session),command=body.command;
+        const current=projected(config,session,mode),command=body.command;
         if(current.finished)throw new CareerError(409,'Ya has terminado el Daily de hoy.');
         if(!command||!['choose','acknowledge','offer'].includes(command.type)||typeof command.commandId!=='string'||command.commandId.length>100)throw new CareerError(400,'Acción Daily inválida.');
         // Whitelist fields: clients cannot send scores, snapshots or simulation commands.
@@ -64,7 +81,15 @@ export function createDailyService({redis,now=()=>new Date()}){
         await reachPlayable(session);
       }
       await saves.write(userId,{raw:JSON.stringify(session.exportSnapshot()),expectedGeneration:record.generation});
-      return projected(config,session);
+      const result=projected(config,session,mode);
+      if(mode==='daily')result.leaderboard=await leaderboard(config,userId);
+      return result;
     },
   };
+  async function leaderboard(config,userId){
+    const key=`${config.id}:ranking`;
+    const [top,total,rank]=await Promise.all([redis.zRange(key,0,9,{reverse:true}),redis.zCard(key),redis.zRank(key,userId)]);
+    // No public identifiers/names: disclose only score, position and own-entry flag.
+    return {total,position:rank===undefined?null:total-rank,rows:top.map((row,index)=>({position:index+1,score:row.score,you:row.member===userId}))};
+  }
 }

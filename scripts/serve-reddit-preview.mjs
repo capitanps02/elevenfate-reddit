@@ -8,7 +8,7 @@ const app=express(),service=createCareerService({redis:createMemoryRedis(),valid
 app.use(express.json({limit:'2mb'}));
 const userId='t2_preview';
 const daily=createDailyService({redis:createMemoryRedis()});
-app.get('/api/daily',async(_req,res,next)=>{try{res.json(await daily.read(userId));}catch(e){next(e);}});
+app.get('/api/daily',async(req,res,next)=>{try{res.json(await daily.read(userId,req.query.mode??'daily'));}catch(e){next(e);}});
 app.post('/api/daily',async(req,res,next)=>{try{res.json(await daily.act(userId,req.body));}catch(e){next(e);}});
 app.get('/api/init',(_req,res)=>res.json({userId,subredditId:'t5_preview',preview:true}));
 app.get('/api/career',async(_req,res,next)=>{try{res.json(await service.read(userId));}catch(e){next(e);}});
