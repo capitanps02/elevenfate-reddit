@@ -5,12 +5,12 @@
 | Tarea | Prototipo | Pendiente para publicar |
 |---|---:|---|
 | D01 Fecha UTC, seed y reglas | 100% | Validar interés y duración; variedad de situaciones iniciales |
-| D02 Intento separado y recuperación | 70% | Redis real, expiración de datos históricos, fallos de red y concurrencia |
+| D02 Intento separado y recuperación | 85% | Expiración de datos históricos, fallos de red y concurrencia real |
 | D03 Ejecución y puntuación de servidor | 70% | Latencia/coste real, calibrar fórmula y versionar cambios de catálogo |
 | D04 Pantallas de entrada, elecciones y resultado | 60% | Pulido con diseño original, móvil y revisión de ofertas |
-| D05 Prueba conjunta y cierre de regresión | 20% | Feedback del usuario, Android/iOS, actualización y ranking después |
+| D05 Prueba conjunta y cierre de regresión | 25% | Feedback del usuario, Android/iOS, actualización y ranking después |
 
-Avance del Daily: **64% del prototipo**, promedio simple de las cinco tareas; no es porcentaje del lanzamiento base. Estimación restante hasta candidato Daily: **8–14 horas efectivas**, sujeta a latencia y feedback. El plan inicial de 15–24 h sigue siendo referencia para Daily con ranking.
+Avance del Daily: **68% del prototipo**, promedio simple de las cinco tareas; no es porcentaje del lanzamiento base. Estimación restante hasta candidato Daily: **8–14 horas efectivas**, sujeta a latencia y feedback. El plan inicial de 15–24 h sigue siendo referencia para Daily con ranking.
 
 ## Reglas
 
@@ -28,3 +28,5 @@ Avance del Daily: **64% del prototipo**, promedio simple de las cinco tareas; no
 `pnpm run verify:reddit`: 12 pruebas Reddit aprobadas, incluidas tres Daily. Dos usuarios con idénticas decisiones producen vistas y resultados idénticos; recarga mantiene el intento; carrera libre intacta; cambio UTC; rechazos de acciones de simulación/importación y usuario anónimo; puntuación enviada por cliente ignorada.
 
 La vista previa usa memoria y no demuestra Redis real. No hay clasificación todavía. Antes de habilitarla: control de recursos/solicitudes y retención de intentos, comprobación de latencia en Reddit, puntuación interesante, publicación idempotente del resultado en sorted set y ranking diario con resultados de la misma versión.
+
+Versión 0.0.2 subida e instalada en r/elevenfate_dev2. [Post privado de prueba](https://www.reddit.com/r/elevenfate_dev2/comments/1wwq9n4/elevenfate_tu_carrera_tus_decisiones_tu_legado/). Verificado en Reddit web: apertura, creación de intento Daily con Redis real, cierre y reapertura conservando «La lista de 26» en 0/5. Elecciones reservadas para la prueba del usuario. Pendientes finalización y puntuación en Redis real; la prueba automatizada sí llega al final con memoria.
