@@ -1,0 +1,16 @@
+{
+  "seed": 424242,
+  "choiceStrategy": "first",
+  "commands": 447,
+  "commits": 448,
+  "screen": "epilogue",
+  "maxSnapshotBytes": 835491,
+  "maxRequestBytes": 946678,
+  "maxRecordBytes": 1890559,
+  "limits": {
+    "snapshotBytes": 1500000,
+    "httpBytes": 2097152,
+    "redisRequestBytes": 5242880
+  },
+  "scope": "One complete deterministic career; not proof for every seed or real Redis performance."
+}

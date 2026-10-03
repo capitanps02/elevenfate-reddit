@@ -62,3 +62,24 @@ test('deletion removes active and recovery data and rejects stale-device resurre
   await service.write('t2_alice',{raw:'{"revision":0}',expectedGeneration:removed.generation});
   assert.equal((await service.read('t2_alice')).previous,null);
 });
+test('retries and stale writes/deletions release unfinished Redis transactions',async()=>{
+  const redis=createMemoryRedis(),watch=redis.watch.bind(redis);
+  let open=0;
+  redis.watch=async key=>{
+    const transaction=await watch(key);open++;
+    return {...transaction,
+      exec:async()=>{const result=await transaction.exec();open--;return result;},
+      discard:async()=>{await transaction.discard();open--;},
+      // UNWATCH alone does not close a Devvit transaction.
+      unwatch:async()=>{},
+    };
+  };
+  const service=createCareerService({redis,validate});
+  const body={raw:'{"revision":0}',expectedGeneration:0};
+  await service.write('t2_alice',body);
+  await service.write('t2_alice',body);
+  await assert.rejects(service.write('t2_alice',{raw:'{"revision":1}',expectedGeneration:0}),error=>error.status===409);
+  await assert.rejects(service.remove('t2_alice',{expectedGeneration:0}),error=>error.status===409);
+  assert.equal(open,0);
+  assert.equal((await service.read('t2_alice')).active,body.raw);
+});

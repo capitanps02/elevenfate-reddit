@@ -28,7 +28,7 @@ export function createCareerService({redis,validate,maxSaveBytes=1_500_000}){
         await txn.multi();await txn.set(key,JSON.stringify(next));const result=await txn.exec();finished=true;
         if(!Array.isArray(result)||result.length!==1||result[0]===null)throw new CareerError(409,'La carrera cambió durante la eliminación.');
         return next;
-      }finally{if(!finished)await txn.unwatch();}
+      }finally{if(!finished)await txn.discard();}
     },
     async write(userId,{raw,expectedGeneration}={}){
       const key=keyFor(userId);
@@ -42,14 +42,14 @@ export function createCareerService({redis,validate,maxSaveBytes=1_500_000}){
         // Read through redis after WATCH; concurrent changes still abort EXEC.
         const current=decode(await redis.get(key));
         // A response may have been lost after commit: replaying identical bytes is safe.
-        if(current.active===raw){await txn.unwatch();finished=true;return current;}
+        if(current.active===raw){await txn.discard();finished=true;return current;}
         if(current.generation!==expectedGeneration)throw new CareerError(409,'La carrera cambió en otro dispositivo. Recupera la partida actual.');
         const next={version:1,generation:current.generation+1,active:raw,previous:current.active??current.previous};
         await txn.multi();await txn.set(key,JSON.stringify(next));
         const result=await txn.exec();finished=true;
         if(!Array.isArray(result)||result.length!==1||result[0]===null)throw new CareerError(409,'La carrera cambió durante el guardado. Recupera la partida actual.');
         return next;
-      }finally{if(!finished)await txn.unwatch();}
+      }finally{if(!finished)await txn.discard();}
     },
   };
 }

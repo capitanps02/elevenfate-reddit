@@ -30,7 +30,7 @@ pnpm exec devvit upload
 pnpm exec devvit playtest NOMBRE_COMUNIDAD_PRUEBA
 ```
 
-Registrar aplicación y preparar comunidad antes del primer upload. El nombre `elevenfate` de devvit.json está pendiente de disponibilidad. El menú de moderación **Crear publicación de ElevenFate** crea el post jugable. No se publican comentarios automáticamente.
+Registrar aplicación y preparar comunidad antes del primer upload. El nombre `elevenfate` ha pasado la comprobación de disponibilidad; el registro sigue pendiente del CAPTCHA. La CLI está autenticada. El menú de moderación **Crear publicación de ElevenFate** crea el post jugable. No se publican comentarios automáticamente.
 
 ## Arquitectura
 
@@ -41,11 +41,13 @@ Registrar aplicación y preparar comunidad antes del primer upload. El nombre `e
 - `reddit/test/`: conflictos, reintentos, aislamiento y partidas reales.
 - `docs/reddit/`: origen, integridad y evidencias.
 
-El servidor deriva usuario del contexto Devvit, valida snapshots con el motor y realiza escrituras condicionales. Conserva estado confirmado y una copia anterior. Las cuentas anónimas no pueden guardar. Los clientes antiguos reciben un conflicto en lugar de sobrescribir progreso. Límite inicial: 1.500.000 bytes por partida; comprobar carreras completas antes de lanzamiento.
+El servidor deriva usuario del contexto Devvit, valida snapshots con el motor y realiza escrituras condicionales. Conserva estado confirmado y una copia anterior. Las cuentas anónimas no pueden guardar. Los clientes antiguos reciben un conflicto en lugar de sobrescribir progreso. Las salidas sin escritura cierran la transacción con `discard`. Límite inicial: 1.500.000 bytes por partida.
+
+Auditoría de una carrera completa (seed 424242, primera opción, 447 comandos): máximo 835.491 bytes por snapshot, 946.678 bytes por petición HTTP y 1.890.559 bytes por registro con copia anterior. Dentro de los límites; no garantiza todas las semillas ni la latencia de Redis real. Evidencia y script reproducible: [save-size-audit.json](docs/reddit/save-size-audit.json) y `node scripts/audit-reddit-save-size.mjs`.
 
 ## Verificación y publicación
 
-213 pruebas locales aprobadas: 177 originales de sesión/guardado/acciones, 28 de interfaz y acciones, y 8 nuevas. Configuración validada por Devvit 0.14.6. Inicio, decisión, desenlace y recarga comprobados en navegador; primera decisión a 390 × 844.
+214 pruebas locales aprobadas: 177 originales de sesión/guardado/acciones, 28 de interfaz y acciones, y 9 nuevas. Las 9 nuevas se han repetido tras el ajuste de transacciones; motor e interfaz no han cambiado en esta revisión. Configuración validada por Devvit 0.14.6. Inicio, decisión, desenlace y recarga comprobados en navegador; primera decisión a 390 × 844.
 
 Pendientes: playtest con Redis real, Reddit Android/iOS/web, actualización conservando partidas, roles y medición de carga. Tras completarlos:
 
