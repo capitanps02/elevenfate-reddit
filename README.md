@@ -4,7 +4,7 @@ Juego de carrera futbolística en español. Toma decisiones y vive temporadas, c
 
 Esta edición reutiliza motor, contenido, interfaz y estilos de la base validada para Android. Sustituye la plataforma por Devvit y el guardado principal por Redis. Presenta escenas con imagen y título; excluye vídeos, anuncios, compras y código nativo Android.
 
-**Estado:** aplicación registrada y primera versión subida/instalada en r/elevenfate_dev2. Daily en fase de prototipo. Pendientes post jugable, Redis real, dispositivos y revisión/aprobación.
+**Estado:** versión 0.0.4 instalada en r/elevenfate_dev2 y post jugable verificado. Práctica Daily completa y recuperación tras actualización comprobadas con Redis real. Pendientes publicación competitiva del ranking, matriz de carrera/dispositivos y revisión/aprobación.
 
 ## Jugar
 
