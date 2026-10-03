@@ -7,10 +7,10 @@
 | D01 Fecha UTC, seed y reglas | 100% | Validar interés y duración; variedad de situaciones iniciales |
 | D02 Intento separado y recuperación | 90% | Fallos de red y concurrencia real |
 | D03 Ejecución y puntuación de servidor | 85% | Calibrar fórmula y publicar un resultado competitivo en Redis real |
-| D04 Pantallas de entrada, elecciones y resultado | 80% | Pulido con diseño original, accesibilidad y revisión de ofertas |
-| D05 Prueba conjunta y cierre de regresión | 45% | Feedback del usuario, Android/iOS y concurrencia |
+| D04 Pantallas de entrada, elecciones y resultado | 95% | Pulido con diseño original, accesibilidad y revisión de ofertas |
+| D05 Prueba conjunta y cierre de regresión | 60% | Feedback del usuario, Android/iOS y concurrencia |
 
-Avance del Daily: **80% del prototipo**, promedio simple de las cinco tareas; no es porcentaje del lanzamiento base. Estimación restante hasta candidato Daily: **5–9 horas efectivas**, sujeta a dispositivos y feedback. El plan inicial de 15–24 h sigue siendo referencia para la entrega total Daily con ranking.
+Avance del Daily: **86% del prototipo**, promedio simple de las cinco tareas; no es porcentaje del lanzamiento base. Estimación restante hasta candidato Daily: **5–9 horas efectivas**, sujeta a dispositivos y feedback. El plan inicial de 15–24 h sigue siendo referencia para la entrega total Daily con ranking.
 
 ## Reglas
 
@@ -37,3 +37,5 @@ Versión 0.0.2 subida e instalada en r/elevenfate_dev2. [Post privado de prueba]
 Versión 0.0.3 instalada y probada en el mismo post: conserva Daily 0/5 de 0.0.2; práctica completa con primera opción en cada escena (La lista de 26, Dos órdenes, La cena de los mayores, Cinco minutos más, Un puesto que no es el tuyo), resultado real **463/1.000**. Ranking leído desde Redis con cero participantes; práctica no dispone de botón de publicación. Resultado legible en simulador móvil de Reddit. No es prueba de dispositivo físico. Corrección visual posterior: deltas redondeados a una cifra decimal y textos diferenciados de práctica.
 
 Versión 0.0.4 subida e instalada con los ajustes visuales. Verificada recuperación de Daily 0/5 y práctica 5/5 con los mismos 463 puntos tras la actualización; texto final de práctica correcto. Motor y CSS originales siguen idénticos a la instantánea 4a82640. La publicación competitiva real sigue pendiente; no se ha consumido el intento del usuario para simularla.
+
+4 de octubre · versión 0.0.6: interfaz simplificada con una escena, cinco segmentos de progreso, opciones fijas, ayuda/práctica aparte y resultado compacto. Las opciones quedan visibles a 320 × 480; una escena larga con cuatro opciones requiere desplazamiento dentro del texto a ese tamaño extremo. La página y los botones no se desplazan. Práctica completa local, misma puntuación 463; recuperación de práctica 5/5 y Daily 0/5 comprobadas con Redis real después de 0.0.4 → 0.0.6. El intento competitivo se conserva. Ver `UI-REDESIGN.md` para la matriz visual.

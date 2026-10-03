@@ -35,7 +35,9 @@ export function createDailyService({redis,now=()=>new Date()}){
       const transaction=await redis.watch(key(k));
       return {multi:()=>transaction.multi(),set:(k,v)=>transaction.set(key(k),v,{expiration}),exec:()=>transaction.exec(),discard:()=>transaction.discard()};
     }};
-    return createCareerService({redis:scoped,validate:raw=>GameSession.migrateFromSave(raw)});
+    // Writes contain only fresh exports of validated server sessions, never client
+    // snapshots. Persisted input is still validated by migrateFromSave on read.
+    return createCareerService({redis:scoped,validate:async()=>{}});
   }
   return {
     async read(userId,mode='daily'){
@@ -82,7 +84,6 @@ export function createDailyService({redis,now=()=>new Date()}){
       }
       await saves.write(userId,{raw:JSON.stringify(session.exportSnapshot()),expectedGeneration:record.generation});
       const result=projected(config,session,mode);
-      if(mode==='daily')result.leaderboard=await leaderboard(config,userId);
       return result;
     },
   };

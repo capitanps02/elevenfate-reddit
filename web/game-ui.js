@@ -2,7 +2,7 @@ import { createCutscenePlayer } from './cutscene-player.js';
 import { formatClubName } from './club-names.js';
 import { createIndexedSaveStore } from './indexed-save-store.js';
 // UI reads PlayerView only. All career mutations go through GameSession commands.
-export function mountGame({root, GameSession, assets, css, storageKey='historia-jugador.preview.session.v1', events, saveStore, cutsceneFactory=createCutscenePlayer, saveDescription='local', cutsceneUrl=clip=>'/web/assets/cutscenes/'+clip.file}) {
+export function mountGame({root, GameSession, assets, css, storageKey='historia-jugador.preview.session.v1', events, saveStore, cutsceneFactory=createCutscenePlayer, saveDescription='local', compactHome=false, onDaily, cutsceneUrl=clip=>'/web/assets/cutscenes/'+clip.file}) {
   const KEY=storageKey;
   let session=null, busy=false, busyLabel='Guardando…', paused=false, platformSuspended=false, view='home', cinematic=false, message='', replacement=null, lastArt='stadium_bg', autoTimer=null, autoVisualTimer=null, lastAutoVisualAt=0;
   const AUTO_VISUAL_MIN_MS=280;
@@ -24,7 +24,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   const doc=root.ownerDocument, win=doc.defaultView||globalThis, el=(tag,text,cls)=>{const n=doc.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
   doc.title='ELEVENFATE';
   const style=el('style');style.textContent=css;root.append(style);
-  const shell=el('div',undefined,'mh');shell.dataset.release='2026-09-28-cinematicas-prologo';root.append(shell);
+  const shell=el('div',undefined,'mh'+(compactHome?' reddit-shell':''));shell.dataset.release='2026-09-28-cinematicas-prologo';root.append(shell);
   const dateFormatter=new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
   const moneyFormatter=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
   const decimalFormatter=new Intl.NumberFormat('es-ES',{maximumFractionDigits:1});
@@ -186,7 +186,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   }
   async function load(){
     if(busy)return;busy=true;busyLabel='Cargando…';message='';render();
-    try{const raw=await store.read();savedRaw=raw;if(raw){session=await GameSession.migrateFromSave(raw,{...sessionOptions,commit});cinematic=['decision','result','offer'].includes(session.getView().screen);}else{replacement=null;session=await GameSession.create(424242,{...sessionOptions,commit});}prepareHistory(); if(await store.legacyChanged())message='Otra pestaña ha cambiado la copia antigua. Puedes descargarla en Tu partida para revisarla antes de importar.'; }
+    try{const raw=await store.read();savedRaw=raw;if(raw){session=await GameSession.migrateFromSave(raw,{...sessionOptions,commit});cinematic=!compactHome&&['decision','result','offer'].includes(session.getView().screen);}else{replacement=null;session=await GameSession.create(424242,{...sessionOptions,commit});}prepareHistory(); if(await store.legacyChanged())message='Otra pestaña ha cambiado la copia antigua. Puedes descargarla en Tu partida para revisarla antes de importar.'; }
     catch(e){console.error('ELEVENFATE load failed',e);session=null;message='No se ha podido cargar el juego. Comprueba tu conexión o almacenamiento e inténtalo de nuevo. Tu copia guardada se conserva.';view='save';}
     finally{busy=false;render();queueAutoStep();}
   }
@@ -520,6 +520,17 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     return p;
   }
   function home(v,main){
+    if(compactHome){
+      main.classList.add('reddit-home');
+      const card=el('section',undefined,'reddit-player');card.append(photo('hero_player','reddit-portrait'));
+      const identity=el('div',undefined,'reddit-identity');identity.append(el('span','TU CARRERA','eyebrow'),el('h1',v.player.displayName),el('p',position(v)+' · '+v.age+' años'),el('p',club(v),'muted'));card.append(identity);
+      const metrics=el('div',undefined,'reddit-metrics');
+      for(const [label,value]of[['Forma',v.form],['Físico',v.fitness],['Fatiga',v.fatigue]]){const metric=el('div');metric.append(el('span',label),el('strong',String(Math.round(value))));const bar=el('progress');bar.max=100;bar.value=value;bar.setAttribute('aria-label',label+' '+Math.round(value)+' de 100');metric.append(bar);metrics.append(metric);}card.append(metrics);main.append(card);
+      const next=el('section',undefined,'reddit-next');next.append(el('span',date(v.date),'eyebrow'),el('h2',v.decision?.title||v.result?.title||(v.offer?'Una oferta para ti':null)||(v.screen==='epilogue'?'Tu legado':v.simulation?.mode==='auto_simulating'?'El tiempo avanza…':'Tu siguiente capítulo')));
+      next.append(el('p',['decision','result','offer'].includes(v.screen)?'Tus decisiones construyen tu historia.':'Avanza hasta el próximo momento importante.','muted'),mainAction(v));main.append(next);
+      if(onDaily){const daily=button('',onDaily,'reddit-daily');daily.replaceChildren(el('span','RETO DEL DÍA','eyebrow'),el('strong','5 decisiones. Un mismo comienzo.'),el('span','Jugar Daily →'));main.append(daily);}
+      return;
+    }
     if(assets.brand_cover){const cover=el('div',undefined,'brand-home-cover');cover.append(photo('brand_cover','brand-cover'));main.append(cover);}
     if(v.screen==='epilogue')main.classList.add('p9-epilogue');
     if(v.screen==='epilogue'||v.cutscene?.eventId==='PROLOGUE')appendCutscene(v,main);
@@ -582,12 +593,19 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
       if(v.resultCategory==='match'){const summary=el('section',undefined,'match-summary result-match-summary');const matchHeading=el('h2','Resumen del partido');matchHeading.id='result-match-title';summary.setAttribute('aria-labelledby',matchHeading.id);summary.append(matchHeading,el('p','Tu decisión queda registrada en el recorrido.','muted'));const rows=[['Fecha',date(v.date)],['Partidos disputados',String(v.appearances)],['Forma',`${Math.round(v.form)} / 100`],['Estado físico',`${Math.round(v.fitness)} / 100`]];for(const [label,value]of rows){const row=el('div',undefined,'data-row');row.append(el('span',label),el('strong',value));summary.append(row);}sheet.append(summary);}const next=button('Continuar',()=>run('acknowledge'),'primary result-continue',{blockedWhenPaused:true});next.setAttribute('data-result-continue','');sheet.append(next);}
     else{sheet.append(el('p',d.body,'story-text'));
       if(d.memories?.length){const memories=el('details',undefined,'intel decision-memories');memories.append(el('summary','De tu historia · '+d.memories.length));memories.append(el('p','Decisiones anteriores relacionadas con este capítulo.','muted'));for(const memory of d.memories){const row=el('div',undefined,'decision-memory');row.append(el('time',date(memory.date),'eyebrow'),el('h3',memory.title),el('p',memory.choiceLabel),button('Ver este capítulo',()=>{navigate('career');const target=root.querySelector('[data-journal-index="'+memory.journalIndex+'"]');if(target){target.scrollIntoView({block:'start'});target.focus({preventScroll:true});}}));memories.append(row);}sheet.append(memories);}
-      const intel=el('details',undefined,'intel');intel.open=true;intel.append(el('summary','Lo que sabes · lo que queda por descubrir'));for(const [title,lines]of[['Lo que sabes',d.visible],['Lo que no está claro',d.uncertain]]){if(lines.length){intel.append(el('h3',title));lines.forEach(t=>intel.append(el('p',t)));}}sheet.append(intel);const choices=el('div',undefined,'choices decision-choices');choices.setAttribute('role','group');choices.setAttribute('aria-label','Opciones de decisión');d.choices.forEach((c,i)=>{const b=button('',()=>run('choose',{pendingInstanceId:d.instanceId,choiceId:c.id}),'choice',{blockedWhenPaused:true});b.replaceChildren(el('span',String.fromCharCode(65+i),'choice-key'),el('span',c.label));choices.append(b);});sheet.append(choices);}
+      const intel=el('details',undefined,'intel');intel.open=!compactHome;intel.append(el('summary','Lo que sabes · lo que queda por descubrir'));for(const [title,lines]of[['Lo que sabes',d.visible],['Lo que no está claro',d.uncertain]]){if(lines.length){intel.append(el('h3',title));lines.forEach(t=>intel.append(el('p',t)));}}sheet.append(intel);const choices=el('div',undefined,'choices decision-choices');choices.setAttribute('role','group');choices.setAttribute('aria-label','Opciones de decisión');d.choices.forEach((c,i)=>{const b=button('',()=>run('choose',{pendingInstanceId:d.instanceId,choiceId:c.id}),'choice',{blockedWhenPaused:true});b.replaceChildren(el('span',String.fromCharCode(65+i),'choice-key'),el('span',c.label));choices.append(b);});sheet.append(choices);}
+    if(compactHome)compactSheet(sheet,sheet.querySelector(result?'.result-continue':'.decision-choices'));
     main.append(sheet);}
+  function compactSheet(sheet,actions){
+    if(!actions)return;
+    const copy=el('div',undefined,'reddit-scene-copy');
+    for(const child of [...sheet.childNodes])if(child!==actions)copy.append(child);
+    sheet.replaceChildren(copy,actions);sheet.classList.add('reddit-scene');
+  }
   function renderOffer(v,main){
     const o=v.offer,p=offerCard(o,{actions:[['accept','Aceptar oferta'],['reject','Rechazar oferta'],['delegate','Delegar esta oferta']],explanation:'Una propuesta para tu carrera. Revisa las condiciones antes de decidir.',delegateHelp:true});
     main.classList.add('cinema','cinema-offer');main.append(photo('stadium_bg','cinema-bg'));const top=el('div',undefined,'cinema-top');top.append(button('Volver a Inicio',closeCinematic,'glass'),el('span',date(v.date)+' · '+club(v),'eyebrow'));main.append(top);
-    p.classList.add('offer-sheet');p.dataset.immersiveState='offer';const heading=p.querySelector('h2');if(heading){heading.id='immersive-offer-title';p.setAttribute('aria-labelledby',heading.id);}const actions=p.querySelector('.choices');if(actions){actions.classList.add('offer-actions');actions.setAttribute('role','group');actions.setAttribute('aria-label','Respuesta a la oferta');}main.append(p);
+    p.classList.add('offer-sheet');p.dataset.immersiveState='offer';const heading=p.querySelector('h2');if(heading){heading.id='immersive-offer-title';p.setAttribute('aria-labelledby',heading.id);}const actions=p.querySelector('.choices');if(actions){actions.classList.add('offer-actions');actions.setAttribute('role','group');actions.setAttribute('aria-label','Respuesta a la oferta');}if(compactHome)compactSheet(p,actions);main.append(p);
   }
   function offerHistory(v,main){for(const h of [...v.offerHistory].reverse()){const p=offerCard(h.offer,{explanation:h.explanation});if(p)main.append(p);}}
   function career(v,main){
