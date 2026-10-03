@@ -4,7 +4,7 @@ Juego de carrera futbolística en español. Toma decisiones y vive temporadas, c
 
 Esta edición reutiliza motor, contenido, interfaz y estilos de la base validada para Android. Sustituye la plataforma por Devvit y el guardado principal por Redis. Presenta escenas con imagen y título; excluye vídeos, anuncios, compras y código nativo Android.
 
-**Estado:** compilación y vista previa local verificadas. Pendientes registro, playtest en Reddit, dispositivos reales y revisión/aprobación.
+**Estado:** aplicación registrada y primera versión subida/instalada en r/elevenfate_dev2. Daily en fase de prototipo. Pendientes post jugable, Redis real, dispositivos y revisión/aprobación.
 
 ## Jugar
 
@@ -30,7 +30,7 @@ pnpm exec devvit upload
 pnpm exec devvit playtest NOMBRE_COMUNIDAD_PRUEBA
 ```
 
-Registrar aplicación y preparar comunidad antes del primer upload. El nombre `elevenfate` ha pasado la comprobación de disponibilidad; el registro sigue pendiente del CAPTCHA. La CLI está autenticada. El menú de moderación **Crear publicación de ElevenFate** crea el post jugable. No se publican comentarios automáticamente.
+La aplicación `elevenfate` está registrada; la CLI está autenticada y la comunidad de prueba es `elevenfate_dev2`. El menú de moderación **Crear publicación de ElevenFate** crea el post jugable. No se publican comentarios automáticamente.
 
 ## Arquitectura
 
@@ -47,7 +47,7 @@ Auditoría de una carrera completa (seed 424242, primera opción, 447 comandos):
 
 ## Verificación y publicación
 
-214 pruebas locales aprobadas: 177 originales de sesión/guardado/acciones, 28 de interfaz y acciones, y 9 nuevas. Las 9 nuevas se han repetido tras el ajuste de transacciones; motor e interfaz no han cambiado en esta revisión. Configuración validada por Devvit 0.14.6. Inicio, decisión, desenlace y recarga comprobados en navegador; primera decisión a 390 × 844.
+217 pruebas locales aprobadas: 177 originales de sesión/guardado/acciones, 28 de interfaz y acciones, y 12 nuevas. Las 12 nuevas se han repetido tras incorporar el prototipo Daily; motor y estilos originales no han cambiado en esta revisión. Configuración validada por Devvit 0.14.6. Inicio, decisión, desenlace y recarga comprobados en navegador; primera decisión a 390 × 844.
 
 Pendientes: playtest con Redis real, Reddit Android/iOS/web, actualización conservando partidas, roles y medición de carga. Tras completarlos:
 
@@ -55,7 +55,7 @@ Pendientes: playtest con Redis real, Reddit Android/iOS/web, actualización cons
 pnpm exec devvit publish
 ```
 
-Después de aprobación, instalar versión aprobada y verificar post definitivo desde una cuenta normal. Daily, rankings, inglés y Gold pertenecen a entregas posteriores.
+Después de aprobación, instalar versión aprobada y verificar post definitivo desde una cuenta normal. Daily tiene un [prototipo y plan de pruebas](docs/reddit/DAILY.md), accesible mediante «Daily · prueba». Rankings, inglés y Gold siguen pendientes.
 
 ## Datos y origen
 

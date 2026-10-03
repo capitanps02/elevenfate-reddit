@@ -25,8 +25,8 @@
   "menu": {
     "items": [
       {
-        "label": "Crear publicaci\u00f3n de ElevenFate",
-        "description": "Crear una publicaci\u00f3n jugable de la carrera.",
+        "label": "Crear publicación de ElevenFate",
+        "description": "Crear una publicación jugable de la carrera.",
         "location": "subreddit",
         "forUserType": "moderator",
         "endpoint": "/internal/menu/create-post"
@@ -49,5 +49,8 @@
     "reddit/public/",
     "reddit/build/",
     "docs/reddit/source-copy.json"
-  ]
+  ],
+  "dev": {
+    "subreddit": "elevenfate_dev2"
+  }
 }
