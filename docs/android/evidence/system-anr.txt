@@ -1,0 +1,1 @@
+10-01 11:45:06.232   686  3541 I am_anr  : [0,3350,com.android.phone,952647245,Process ProcessRecord{f3e35c6 3350:com.android.phone/1001} failed to complete startup]

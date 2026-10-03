@@ -5,6 +5,9 @@ export function ambiguousEvent(spec) {
         phase: spec.phase ?? "18_20",
         family: spec.family,
         gates: spec.gates ?? [],
+        ...(spec.gateAlternatives !== undefined ? { gateAlternatives: spec.gateAlternatives } : {}),
+        ...(spec.representationBridge !== undefined ? { representationBridge: spec.representationBridge } : {}),
+        ...(spec.offerBridge !== undefined ? { offerBridge: spec.offerBridge } : {}),
         exclusions: spec.exclusions,
         timeWindow: spec.timeWindow,
         cooldown: spec.cooldown ?? 99999,
@@ -17,7 +20,8 @@ export function ambiguousEvent(spec) {
             label: c.label,
             intentTags: c.intentTags,
             immediateEffects: c.immediateEffects,
-            outcomeIds: [`${c.id}__PRIMARY`, `${c.id}__SECONDARY`]
+            outcomeIds: [`${c.id}__PRIMARY`, `${c.id}__SECONDARY`],
+            ...(c.eligibility ? { eligibility: c.eligibility } : {})
         })),
         outcomes: spec.choices.flatMap(c => ([
             {

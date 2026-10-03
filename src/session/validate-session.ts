@@ -9,7 +9,7 @@ import {
   buildActiveOfferBridgeEvidence,
   legacyContentSource,
   type ContentEvidenceSource
-} from "./content-migration.js";
+} from "./content-migration-core.js";
 import type { FrozenOfferBridgeEventEvidence } from "./frozen-offer-bridge-evidence.js";
 import type { LegacyEventEvidence } from "./pre-t51-legacy-registry.js";
 import { assertGameState, boolean, date, ensure, integer, list, oneOf, parseSaveJson, record, string, strings, validateData } from "../save/validation.js";

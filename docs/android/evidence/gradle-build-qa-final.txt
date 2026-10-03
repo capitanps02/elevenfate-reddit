@@ -1,0 +1,122 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.13/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :app
+Unable to initialize metrics, ensure /Users/capitanps/.android is writable, details: /Users/capitanps/.android/analytics.settings (Operation not permitted)
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preQaBuild UP-TO-DATE
+
+> Task :app:mergeQaJniLibFolders UP-TO-DATE
+Caught exception: Could not start the FSEvents stream: /Users/capitanps/Documents/Codex/2026-10-01/vamos-con-la-prueba-definitiva-me/outputs/ELEVENFATE/android
+
+> Task :app:mergeQaNativeLibs NO-SOURCE
+> Task :app:stripQaDebugSymbols NO-SOURCE
+> Task :app:extractQaNativeSymbolTables NO-SOURCE
+> Task :app:mergeQaNativeDebugMetadata NO-SOURCE
+> Task :app:checkQaDuplicateClasses UP-TO-DATE
+> Task :app:generateQaBuildConfig
+> Task :app:javaPreCompileQa UP-TO-DATE
+> Task :app:checkQaAarMetadata UP-TO-DATE
+> Task :app:processQaNavigationResources
+> Task :app:compileQaNavigationResources UP-TO-DATE
+> Task :app:generateQaResValues UP-TO-DATE
+> Task :app:mapQaSourceSetPaths
+> Task :app:generateQaResources
+> Task :app:packageQaResources
+> Task :app:createQaCompatibleScreenManifests
+> Task :app:extractDeepLinksQa UP-TO-DATE
+> Task :app:parseQaLocalResources
+> Task :app:processQaMainManifest
+> Task :app:mergeQaResources
+> Task :app:processQaManifest
+> Task :app:mergeQaArtProfile UP-TO-DATE
+> Task :app:extractProguardFiles UP-TO-DATE
+> Task :app:processQaJavaRes NO-SOURCE
+> Task :app:mergeQaJavaResource UP-TO-DATE
+> Task :app:mergeQaStartupProfile UP-TO-DATE
+> Task :app:mergeQaShaders UP-TO-DATE
+> Task :app:compileQaShaders NO-SOURCE
+> Task :app:generateQaAssets UP-TO-DATE
+> Task :app:mergeQaAssets
+> Task :app:processQaManifestForPackage
+> Task :app:compressQaAssets
+> Task :app:extractQaVersionControlInfo UP-TO-DATE
+> Task :app:collectQaDependencies UP-TO-DATE
+> Task :app:sdkQaDependencyData UP-TO-DATE
+> Task :app:validateSigningQa UP-TO-DATE
+> Task :app:writeQaAppMetadata UP-TO-DATE
+> Task :app:writeQaSigningConfigVersions UP-TO-DATE
+> Task :app:configureQaDependencies UP-TO-DATE
+> Task :app:parseQaIntegrityConfig UP-TO-DATE
+> Task :app:preQaAndroidTestBuild SKIPPED
+> Task :app:processQaAndroidTestManifest UP-TO-DATE
+> Task :app:generateQaAndroidTestBuildConfig UP-TO-DATE
+> Task :app:javaPreCompileQaAndroidTest UP-TO-DATE
+> Task :app:checkQaAndroidTestAarMetadata UP-TO-DATE
+> Task :app:processQaAndroidTestNavigationResources UP-TO-DATE
+> Task :app:compileQaAndroidTestNavigationResources UP-TO-DATE
+> Task :app:generateQaAndroidTestResValues UP-TO-DATE
+> Task :app:mapQaAndroidTestSourceSetPaths UP-TO-DATE
+> Task :app:generateQaAndroidTestResources UP-TO-DATE
+> Task :app:mergeQaAndroidTestResources UP-TO-DATE
+> Task :app:processQaAndroidTestResources UP-TO-DATE
+> Task :app:mergeQaAndroidTestShaders UP-TO-DATE
+> Task :app:compileQaAndroidTestShaders NO-SOURCE
+> Task :app:generateQaAndroidTestAssets UP-TO-DATE
+> Task :app:mergeQaAndroidTestAssets UP-TO-DATE
+> Task :app:compressQaAndroidTestAssets UP-TO-DATE
+> Task :app:checkQaAndroidTestDuplicateClasses UP-TO-DATE
+> Task :app:processQaAndroidTestJavaRes NO-SOURCE
+> Task :app:mergeQaAndroidTestJavaResource UP-TO-DATE
+> Task :app:mergeQaAndroidTestJniLibFolders UP-TO-DATE
+> Task :app:mergeQaAndroidTestNativeLibs NO-SOURCE
+> Task :app:stripQaAndroidTestDebugSymbols NO-SOURCE
+> Task :app:validateSigningQaAndroidTest UP-TO-DATE
+> Task :app:writeQaAndroidTestSigningConfigVersions UP-TO-DATE
+> Task :app:processQaResources
+
+> Task :app:compileQaJavaWithJavac
+Note: /Users/capitanps/Documents/Codex/2026-10-01/vamos-con-la-prueba-definitiva-me/outputs/ELEVENFATE/android/app/src/main/java/com/multihistoria/MainActivity.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
+> Task :app:mergeQaGeneratedProguardFiles UP-TO-DATE
+> Task :app:generateQaLintVitalReportModel
+> Task :app:bundleQaClassesToCompileJar
+> Task :app:expandQaArtProfileWildcards
+> Task :app:compileQaAndroidTestJavaWithJavac UP-TO-DATE
+
+> Task :app:lintVitalAnalyzeQa
+Warning: Unable to initialize metrics, ensure /Users/capitanps/.android is writable, details: /Users/capitanps/.android/analytics.settings (Operation not permitted)
+
+> Task :app:lintVitalReportQa
+> Task :app:lintVitalQa
+> Task :app:minifyQaWithR8
+> Task :app:compileQaArtProfile
+> Task :app:buildQaPreBundle
+> Task :app:convertShrunkResourcesToBinaryQa
+> Task :app:optimizeQaResources
+> Task :app:packageQa
+> Task :app:createQaApkListingFileRedirect
+> Task :app:assembleQa
+> Task :app:packageQaBundle
+> Task :app:signQaBundle
+> Task :app:produceQaBundleIdeListingFile
+> Task :app:createQaBundleListingFileRedirect UP-TO-DATE
+> Task :app:bundleQa
+> Task :app:minifyQaAndroidTestWithR8
+> Task :app:packageQaAndroidTest
+> Task :app:createQaAndroidTestApkListingFileRedirect UP-TO-DATE
+> Task :app:assembleQaAndroidTest
+
+[Incubating] Problems report is available at: file:///Users/capitanps/Documents/Codex/2026-10-01/vamos-con-la-prueba-definitiva-me/outputs/ELEVENFATE/android/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 2m 39s
+76 actionable tasks: 33 executed, 43 up-to-date

@@ -1,0 +1,3 @@
+ERROR: null root node returned by UiTestAutomationBridge.
+ERROR: null root node returned by UiTestAutomationBridge.
+{"passed":false,"error":"Command failed: /Users/capitanps/Documents/Codex/2026-10-01/vamos-con-la-prueba-definitiva-me/work/tools/sdk/platform-tools/adb -s emulator-5562 shell uiautomator dump /sdcard/elevenfate-visual-window.xml"}

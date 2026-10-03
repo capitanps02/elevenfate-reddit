@@ -1,0 +1,18 @@
+{
+  "owner": "Pedro Sánchez Miguélez",
+  "publicEmail": "pedrosamiguelez@gmail.com",
+  "privacyVersion": "2026-10-02",
+  "publicUrl": "https://capitanps02.github.io/Juego-Multihistoria/privacidad/",
+  "published": true,
+  "trackingScripts": false,
+  "forms": false,
+  "verifiedDate": "2026-10-02",
+  "branch": "elevenfate-privacy-pages",
+  "commit": "ba31a9ddb25c6e3430cacbf5247c74da565ca43a",
+  "htmlSha256": "6937856d2751c212a943694e99e421b286d2a1116cbd3ece8cd201945ac17b99",
+  "mobileLayout": {
+    "width": 390,
+    "scrollWidth": 390,
+    "scripts": 0
+  }
+}

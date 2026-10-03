@@ -1,3 +1,4 @@
+import { inspectPlayerIdentity } from "../core/player-identity.js";
 import { assertPlayerActionState } from "../player-actions/validation.js";
 import { inspectSportMatchModelStore } from "../simulation/match-model.js";
 import { inspectCompetitionMomentStore } from "../simulation/competition-context.js";
@@ -26,6 +27,17 @@ function assertSportMatchModel(value) {
     const issue = inspectSportMatchModelStore(world.sportMatchModel, state.date, value);
     if (issue)
         legacy.ensure(false, issue.path, issue.reason);
+}
+function assertPlayerIdentity(value, required) {
+    const state = legacy.record(value, "state");
+    if (state.playerIdentity === undefined) {
+        if (required)
+            legacy.ensure(false, "playerIdentity", "falta la identidad autoritativa del jugador");
+        return;
+    }
+    const issue = inspectPlayerIdentity(state.playerIdentity);
+    if (issue)
+        legacy.ensure(false, "playerIdentity", issue);
 }
 const EMPLOYMENT_STATUSES = ["contracted", "loaned", "unattached", "expired_pending_resolution"];
 function assertVeteranMarketFacts(value) {
@@ -213,11 +225,15 @@ export function validateGameSave(value, version) {
     assertPenaltySetups(value);
     assertEmployment(value);
     assertVeteranMarketFacts(value);
+    assertPlayerIdentity(value, false);
     const state = value;
     if (state.playerActions !== undefined)
         assertPlayerActionState(state.playerActions, state.date);
 }
 /** Common runtime/save boundary including market + football moment + match-model checks. */
+export function assertRuntimePlayerIdentity(value) {
+    assertPlayerIdentity(value, true);
+}
 export function assertGameState(value) {
     legacy.assertGameState(value);
     assertFootballCatalogPersistence(value, 8);
@@ -226,6 +242,7 @@ export function assertGameState(value) {
     assertPenaltySetups(value);
     assertEmployment(value);
     assertVeteranMarketFacts(value);
+    assertPlayerIdentity(value, false);
     const state = value;
     if (state.playerActions !== undefined)
         assertPlayerActionState(state.playerActions, state.date);

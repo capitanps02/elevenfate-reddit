@@ -1,0 +1,111 @@
+{
+  "date": "2026-10-01",
+  "buildInfo": {
+    "appVersion": "0.9.0",
+    "versionCode": 3,
+    "engineVersion": "0.8.0-t2.5",
+    "catalogVersion": "world-v2-a2-2026-09-28",
+    "gitSha": "68ed39383c80ffca9823980f35f43b1fe8897bdf",
+    "gitDirty": true,
+    "sourceHash": "ac65785d5156d085e93082d71787d9d69daf0fa757f379bd689a62088500893b",
+    "buildId": "20261001.ac65785d5156",
+    "timestamp": "2026-10-01T12:46:51.217Z"
+  },
+  "artifacts": [
+    {
+      "file": "ELEVENFATE-debug.apk",
+      "bytes": 60953755,
+      "sha256": "9fd19c2482de3148d2506201d62b2cc0f4977afa02fe8e000ab1185660dcd30f",
+      "production": false,
+      "emulatorRuntimeVerified": true,
+      "nativeSharedLibraries": []
+    },
+    {
+      "file": "ELEVENFATE-QA.apk",
+      "bytes": 56016446,
+      "sha256": "cfa494da58ee373263a85048a159a2c92b4290456f46aeb36d60b7f89ec2118d",
+      "production": false,
+      "emulatorRuntimeVerified": true,
+      "nativeSharedLibraries": []
+    },
+    {
+      "file": "ELEVENFATE-QA-no-publicar.aab",
+      "bytes": 58057676,
+      "sha256": "789fa080778747868914e12d4db66a3c29e1d63a8063616540ef23f24d623b36",
+      "production": false,
+      "emulatorRuntimeVerified": false,
+      "nativeSharedLibraries": []
+    }
+  ],
+  "verdict": {
+    "localQA": "PASS within documented scope",
+    "productionGooglePlayReady": false,
+    "monetizationReady": false
+  },
+  "functional": {
+    "uniquePassed": 736,
+    "remainingCaseFailures": 0,
+    "initialRunExitClean": false,
+    "prerequisitesRegenerated": true,
+    "scope": "58 Node test files; 5 affected files rerun, 52/52 passed; full initial command was not a clean pass"
+  },
+  "headlessFullCareers": {
+    "passed": 3,
+    "retirementAges": [
+      38,
+      39,
+      41
+    ],
+    "sourceIdentity": "4e8077d3e04c37c657a0b697978fcaf1c9154e48b08336026054cba551025302"
+  },
+  "nativeQACareer": {
+    "passed": true,
+    "fromAge": 18,
+    "toAge": 21,
+    "forceStopResumeAndRotation": true,
+    "apkSha256": "cfa494da58ee373263a85048a159a2c92b4290456f46aeb36d60b7f89ec2118d",
+    "report": "hard-qa-career-v3.log"
+  },
+  "nativeResume": {
+    "passed": true,
+    "repetitions": 5,
+    "upgradeFromVersionCode": 2,
+    "upgradeToVersionCode": 3,
+    "report": "runtime-resume.json"
+  },
+  "nativeExport": {
+    "realSaveBytes": 14240,
+    "syntheticTransferBytes": 2111489,
+    "processDeathPassed": true,
+    "largePayloadIsImportableSave": false
+  },
+  "visual": {
+    "passed": true,
+    "physicalAndroidBack": true,
+    "oneAVD": true,
+    "displayCssSizes": [
+      "360x752",
+      "412x867",
+      "800x1232"
+    ]
+  },
+  "ads": {
+    "policyTests": 5,
+    "actualAdDisplayVerified": false,
+    "consentFormVerified": false
+  },
+  "limits": [
+    "One API36 x86_64 emulator, no physical Android/ARM device or API24–35 coverage",
+    "No live or test ad impression/close/return/UMP flow certification",
+    "30 clips verified for offline initial decode/play start on previous APK; their bytes are identical in v3; not full playback/audio certification",
+    "No performance benchmark: host clock/suspension and software GPU affect timing",
+    "Earlier system-app ANRs affected emulator testing; final QA resume logs contain no game ANR/Java crash"
+  ],
+  "publicationBlockers": [
+    "Production upload key and signed production AAB missing",
+    "Public HTTPS privacy URL and release audience/Families review missing",
+    "Play Console payment/identity/device verification/status not independently checked",
+    "Store listing, IARC, Ads declaration and SDK Data Safety not completed/verified",
+    "Conditional new-personal-account closed test and physical-device verification"
+  ]
+}

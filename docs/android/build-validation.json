@@ -1,0 +1,100 @@
+{
+  "builtAndChecked": true,
+  "variants": [
+    "debug",
+    "qa"
+  ],
+  "lintErrors": 0,
+  "lintWarnings": 1,
+  "adPolicyTests": 5,
+  "functionalTestsUniquePassed": 736,
+  "offlineAndRefinementTests": 8,
+  "runtimeReports": [
+    "hard-tests/runtime-resume.json",
+    "hard-tests/runtime-export-save.json",
+    "hard-tests/runtime-export-large.json",
+    "hard-tests/runtime-visual.json"
+  ],
+  "artifacts": [
+    {
+      "file": "ELEVENFATE-debug.apk",
+      "bytes": 60953755,
+      "sha256": "9fd19c2482de3148d2506201d62b2cc0f4977afa02fe8e000ab1185660dcd30f",
+      "production": false,
+      "emulatorRuntimeVerified": true,
+      "nativeSharedLibraries": []
+    },
+    {
+      "file": "ELEVENFATE-QA.apk",
+      "bytes": 56016446,
+      "sha256": "cfa494da58ee373263a85048a159a2c92b4290456f46aeb36d60b7f89ec2118d",
+      "production": false,
+      "emulatorRuntimeVerified": true,
+      "nativeSharedLibraries": []
+    },
+    {
+      "file": "ELEVENFATE-QA-no-publicar.aab",
+      "bytes": 58057676,
+      "sha256": "789fa080778747868914e12d4db66a3c29e1d63a8063616540ef23f24d623b36",
+      "production": false,
+      "emulatorRuntimeVerified": false,
+      "nativeSharedLibraries": []
+    }
+  ],
+  "buildInfo": {
+    "appVersion": "0.9.0",
+    "versionCode": 3,
+    "engineVersion": "0.8.0-t2.5",
+    "catalogVersion": "world-v2-a2-2026-09-28",
+    "gitSha": "68ed39383c80ffca9823980f35f43b1fe8897bdf",
+    "gitDirty": true,
+    "sourceHash": "ac65785d5156d085e93082d71787d9d69daf0fa757f379bd689a62088500893b",
+    "buildId": "20261001.ac65785d5156",
+    "timestamp": "2026-10-01T12:46:51.217Z"
+  },
+  "upgradeRuntime": {
+    "passed": true,
+    "oldVersionCode": 2,
+    "newVersionCode": 3,
+    "oldApkSha256": "2e57b44746dce598ed9a7104e55ab16c95ac2478db650dbc6e613251db4d16f7",
+    "newApkSha256": "cfa494da58ee373263a85048a159a2c92b4290456f46aeb36d60b7f89ec2118d",
+    "report": "hard-tests/runtime-resume.json"
+  },
+  "ads": {
+    "enabledAllAges": true,
+    "nonPersonalized": true,
+    "mobileAdsSdk": "com.google.android.gms:play-services-ads:25.5.0",
+    "initialActiveMinutes": 8,
+    "resultsBetweenAds": 6,
+    "activeMinutesBetweenAds": 8,
+    "maximumAdsPerSession": 2,
+    "protectedBannerMaximumSeconds": 20,
+    "actualAdDisplayVerified": false
+  },
+  "visualRuntime": {
+    "passed": true,
+    "report": "hard-tests/runtime-visual.json",
+    "scope": "One API36 emulator, three display settings"
+  },
+  "careerSample": {
+    "runs": 3,
+    "fullCareers": true,
+    "passed": true,
+    "retirementAges": [
+      38,
+      39,
+      41
+    ],
+    "report": "hard-tests/full-careers.json"
+  },
+  "nativeCareer": {
+    "passed": true,
+    "fromAge": 18,
+    "toAge": 21,
+    "forceStopResumeAndRotation": true,
+    "apkSha256": "cfa494da58ee373263a85048a159a2c92b4290456f46aeb36d60b7f89ec2118d",
+    "report": "hard-qa-career-v3.log"
+  },
+  "productionGooglePlayReady": false,
+  "note": "Current versionCode 3 APK hashes are runtime verified. SAF export/import and process death passed in debug. The QA AAB uses a debug certificate and .qa package and must not be published. Actual ads/UMP, physical devices, and production configuration remain unverified. Older runtime-*.json outside hard-tests/ refer to earlier builds."
+}

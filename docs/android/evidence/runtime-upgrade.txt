@@ -1,0 +1,39 @@
+Comprobando actualización: create
+INSTRUMENTATION_RESULT: actualChoiceSaved=PASS
+INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS
+INSTRUMENTATION_RESULT: nativeBack=PASS
+INSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only
+INSTRUMENTATION_RESULT: result=PASS create: packaged game, saves, controls, back and protected advertising treatment
+INSTRUMENTATION_RESULT: startupMs=13653
+INSTRUMENTATION_CODE: -1
+
+Comprobando actualización: career
+INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS
+INSTRUMENTATION_RESULT: multiYearCareerSaved=PASS: reached age 21 with canonical GameSession commands
+INSTRUMENTATION_RESULT: nativeBack=PASS
+INSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only
+INSTRUMENTATION_RESULT: result=PASS career: packaged game, saves, controls, back and protected advertising treatment
+INSTRUMENTATION_RESULT: startupMs=10814
+INSTRUMENTATION_CODE: -1
+
+Comprobando actualización: resume
+INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS
+INSTRUMENTATION_RESULT: nativeBack=PASS
+INSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only
+INSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS
+INSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment
+INSTRUMENTATION_RESULT: rotationKeepsSave=PASS
+INSTRUMENTATION_RESULT: startupMs=10440
+INSTRUMENTATION_CODE: -1
+
+Comprobando actualización: upgrade
+INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS
+INSTRUMENTATION_RESULT: nativeBack=PASS
+INSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only
+INSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS
+INSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment
+INSTRUMENTATION_RESULT: rotationKeepsSave=PASS
+INSTRUMENTATION_RESULT: startupMs=10200
+INSTRUMENTATION_CODE: -1
+
+{"passed":true}

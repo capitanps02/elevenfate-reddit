@@ -1,0 +1,36 @@
+{
+  "buildInfo": {
+    "appVersion": "0.9.0",
+    "versionCode": 3,
+    "engineVersion": "0.8.0-t2.5",
+    "catalogVersion": "world-v2-a2-2026-09-28",
+    "gitSha": "68ed39383c80ffca9823980f35f43b1fe8897bdf",
+    "gitDirty": true,
+    "sourceHash": "ac65785d5156d085e93082d71787d9d69daf0fa757f379bd689a62088500893b",
+    "buildId": "20261001.ac65785d5156",
+    "timestamp": "2026-10-01T12:46:51.217Z"
+  },
+  "counts": {
+    "events": 388,
+    "seeds": 210,
+    "npcs": 20,
+    "endingFamilies": 20,
+    "clubs": 528,
+    "divisions": 27,
+    "countries": 17
+  },
+  "errors": 0,
+  "warnings": 0,
+  "footballIssues": [],
+  "moduleReferences": 463,
+  "missingReferences": [],
+  "packagedBytes": 59161481,
+  "localJsBytes": 51889,
+  "startupJsBytes": 1932601,
+  "startupModules": 174,
+  "historicalRegistryInStaticStartup": false,
+  "images": 8,
+  "imageBytes": 6859561,
+  "cutscenes": 30,
+  "passed": true
+}

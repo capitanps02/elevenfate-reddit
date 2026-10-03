@@ -1,0 +1,1420 @@
+{
+  "task": "T5.2 canonical handoff",
+  "generatedAt": "2026-10-01T12:14:43.691Z",
+  "source": "analysis/T5.2/seed-lifecycle.json",
+  "principle": "ownership follows canonical catalog block, not only numeric age at runtime",
+  "coverage": {
+    "catalogSeeds": 210,
+    "assignedEntries": 210,
+    "assignedUnique": 210,
+    "duplicates": [],
+    "unassigned": [],
+    "unknownAssigned": [],
+    "exactPartition": true
+  },
+  "ownership": [
+    {
+      "owner": "t51/canon-18-23",
+      "canonicalBlocks": [
+        "18-20",
+        "20-23"
+      ],
+      "catalogSegments": [
+        "SEED_CATALOG_18_20"
+      ],
+      "counts": {
+        "total": 31,
+        "runtimeProduced": 31,
+        "withoutRuntimeProducer": 0,
+        "withAnyConsumer": 27,
+        "withoutAnyConsumer": 4,
+        "withExplicitTerminal": 1,
+        "withoutExplicitTerminal": 30,
+        "finiteAgeWindow": 24,
+        "openEndedWithoutTerminalTransition": 7,
+        "noProducerAndNoConsumer": 0,
+        "originEventsMissing": 0,
+        "declaredReadMismatches": 16
+      },
+      "seeds": [
+        "SEED_RIVAS_TRUST",
+        "SEED_MENA_EARLY_READ",
+        "SEED_BRUNO_FAVOR",
+        "SEED_VELA_STANCE",
+        "SEED_CLARA_CHANNEL",
+        "SEED_FIRST_AGENT",
+        "SEED_FIRST_LEAK",
+        "SEED_PHYSIO_CONFIDENCE",
+        "SEED_DANI_NORMALITY",
+        "SEED_COACH_PUBLIC",
+        "SEED_EXIT_STYLE_UDV",
+        "SEED_ADRIAN_MIRROR",
+        "SEED_NANO_SHADOW",
+        "SEED_AGENT_OMISSION",
+        "SEED_BODY_PRECEDENT",
+        "SEED_FIRST_BIG_MONEY",
+        "SEED_AGENT_POWER",
+        "SEED_FOREIGN_ADAPT",
+        "SEED_MEDICAL_DISCLOSURE",
+        "SEED_TEAMMATE_COVER",
+        "SEED_FIRST_CAPTAIN_ROOM",
+        "SEED_PUBLIC_CONTRACT",
+        "SEED_FAMILY_MONEY",
+        "SEED_SELECTION_SNUB",
+        "SEED_SPONSOR_IMAGE",
+        "SEED_TACTICAL_SACRIFICE",
+        "SEED_DEADLINE_DAY",
+        "SEED_LOCKER_VOTE",
+        "SEED_HOME_DISTANCE",
+        "SEED_FIRST_FREE_AGENCY",
+        "SEED_CONTRACT_HARDLINE"
+      ],
+      "withoutRuntimeProducer": [],
+      "withoutAnyConsumer": [
+        "SEED_MEDICAL_DISCLOSURE",
+        "SEED_FIRST_CAPTAIN_ROOM",
+        "SEED_SELECTION_SNUB",
+        "SEED_LOCKER_VOTE"
+      ],
+      "withoutExplicitTerminal": [
+        "SEED_RIVAS_TRUST",
+        "SEED_MENA_EARLY_READ",
+        "SEED_BRUNO_FAVOR",
+        "SEED_VELA_STANCE",
+        "SEED_CLARA_CHANNEL",
+        "SEED_FIRST_AGENT",
+        "SEED_FIRST_LEAK",
+        "SEED_PHYSIO_CONFIDENCE",
+        "SEED_DANI_NORMALITY",
+        "SEED_COACH_PUBLIC",
+        "SEED_EXIT_STYLE_UDV",
+        "SEED_ADRIAN_MIRROR",
+        "SEED_AGENT_OMISSION",
+        "SEED_BODY_PRECEDENT",
+        "SEED_FIRST_BIG_MONEY",
+        "SEED_AGENT_POWER",
+        "SEED_FOREIGN_ADAPT",
+        "SEED_MEDICAL_DISCLOSURE",
+        "SEED_TEAMMATE_COVER",
+        "SEED_FIRST_CAPTAIN_ROOM",
+        "SEED_PUBLIC_CONTRACT",
+        "SEED_FAMILY_MONEY",
+        "SEED_SELECTION_SNUB",
+        "SEED_SPONSOR_IMAGE",
+        "SEED_TACTICAL_SACRIFICE",
+        "SEED_DEADLINE_DAY",
+        "SEED_LOCKER_VOTE",
+        "SEED_HOME_DISTANCE",
+        "SEED_FIRST_FREE_AGENCY",
+        "SEED_CONTRACT_HARDLINE"
+      ],
+      "finiteAgeWindow": [
+        "SEED_MENA_EARLY_READ",
+        "SEED_BRUNO_FAVOR",
+        "SEED_FIRST_AGENT",
+        "SEED_FIRST_LEAK",
+        "SEED_PHYSIO_CONFIDENCE",
+        "SEED_DANI_NORMALITY",
+        "SEED_COACH_PUBLIC",
+        "SEED_ADRIAN_MIRROR",
+        "SEED_NANO_SHADOW",
+        "SEED_AGENT_OMISSION",
+        "SEED_BODY_PRECEDENT",
+        "SEED_AGENT_POWER",
+        "SEED_FOREIGN_ADAPT",
+        "SEED_MEDICAL_DISCLOSURE",
+        "SEED_TEAMMATE_COVER",
+        "SEED_FIRST_CAPTAIN_ROOM",
+        "SEED_PUBLIC_CONTRACT",
+        "SEED_SELECTION_SNUB",
+        "SEED_SPONSOR_IMAGE",
+        "SEED_TACTICAL_SACRIFICE",
+        "SEED_DEADLINE_DAY",
+        "SEED_LOCKER_VOTE",
+        "SEED_FIRST_FREE_AGENCY",
+        "SEED_CONTRACT_HARDLINE"
+      ],
+      "openEndedWithoutTerminalTransition": [
+        "SEED_RIVAS_TRUST",
+        "SEED_VELA_STANCE",
+        "SEED_CLARA_CHANNEL",
+        "SEED_EXIT_STYLE_UDV",
+        "SEED_FIRST_BIG_MONEY",
+        "SEED_FAMILY_MONEY",
+        "SEED_HOME_DISTANCE"
+      ],
+      "noProducerAndNoConsumer": [],
+      "originEventsMissing": [],
+      "declaredReadMismatches": [
+        {
+          "eventId": "CEVT_20_HOME_01",
+          "seedId": "SEED_EXIT_STYLE_UDV"
+        },
+        {
+          "eventId": "CEVT_20_BRUNO_01",
+          "seedId": "SEED_BRUNO_FAVOR"
+        },
+        {
+          "eventId": "CEVT_21_ADRIAN_01",
+          "seedId": "SEED_ADRIAN_MIRROR"
+        },
+        {
+          "eventId": "CEVT_21_FAMILY_01",
+          "seedId": "SEED_FAMILY_MONEY"
+        },
+        {
+          "eventId": "CEVT_23_RIVAS_02",
+          "seedId": "SEED_RIVAS_TRUST"
+        },
+        {
+          "eventId": "CEVT_23_MENA_02",
+          "seedId": "SEED_MENA_EARLY_READ"
+        },
+        {
+          "eventId": "CEVT_23_VELA_02",
+          "seedId": "SEED_VELA_STANCE"
+        },
+        {
+          "eventId": "CEVT_23_BRUNO_03",
+          "seedId": "SEED_BRUNO_FAVOR"
+        },
+        {
+          "eventId": "CEVT_23_ADR_03",
+          "seedId": "SEED_ADRIAN_MIRROR"
+        },
+        {
+          "eventId": "CEVT_23_NANO_02",
+          "seedId": "SEED_NANO_SHADOW"
+        },
+        {
+          "eventId": "CEVT_23_CLARA_03",
+          "seedId": "SEED_CLARA_CHANNEL"
+        },
+        {
+          "eventId": "CEVT_23_AGENT_03",
+          "seedId": "SEED_FIRST_AGENT"
+        },
+        {
+          "eventId": "CEVT_23_MED_02",
+          "seedId": "SEED_PHYSIO_CONFIDENCE"
+        },
+        {
+          "eventId": "CEVT_23_UDV_02",
+          "seedId": "SEED_HOME_DISTANCE"
+        },
+        {
+          "eventId": "CEVT_24_SPONSOR_02",
+          "seedId": "SEED_SPONSOR_IMAGE"
+        },
+        {
+          "eventId": "CEVT_31_RIVAS_01",
+          "seedId": "SEED_RIVAS_TRUST"
+        }
+      ]
+    },
+    {
+      "owner": "t51/canon-23-30",
+      "canonicalBlocks": [
+        "23-26",
+        "26-30"
+      ],
+      "catalogSegments": [
+        "SEED_CATALOG_23_26",
+        "SEED_CATALOG_26_30"
+      ],
+      "counts": {
+        "total": 59,
+        "runtimeProduced": 59,
+        "withoutRuntimeProducer": 0,
+        "withAnyConsumer": 35,
+        "withoutAnyConsumer": 24,
+        "withExplicitTerminal": 0,
+        "withoutExplicitTerminal": 59,
+        "finiteAgeWindow": 24,
+        "openEndedWithoutTerminalTransition": 35,
+        "noProducerAndNoConsumer": 0,
+        "originEventsMissing": 0,
+        "declaredReadMismatches": 12
+      },
+      "seeds": [
+        "SEED_ELITE_ROLE_BARGAIN",
+        "SEED_CONTRACT_CEILING",
+        "SEED_DIRECT_RECRUIT",
+        "SEED_LOAD_MANAGEMENT",
+        "SEED_FAMILY_BUSINESS",
+        "SEED_HOME_SYMBOL",
+        "SEED_EURO_REGISTRATION",
+        "SEED_FIRST_ABSOLUTE_CALL",
+        "SEED_CLUB_NATIONAL_CONFLICT",
+        "SEED_IMAGE_RIGHTS",
+        "SEED_PERSONAL_STAFF",
+        "SEED_STAR_COMPETITION",
+        "SEED_PENALTY_HIERARCHY",
+        "SEED_PRIVATE_CHAT",
+        "SEED_MAJOR_TOURNAMENT",
+        "SEED_BIG_MATCH_BODY",
+        "SEED_WEALTHY_EXIT",
+        "SEED_YOUNG_MENTOR",
+        "SEED_CAPTAINCY_STYLE",
+        "SEED_CHRONIC_BODY",
+        "SEED_AGENT_PROOF",
+        "SEED_AGE26_PRIORITY",
+        "SEED_PEAK_IDENTITY",
+        "SEED_SHADOW_ESCAPE",
+        "SEED_PROJECT_FACE",
+        "SEED_PEAK_CONTRACT",
+        "SEED_GLOBAL_IMAGE",
+        "SEED_SELF_OPTIMIZATION",
+        "SEED_YOUNG_SUCCESSOR",
+        "SEED_INTERNATIONAL_LOAD",
+        "SEED_HOME_INSTITUTION",
+        "SEED_BIG_GAME_BENCH",
+        "SEED_RECORD_CHASE",
+        "SEED_LOCKER_ENDORSEMENT",
+        "SEED_PEAK_LOAD",
+        "SEED_DOCUMENTARY_ACCESS",
+        "SEED_AGENT_CONFLICT_PEAK",
+        "SEED_PUBLIC_RIVALRY",
+        "SEED_MENTOR_ADVICE",
+        "SEED_NATIONAL_ROLE",
+        "SEED_FINAL_BENCH",
+        "SEED_MEGA_TRANSFER",
+        "SEED_PUBLIC_EXIT_PRESSURE",
+        "SEED_WEALTH_STRUCTURE",
+        "SEED_HOME_OWNERSHIP",
+        "SEED_PERSONAL_BRAND_INDEPENDENCE",
+        "SEED_SECOND_STAR",
+        "SEED_POSITIONAL_REINVENTION",
+        "SEED_GLOBAL_AWARD_BEHAVIOR",
+        "SEED_MANAGER_POWER",
+        "SEED_FAN_FRACTURE",
+        "SEED_SURGERY_TIMING",
+        "SEED_NATIONAL_CAPTAINCY",
+        "SEED_ELITE_SACRIFICE",
+        "SEED_RECORD_PUBLIC_TONE",
+        "SEED_WEALTHY_PEAK_EXIT",
+        "SEED_EARLY_HOME_RETURN",
+        "SEED_FIRST_PEAK_DIP",
+        "SEED_AGE30_PRIORITY"
+      ],
+      "withoutRuntimeProducer": [],
+      "withoutAnyConsumer": [
+        "SEED_CLUB_NATIONAL_CONFLICT",
+        "SEED_IMAGE_RIGHTS",
+        "SEED_PERSONAL_STAFF",
+        "SEED_PENALTY_HIERARCHY",
+        "SEED_WEALTHY_EXIT",
+        "SEED_CAPTAINCY_STYLE",
+        "SEED_PEAK_IDENTITY",
+        "SEED_SHADOW_ESCAPE",
+        "SEED_PEAK_CONTRACT",
+        "SEED_GLOBAL_IMAGE",
+        "SEED_INTERNATIONAL_LOAD",
+        "SEED_BIG_GAME_BENCH",
+        "SEED_LOCKER_ENDORSEMENT",
+        "SEED_NATIONAL_ROLE",
+        "SEED_FINAL_BENCH",
+        "SEED_MEGA_TRANSFER",
+        "SEED_PUBLIC_EXIT_PRESSURE",
+        "SEED_PERSONAL_BRAND_INDEPENDENCE",
+        "SEED_SECOND_STAR",
+        "SEED_GLOBAL_AWARD_BEHAVIOR",
+        "SEED_MANAGER_POWER",
+        "SEED_FAN_FRACTURE",
+        "SEED_ELITE_SACRIFICE",
+        "SEED_RECORD_PUBLIC_TONE"
+      ],
+      "withoutExplicitTerminal": [
+        "SEED_ELITE_ROLE_BARGAIN",
+        "SEED_CONTRACT_CEILING",
+        "SEED_DIRECT_RECRUIT",
+        "SEED_LOAD_MANAGEMENT",
+        "SEED_FAMILY_BUSINESS",
+        "SEED_HOME_SYMBOL",
+        "SEED_EURO_REGISTRATION",
+        "SEED_FIRST_ABSOLUTE_CALL",
+        "SEED_CLUB_NATIONAL_CONFLICT",
+        "SEED_IMAGE_RIGHTS",
+        "SEED_PERSONAL_STAFF",
+        "SEED_STAR_COMPETITION",
+        "SEED_PENALTY_HIERARCHY",
+        "SEED_PRIVATE_CHAT",
+        "SEED_MAJOR_TOURNAMENT",
+        "SEED_BIG_MATCH_BODY",
+        "SEED_WEALTHY_EXIT",
+        "SEED_YOUNG_MENTOR",
+        "SEED_CAPTAINCY_STYLE",
+        "SEED_CHRONIC_BODY",
+        "SEED_AGENT_PROOF",
+        "SEED_AGE26_PRIORITY",
+        "SEED_PEAK_IDENTITY",
+        "SEED_SHADOW_ESCAPE",
+        "SEED_PROJECT_FACE",
+        "SEED_PEAK_CONTRACT",
+        "SEED_GLOBAL_IMAGE",
+        "SEED_SELF_OPTIMIZATION",
+        "SEED_YOUNG_SUCCESSOR",
+        "SEED_INTERNATIONAL_LOAD",
+        "SEED_HOME_INSTITUTION",
+        "SEED_BIG_GAME_BENCH",
+        "SEED_RECORD_CHASE",
+        "SEED_LOCKER_ENDORSEMENT",
+        "SEED_PEAK_LOAD",
+        "SEED_DOCUMENTARY_ACCESS",
+        "SEED_AGENT_CONFLICT_PEAK",
+        "SEED_PUBLIC_RIVALRY",
+        "SEED_MENTOR_ADVICE",
+        "SEED_NATIONAL_ROLE",
+        "SEED_FINAL_BENCH",
+        "SEED_MEGA_TRANSFER",
+        "SEED_PUBLIC_EXIT_PRESSURE",
+        "SEED_WEALTH_STRUCTURE",
+        "SEED_HOME_OWNERSHIP",
+        "SEED_PERSONAL_BRAND_INDEPENDENCE",
+        "SEED_SECOND_STAR",
+        "SEED_POSITIONAL_REINVENTION",
+        "SEED_GLOBAL_AWARD_BEHAVIOR",
+        "SEED_MANAGER_POWER",
+        "SEED_FAN_FRACTURE",
+        "SEED_SURGERY_TIMING",
+        "SEED_NATIONAL_CAPTAINCY",
+        "SEED_ELITE_SACRIFICE",
+        "SEED_RECORD_PUBLIC_TONE",
+        "SEED_WEALTHY_PEAK_EXIT",
+        "SEED_EARLY_HOME_RETURN",
+        "SEED_FIRST_PEAK_DIP",
+        "SEED_AGE30_PRIORITY"
+      ],
+      "finiteAgeWindow": [
+        "SEED_ELITE_ROLE_BARGAIN",
+        "SEED_CONTRACT_CEILING",
+        "SEED_DIRECT_RECRUIT",
+        "SEED_EURO_REGISTRATION",
+        "SEED_CLUB_NATIONAL_CONFLICT",
+        "SEED_STAR_COMPETITION",
+        "SEED_PENALTY_HIERARCHY",
+        "SEED_PRIVATE_CHAT",
+        "SEED_AGENT_PROOF",
+        "SEED_PEAK_IDENTITY",
+        "SEED_SHADOW_ESCAPE",
+        "SEED_PROJECT_FACE",
+        "SEED_PEAK_CONTRACT",
+        "SEED_INTERNATIONAL_LOAD",
+        "SEED_BIG_GAME_BENCH",
+        "SEED_LOCKER_ENDORSEMENT",
+        "SEED_AGENT_CONFLICT_PEAK",
+        "SEED_NATIONAL_ROLE",
+        "SEED_FINAL_BENCH",
+        "SEED_MEGA_TRANSFER",
+        "SEED_PUBLIC_EXIT_PRESSURE",
+        "SEED_SECOND_STAR",
+        "SEED_MANAGER_POWER",
+        "SEED_ELITE_SACRIFICE"
+      ],
+      "openEndedWithoutTerminalTransition": [
+        "SEED_LOAD_MANAGEMENT",
+        "SEED_FAMILY_BUSINESS",
+        "SEED_HOME_SYMBOL",
+        "SEED_FIRST_ABSOLUTE_CALL",
+        "SEED_IMAGE_RIGHTS",
+        "SEED_PERSONAL_STAFF",
+        "SEED_MAJOR_TOURNAMENT",
+        "SEED_BIG_MATCH_BODY",
+        "SEED_WEALTHY_EXIT",
+        "SEED_YOUNG_MENTOR",
+        "SEED_CAPTAINCY_STYLE",
+        "SEED_CHRONIC_BODY",
+        "SEED_AGE26_PRIORITY",
+        "SEED_GLOBAL_IMAGE",
+        "SEED_SELF_OPTIMIZATION",
+        "SEED_YOUNG_SUCCESSOR",
+        "SEED_HOME_INSTITUTION",
+        "SEED_RECORD_CHASE",
+        "SEED_PEAK_LOAD",
+        "SEED_DOCUMENTARY_ACCESS",
+        "SEED_PUBLIC_RIVALRY",
+        "SEED_MENTOR_ADVICE",
+        "SEED_WEALTH_STRUCTURE",
+        "SEED_HOME_OWNERSHIP",
+        "SEED_PERSONAL_BRAND_INDEPENDENCE",
+        "SEED_POSITIONAL_REINVENTION",
+        "SEED_GLOBAL_AWARD_BEHAVIOR",
+        "SEED_FAN_FRACTURE",
+        "SEED_SURGERY_TIMING",
+        "SEED_NATIONAL_CAPTAINCY",
+        "SEED_RECORD_PUBLIC_TONE",
+        "SEED_WEALTHY_PEAK_EXIT",
+        "SEED_EARLY_HOME_RETURN",
+        "SEED_FIRST_PEAK_DIP",
+        "SEED_AGE30_PRIORITY"
+      ],
+      "noProducerAndNoConsumer": [],
+      "originEventsMissing": [],
+      "declaredReadMismatches": [
+        {
+          "eventId": "CEVT_24_CHAT_01",
+          "seedId": "SEED_PRIVATE_CHAT"
+        },
+        {
+          "eventId": "CEVT_24_FAM_02",
+          "seedId": "SEED_FAMILY_BUSINESS"
+        },
+        {
+          "eventId": "CEVT_25_BODY_02",
+          "seedId": "SEED_LOAD_MANAGEMENT"
+        },
+        {
+          "eventId": "CEVT_30_BODY_01",
+          "seedId": "SEED_PEAK_LOAD"
+        },
+        {
+          "eventId": "CEVT_30_PROJECT_01",
+          "seedId": "SEED_PROJECT_FACE"
+        },
+        {
+          "eventId": "CEVT_30_HOME_01",
+          "seedId": "SEED_HOME_INSTITUTION"
+        },
+        {
+          "eventId": "CEVT_30_AGENT_01",
+          "seedId": "SEED_AGENT_CONFLICT_PEAK"
+        },
+        {
+          "eventId": "CEVT_30_RIVAL_01",
+          "seedId": "SEED_PUBLIC_RIVALRY"
+        },
+        {
+          "eventId": "CEVT_31_SUCCESSOR_01",
+          "seedId": "SEED_YOUNG_SUCCESSOR"
+        },
+        {
+          "eventId": "CEVT_31_BUSINESS_01",
+          "seedId": "SEED_WEALTH_STRUCTURE"
+        },
+        {
+          "eventId": "CEVT_32_HOME_01",
+          "seedId": "SEED_HOME_INSTITUTION"
+        },
+        {
+          "eventId": "CEVT_33_RECORD_01",
+          "seedId": "SEED_RECORD_CHASE"
+        }
+      ]
+    },
+    {
+      "owner": "t51/canon-30-34",
+      "canonicalBlocks": [
+        "30-34"
+      ],
+      "catalogSegments": [
+        "SEED_CATALOG_30_34"
+      ],
+      "counts": {
+        "total": 52,
+        "runtimeProduced": 48,
+        "withoutRuntimeProducer": 4,
+        "withAnyConsumer": 18,
+        "withoutAnyConsumer": 34,
+        "withExplicitTerminal": 0,
+        "withoutExplicitTerminal": 52,
+        "finiteAgeWindow": 0,
+        "openEndedWithoutTerminalTransition": 52,
+        "noProducerAndNoConsumer": 3,
+        "originEventsMissing": 52,
+        "declaredReadMismatches": 7
+      },
+      "seeds": [
+        "SEED_VETERAN_LABEL",
+        "SEED_AGE30_CONTRACT",
+        "SEED_MATCH_SELECTIVITY",
+        "SEED_LAST_BIG_MOVE_WINDOW",
+        "SEED_AGENT_LAST_CONTRACT",
+        "SEED_NATIONAL_PHASEDOWN",
+        "SEED_DORSAL_SUCCESSION",
+        "SEED_FAMILY_ANCHOR",
+        "SEED_RELOCATION_LIMIT",
+        "SEED_MEDICAL_AUTHORITY",
+        "SEED_BIG_GAME_ROTATION_30",
+        "SEED_FALSE_RESURGENCE",
+        "SEED_ROLE_COMMUNICATION",
+        "SEED_CAPTAIN_HANDOVER",
+        "SEED_MILESTONE_CHASE_500",
+        "SEED_PAIN_WITHOUT_SCAN",
+        "SEED_OLD_NETWORK_FAVOR",
+        "SEED_FALSE_ULTIMATUM",
+        "SEED_NATIONAL_ABSENCE",
+        "SEED_SPECIALIST_BIGCLUB",
+        "SEED_SURGERY_31",
+        "SEED_LAST_BIG_MOVE_31",
+        "SEED_HOME_RETURN_31",
+        "SEED_SELF_REPRESENTATION_PREP",
+        "SEED_FORMAL_MENTOR",
+        "SEED_LEGACY_ACADEMY",
+        "SEED_COMEBACK_PACING",
+        "SEED_ROLE_REINVENTION_32",
+        "SEED_NEW_COACH_RESET",
+        "SEED_SQUAD_YOUTH_WAVE",
+        "SEED_CLUB_NT_LOAD_TENSION",
+        "SEED_MANAGED_FINAL_ROLE",
+        "SEED_BUSINESS_REPUTATION_SHOCK",
+        "SEED_ROLLING_CONTRACT",
+        "SEED_LATE_RICH_OFFER",
+        "SEED_LATE_CONTENDER_BENCH",
+        "SEED_HOME_CAPTAIN_OFFER",
+        "SEED_SELF_REPRESENTATION",
+        "SEED_LOW_STATS_HIGH_IMPACT",
+        "SEED_REPLACEMENT_BREAKOUT",
+        "SEED_FAN_LEGACY_BUFFER",
+        "SEED_TRAVEL_LOAD",
+        "SEED_FINAL_NT_SQUAD",
+        "SEED_BOSMAN_33",
+        "SEED_72H_LIMIT",
+        "SEED_RECORD_VS_BODY",
+        "SEED_VETERAN_LEADERSHIP_FINAL",
+        "SEED_FINAL_FOUR_WAYS",
+        "SEED_AGE34_PRIORITY",
+        "SEED_RETIREMENT_PUBLIC_TONE",
+        "SEED_HOME_PULL_PUBLIC",
+        "SEED_RETIREMENT_DISTANCE_PROFILE"
+      ],
+      "withoutRuntimeProducer": [
+        "SEED_AGENT_LAST_CONTRACT",
+        "SEED_FALSE_ULTIMATUM",
+        "SEED_NATIONAL_ABSENCE",
+        "SEED_SQUAD_YOUTH_WAVE"
+      ],
+      "withoutAnyConsumer": [
+        "SEED_VETERAN_LABEL",
+        "SEED_LAST_BIG_MOVE_WINDOW",
+        "SEED_DORSAL_SUCCESSION",
+        "SEED_BIG_GAME_ROTATION_30",
+        "SEED_FALSE_RESURGENCE",
+        "SEED_ROLE_COMMUNICATION",
+        "SEED_MILESTONE_CHASE_500",
+        "SEED_PAIN_WITHOUT_SCAN",
+        "SEED_OLD_NETWORK_FAVOR",
+        "SEED_FALSE_ULTIMATUM",
+        "SEED_NATIONAL_ABSENCE",
+        "SEED_SPECIALIST_BIGCLUB",
+        "SEED_LAST_BIG_MOVE_31",
+        "SEED_SELF_REPRESENTATION_PREP",
+        "SEED_FORMAL_MENTOR",
+        "SEED_LEGACY_ACADEMY",
+        "SEED_COMEBACK_PACING",
+        "SEED_SQUAD_YOUTH_WAVE",
+        "SEED_BUSINESS_REPUTATION_SHOCK",
+        "SEED_ROLLING_CONTRACT",
+        "SEED_LATE_RICH_OFFER",
+        "SEED_LATE_CONTENDER_BENCH",
+        "SEED_HOME_CAPTAIN_OFFER",
+        "SEED_SELF_REPRESENTATION",
+        "SEED_LOW_STATS_HIGH_IMPACT",
+        "SEED_TRAVEL_LOAD",
+        "SEED_FINAL_NT_SQUAD",
+        "SEED_72H_LIMIT",
+        "SEED_RECORD_VS_BODY",
+        "SEED_VETERAN_LEADERSHIP_FINAL",
+        "SEED_FINAL_FOUR_WAYS",
+        "SEED_AGE34_PRIORITY",
+        "SEED_HOME_PULL_PUBLIC",
+        "SEED_RETIREMENT_DISTANCE_PROFILE"
+      ],
+      "withoutExplicitTerminal": [
+        "SEED_VETERAN_LABEL",
+        "SEED_AGE30_CONTRACT",
+        "SEED_MATCH_SELECTIVITY",
+        "SEED_LAST_BIG_MOVE_WINDOW",
+        "SEED_AGENT_LAST_CONTRACT",
+        "SEED_NATIONAL_PHASEDOWN",
+        "SEED_DORSAL_SUCCESSION",
+        "SEED_FAMILY_ANCHOR",
+        "SEED_RELOCATION_LIMIT",
+        "SEED_MEDICAL_AUTHORITY",
+        "SEED_BIG_GAME_ROTATION_30",
+        "SEED_FALSE_RESURGENCE",
+        "SEED_ROLE_COMMUNICATION",
+        "SEED_CAPTAIN_HANDOVER",
+        "SEED_MILESTONE_CHASE_500",
+        "SEED_PAIN_WITHOUT_SCAN",
+        "SEED_OLD_NETWORK_FAVOR",
+        "SEED_FALSE_ULTIMATUM",
+        "SEED_NATIONAL_ABSENCE",
+        "SEED_SPECIALIST_BIGCLUB",
+        "SEED_SURGERY_31",
+        "SEED_LAST_BIG_MOVE_31",
+        "SEED_HOME_RETURN_31",
+        "SEED_SELF_REPRESENTATION_PREP",
+        "SEED_FORMAL_MENTOR",
+        "SEED_LEGACY_ACADEMY",
+        "SEED_COMEBACK_PACING",
+        "SEED_ROLE_REINVENTION_32",
+        "SEED_NEW_COACH_RESET",
+        "SEED_SQUAD_YOUTH_WAVE",
+        "SEED_CLUB_NT_LOAD_TENSION",
+        "SEED_MANAGED_FINAL_ROLE",
+        "SEED_BUSINESS_REPUTATION_SHOCK",
+        "SEED_ROLLING_CONTRACT",
+        "SEED_LATE_RICH_OFFER",
+        "SEED_LATE_CONTENDER_BENCH",
+        "SEED_HOME_CAPTAIN_OFFER",
+        "SEED_SELF_REPRESENTATION",
+        "SEED_LOW_STATS_HIGH_IMPACT",
+        "SEED_REPLACEMENT_BREAKOUT",
+        "SEED_FAN_LEGACY_BUFFER",
+        "SEED_TRAVEL_LOAD",
+        "SEED_FINAL_NT_SQUAD",
+        "SEED_BOSMAN_33",
+        "SEED_72H_LIMIT",
+        "SEED_RECORD_VS_BODY",
+        "SEED_VETERAN_LEADERSHIP_FINAL",
+        "SEED_FINAL_FOUR_WAYS",
+        "SEED_AGE34_PRIORITY",
+        "SEED_RETIREMENT_PUBLIC_TONE",
+        "SEED_HOME_PULL_PUBLIC",
+        "SEED_RETIREMENT_DISTANCE_PROFILE"
+      ],
+      "finiteAgeWindow": [],
+      "openEndedWithoutTerminalTransition": [
+        "SEED_VETERAN_LABEL",
+        "SEED_AGE30_CONTRACT",
+        "SEED_MATCH_SELECTIVITY",
+        "SEED_LAST_BIG_MOVE_WINDOW",
+        "SEED_AGENT_LAST_CONTRACT",
+        "SEED_NATIONAL_PHASEDOWN",
+        "SEED_DORSAL_SUCCESSION",
+        "SEED_FAMILY_ANCHOR",
+        "SEED_RELOCATION_LIMIT",
+        "SEED_MEDICAL_AUTHORITY",
+        "SEED_BIG_GAME_ROTATION_30",
+        "SEED_FALSE_RESURGENCE",
+        "SEED_ROLE_COMMUNICATION",
+        "SEED_CAPTAIN_HANDOVER",
+        "SEED_MILESTONE_CHASE_500",
+        "SEED_PAIN_WITHOUT_SCAN",
+        "SEED_OLD_NETWORK_FAVOR",
+        "SEED_FALSE_ULTIMATUM",
+        "SEED_NATIONAL_ABSENCE",
+        "SEED_SPECIALIST_BIGCLUB",
+        "SEED_SURGERY_31",
+        "SEED_LAST_BIG_MOVE_31",
+        "SEED_HOME_RETURN_31",
+        "SEED_SELF_REPRESENTATION_PREP",
+        "SEED_FORMAL_MENTOR",
+        "SEED_LEGACY_ACADEMY",
+        "SEED_COMEBACK_PACING",
+        "SEED_ROLE_REINVENTION_32",
+        "SEED_NEW_COACH_RESET",
+        "SEED_SQUAD_YOUTH_WAVE",
+        "SEED_CLUB_NT_LOAD_TENSION",
+        "SEED_MANAGED_FINAL_ROLE",
+        "SEED_BUSINESS_REPUTATION_SHOCK",
+        "SEED_ROLLING_CONTRACT",
+        "SEED_LATE_RICH_OFFER",
+        "SEED_LATE_CONTENDER_BENCH",
+        "SEED_HOME_CAPTAIN_OFFER",
+        "SEED_SELF_REPRESENTATION",
+        "SEED_LOW_STATS_HIGH_IMPACT",
+        "SEED_REPLACEMENT_BREAKOUT",
+        "SEED_FAN_LEGACY_BUFFER",
+        "SEED_TRAVEL_LOAD",
+        "SEED_FINAL_NT_SQUAD",
+        "SEED_BOSMAN_33",
+        "SEED_72H_LIMIT",
+        "SEED_RECORD_VS_BODY",
+        "SEED_VETERAN_LEADERSHIP_FINAL",
+        "SEED_FINAL_FOUR_WAYS",
+        "SEED_AGE34_PRIORITY",
+        "SEED_RETIREMENT_PUBLIC_TONE",
+        "SEED_HOME_PULL_PUBLIC",
+        "SEED_RETIREMENT_DISTANCE_PROFILE"
+      ],
+      "noProducerAndNoConsumer": [
+        "SEED_FALSE_ULTIMATUM",
+        "SEED_NATIONAL_ABSENCE",
+        "SEED_SQUAD_YOUTH_WAVE"
+      ],
+      "originEventsMissing": [
+        {
+          "id": "SEED_VETERAN_LABEL",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_AGE30_CONTRACT",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_MATCH_SELECTIVITY",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_LAST_BIG_MOVE_WINDOW",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_AGENT_LAST_CONTRACT",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_NATIONAL_PHASEDOWN",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_DORSAL_SUCCESSION",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_FAMILY_ANCHOR",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_RELOCATION_LIMIT",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_MEDICAL_AUTHORITY",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_BIG_GAME_ROTATION_30",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_FALSE_RESURGENCE",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_ROLE_COMMUNICATION",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_CAPTAIN_HANDOVER",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_MILESTONE_CHASE_500",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_PAIN_WITHOUT_SCAN",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_OLD_NETWORK_FAVOR",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_FALSE_ULTIMATUM",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_NATIONAL_ABSENCE",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_SPECIALIST_BIGCLUB",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_SURGERY_31",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_LAST_BIG_MOVE_31",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_HOME_RETURN_31",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_SELF_REPRESENTATION_PREP",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_FORMAL_MENTOR",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_LEGACY_ACADEMY",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_COMEBACK_PACING",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_ROLE_REINVENTION_32",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_NEW_COACH_RESET",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_SQUAD_YOUTH_WAVE",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_CLUB_NT_LOAD_TENSION",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_MANAGED_FINAL_ROLE",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_BUSINESS_REPUTATION_SHOCK",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_ROLLING_CONTRACT",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_LATE_RICH_OFFER",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_LATE_CONTENDER_BENCH",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_HOME_CAPTAIN_OFFER",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_SELF_REPRESENTATION",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_LOW_STATS_HIGH_IMPACT",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_REPLACEMENT_BREAKOUT",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_FAN_LEGACY_BUFFER",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_TRAVEL_LOAD",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_FINAL_NT_SQUAD",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_BOSMAN_33",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_72H_LIMIT",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_RECORD_VS_BODY",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_VETERAN_LEADERSHIP_FINAL",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_FINAL_FOUR_WAYS",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_AGE34_PRIORITY",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_RETIREMENT_PUBLIC_TONE",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_HOME_PULL_PUBLIC",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        },
+        {
+          "id": "SEED_RETIREMENT_DISTANCE_PROFILE",
+          "originEventsMissing": [
+            "PASADA_6_30_34"
+          ]
+        }
+      ],
+      "declaredReadMismatches": [
+        {
+          "eventId": "CEVT_31_SURGERY_01",
+          "seedId": "SEED_SURGERY_31"
+        },
+        {
+          "eventId": "CEVT_31_COACH_01",
+          "seedId": "SEED_NEW_COACH_RESET"
+        },
+        {
+          "eventId": "CEVT_31_NTLOAD_01",
+          "seedId": "SEED_CLUB_NT_LOAD_TENSION"
+        },
+        {
+          "eventId": "CEVT_31_FINAL_01",
+          "seedId": "SEED_MANAGED_FINAL_ROLE"
+        },
+        {
+          "eventId": "CEVT_32_REPLACE_01",
+          "seedId": "SEED_REPLACEMENT_BREAKOUT"
+        },
+        {
+          "eventId": "CEVT_32_BOSMAN_01",
+          "seedId": "SEED_BOSMAN_33"
+        },
+        {
+          "eventId": "CEVT_32_FAN_01",
+          "seedId": "SEED_FAN_LEGACY_BUFFER"
+        }
+      ]
+    },
+    {
+      "owner": "t51/canon-34plus",
+      "canonicalBlocks": [
+        "34+"
+      ],
+      "catalogSegments": [
+        "SEED_CATALOG_34_PLUS"
+      ],
+      "counts": {
+        "total": 68,
+        "runtimeProduced": 54,
+        "withoutRuntimeProducer": 14,
+        "withAnyConsumer": 0,
+        "withoutAnyConsumer": 68,
+        "withExplicitTerminal": 0,
+        "withoutExplicitTerminal": 68,
+        "finiteAgeWindow": 0,
+        "openEndedWithoutTerminalTransition": 68,
+        "noProducerAndNoConsumer": 14,
+        "originEventsMissing": 0,
+        "declaredReadMismatches": 0
+      },
+      "seeds": [
+        "SEED_FORM_VS_PLAN",
+        "SEED_PEAK_BODY_MEMORY",
+        "SEED_PEAK_ROLE_LEGACY",
+        "SEED_CONTRACT_REPUTATION",
+        "SEED_PUBLIC_POLARIZATION",
+        "SEED_CLUB_POWER_MEMORY",
+        "SEED_FINALS_MEMORY",
+        "SEED_NATIONAL_LEGACY",
+        "SEED_WEALTH_LEGACY",
+        "SEED_AGENT_ENDGAME",
+        "SEED_FAMILY_RELOCATION",
+        "SEED_VETERAN_MARKET_SIGNAL",
+        "SEED_MEDICAL_LONG_MEMORY",
+        "SEED_HOME_RETURN_SIGNAL",
+        "SEED_AGE34_REALITY",
+        "SEED_VETERAN_PAYCUT",
+        "SEED_FINAL_NT_POSTURE",
+        "SEED_FINAL_HOME_WINDOW",
+        "SEED_LAST_AGENT_GAMBLE",
+        "SEED_28_MATCH_PLAN",
+        "SEED_FINAL_DORSAL",
+        "SEED_DIGNIFIED_EXIT_CLAUSE",
+        "SEED_FINAL_ROLE_ACCEPTANCE",
+        "SEED_SUCCESSOR_ALLIANCE",
+        "SEED_POST_MATCH_PAIN",
+        "SEED_LAST_HERO_MOMENT",
+        "SEED_NT_FIRST_OMISSION_LATE",
+        "SEED_FAREWELL_CROWD_POWER",
+        "SEED_TEAM_WINS_WITHOUT_YOU",
+        "SEED_MARCH_SILENCE",
+        "SEED_THREE_VERSIONS_35",
+        "SEED_AVAILABILITY_CONTRACT",
+        "SEED_FINAL_RELOCATION_TRADEOFF",
+        "SEED_FAREWELL_AS_LEVERAGE",
+        "SEED_PUBLIC_MYTH_FINAL",
+        "SEED_PLAYER_LIAISON_ROLE",
+        "SEED_SLOW_PRESEASON_35",
+        "SEED_FINAL_AGENT_STRUCTURE",
+        "SEED_FINAL_REINVENTION",
+        "SEED_FIVE_MATCHES_UNUSED",
+        "SEED_RECORD_PASSED",
+        "SEED_EMERGENCY_NT_RETURN",
+        "SEED_LAST_JANUARY_MOVE",
+        "SEED_LAST_FINAL_BENCH",
+        "SEED_HOME_SUCCESS_WITHOUT_YOU",
+        "SEED_RETIREMENT_MARKETING",
+        "SEED_AGE36_LONG_DEAL",
+        "SEED_COMPETITION_SELECTIVITY",
+        "SEED_YOUNGER_COACH",
+        "SEED_700_MATCH_CHOICE",
+        "SEED_PEER_RETIREMENT_MIRROR",
+        "SEED_DROP_LEVEL_TO_PLAY",
+        "SEED_POST_CAREER_BODY_RISK",
+        "SEED_THREE_MONTH_CONTRACT",
+        "SEED_TEN_MATCH_HOME_RETURN",
+        "SEED_FAREWELL_PENALTY",
+        "SEED_LAST_HUGE_OFFER",
+        "SEED_MARKET_SILENCE_END",
+        "SEED_MARKET_FLOOR_FINAL",
+        "SEED_FAREWELL_ANNOUNCEMENT_TIMING",
+        "SEED_FINAL_FAMILY_CONVERSATION",
+        "SEED_LAST_REHAB_DECISION",
+        "SEED_RETIRE_ON_HIGH_CHOICE",
+        "SEED_RETIRE_AFTER_LOW",
+        "SEED_DISCARDED_REBIRTH_FINAL",
+        "SEED_RETIREMENT_ANNOUNCEMENT_PATH",
+        "SEED_LAST_MATCH_SHAPE",
+        "SEED_FAREWELL_CONTROL_FINAL"
+      ],
+      "withoutRuntimeProducer": [
+        "SEED_FORM_VS_PLAN",
+        "SEED_PEAK_BODY_MEMORY",
+        "SEED_PEAK_ROLE_LEGACY",
+        "SEED_CONTRACT_REPUTATION",
+        "SEED_PUBLIC_POLARIZATION",
+        "SEED_CLUB_POWER_MEMORY",
+        "SEED_FINALS_MEMORY",
+        "SEED_NATIONAL_LEGACY",
+        "SEED_WEALTH_LEGACY",
+        "SEED_AGENT_ENDGAME",
+        "SEED_FAMILY_RELOCATION",
+        "SEED_VETERAN_MARKET_SIGNAL",
+        "SEED_MEDICAL_LONG_MEMORY",
+        "SEED_HOME_RETURN_SIGNAL"
+      ],
+      "withoutAnyConsumer": [
+        "SEED_FORM_VS_PLAN",
+        "SEED_PEAK_BODY_MEMORY",
+        "SEED_PEAK_ROLE_LEGACY",
+        "SEED_CONTRACT_REPUTATION",
+        "SEED_PUBLIC_POLARIZATION",
+        "SEED_CLUB_POWER_MEMORY",
+        "SEED_FINALS_MEMORY",
+        "SEED_NATIONAL_LEGACY",
+        "SEED_WEALTH_LEGACY",
+        "SEED_AGENT_ENDGAME",
+        "SEED_FAMILY_RELOCATION",
+        "SEED_VETERAN_MARKET_SIGNAL",
+        "SEED_MEDICAL_LONG_MEMORY",
+        "SEED_HOME_RETURN_SIGNAL",
+        "SEED_AGE34_REALITY",
+        "SEED_VETERAN_PAYCUT",
+        "SEED_FINAL_NT_POSTURE",
+        "SEED_FINAL_HOME_WINDOW",
+        "SEED_LAST_AGENT_GAMBLE",
+        "SEED_28_MATCH_PLAN",
+        "SEED_FINAL_DORSAL",
+        "SEED_DIGNIFIED_EXIT_CLAUSE",
+        "SEED_FINAL_ROLE_ACCEPTANCE",
+        "SEED_SUCCESSOR_ALLIANCE",
+        "SEED_POST_MATCH_PAIN",
+        "SEED_LAST_HERO_MOMENT",
+        "SEED_NT_FIRST_OMISSION_LATE",
+        "SEED_FAREWELL_CROWD_POWER",
+        "SEED_TEAM_WINS_WITHOUT_YOU",
+        "SEED_MARCH_SILENCE",
+        "SEED_THREE_VERSIONS_35",
+        "SEED_AVAILABILITY_CONTRACT",
+        "SEED_FINAL_RELOCATION_TRADEOFF",
+        "SEED_FAREWELL_AS_LEVERAGE",
+        "SEED_PUBLIC_MYTH_FINAL",
+        "SEED_PLAYER_LIAISON_ROLE",
+        "SEED_SLOW_PRESEASON_35",
+        "SEED_FINAL_AGENT_STRUCTURE",
+        "SEED_FINAL_REINVENTION",
+        "SEED_FIVE_MATCHES_UNUSED",
+        "SEED_RECORD_PASSED",
+        "SEED_EMERGENCY_NT_RETURN",
+        "SEED_LAST_JANUARY_MOVE",
+        "SEED_LAST_FINAL_BENCH",
+        "SEED_HOME_SUCCESS_WITHOUT_YOU",
+        "SEED_RETIREMENT_MARKETING",
+        "SEED_AGE36_LONG_DEAL",
+        "SEED_COMPETITION_SELECTIVITY",
+        "SEED_YOUNGER_COACH",
+        "SEED_700_MATCH_CHOICE",
+        "SEED_PEER_RETIREMENT_MIRROR",
+        "SEED_DROP_LEVEL_TO_PLAY",
+        "SEED_POST_CAREER_BODY_RISK",
+        "SEED_THREE_MONTH_CONTRACT",
+        "SEED_TEN_MATCH_HOME_RETURN",
+        "SEED_FAREWELL_PENALTY",
+        "SEED_LAST_HUGE_OFFER",
+        "SEED_MARKET_SILENCE_END",
+        "SEED_MARKET_FLOOR_FINAL",
+        "SEED_FAREWELL_ANNOUNCEMENT_TIMING",
+        "SEED_FINAL_FAMILY_CONVERSATION",
+        "SEED_LAST_REHAB_DECISION",
+        "SEED_RETIRE_ON_HIGH_CHOICE",
+        "SEED_RETIRE_AFTER_LOW",
+        "SEED_DISCARDED_REBIRTH_FINAL",
+        "SEED_RETIREMENT_ANNOUNCEMENT_PATH",
+        "SEED_LAST_MATCH_SHAPE",
+        "SEED_FAREWELL_CONTROL_FINAL"
+      ],
+      "withoutExplicitTerminal": [
+        "SEED_FORM_VS_PLAN",
+        "SEED_PEAK_BODY_MEMORY",
+        "SEED_PEAK_ROLE_LEGACY",
+        "SEED_CONTRACT_REPUTATION",
+        "SEED_PUBLIC_POLARIZATION",
+        "SEED_CLUB_POWER_MEMORY",
+        "SEED_FINALS_MEMORY",
+        "SEED_NATIONAL_LEGACY",
+        "SEED_WEALTH_LEGACY",
+        "SEED_AGENT_ENDGAME",
+        "SEED_FAMILY_RELOCATION",
+        "SEED_VETERAN_MARKET_SIGNAL",
+        "SEED_MEDICAL_LONG_MEMORY",
+        "SEED_HOME_RETURN_SIGNAL",
+        "SEED_AGE34_REALITY",
+        "SEED_VETERAN_PAYCUT",
+        "SEED_FINAL_NT_POSTURE",
+        "SEED_FINAL_HOME_WINDOW",
+        "SEED_LAST_AGENT_GAMBLE",
+        "SEED_28_MATCH_PLAN",
+        "SEED_FINAL_DORSAL",
+        "SEED_DIGNIFIED_EXIT_CLAUSE",
+        "SEED_FINAL_ROLE_ACCEPTANCE",
+        "SEED_SUCCESSOR_ALLIANCE",
+        "SEED_POST_MATCH_PAIN",
+        "SEED_LAST_HERO_MOMENT",
+        "SEED_NT_FIRST_OMISSION_LATE",
+        "SEED_FAREWELL_CROWD_POWER",
+        "SEED_TEAM_WINS_WITHOUT_YOU",
+        "SEED_MARCH_SILENCE",
+        "SEED_THREE_VERSIONS_35",
+        "SEED_AVAILABILITY_CONTRACT",
+        "SEED_FINAL_RELOCATION_TRADEOFF",
+        "SEED_FAREWELL_AS_LEVERAGE",
+        "SEED_PUBLIC_MYTH_FINAL",
+        "SEED_PLAYER_LIAISON_ROLE",
+        "SEED_SLOW_PRESEASON_35",
+        "SEED_FINAL_AGENT_STRUCTURE",
+        "SEED_FINAL_REINVENTION",
+        "SEED_FIVE_MATCHES_UNUSED",
+        "SEED_RECORD_PASSED",
+        "SEED_EMERGENCY_NT_RETURN",
+        "SEED_LAST_JANUARY_MOVE",
+        "SEED_LAST_FINAL_BENCH",
+        "SEED_HOME_SUCCESS_WITHOUT_YOU",
+        "SEED_RETIREMENT_MARKETING",
+        "SEED_AGE36_LONG_DEAL",
+        "SEED_COMPETITION_SELECTIVITY",
+        "SEED_YOUNGER_COACH",
+        "SEED_700_MATCH_CHOICE",
+        "SEED_PEER_RETIREMENT_MIRROR",
+        "SEED_DROP_LEVEL_TO_PLAY",
+        "SEED_POST_CAREER_BODY_RISK",
+        "SEED_THREE_MONTH_CONTRACT",
+        "SEED_TEN_MATCH_HOME_RETURN",
+        "SEED_FAREWELL_PENALTY",
+        "SEED_LAST_HUGE_OFFER",
+        "SEED_MARKET_SILENCE_END",
+        "SEED_MARKET_FLOOR_FINAL",
+        "SEED_FAREWELL_ANNOUNCEMENT_TIMING",
+        "SEED_FINAL_FAMILY_CONVERSATION",
+        "SEED_LAST_REHAB_DECISION",
+        "SEED_RETIRE_ON_HIGH_CHOICE",
+        "SEED_RETIRE_AFTER_LOW",
+        "SEED_DISCARDED_REBIRTH_FINAL",
+        "SEED_RETIREMENT_ANNOUNCEMENT_PATH",
+        "SEED_LAST_MATCH_SHAPE",
+        "SEED_FAREWELL_CONTROL_FINAL"
+      ],
+      "finiteAgeWindow": [],
+      "openEndedWithoutTerminalTransition": [
+        "SEED_FORM_VS_PLAN",
+        "SEED_PEAK_BODY_MEMORY",
+        "SEED_PEAK_ROLE_LEGACY",
+        "SEED_CONTRACT_REPUTATION",
+        "SEED_PUBLIC_POLARIZATION",
+        "SEED_CLUB_POWER_MEMORY",
+        "SEED_FINALS_MEMORY",
+        "SEED_NATIONAL_LEGACY",
+        "SEED_WEALTH_LEGACY",
+        "SEED_AGENT_ENDGAME",
+        "SEED_FAMILY_RELOCATION",
+        "SEED_VETERAN_MARKET_SIGNAL",
+        "SEED_MEDICAL_LONG_MEMORY",
+        "SEED_HOME_RETURN_SIGNAL",
+        "SEED_AGE34_REALITY",
+        "SEED_VETERAN_PAYCUT",
+        "SEED_FINAL_NT_POSTURE",
+        "SEED_FINAL_HOME_WINDOW",
+        "SEED_LAST_AGENT_GAMBLE",
+        "SEED_28_MATCH_PLAN",
+        "SEED_FINAL_DORSAL",
+        "SEED_DIGNIFIED_EXIT_CLAUSE",
+        "SEED_FINAL_ROLE_ACCEPTANCE",
+        "SEED_SUCCESSOR_ALLIANCE",
+        "SEED_POST_MATCH_PAIN",
+        "SEED_LAST_HERO_MOMENT",
+        "SEED_NT_FIRST_OMISSION_LATE",
+        "SEED_FAREWELL_CROWD_POWER",
+        "SEED_TEAM_WINS_WITHOUT_YOU",
+        "SEED_MARCH_SILENCE",
+        "SEED_THREE_VERSIONS_35",
+        "SEED_AVAILABILITY_CONTRACT",
+        "SEED_FINAL_RELOCATION_TRADEOFF",
+        "SEED_FAREWELL_AS_LEVERAGE",
+        "SEED_PUBLIC_MYTH_FINAL",
+        "SEED_PLAYER_LIAISON_ROLE",
+        "SEED_SLOW_PRESEASON_35",
+        "SEED_FINAL_AGENT_STRUCTURE",
+        "SEED_FINAL_REINVENTION",
+        "SEED_FIVE_MATCHES_UNUSED",
+        "SEED_RECORD_PASSED",
+        "SEED_EMERGENCY_NT_RETURN",
+        "SEED_LAST_JANUARY_MOVE",
+        "SEED_LAST_FINAL_BENCH",
+        "SEED_HOME_SUCCESS_WITHOUT_YOU",
+        "SEED_RETIREMENT_MARKETING",
+        "SEED_AGE36_LONG_DEAL",
+        "SEED_COMPETITION_SELECTIVITY",
+        "SEED_YOUNGER_COACH",
+        "SEED_700_MATCH_CHOICE",
+        "SEED_PEER_RETIREMENT_MIRROR",
+        "SEED_DROP_LEVEL_TO_PLAY",
+        "SEED_POST_CAREER_BODY_RISK",
+        "SEED_THREE_MONTH_CONTRACT",
+        "SEED_TEN_MATCH_HOME_RETURN",
+        "SEED_FAREWELL_PENALTY",
+        "SEED_LAST_HUGE_OFFER",
+        "SEED_MARKET_SILENCE_END",
+        "SEED_MARKET_FLOOR_FINAL",
+        "SEED_FAREWELL_ANNOUNCEMENT_TIMING",
+        "SEED_FINAL_FAMILY_CONVERSATION",
+        "SEED_LAST_REHAB_DECISION",
+        "SEED_RETIRE_ON_HIGH_CHOICE",
+        "SEED_RETIRE_AFTER_LOW",
+        "SEED_DISCARDED_REBIRTH_FINAL",
+        "SEED_RETIREMENT_ANNOUNCEMENT_PATH",
+        "SEED_LAST_MATCH_SHAPE",
+        "SEED_FAREWELL_CONTROL_FINAL"
+      ],
+      "noProducerAndNoConsumer": [
+        "SEED_FORM_VS_PLAN",
+        "SEED_PEAK_BODY_MEMORY",
+        "SEED_PEAK_ROLE_LEGACY",
+        "SEED_CONTRACT_REPUTATION",
+        "SEED_PUBLIC_POLARIZATION",
+        "SEED_CLUB_POWER_MEMORY",
+        "SEED_FINALS_MEMORY",
+        "SEED_NATIONAL_LEGACY",
+        "SEED_WEALTH_LEGACY",
+        "SEED_AGENT_ENDGAME",
+        "SEED_FAMILY_RELOCATION",
+        "SEED_VETERAN_MARKET_SIGNAL",
+        "SEED_MEDICAL_LONG_MEMORY",
+        "SEED_HOME_RETURN_SIGNAL"
+      ],
+      "originEventsMissing": [],
+      "declaredReadMismatches": []
+    }
+  ]
+}

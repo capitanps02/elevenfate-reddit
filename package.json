@@ -77,7 +77,16 @@
     "test:player-actions-ui": "npm run build && node --test scripts/test-player-actions-ui-contract.mjs",
     "test:football-balance": "npm run build && node --test scripts/test-football-catalog.mjs scripts/test-football-catalog-balance.mjs",
     "test:football-persistence": "npm run build && node --test scripts/test-football-database-v2-persistence.mjs scripts/test-saves.mjs scripts/test-persistence.mjs",
-    "test:football-platforms": "npm run build:playcanvas && node --test scripts/test-club-names.mjs scripts/test-playcanvas.mjs && npm run android:offline && node --test scripts/test-android-offline.mjs"
+    "test:football-platforms": "npm run build:playcanvas && node --test scripts/test-club-names.mjs scripts/test-playcanvas.mjs && npm run android:offline && node --test scripts/test-android-offline.mjs",
+    "android:qa": "npm run android:offline && node scripts/build-android-apk.mjs --qa",
+    "android:release": "npm run android:offline && node scripts/build-android-apk.mjs --release --bundle",
+    "android:check": "npm run android:offline && node scripts/build-android-apk.mjs --check",
+    "qa:android:careers": "node scripts/qa-android-careers.mjs",
+    "audit:android": "node scripts/audit-android-package.mjs",
+    "android:prepare-upload": "node scripts/prepare-android-upload-key.mjs",
+    "android:playtest": "npm run android:offline && node scripts/build-android-apk.mjs --playtest",
+    "test:android:play-bundle": "node scripts/test-android-play-bundle.mjs",
+    "android:publication-check": "node scripts/check-android-publication.mjs"
   },
   "devDependencies": {
     "typescript": "5.8.3"

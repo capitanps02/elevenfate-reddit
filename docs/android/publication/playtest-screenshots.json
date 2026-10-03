@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-02",
+  "versionCode": 6,
+  "buildId": "20261002.a236b3990daa",
+  "bundleSha256": "b5cc4848836b3b003b15d3274cd40211ba5d5c87c409c080cb5bd81b379e384e",
+  "passed": true,
+  "nativeSurfaceChecked": true,
+  "nativeCaptureWithVisualStateCallback": true,
+  "screenshots": [
+    {
+      "file": "graficos/capturas-v6/01-inicio.png",
+      "width": 1080,
+      "height": 1920,
+      "sha256": "4885b4ab902dd43019d8be0c737c2db5da20d2d5afb3cf1021272171d9df49fc"
+    },
+    {
+      "file": "graficos/capturas-v6/02-carrera.png",
+      "width": 1080,
+      "height": 1920,
+      "sha256": "32ed247c36d0c8fbc9cef9476e89fcf6eb0a653bcf74f752a761f5088a7118ff"
+    },
+    {
+      "file": "graficos/capturas-v6/03-mundo.png",
+      "width": 1080,
+      "height": 1920,
+      "sha256": "a794761b42aceee424ab38f528f856b077ed101e22cdc66cffd718e0e494eb9e"
+    },
+    {
+      "file": "graficos/capturas-v6/04-partida.png",
+      "width": 1080,
+      "height": 1920,
+      "sha256": "8614cf5ab3814f094f841323c19f297aafa66b4c682ca28004ae91f2c910cf6a"
+    }
+  ],
+  "scope": "Real native screenshots from exact signed AAB splits at emulator 1080x1920; emulator API36; accepted after visual/active-window checks; not edited. Earlier attempts retained in work logs."
+}

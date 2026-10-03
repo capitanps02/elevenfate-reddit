@@ -1,0 +1,144 @@
+{
+  "checkedAt": "2026-10-02T11:37:13.052Z",
+  "bundleSha256": "abe1946be828d86d0a48a9f2a37b3e13bbbdb790b309e432f0ed57139102e7aa",
+  "internalArtifactReady": true,
+  "internalUploadReady": true,
+  "productionReady": false,
+  "monetizationReady": false,
+  "uploadedToPlay": true,
+  "checks": [
+    {
+      "id": "SIGN-01",
+      "stage": "internal",
+      "status": "PASS",
+      "detail": "Clave de subida configurada; credenciales no incluidas en el informe."
+    },
+    {
+      "id": "BUNDLE-01",
+      "stage": "internal",
+      "status": "PASS",
+      "detail": "AAB exacto firmado, recursos verificados y Lint sin errores."
+    },
+    {
+      "id": "RUNTIME-01",
+      "stage": "internal",
+      "status": "PASS",
+      "detail": "APK dividida desde AAB, elección/recuperación y superficie nativa sin diálogo de ANR comprobadas."
+    },
+    {
+      "id": "PRIVACY-LINK-01",
+      "stage": "internal",
+      "status": "PASS",
+      "detail": "Botón de privacidad de la build exacta y destino HTTPS comprobados con Instrumentation."
+    },
+    {
+      "id": "ACCOUNT-01",
+      "stage": "internal",
+      "status": "PASS",
+      "detail": "Alta de cuenta Play Console; estado observado: v5 uploaded, processed and saved as internal draft; review has one warning: no testers."
+    },
+    {
+      "id": "ACCOUNT-02",
+      "stage": "internal",
+      "status": "PASS",
+      "detail": "Acceso al panel y al canal interno confirmado en el portal."
+    },
+    {
+      "id": "PACKAGE-01",
+      "stage": "internal",
+      "status": "PASS",
+      "detail": "Identificador seleccionado desde la configuración existente. La primera subida lo fija en Play."
+    },
+    {
+      "id": "SIGN-02",
+      "stage": "operations",
+      "status": "PENDING",
+      "detail": "Copia cifrada de clave y contraseña fuera de este equipo recomendada; todavía no confirmada."
+    },
+    {
+      "id": "PRIVACY-01",
+      "stage": "production",
+      "status": "PASS",
+      "detail": "URL pública HTTPS configurada en release.properties."
+    },
+    {
+      "id": "PRIVACY-02",
+      "stage": "production",
+      "status": "PASS",
+      "detail": "Responsable/contacto, política accesible en app y ficha, verificación online y revisión del texto."
+    },
+    {
+      "id": "AUDIENCE-01",
+      "stage": "production",
+      "status": "PENDING",
+      "detail": "Revisión real de público, Families e IARC; no se da por hecha con un cambio de propiedad."
+    },
+    {
+      "id": "ADMOB-admobAppId",
+      "stage": "production",
+      "status": "PASS",
+      "detail": "Identificador real configurado: admobAppId."
+    },
+    {
+      "id": "ADMOB-interstitialId",
+      "stage": "production",
+      "status": "PASS",
+      "detail": "Identificador real configurado: interstitialId."
+    },
+    {
+      "id": "ADMOB-bannerId",
+      "stage": "production",
+      "status": "PASS",
+      "detail": "Identificador real configurado: bannerId."
+    },
+    {
+      "id": "ADS-01",
+      "stage": "production",
+      "status": "PENDING",
+      "detail": "Aceptar/rechazar/reabrir UMP, anuncios de prueba, interrupción/retorno y perfiles de edad verificados."
+    },
+    {
+      "id": "DATA-01",
+      "stage": "production",
+      "status": "PENDING",
+      "detail": "Declaración Data Safety coherente con la variante comercial y los SDK."
+    },
+    {
+      "id": "STORE-01",
+      "stage": "production",
+      "status": "PENDING",
+      "detail": "Ficha, recursos gráficos, contacto, países y declaración de anuncios completados."
+    },
+    {
+      "id": "DEVICE-01",
+      "stage": "production",
+      "status": "PENDING",
+      "detail": "Prueba en móvil ARM físico y cobertura de compatibilidad documentada."
+    },
+    {
+      "id": "CLOSED-01",
+      "stage": "production",
+      "status": "PENDING",
+      "detail": "Prueba cerrada exigida por la cuenta completada o exención acreditada, nunca supuesta."
+    },
+    {
+      "id": "PLAY-01",
+      "stage": "production",
+      "status": "PENDING",
+      "detail": "Acceso a producción aprobado por Play."
+    },
+    {
+      "id": "RELEASE-01",
+      "stage": "production",
+      "status": "PENDING",
+      "detail": "Nuevo AAB release firmado, versionCode superior al último subido y pruebas propias; playtest no es comercial."
+    },
+    {
+      "id": "ADMOB-REVIEW",
+      "stage": "monetization",
+      "status": "PENDING",
+      "detail": "Tienda vinculada, revisión de preparación/app-ads.txt y estado de cuenta resueltos según AdMob."
+    }
+  ],
+  "note": "Estados manuales sin evidencia permanecen pendientes. Pasar la firma/estructura local no acredita aceptación de Play. No se imprime ninguna contraseña."
+}

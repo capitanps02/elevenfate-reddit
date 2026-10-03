@@ -6,23 +6,78 @@
     "type": "IndexedDB",
     "key": "historia-jugador.android.offline.session.v1",
     "legacyMigration": "localStorage",
-    "androidRuntimeVerified": true
+    "androidRuntimeVerified": false
   },
   "origin": "https://appassets.androidplatform.net/assets/",
   "networkPolicy": {
-    "internetPermission": false,
+    "internetPermission": true,
+    "gameNetworkAccess": false,
+    "nativeNetworkPurpose": "AdMob-and-UMP",
     "connectSrc": "none",
     "externalUrls": []
   },
+  "buildInfo": {
+    "appVersion": "0.9.0",
+    "versionCode": 6,
+    "engineVersion": "0.8.0-t2.5",
+    "catalogVersion": "world-v2-a2-2026-09-28",
+    "gitSha": "68ed39383c80ffca9823980f35f43b1fe8897bdf",
+    "gitDirty": true,
+    "sourceHash": "a236b3990daa5ab36776499177874bf5886e8d797a3a80e511711dfdfd022116",
+    "buildId": "20261002.a236b3990daa",
+    "timestamp": "2026-10-02T12:08:19.904Z"
+  },
+  "optimizations": {
+    "extractedImages": 10,
+    "imageBytes": 7858235,
+    "activeClips": [
+      "cutscene_evt_18_agt_001_agente.webm",
+      "cutscene_evt_18_match_001_debut.webm",
+      "cutscene_evt_18_med_001_aductor.webm",
+      "cutscene_evt_18_prs_001_primera_prensa_v2.webm",
+      "cutscene_evt_20_abr_001_vestuario_idioma_v2.webm",
+      "cutscene_evt_20_life_001_primera_casa_v2.webm",
+      "cutscene_evt_21_cch_002_otro_entrenador.webm",
+      "cutscene_evt_21_money_001_contrato_familia.webm",
+      "cutscene_evt_22_ddl_001_deadline_intro.webm",
+      "cutscene_evt_23_match_001_partido_radar_v3.webm",
+      "cutscene_evt_23_nat_001_primera_llamada_v2.webm",
+      "cutscene_evt_24_med_001_isquio_v2.webm",
+      "cutscene_evt_24_mkt_001_tres_ofertas.webm",
+      "cutscene_evt_25_cap_001_brazalete.webm",
+      "cutscene_evt_26_clb_001_cara_proyecto_v2.webm",
+      "cutscene_evt_27_prs_001_documental.webm",
+      "cutscene_evt_28_gala_001_gala.webm",
+      "cutscene_evt_31_med_001_operacion_regreso.webm",
+      "cutscene_evt_31_rec_001_500_partidos.webm",
+      "cutscene_evt_33_prs_001_cuando_retiras_v2.webm",
+      "cutscene_evt_34_con_001_contrato_ultimo.webm",
+      "cutscene_evt_34_dorsal_001_heredero.webm",
+      "cutscene_evt_34_home_001_volver_casa.webm",
+      "cutscene_evt_37_announce_001_retirada.webm",
+      "cutscene_evt_ret_epilogue_despues_ruido.webm",
+      "cutscene_evt_ret_last_001_ultimo_tunel.webm",
+      "cutscene_generic_europe_noche_europea_01.webm",
+      "cutscene_generic_match_primera_accion_01.webm",
+      "cutscene_generic_selection_ultimo_torneo_01.webm",
+      "prologo_multihistoria_v3.webm"
+    ]
+  },
   "resources": {
-    "images": "data-uri-in-local.js",
-    "fonts": "system-only"
+    "images": "web/assets/images",
+    "fonts": "system-only",
+    "cutscenes": "web/assets/cutscenes"
   },
   "files": [
     {
+      "path": "build-info.json",
+      "bytes": 368,
+      "sha256": "a2f356d1a65fa97e797eae2903b9e7c58ecfc2ba7c9e299ac3936c1ec8287c69"
+    },
+    {
       "path": "dist/build-manifest.json",
-      "bytes": 45297,
-      "sha256": "b828420f47c3b8fd74f070cdcf83c6c0a082b3cf125f7c17d8aa97c3572d9f41"
+      "bytes": 45731,
+      "sha256": "bcc9f3ac8e88e5f0a5c4d42673e654c66688c61ca8729d55a620f07530c2c7d1"
     },
     {
       "path": "dist/catalog/canon-coverage.d.ts",
@@ -211,8 +266,8 @@
     },
     {
       "path": "dist/content/event-cutscenes.js",
-      "bytes": 5814,
-      "sha256": "e043511804f25f5138ac44a06efe4e5310595f99f0a336678a2fb6fb2f984c91"
+      "bytes": 5811,
+      "sha256": "026e867fbbb86c9e383d866dbae2067268c7e371914d74840d0867c99bd27ef1"
     },
     {
       "path": "dist/content/events/18_20/canonical-events.d.ts",
@@ -896,13 +951,13 @@
     },
     {
       "path": "dist/content/initial-state.d.ts",
-      "bytes": 125,
-      "sha256": "d34e5a10ebaa7cc28f1bf3e3c110b40a85c4c95f4e93a39abf488c689fe08efb"
+      "bytes": 153,
+      "sha256": "ce46d21a9b49a27383adbb51f3f3e436fac5f939ad77fd7dc036b85d44052987"
     },
     {
       "path": "dist/content/initial-state.js",
-      "bytes": 6206,
-      "sha256": "1029a2efdd10613cdebc3486275b2af7c4ab35b0d9d659730c9371101d543652"
+      "bytes": 6353,
+      "sha256": "3963d0379fadc63a1a9f76d9375d3db1fc8ba97bf2130494beb86d30b3eac052"
     },
     {
       "path": "dist/content/media-manifest.d.ts",
@@ -1005,6 +1060,16 @@
       "sha256": "05c052d4682197b0c3ba06f7a1e3ff027938fe0acb64223aeb9472c16703a1a7"
     },
     {
+      "path": "dist/core/player-identity.d.ts",
+      "bytes": 897,
+      "sha256": "3be5972c5fef94e3f05bd5a269c87222c12edd9da9084639a08c3c9197bee787"
+    },
+    {
+      "path": "dist/core/player-identity.js",
+      "bytes": 2507,
+      "sha256": "04fa0f6edb55636d80c3fece34b12cd3043f31c69dab32a3c2fd024975a4024e"
+    },
+    {
       "path": "dist/core/rng.d.ts",
       "bytes": 389,
       "sha256": "52617b32ce27696e4611e200868f7b7c5fb8bef82e47425ed6fb178ed3e5196b"
@@ -1016,8 +1081,8 @@
     },
     {
       "path": "dist/core/types.d.ts",
-      "bytes": 13583,
-      "sha256": "1cc19aaf374cd2905f6635b5cf0740358e06b66ab2c26c1b3fc29dea57e50ad4"
+      "bytes": 13753,
+      "sha256": "5ac1b92f8d3c06273998e07b254c363f2b570d8a974945adb225957f8aa934a7"
     },
     {
       "path": "dist/core/types.js",
@@ -1461,13 +1526,13 @@
     },
     {
       "path": "dist/save/validation.d.ts",
-      "bytes": 512,
-      "sha256": "db4ce88869ac2278df5d4626f6bf4d9fc7f1f58a5af3c0bf6a662f646b0a0276"
+      "bytes": 587,
+      "sha256": "6003d970f0fa3fa92dd639c44a1306a2f5623a8f8929adce83488201cc93ca92"
     },
     {
       "path": "dist/save/validation.js",
-      "bytes": 12533,
-      "sha256": "f7f88705465a2e7a2f40e67141253b1ab11ea3422aa056103d7a73fbc46ac28c"
+      "bytes": 13197,
+      "sha256": "03bbcfc460d39406a2f32d1318027cc23a5b2b54a3ab2b164b0f117174068b69"
     },
     {
       "path": "dist/session/auto-simulation.d.ts",
@@ -1490,14 +1555,24 @@
       "sha256": "25d0e731becdc64d28477ede5ebae7428bdd98c5d8c9c9d6379c7a88f5d7dfa3"
     },
     {
+      "path": "dist/session/content-migration-core.d.ts",
+      "bytes": 6649,
+      "sha256": "e8108b8e83224924b64f8774fa55333fdd48fe5b92abc5cb2b3418b600fed391"
+    },
+    {
+      "path": "dist/session/content-migration-core.js",
+      "bytes": 32400,
+      "sha256": "180b434a52d3804dcfbbd6d93676d2fbb0f7ed77831771dc1b0d630a95b0dd3a"
+    },
+    {
       "path": "dist/session/content-migration.d.ts",
-      "bytes": 6407,
-      "sha256": "5b552bdf2f807d306c23bf474fa872b1b12e1a3aaea223dc69ccee95d6228afc"
+      "bytes": 138,
+      "sha256": "04a3a7fd7926615d828b26fad0aa0f5c6b9588fb0c4ec0b1cbfca722126c555f"
     },
     {
       "path": "dist/session/content-migration.js",
-      "bytes": 32729,
-      "sha256": "54ff89d57fd20027ccd43674c9ea14887984639eaf7b9a5b3e3dc6da85a727f6"
+      "bytes": 1645,
+      "sha256": "d0b0d060d034e0f94be8f66461ea8abc9635bc477a1e2ec151837eaac8fa59f1"
     },
     {
       "path": "dist/session/decision-memories.d.ts",
@@ -1521,13 +1596,13 @@
     },
     {
       "path": "dist/session/game-session.d.ts",
-      "bytes": 8863,
-      "sha256": "454b279748a1df1aa6f0cbd2351d04cb2f9f330e861bc7d8ab4c8e0605e10113"
+      "bytes": 9120,
+      "sha256": "dba3439d7a124d7ada816361f9ebb7ccf29dd9dae7e7107ea5e8fdd5b47bb0e0"
     },
     {
       "path": "dist/session/game-session.js",
-      "bytes": 42930,
-      "sha256": "fccf3b53e2f9ff2f1daf5459cfa1d0774fb039511c031dd97742a021a140eb6c"
+      "bytes": 44764,
+      "sha256": "be25ec70da68eb750b96bbef31881af65cec670e8f567c7e25c05dcf0b817e90"
     },
     {
       "path": "dist/session/period-report.d.ts",
@@ -1581,13 +1656,13 @@
     },
     {
       "path": "dist/session/validate-session.d.ts",
-      "bytes": 571,
-      "sha256": "9cc24748c6a75312f8c3f633458974b9d7877e5a2a0176a1af26b8f3be435575"
+      "bytes": 576,
+      "sha256": "e1aabafe838693f02d3e132d801f94413e0af25c2645e200b01aebfa8ac54075"
     },
     {
       "path": "dist/session/validate-session.js",
-      "bytes": 23492,
-      "sha256": "94af7f580e0c98f5639f1cbef792cfc4a69207377194b7f73edf5c588ee0eeeb"
+      "bytes": 24232,
+      "sha256": "cd61efbab4a26cf2f491ad17308ab1c0e1eb00b8b3c710aca230e6d0955e7eb2"
     },
     {
       "path": "dist/simulation/adult-adapter.d.ts",
@@ -1981,8 +2056,213 @@
     },
     {
       "path": "index.html",
-      "bytes": 618,
-      "sha256": "8f6400c8ff1633ed1b1726c89e1ebba4b6551f51c58debef984f32df10d52940"
+      "bytes": 623,
+      "sha256": "bbb06dc18fab74b012b6a7121aef0073e7877c784ed85fcce77b3e1615cfccf8"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_18_agt_001_agente.webm",
+      "bytes": 551663,
+      "sha256": "c209bdceeb50ecd7c6c8cc0ce903e3b6292da4ee176b3fa6c8a6c112fccf2449"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_18_match_001_debut.webm",
+      "bytes": 1352026,
+      "sha256": "a7d77d6d69cbd8983e6e0dcb60cb53e6f2f50d4c22bc96bc3a838d3d68e83f80"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_18_med_001_aductor.webm",
+      "bytes": 977605,
+      "sha256": "9503986b67fa3b85daa752d3a6cd7adfa6d5a3c14122078bc0c89709d142e69c"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_18_prs_001_primera_prensa_v2.webm",
+      "bytes": 801812,
+      "sha256": "f1268a46190cfa348d47eff64ad55fb6eb6403ecaef854421c685eb1c46c738f"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_20_abr_001_vestuario_idioma_v2.webm",
+      "bytes": 1288742,
+      "sha256": "4c6674b19bd59c4ca1244b3997465c640a40f962fc4b9d1f18febcf7d5bcab66"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_20_life_001_primera_casa_v2.webm",
+      "bytes": 947413,
+      "sha256": "cfec4b23bbdfcbd514743d7925c86641c6de9eabcfd88ce47be5d6af5c71629b"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_21_cch_002_otro_entrenador.webm",
+      "bytes": 1008748,
+      "sha256": "0eb6a93a61a1b71335cbde0f5cd644e15e730c1095ef7e32777c9e47a7c0bc32"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_21_money_001_contrato_familia.webm",
+      "bytes": 901579,
+      "sha256": "cffda8b2f6187037800cff8dd2030197d741f22362fe0062e6cf96b8abc5834a"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_22_ddl_001_deadline_intro.webm",
+      "bytes": 442879,
+      "sha256": "33fc8d7878ca31386645e1a825c6e52109e4c55d2ce92b52ca40455c3eff15f3"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_23_match_001_partido_radar_v3.webm",
+      "bytes": 1932725,
+      "sha256": "09e93f50d395e66e13f81572782cf92423e05d3c7b4daee9f4a380504ed1f551"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_23_nat_001_primera_llamada_v2.webm",
+      "bytes": 524802,
+      "sha256": "f9211589c628c2da62f2852c95128e751c45b2c3ecbaed6851087b3f242f324e"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_24_med_001_isquio_v2.webm",
+      "bytes": 1542410,
+      "sha256": "010e1765779305aa66b0298bea716d6af780120f83f1c41bed292fc3ace19c83"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_24_mkt_001_tres_ofertas.webm",
+      "bytes": 591895,
+      "sha256": "5b499ff64574bae50c1ef7ba3efc91e1852c2e5c0cc48ca291d75fc985430597"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_25_cap_001_brazalete.webm",
+      "bytes": 1678753,
+      "sha256": "ab4ea7934e0b725b7bcc9ea7b74423dacb5580d16ca574efe26a602992904fc5"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_26_clb_001_cara_proyecto_v2.webm",
+      "bytes": 1281823,
+      "sha256": "65050f9d40b01318b0649c326ba6620b9d3e51b28b259d1c5cc613df984d3852"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_27_prs_001_documental.webm",
+      "bytes": 1228029,
+      "sha256": "dc8b7047e8e973e78b5b50257da490261bbc6cd664d5ac6eb67b803333394cae"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_28_gala_001_gala.webm",
+      "bytes": 1221289,
+      "sha256": "7e4a8ab2247a45c118d9e62bb135a26c19ac5f933e49e627029d4b361430ad13"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_31_med_001_operacion_regreso.webm",
+      "bytes": 1246233,
+      "sha256": "2a55f28b0641924b9561e5bb47b33dc6df78e499297bc750f35a95b80500a391"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_31_rec_001_500_partidos.webm",
+      "bytes": 1948873,
+      "sha256": "1be9bad84fc5a24e6a6fac1c48520edba9bbf81d6e62a626fc9b16398e1efc0f"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_33_prs_001_cuando_retiras_v2.webm",
+      "bytes": 497426,
+      "sha256": "63fe3e9d4640473e1541e8af78ddcd5b535eacb826b8a722a740d9940defbb8f"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_34_con_001_contrato_ultimo.webm",
+      "bytes": 812078,
+      "sha256": "4246002867730f2bfdcf33869c9c6f333bb2fd8caba25716e6af2381ebd07928"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_34_dorsal_001_heredero.webm",
+      "bytes": 1599970,
+      "sha256": "2eb9e1ac09c188e90db6732f40f4ed6257daae2443f2a7085a12a80aa0c3c49b"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_34_home_001_volver_casa.webm",
+      "bytes": 1142377,
+      "sha256": "ca2f3ed5f2e34d74e21cd82be8c75da1fa3c0c1a734d6a6308ea1b5cb3c1c490"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_37_announce_001_retirada.webm",
+      "bytes": 957891,
+      "sha256": "57c2e27b80639a889133129098c934a4cf29641684c6c49a5fd3072a1cd64662"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_ret_epilogue_despues_ruido.webm",
+      "bytes": 1083158,
+      "sha256": "52ac89caf01add848f5cc55a26adff4f89b0cf077ae8726ef3bf5a8b97439968"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_evt_ret_last_001_ultimo_tunel.webm",
+      "bytes": 2091759,
+      "sha256": "843cc46322854c2abd7b32651d264dc6e46ed09cfd610c02d471de17b9043c02"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_generic_europe_noche_europea_01.webm",
+      "bytes": 1912714,
+      "sha256": "c3406b893c8b5ff369e3577eebee52df0df571a7abb84aa5d876b0c0cda0cdac"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_generic_match_primera_accion_01.webm",
+      "bytes": 1901882,
+      "sha256": "1269f734308cf0dc382467d3114f0bffd0a2125390012630257af68b3d3c002a"
+    },
+    {
+      "path": "web/assets/cutscenes/cutscene_generic_selection_ultimo_torneo_01.webm",
+      "bytes": 1268633,
+      "sha256": "dab3f566cde394fa8e7a5ad97da6641863d7d599332a0d1f8ab0cae53b641060"
+    },
+    {
+      "path": "web/assets/cutscenes/prologo_multihistoria_v3.webm",
+      "bytes": 8167947,
+      "sha256": "34257feed06872adb64fdf71fa66c9d8d24e18a0cccb3ef2fb2db619fea12f66"
+    },
+    {
+      "path": "web/assets/images/00acab604a7efb12683576b22fc5987c7d703be193e57d86f20c209cb0772341.png",
+      "bytes": 27240,
+      "sha256": "00acab604a7efb12683576b22fc5987c7d703be193e57d86f20c209cb0772341"
+    },
+    {
+      "path": "web/assets/images/17e34e80533bf7cd21ab094828bf36cd9bb83b7f0949f4d2943a6774e8e1e532.jpg",
+      "bytes": 61481,
+      "sha256": "17e34e80533bf7cd21ab094828bf36cd9bb83b7f0949f4d2943a6774e8e1e532"
+    },
+    {
+      "path": "web/assets/images/2fa79d8ac3774f60b5c2eba0e00941b099743068977ae26232a7a36a821b928e.jpg",
+      "bytes": 55819,
+      "sha256": "2fa79d8ac3774f60b5c2eba0e00941b099743068977ae26232a7a36a821b928e"
+    },
+    {
+      "path": "web/assets/images/48d3cb0cf572d306afd0edea892af0de0fcbdeac56e5c916e188339159b22559.png",
+      "bytes": 2415103,
+      "sha256": "48d3cb0cf572d306afd0edea892af0de0fcbdeac56e5c916e188339159b22559"
+    },
+    {
+      "path": "web/assets/images/4f68c94129080a195eee6d1b45e148b0fe65ae28a2a095ceee46beee1db4781a.jpg",
+      "bytes": 41595,
+      "sha256": "4f68c94129080a195eee6d1b45e148b0fe65ae28a2a095ceee46beee1db4781a"
+    },
+    {
+      "path": "web/assets/images/9ecd06ef94fb013335d267254afa0e9b7552ab927d0a80a114c65a5324490645.png",
+      "bytes": 2428420,
+      "sha256": "9ecd06ef94fb013335d267254afa0e9b7552ab927d0a80a114c65a5324490645"
+    },
+    {
+      "path": "web/assets/images/b369cc9fae9b709977a1beae1b34f259fb2683970c8190f99cb1c493d0d39844.jpg",
+      "bytes": 49459,
+      "sha256": "b369cc9fae9b709977a1beae1b34f259fb2683970c8190f99cb1c493d0d39844"
+    },
+    {
+      "path": "web/assets/images/b7b4bc21849d89f97f9f43f2334d39851a6833c77eda659071f6204970e504cb.png",
+      "bytes": 1752835,
+      "sha256": "b7b4bc21849d89f97f9f43f2334d39851a6833c77eda659071f6204970e504cb"
+    },
+    {
+      "path": "web/assets/images/ed0739606f2df935a712214d1dd40af0e09b733755a136b5d1de1b806467e829.png",
+      "bytes": 971434,
+      "sha256": "ed0739606f2df935a712214d1dd40af0e09b733755a136b5d1de1b806467e829"
+    },
+    {
+      "path": "web/assets/images/ff2a2205c8104c36d5f8e0693e6fa429e1af66f8989913d6411b6ba70e86daa9.jpg",
+      "bytes": 54849,
+      "sha256": "ff2a2205c8104c36d5f8e0693e6fa429e1af66f8989913d6411b6ba70e86daa9"
+    },
+    {
+      "path": "web/build-info.js",
+      "bytes": 355,
+      "sha256": "ef0fd1d4b2edead4dbce747a3dd16439b969168da85ab6ba3f6c1d7c6a501f4c"
     },
     {
       "path": "web/club-catalog-names.js",
@@ -1995,14 +2275,19 @@
       "sha256": "4258216e751822abeaffbd2db7eff0b0d4604d9d9a06bdb895a32db5b9c3aca4"
     },
     {
+      "path": "web/cutscene-player.js",
+      "bytes": 7557,
+      "sha256": "535b5b2dff7e75385e518dde6a845a3827171d52c9a3b35e6db542ed23bd0e41"
+    },
+    {
       "path": "web/game-ui.css",
-      "bytes": 19717,
-      "sha256": "4cecff31839d940a247e7e7fef0a20301e1c8a74d978af2a70f8e396ba23e695"
+      "bytes": 50848,
+      "sha256": "79aa7b079babbde05603a4776a36ee367dfbc178ef1fd05e212489d0fa5c306b"
     },
     {
       "path": "web/game-ui.js",
-      "bytes": 52636,
-      "sha256": "8af0280af4a547d5370df969847de191c0b81c6aabb73b0edbe400a066bc61b6"
+      "bytes": 74352,
+      "sha256": "bbc1656cafe76d0a440e01c38e3913d876b33acd0595d33e5e9937aee9928c5b"
     },
     {
       "path": "web/indexed-save-store.js",
@@ -2011,8 +2296,8 @@
     },
     {
       "path": "web/local.js",
-      "bytes": 9166502,
-      "sha256": "913e389aa0f83b221310cdcb1079dc468a9eb5cdbe10c1effe55822495c33fd4"
+      "bytes": 52904,
+      "sha256": "dcb554b56903f7ea2c1b02f70481ee9a92ac797f980705e1f167f129edee5208"
     },
     {
       "path": "web/page.css",
@@ -2020,5 +2305,6 @@
       "sha256": "9f41c33e78e23c808eb548781244cff9ddd00be19e5365fcdafd216c68413c82"
     }
   ],
-  "generatedAt": "2026-09-15"
+  "generatedAt": "2026-10-02T12:08:20.455Z",
+  "androidRuntimeEvidence": "Previous evidence predates the current APK; rerun device probes"
 }

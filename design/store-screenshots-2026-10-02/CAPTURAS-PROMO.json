@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-02",
+  "app": "ELEVENFATE",
+  "versionCode": 6,
+  "bundleSha256": "b5cc4848836b3b003b15d3274cd40211ba5d5c87c409c080cb5bd81b379e384e",
+  "generationTool": "built-in image_gen",
+  "scope": "Stylized derivatives of real signed v6 native screenshots, not unedited runtime evidence. Headlines, stadium outer decoration and clean status bars; reviewed against original UI choices, stats and people.",
+  "fixtures": "Real GameSession seed 424242; dispatched normal commands to age 21; no manual edits to results/stats/contacts.",
+  "nativeCapture": "Dedicated API36 emulator. Final four-screen promo phase passed and exact pre-demo saved game restored; earlier attempts retained in work logs.",
+  "nativeLog": "native-capture.log",
+  "screenshots": [
+    {
+      "file": "01-decision.png",
+      "headline": "Minuto 89. Tú decides.",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 2250665,
+      "sha256": "42ea0eefcf22077b4b4e8c437d31db7f9516a182cace02a3ca47b673f028e7fb",
+      "promptFile": "prompt-1.txt",
+      "nativeSource": "originales-480/01-decision-real.png",
+      "nativeSourceSha256": "141834b947b1f2f7dc4cfa9afb7bd0663b66922b80039b15756c826a4bd1981d"
+    },
+    {
+      "file": "02-mercado.png",
+      "headline": "¿Dar el salto o quedarte?",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 2417598,
+      "sha256": "f24473f99d99aa0b24bf3b1cdbb3077d1b4bc7d01e843af5f3c07940c3d76bf9",
+      "promptFile": "prompt-2.txt",
+      "nativeSource": "originales/02-mercado-real.png",
+      "nativeSourceSha256": "64474dabbe2b7339afc929f31c13745afb043c3b7b91f7a3e9fb46ed7d900b5d"
+    },
+    {
+      "file": "03-carrera.png",
+      "headline": "Una carrera que evoluciona.",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 2147455,
+      "sha256": "87489667aa36a356f9dba754ba885ea05d7b56625b2db1b714d2a0b7d4edc89c",
+      "promptFile": "prompt-3.txt",
+      "nativeSource": "originales/03-carrera-real.png",
+      "nativeSourceSha256": "5f024786323c8d935082868f96f3eefbe3885a294d70e62ed2cc7af057a7bb2c"
+    },
+    {
+      "file": "04-relaciones.png",
+      "headline": "Tu entorno también cuenta.",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 2329203,
+      "sha256": "e2061515c9a5458b719acc653950144e15ab633ba647b200be06b120e307d9bf",
+      "promptFile": "prompt-4.txt",
+      "nativeSource": "originales/04-relaciones-real.png",
+      "nativeSourceSha256": "da2d880890cabaf1b912454df0e403f99de368d7bee104a4338bc71ef9f54682"
+    }
+  ],
+  "storeStatus": "four posters saved in Spanish default listing draft, ordered 01-decision, 02-mercado, 03-carrera, 04-relaciones",
+  "submittedForReview": false,
+  "evidence": "../../play-console-capturas-promo-v6-guardadas-2026-10-02.png"
+}

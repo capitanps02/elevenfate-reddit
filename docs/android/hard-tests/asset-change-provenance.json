@@ -1,0 +1,9 @@
+{
+  "changedAssetPaths": [
+    "build-info.json",
+    "web/build-info.js"
+  ],
+  "engineAndGameplayAssetsUnchanged": true,
+  "oldApkSha256": "e81893eca84e3dd5fa07df51f8266e5daf719a08085c52d87c166416ffb46c76",
+  "newApkSha256": "9fd19c2482de3148d2506201d62b2cc0f4977afa02fe8e000ab1185660dcd30f"
+}

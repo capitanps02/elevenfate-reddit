@@ -1,0 +1,83 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.13/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :app
+Unable to initialize metrics, ensure /Users/capitanps/.android is writable, details: /Users/capitanps/.android/analytics.settings (Operation not permitted)
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preQaBuild UP-TO-DATE
+
+> Task :app:generateQaBuildConfig UP-TO-DATE
+Caught exception: Could not start the FSEvents stream: /Users/capitanps/Documents/Codex/2026-10-01/vamos-con-la-prueba-definitiva-me/outputs/ELEVENFATE/android
+
+> Task :app:javaPreCompileQa UP-TO-DATE
+> Task :app:checkQaAarMetadata UP-TO-DATE
+> Task :app:processQaNavigationResources UP-TO-DATE
+> Task :app:compileQaNavigationResources UP-TO-DATE
+> Task :app:generateQaResValues UP-TO-DATE
+> Task :app:mapQaSourceSetPaths UP-TO-DATE
+> Task :app:generateQaResources UP-TO-DATE
+> Task :app:mergeQaResources UP-TO-DATE
+> Task :app:packageQaResources UP-TO-DATE
+> Task :app:parseQaLocalResources UP-TO-DATE
+> Task :app:createQaCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksQa UP-TO-DATE
+> Task :app:processQaMainManifest UP-TO-DATE
+> Task :app:processQaManifest UP-TO-DATE
+> Task :app:processQaManifestForPackage UP-TO-DATE
+> Task :app:processQaResources UP-TO-DATE
+> Task :app:compileQaJavaWithJavac UP-TO-DATE
+> Task :app:bundleQaClassesToCompileJar UP-TO-DATE
+> Task :app:preQaAndroidTestBuild SKIPPED
+> Task :app:processQaAndroidTestManifest UP-TO-DATE
+> Task :app:generateQaAndroidTestBuildConfig UP-TO-DATE
+> Task :app:javaPreCompileQaAndroidTest UP-TO-DATE
+> Task :app:checkQaAndroidTestAarMetadata UP-TO-DATE
+> Task :app:processQaAndroidTestNavigationResources UP-TO-DATE
+> Task :app:compileQaAndroidTestNavigationResources UP-TO-DATE
+> Task :app:generateQaAndroidTestResValues UP-TO-DATE
+> Task :app:mapQaAndroidTestSourceSetPaths UP-TO-DATE
+> Task :app:generateQaAndroidTestResources UP-TO-DATE
+> Task :app:mergeQaAndroidTestResources UP-TO-DATE
+> Task :app:processQaAndroidTestResources UP-TO-DATE
+> Task :app:compileQaAndroidTestJavaWithJavac
+> Task :app:mergeQaAndroidTestShaders UP-TO-DATE
+> Task :app:compileQaAndroidTestShaders NO-SOURCE
+> Task :app:generateQaAndroidTestAssets UP-TO-DATE
+> Task :app:mergeQaAndroidTestAssets UP-TO-DATE
+> Task :app:compressQaAndroidTestAssets UP-TO-DATE
+> Task :app:checkQaAndroidTestDuplicateClasses UP-TO-DATE
+> Task :app:extractProguardFiles UP-TO-DATE
+> Task :app:processQaAndroidTestJavaRes NO-SOURCE
+> Task :app:mergeQaAndroidTestJavaResource UP-TO-DATE
+> Task :app:checkQaDuplicateClasses UP-TO-DATE
+> Task :app:mergeQaArtProfile UP-TO-DATE
+> Task :app:expandQaArtProfileWildcards UP-TO-DATE
+> Task :app:mergeQaGeneratedProguardFiles UP-TO-DATE
+> Task :app:processQaJavaRes NO-SOURCE
+> Task :app:mergeQaJavaResource UP-TO-DATE
+> Task :app:mergeQaStartupProfile UP-TO-DATE
+> Task :app:minifyQaWithR8 UP-TO-DATE
+> Task :app:mergeQaAndroidTestJniLibFolders UP-TO-DATE
+> Task :app:mergeQaJniLibFolders UP-TO-DATE
+> Task :app:mergeQaNativeLibs NO-SOURCE
+> Task :app:mergeQaAndroidTestNativeLibs NO-SOURCE
+> Task :app:stripQaAndroidTestDebugSymbols NO-SOURCE
+> Task :app:validateSigningQaAndroidTest UP-TO-DATE
+> Task :app:writeQaAndroidTestSigningConfigVersions UP-TO-DATE
+> Task :app:minifyQaAndroidTestWithR8
+> Task :app:packageQaAndroidTest
+> Task :app:createQaAndroidTestApkListingFileRedirect UP-TO-DATE
+> Task :app:assembleQaAndroidTest
+
+[Incubating] Problems report is available at: file:///Users/capitanps/Documents/Codex/2026-10-01/vamos-con-la-prueba-definitiva-me/outputs/ELEVENFATE/android/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 46s
+51 actionable tasks: 3 executed, 48 up-to-date

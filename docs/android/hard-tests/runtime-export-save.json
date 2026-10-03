@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-01T13:05:09.549Z",
+  "variant": "debug",
+  "passed": true,
+  "clips": [],
+  "files": [
+    {
+      "scenario": "native-export-round-trip",
+      "passed": true,
+      "bytes": 14240,
+      "sha256": "c3011c65ba7bab9ceb377ee3f4828a099b9b9a1f089cdddcc04b8985007bdac1"
+    },
+    {
+      "scenario": "native-import-round-trip",
+      "passed": true
+    },
+    {
+      "scenario": "cancel-native-import",
+      "passed": true
+    },
+    {
+      "scenario": "export-after-process-death",
+      "passed": true,
+      "expectedBytes": 14240,
+      "actualBytes": 14240
+    }
+  ],
+  "apkSha256": "9fd19c2482de3148d2506201d62b2cc0f4977afa02fe8e000ab1185660dcd30f",
+  "exportCompletionWaitMs": 214
+}

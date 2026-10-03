@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "versionCode": 5,
+  "buildInfo": {
+    "appVersion": "0.9.0",
+    "versionCode": 5,
+    "engineVersion": "0.8.0-t2.5",
+    "catalogVersion": "world-v2-a2-2026-09-28",
+    "gitSha": "68ed39383c80ffca9823980f35f43b1fe8897bdf",
+    "gitDirty": true,
+    "sourceHash": "6a65cc7f3c7e1ea3b4072bb604c6100ae0798e5b9a9e274e5be9f57918fa6ed4",
+    "buildId": "20261002.6a65cc7f3c7e",
+    "timestamp": "2026-10-02T09:41:30.152Z"
+  },
+  "sha256": "abe1946be828d86d0a48a9f2a37b3e13bbbdb790b309e432f0ed57139102e7aa",
+  "assetChecks": 445,
+  "changedAssetsComparedWithTestedV3": [
+    "build-info.json",
+    "web/build-info.js"
+  ],
+  "engineAndVideosMatchTestedV3": true,
+  "embeddedNativeLibraries": [],
+  "signingSecretsInBundle": false,
+  "signedByUploadKey": true,
+  "lintErrors": 0,
+  "lintWarnings": 0,
+  "certificateWarnings": "Local self-signed certificate warnings expected; no Play acceptance or certificate-chain approval claimed.",
+  "certificateSha256": "9ceb1c96a68423633cc14242a4eae2e5001a381c39c10c838accd6ef7af55f2b"
+}

@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { GameSession } from '../dist/session/game-session.js';
+import { EVENT_CUTSCENES, PROLOGUE_CUTSCENE } from '../dist/content/event-cutscenes.js';
 import { GameSession as PackagedSession } from '../android/app/src/main/assets/dist/session/game-session.js';
 
 const root = path.resolve(import.meta.dirname, '..');
@@ -32,7 +33,7 @@ test('Android package has a complete local entrypoint and verified file manifest
   const manifest = JSON.parse(read('offline-manifest.json'));
   assert.equal(manifest.integration, 'T3.3');
   assert.equal(manifest.entry, 'index.html');
-  assert.equal(manifest.networkPolicy.internetPermission, false);
+  assert.equal(manifest.networkPolicy.internetPermission, true);
   assert.equal(manifest.networkPolicy.connectSrc, 'none');
   assert.deepEqual(manifest.networkPolicy.externalUrls, []);
   for (const file of manifest.files) {
@@ -46,8 +47,8 @@ test('Android package has a complete local entrypoint and verified file manifest
   assert.ok(manifest.files.some(file => file.path === 'web/club-catalog-names.js'));
   assert.ok(manifest.files.some(file => file.path === 'web/club-names.js'));
   const packagedCutscenes=manifest.files.filter(file=>file.path.startsWith('web/assets/cutscenes/')&&file.path.endsWith('.webm'));
-  const sourceCutscenes=fs.readdirSync(path.join(root,'web/assets/cutscenes')).filter(file=>file.endsWith('.webm'));
-  assert.equal(packagedCutscenes.length,sourceCutscenes.length,'all offline cutscenes must be packaged');
+  const activeClips=[...new Set([PROLOGUE_CUTSCENE,...EVENT_CUTSCENES].map(c=>c.file))].sort();
+  assert.deepEqual(packagedCutscenes.map(c=>path.basename(c.path)).sort(),activeClips,'exactly the active clips must be packaged');
 });
 
 test('Android entrypoint contains no absolute web paths or network fetches', () => {
@@ -61,7 +62,8 @@ test('Android entrypoint contains no absolute web paths or network fetches', () 
   assert.doesNotMatch(local, /from ['"]\/(?:dist|web)\//);
   assert.match(local, /new URL\('\.\/assets\/cutscenes\/'\+clip\.file,import\.meta\.url\)\.href/);
   const manifest = fs.readFileSync(path.join(root, 'android/app/src/main/AndroidManifest.xml'), 'utf8');
-  assert.doesNotMatch(manifest, /android\.permission\.INTERNET/);
+  assert.match(manifest, /android\.permission\.INTERNET/);
+  assert.equal(JSON.parse(read('offline-manifest.json')).networkPolicy.gameNetworkAccess,false);
   assert.match(activity, /WebViewAssetLoader/);
   assert.match(activity, /WebChromeClient/);
   assert.match(activity, /ACTION_OPEN_DOCUMENT/);
@@ -74,7 +76,7 @@ test('Android entrypoint contains no absolute web paths or network fetches', () 
   assert.match(read('web/game-ui.js'),/input\[type=file\]|type='file'|type="file"/);
   assert.match(read('web/game-ui.js'),/Descargar copia/);
   assert.match(gradle, /namespace 'com\.multihistoria'/);
-  assert.match(gradle, /applicationId 'com\.multihistoria'/);
+  assert.match(gradle, /applicationId 'com\.elevenfate\.game'/);
 });
 
 test('Android bundle retains the production UI, engine and IndexedDB persistence modules', () => {
@@ -85,6 +87,9 @@ test('Android bundle retains the production UI, engine and IndexedDB persistence
   assert.ok(read('web/club-names.js').includes("from './club-catalog-names.js'"));
   assert.ok(read('web/indexed-save-store.js').includes('multihistoria.saves.v1'));
   assert.ok(read('web/local.js').includes('android.offline.session.v1'));
-  assert.ok(read('web/local.js').includes('data:image/png;base64,'));
+  assert.ok(!read('web/local.js').includes('data:image/'));
+  assert.match(read('index.html'),/img-src 'self' data:/);
+  assert.ok(JSON.parse(read('offline-manifest.json')).optimizations.extractedImages>0);
+  assert.match(read('web/build-info.js'),/buildId/);
   assert.ok(read('dist/session/game-session.js').includes('export class GameSession'));
 });

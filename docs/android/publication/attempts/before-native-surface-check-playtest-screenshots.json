@@ -1,0 +1,29 @@
+{
+  "versionCode": 4,
+  "buildId": "20261001.585a189306d1",
+  "bundleSha256": "c95408f3f2a566c69090c327cd64b8af3636900edfc96d6d7cfeef7f1b099c53",
+  "source": "Actual installed device splits generated from the signed Play internal AAB; screenshots via Android UiAutomation; no added phone-frame mockup",
+  "passed": true,
+  "files": [
+    {
+      "file": "graficos/capturas-v4/01-inicio.png",
+      "sha256": "23bb5d0ed3df52c0e71112ccbbae4e1dbf6695884511ca04ecf6df9ff1c148aa",
+      "bytes": 200604
+    },
+    {
+      "file": "graficos/capturas-v4/02-carrera.png",
+      "sha256": "5f1eace90a5845d3d9d1459ad6168fd6b8e2065c3daee28f52b298db40e5efc4",
+      "bytes": 123861
+    },
+    {
+      "file": "graficos/capturas-v4/03-mundo.png",
+      "sha256": "8f3684b8817b43506f382d7fb7ae25fac5dbe7135a8de6e2a1edae07add104a2",
+      "bytes": 108757
+    },
+    {
+      "file": "graficos/capturas-v4/04-partida.png",
+      "sha256": "fd89c58984aeed256a5fa45b06b74ce75815ff200570b1eed7cae17ade17dce2",
+      "bytes": 130980
+    }
+  ]
+}

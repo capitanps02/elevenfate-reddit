@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-02",
+  "appId": "4974149715286677550",
+  "packageName": "com.elevenfate.game",
+  "upload": {
+    "startedDate": "2026-10-02",
+    "versionCode": 5,
+    "releaseName": "0.9.0-internal-v5",
+    "file": "ELEVENFATE-0.9.0-internal-v5.aab",
+    "status": "processed; saved draft; review completed with no errors and one warning (no testers)",
+    "track": "internal",
+    "releaseId": "1",
+    "trackId": "4701496415019045183",
+    "versionName": "0.9.0-internal",
+    "minSdk": 24,
+    "targetSdk": 36,
+    "downloadSize": "55.5 MB",
+    "errorsObserved": 0,
+    "warningsObserved": [
+      "No testers specified; release unavailable to users"
+    ],
+    "published": false,
+    "evidence": "play-console-aab-v5-procesado-2026-10-02.png",
+    "localSha256": "abe1946be828d86d0a48a9f2a37b3e13bbbdb790b309e432f0ed57139102e7aa"
+  },
+  "reviewUrl": "https://play.google.com/console/u/0/developers/6569279190416177848/app/4974149715286677550/tracks/4701496415019045183/releases/1/review",
+  "productionPublished": false,
+  "internalReleasePublished": false,
+  "testersAdded": 0,
+  "note": "Processing observed in Console; this is upload/release draft evidence, not Google production policy approval.",
+  "signing": {
+    "checkedDate": "2026-10-02",
+    "playAppSigningActive": true,
+    "uploadCertificateSha256": "9C:EB:1C:96:A6:84:23:63:3C:C1:42:42:A4:EA:E2:E5:00:1A:38:1C:39:C1:0C:83:8A:CC:D6:EF:7A:F5:5F:2B",
+    "uploadCertificateMatchesLocal": true,
+    "url": "https://play.google.com/console/u/0/developers/6569279190416177848/app/4974149715286677550/keymanagement",
+    "evidence": "play-console-firma-v5-2026-10-02.png"
+  },
+  "hashScope": "Hash verified locally before selecting this upload; no independent server-side hash retrieved."
+}

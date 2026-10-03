@@ -1,0 +1,12 @@
+✔ packaged engine preserves pending decision, result and RNG through reload (23117.792201ms)
+✔ Android package has a complete local entrypoint and verified file manifest (368.893871ms)
+✔ Android entrypoint contains no absolute web paths or network fetches (90.979968ms)
+✔ Android bundle retains the production UI, engine and IndexedDB persistence modules (75.938032ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23667.7008

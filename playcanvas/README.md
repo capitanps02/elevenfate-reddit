@@ -1,6 +1,6 @@
-# Multihistoria · Paquete para PlayCanvas
+# ELEVENFATE · Paquete para PlayCanvas
 
-Destino autorizado: [Historia Jugador, escena 2593315](https://playcanvas.com/editor/scene/2593315).
+Destino autorizado: [ELEVENFATE, escena 2593315](https://playcanvas.com/editor/scene/2593315).
 
 Archivo: **multihistoria.js**. Incluye motor, UI, estilos y recursos gráficos; no necesita localhost. El nombre registrado del script es **multihistoria**.
 

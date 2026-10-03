@@ -1,4 +1,4 @@
-# Multihistoria Engine v0.8
+# ELEVENFATE Engine v0.8
 
 ## Probar la sesión interactiva T2.1
 
@@ -106,3 +106,7 @@ npm run qa:1000
 El **motor narrativo base de vida completa está cerrado**: 18 → carrera profesional → pico → madurez → retirada → epílogo. La siguiente fase ya no necesita añadir edades; debe centrarse en la capa jugable/presentación y en aumentar la fidelidad literal del contenido donde todavía figura `technical_adaptation`.
 
 El paquete fuente Android offline de T3.3 está en [`android`](android). `npm run android:offline` genera sus recursos locales y `npm run test:android:offline` verifica rutas, hashes, red y guardado; la compilación del APK requiere Java, Android SDK y Gradle.
+
+## Portabilidad Android y AdMob
+
+La implementación actual y los comandos están en [android/README.md](android/README.md). El plan de publicación está en [docs/android/PLAN-INGENIERIA.md](docs/android/PLAN-INGENIERIA.md). La validación anterior no certifica el APK nuevo: consultar las evidencias de esta entrega.

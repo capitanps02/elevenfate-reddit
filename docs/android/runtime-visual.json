@@ -1,0 +1,39 @@
+{
+  "apkSha256": "e81893eca84e3dd5fa07df51f8266e5daf719a08085c52d87c166416ffb46c76",
+  "api": 36,
+  "variant": "debug",
+  "scope": "One AVD with different display size/density; not three devices",
+  "passed": false,
+  "views": [],
+  "systemStartupDialogs": [
+    "System UI isn't responding",
+    "System UI isn't responding",
+    "System UI isn't responding"
+  ],
+  "error": "Command failed: /Users/capitanps/Documents/Codex/2026-10-01/vamos-con-la-prueba-definitiva-me/work/tools/sdk/platform-tools/adb -s emulator-5562 shell uiautomator dump /sdcard/elevenfate-visual-window.xml",
+  "visualCertificationPassed": false,
+  "observedDomMeasurements": [
+    {
+      "width": 360,
+      "height": 734,
+      "mainClientWidth": 348,
+      "mainScrollWidth": 348,
+      "functionalFontPx": 12
+    },
+    {
+      "width": 412,
+      "height": 842,
+      "mainClientWidth": 396,
+      "mainScrollWidth": 396,
+      "functionalFontPx": 12
+    },
+    {
+      "width": 800,
+      "height": 1188,
+      "mainClientWidth": 784,
+      "mainScrollWidth": 784,
+      "functionalFontPx": 12
+    }
+  ],
+  "note": "Previous DOM measurements decoded local images and showed no horizontal overflow. Screenshot inspection found native System UI ANR overlays; visual certification remains incomplete. Do not infer an APK ANR from this report."
+}

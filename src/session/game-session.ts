@@ -47,10 +47,11 @@ import {
   CONTENT_MIGRATION_ROUTES,
   findMigrationPath,
   LEGACY_CONTENT_SOURCES,
+  contentSourcesForSnapshot,
   legacyContentSource,
   type ContentEvidenceSource,
   type ContentMigrationRoute
-} from "./content-migration.js";
+} from "./content-migration-core.js";
 import type { LegacyEventEvidence } from "./pre-t51-legacy-registry.js";
 import {
   DEFAULT_MAX_AUTO_WEEKS,
@@ -529,7 +530,7 @@ export class GameSession {
     const events = structuredClone(options.events ?? EVENTS);
     const activeContentIdentity = await contentIdentity(events);
     const activeEvidence = await buildActiveEventEvidence(events);
-    const contentSources = options.contentSources ?? LEGACY_CONTENT_SOURCES;
+    const contentSources = options.contentSources ?? await contentSourcesForSnapshot(snapshot, activeContentIdentity);
     const header=record(snapshot,"session");
     ensurePlayerIdentityInPlace(header.state);
     assertRuntimePlayerIdentity(header.state);
@@ -557,7 +558,7 @@ export class GameSession {
     const activeContentIdentity = await contentIdentity(events);
     const activeEvidence = await buildActiveEventEvidence(events);
     const routes = options.migrationRoutes ?? CONTENT_MIGRATION_ROUTES;
-    const contentSources = options.contentSources ?? LEGACY_CONTENT_SOURCES;
+    const contentSources = options.contentSources ?? await contentSourcesForSnapshot(snapshot, activeContentIdentity);
     const header = record(snapshot,"session");
     ensurePlayerIdentityInPlace(header.state);
     assertRuntimePlayerIdentity(header.state);

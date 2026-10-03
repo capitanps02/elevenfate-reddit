@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "visualReview": "accepted: four unedited native 720x1280 screenshots reviewed, app visible, no error/system dialog",
+  "date": "2026-10-02T09:51:47.539273+00:00",
+  "package": "com.elevenfate.game",
+  "versionCode": 5,
+  "buildId": "20261002.6a65cc7f3c7e",
+  "bundleSha256": "abe1946be828d86d0a48a9f2a37b3e13bbbdb790b309e432f0ed57139102e7aa",
+  "source": "adb screencap of the AAB-derived installed splits; native navigation taps from fresh uiautomator bounds; no image edits",
+  "serial": "emulator-5562",
+  "nativeSurfaceChecks": 8,
+  "screenshots": [
+    {
+      "file": "graficos/capturas-v5/01-inicio.png",
+      "sha256": "e12e3911db87deb05ded15a43d4dca6d4f262885f7b6b33fcc503e5ad63fd60d",
+      "route": "Inicio"
+    },
+    {
+      "file": "graficos/capturas-v5/02-carrera.png",
+      "sha256": "9b28b7bbeb59f98f037c73cd294ec3e4734227b2d5d2bc6d1ff170060c2f79cd",
+      "route": "Carrera"
+    },
+    {
+      "file": "graficos/capturas-v5/03-mundo.png",
+      "sha256": "fcd1fdf4a780cedf02285611600f51dd0dab9e437d442f9f43da51285edb65e7",
+      "route": "Mundo"
+    },
+    {
+      "file": "graficos/capturas-v5/04-partida.png",
+      "sha256": "d0f3726071df026074ee199fb31b275ee32a296702e23f5bc0257b60f146ae5a",
+      "route": "Tu partida"
+    }
+  ],
+  "priorAttempt": "Initial runtime attempt rejected for System UI startup ANR; see attempts/v5-system-ui-startup-anr.json. These captures were taken after the accepted v5 runtime."
+}

@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-01T09:57:38.307Z",
+  "avd": "Elevenfate_QA_API36\r\nOK",
+  "serial": "emulator-5562",
+  "apkSha256": "2e57b44746dce598ed9a7104e55ab16c95ac2478db650dbc6e613251db4d16f7",
+  "passed": true,
+  "phases": [
+    {
+      "phase": "create",
+      "output": "INSTRUMENTATION_RESULT: actualChoiceSaved=PASS\nINSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: result=PASS create: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: startupMs=13179\nINSTRUMENTATION_CODE: -1\n"
+    },
+    {
+      "phase": "resume",
+      "output": "INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS\nINSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: rotationKeepsSave=PASS\nINSTRUMENTATION_RESULT: startupMs=9890\nINSTRUMENTATION_CODE: -1\n"
+    }
+  ],
+  "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:16/BE2A.250530.026.F3/13894323:userdebug/dev-keys",
+  "webview": "Current WebView Update Service state\n  Current WebView package (name, version): (com.google.android.webview, 133.0.6943.137)\n  Minimum targetSdkVersion: 33\n  Minimum WebView version code: 694313738\n  Number of relros started: 1\n  Number of relros finished: 1\n  WebView package dirty: false\n  Any WebView package installed: true\n  Preferred WebView package (name, version): (com.google.android.webview, 133.0.6943.137)\n  WebView packages:\n    Valid package com.google.android.webview (versionName: 133.0.6943.137, versionCode: 694313738, targetSdkVersion: 34) is  installed/enabled for all users\n    com.google.android.webview.beta is NOT installed.\n    com.google.android.webview.dev is NOT installed.\n    com.google.android.webview.canary is NOT installed.\n    com.google.android.webview.debug is NOT installed.\n    com.android.webview is NOT installed.\n",
+  "airplaneMode": "1"
+}

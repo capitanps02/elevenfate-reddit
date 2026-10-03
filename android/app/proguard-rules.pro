@@ -1,1 +1,3 @@
-# The WebView entrypoint and Java activity are intentionally kept simple.
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}

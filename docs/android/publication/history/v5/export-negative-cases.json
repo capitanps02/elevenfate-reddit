@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "versionCode": 5,
+  "bundleSha256": "abe1946be828d86d0a48a9f2a37b3e13bbbdb790b309e432f0ed57139102e7aa",
+  "cases": [
+    {
+      "case": "missing-native-surface-check",
+      "passed": true,
+      "exportRejected": true,
+      "isolatedFixtures": true
+    },
+    {
+      "case": "mismatched-bundle-hash",
+      "passed": true,
+      "exportRejected": true,
+      "isolatedFixtures": true
+    },
+    {
+      "case": "missing-privacy-link-check",
+      "passed": true,
+      "exportRejected": true,
+      "isolatedFixtures": true
+    }
+  ]
+}

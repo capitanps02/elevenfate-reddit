@@ -2,7 +2,7 @@ import type { GameState } from "../core/types.js";
 import { resolveCurrentPlayerClubLeadership } from "../simulation/player-leadership-authority.js";
 
 export interface EventCutscene { eventId: string; file: string; title: string; }
-export const PROLOGUE_CUTSCENE: EventCutscene = { eventId: "PROLOGUE", file: "prologo_multihistoria_v3.webm", title: "Prólogo · Multihistoria" };
+export const PROLOGUE_CUTSCENE: EventCutscene = { eventId: "PROLOGUE", file: "prologo_multihistoria_v3.webm", title: "Prólogo · ELEVENFATE" };
 
 // Presentation only: exact event identity, never a family/age fallback.
 export const EVENT_CUTSCENES: readonly EventCutscene[] = [

@@ -1,5 +1,5 @@
 import { resolveCurrentPlayerClubLeadership } from "../simulation/player-leadership-authority.js";
-export const PROLOGUE_CUTSCENE = { eventId: "PROLOGUE", file: "prologo_multihistoria_v3.webm", title: "Prólogo · Multihistoria" };
+export const PROLOGUE_CUTSCENE = { eventId: "PROLOGUE", file: "prologo_multihistoria_v3.webm", title: "Prólogo · ELEVENFATE" };
 // Presentation only: exact event identity, never a family/age fallback.
 export const EVENT_CUTSCENES = [
     ["EVT_18_MATCH_001", "18_match_001_debut", "El debut"],

@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-01T09:52:26.307Z",
+  "oldApkSha256": "07893411b8f57dbba6787d224a1ac7381bd1690e075ad1b0e3987729fd582dad",
+  "newApkSha256": "2e57b44746dce598ed9a7104e55ab16c95ac2478db650dbc6e613251db4d16f7",
+  "passed": true,
+  "phases": [
+    {
+      "phase": "create",
+      "output": "INSTRUMENTATION_RESULT: actualChoiceSaved=PASS\nINSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: result=PASS create: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: startupMs=13653\nINSTRUMENTATION_CODE: -1\n"
+    },
+    {
+      "phase": "career",
+      "output": "INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: multiYearCareerSaved=PASS: reached age 21 with canonical GameSession commands\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: result=PASS career: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: startupMs=10814\nINSTRUMENTATION_CODE: -1\n"
+    },
+    {
+      "phase": "resume",
+      "output": "INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS\nINSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: rotationKeepsSave=PASS\nINSTRUMENTATION_RESULT: startupMs=10440\nINSTRUMENTATION_CODE: -1\n"
+    },
+    {
+      "phase": "upgrade",
+      "output": "INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS\nINSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: rotationKeepsSave=PASS\nINSTRUMENTATION_RESULT: startupMs=10200\nINSTRUMENTATION_CODE: -1\n"
+    }
+  ]
+}

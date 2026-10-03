@@ -1,0 +1,14 @@
+{
+  "start": 3210009,
+  "count": 1,
+  "days": 365,
+  "ms": 8254,
+  "blocked": 0,
+  "ages": {
+    "19": 1
+  },
+  "closures": {
+    "null": 1
+  },
+  "invariantIssues": []
+}

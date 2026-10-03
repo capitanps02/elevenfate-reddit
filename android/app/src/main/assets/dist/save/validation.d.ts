@@ -6,4 +6,5 @@ export * from "./validation-legacy.js";
  */
 export declare function validateGameSave(value: unknown, version: number): void;
 /** Common runtime/save boundary including market + football moment + match-model checks. */
+export declare function assertRuntimePlayerIdentity(value: unknown): void;
 export declare function assertGameState(value: unknown): asserts value is GameState;

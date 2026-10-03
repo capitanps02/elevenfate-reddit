@@ -1,0 +1,11 @@
+Carrera 1/10: seed 3210000, 4816 ms, pendientes de cierre 0
+Carrera 2/10: seed 3210001, 4473 ms, pendientes de cierre 0
+Carrera 3/10: seed 3210002, 5835 ms, pendientes de cierre 0
+Carrera 4/10: seed 3210003, 8389 ms, pendientes de cierre 0
+Carrera 5/10: seed 3210004, 8446 ms, pendientes de cierre 0
+Carrera 6/10: seed 3210005, 14494 ms, pendientes de cierre 0
+Carrera 7/10: seed 3210006, 9291 ms, pendientes de cierre 0
+Carrera 8/10: seed 3210007, 14378 ms, pendientes de cierre 0
+Carrera 9/10: seed 3210008, 10603 ms, pendientes de cierre 0
+Carrera 10/10: seed 3210009, 8254 ms, pendientes de cierre 0
+{"passed":true,"report":"/Users/capitanps/Documents/Codex/2026-10-01/vamos-con-la-prueba-definitiva-me/outputs/ELEVENFATE/qa/android-careers/4e8077d3e04c37c657a0b697978fcaf1c9154e48b08336026054cba551025302/365days/summary.json"}

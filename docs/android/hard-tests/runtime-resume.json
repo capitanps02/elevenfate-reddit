@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-01T13:09:20.712Z",
+  "serial": "emulator-5562",
+  "variant": "qa",
+  "passed": true,
+  "phases": [
+    {
+      "phase": "resume",
+      "ms": 27744,
+      "passed": true,
+      "output": "INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS\nINSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: rotationKeepsSave=PASS\nINSTRUMENTATION_RESULT: startupMs=9493\nINSTRUMENTATION_CODE: -1\n"
+    },
+    {
+      "phase": "resume",
+      "ms": 21488,
+      "passed": true,
+      "output": "INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS\nINSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: rotationKeepsSave=PASS\nINSTRUMENTATION_RESULT: startupMs=8023\nINSTRUMENTATION_CODE: -1\n"
+    },
+    {
+      "phase": "resume",
+      "ms": 18662,
+      "passed": true,
+      "output": "INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS\nINSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: rotationKeepsSave=PASS\nINSTRUMENTATION_RESULT: startupMs=7144\nINSTRUMENTATION_CODE: -1\n"
+    },
+    {
+      "phase": "resume",
+      "ms": 17474,
+      "passed": true,
+      "output": "INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS\nINSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: rotationKeepsSave=PASS\nINSTRUMENTATION_RESULT: startupMs=7250\nINSTRUMENTATION_CODE: -1\n"
+    },
+    {
+      "phase": "resume",
+      "ms": 16844,
+      "passed": true,
+      "output": "INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS\nINSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: rotationKeepsSave=PASS\nINSTRUMENTATION_RESULT: startupMs=6817\nINSTRUMENTATION_CODE: -1\n"
+    }
+  ],
+  "avd": "Elevenfate_QA_Hard_API36\r\nOK",
+  "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:16/BE2A.250530.026.F3/13894323:userdebug/dev-keys",
+  "systemAnrBefore": "ACTIVITY MANAGER LAST ANR (dumpsys activity lastanr)\n  <no ANR has occurred since boot>\n",
+  "apkSha256": "cfa494da58ee373263a85048a159a2c92b4290456f46aeb36d60b7f89ec2118d",
+  "offline": true,
+  "anrEvents": [],
+  "gameAnrs": [],
+  "gameJavaCrash": false
+}

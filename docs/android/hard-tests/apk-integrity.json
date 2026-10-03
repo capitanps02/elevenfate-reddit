@@ -1,0 +1,32 @@
+{
+  "buildInfo": {
+    "appVersion": "0.9.0",
+    "versionCode": 3,
+    "engineVersion": "0.8.0-t2.5",
+    "catalogVersion": "world-v2-a2-2026-09-28",
+    "gitSha": "68ed39383c80ffca9823980f35f43b1fe8897bdf",
+    "gitDirty": true,
+    "sourceHash": "ac65785d5156d085e93082d71787d9d69daf0fa757f379bd689a62088500893b",
+    "buildId": "20261001.ac65785d5156",
+    "timestamp": "2026-10-01T12:46:51.217Z"
+  },
+  "variants": [
+    {
+      "variant": "debug",
+      "apkSha256": "9fd19c2482de3148d2506201d62b2cc0f4977afa02fe8e000ab1185660dcd30f",
+      "bytes": 60953755,
+      "assetChecks": 445,
+      "embeddedNativeLibraries": [],
+      "issues": []
+    },
+    {
+      "variant": "QA",
+      "apkSha256": "cfa494da58ee373263a85048a159a2c92b4290456f46aeb36d60b7f89ec2118d",
+      "bytes": 56016446,
+      "assetChecks": 445,
+      "embeddedNativeLibraries": [],
+      "issues": []
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,261 @@
+{
+  "date": "2026-10-01T12:30:28.854Z",
+  "variant": "debug",
+  "passed": false,
+  "clips": [
+    {
+      "clip": "cutscene_evt_18_agt_001_agente.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.000709
+    },
+    {
+      "clip": "cutscene_evt_18_match_001_debut.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.012329
+    },
+    {
+      "clip": "cutscene_evt_18_med_001_aductor.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.054242
+    },
+    {
+      "clip": "cutscene_evt_18_prs_001_primera_prensa_v2.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.00143
+    },
+    {
+      "clip": "cutscene_evt_20_abr_001_vestuario_idioma_v2.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.007355
+    },
+    {
+      "clip": "cutscene_evt_20_life_001_primera_casa_v2.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.010112
+    },
+    {
+      "clip": "cutscene_evt_21_cch_002_otro_entrenador.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.003265
+    },
+    {
+      "clip": "cutscene_evt_21_money_001_contrato_familia.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.004694
+    },
+    {
+      "clip": "cutscene_evt_22_ddl_001_deadline_intro.webm",
+      "passed": true,
+      "duration": 4.515,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.006951
+    },
+    {
+      "clip": "cutscene_evt_23_match_001_partido_radar_v3.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.000769
+    },
+    {
+      "clip": "cutscene_evt_23_nat_001_primera_llamada_v2.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.009559
+    },
+    {
+      "clip": "cutscene_evt_24_med_001_isquio_v2.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.011824
+    },
+    {
+      "clip": "cutscene_evt_24_mkt_001_tres_ofertas.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.008667
+    },
+    {
+      "clip": "cutscene_evt_25_cap_001_brazalete.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.001126
+    },
+    {
+      "clip": "cutscene_evt_26_clb_001_cara_proyecto_v2.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.070959
+    },
+    {
+      "clip": "cutscene_evt_27_prs_001_documental.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.005472
+    },
+    {
+      "clip": "cutscene_evt_28_gala_001_gala.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.000885
+    },
+    {
+      "clip": "cutscene_evt_31_med_001_operacion_regreso.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.004548
+    },
+    {
+      "clip": "cutscene_evt_31_rec_001_500_partidos.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.012272
+    },
+    {
+      "clip": "cutscene_evt_33_prs_001_cuando_retiras_v2.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.008366
+    },
+    {
+      "clip": "cutscene_evt_34_con_001_contrato_ultimo.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.001324
+    },
+    {
+      "clip": "cutscene_evt_34_dorsal_001_heredero.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.006892
+    },
+    {
+      "clip": "cutscene_evt_34_home_001_volver_casa.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.004203
+    },
+    {
+      "clip": "cutscene_evt_37_announce_001_retirada.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.001168
+    },
+    {
+      "clip": "cutscene_evt_ret_epilogue_despues_ruido.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.003889
+    },
+    {
+      "clip": "cutscene_evt_ret_last_001_ultimo_tunel.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.006618
+    },
+    {
+      "clip": "cutscene_generic_europe_noche_europea_01.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.001513
+    },
+    {
+      "clip": "cutscene_generic_match_primera_accion_01.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.00511
+    },
+    {
+      "clip": "cutscene_generic_selection_ultimo_torneo_01.webm",
+      "passed": true,
+      "duration": 10.034,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.003871
+    },
+    {
+      "clip": "prologo_multihistoria_v3.webm",
+      "passed": true,
+      "duration": 60.186,
+      "width": 1280,
+      "height": 720,
+      "playedSeconds": 0.001169
+    }
+  ],
+  "files": [
+    {
+      "scenario": "native-export-round-trip",
+      "passed": true,
+      "bytes": 14240,
+      "sha256": "c3011c65ba7bab9ceb377ee3f4828a099b9b9a1f089cdddcc04b8985007bdac1"
+    },
+    {
+      "scenario": "native-import-round-trip",
+      "passed": true
+    }
+  ],
+  "apkSha256": "e81893eca84e3dd5fa07df51f8266e5daf719a08085c52d87c166416ffb46c76",
+  "error": "{\"exceptionId\":1,\"text\":\"Uncaught\",\"lineNumber\":0,\"columnNumber\":76,\"scriptId\":\"919\",\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"TypeError\",\"description\":\"TypeError: Cannot read properties of null (reading 'click')\\n    at <anonymous>:1:77\",\"objectId\":\"-2260102503449083831.9.2\"}}"
+}

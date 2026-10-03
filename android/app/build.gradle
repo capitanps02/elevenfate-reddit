@@ -1,8 +1,125 @@
 plugins { id 'com.android.application' }
-dependencies { implementation 'androidx.webkit:webkit:1.12.1' }
 
-android { namespace 'com.multihistoria'; compileSdk 35
-    defaultConfig { applicationId 'com.multihistoria'; minSdk 23; targetSdk 35; versionCode 1; versionName '0.8.0'; testInstrumentationRunner 'com.multihistoria.OfflineProbe' }
-    buildTypes { release { minifyEnabled false; shrinkResources false; proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' } }
-    compileOptions { sourceCompatibility JavaVersion.VERSION_1_8; targetCompatibility JavaVersion.VERSION_1_8 }
+def production = new Properties()
+def productionFile = rootProject.file('release.properties')
+if (productionFile.exists()) productionFile.withInputStream { production.load(it) }
+def config = { key -> production.getProperty(key, '') }
+def quoted = { value -> '"' + value.replace('\\', '\\\\').replace('"', '\\"') + '"' }
+def sampleApp = 'ca-app-pub-3940256099942544~3347511713'
+def sampleInterstitial = 'ca-app-pub-3940256099942544/1033173712'
+def sampleRewarded = 'ca-app-pub-3940256099942544/5224354917'
+
+android {
+    namespace 'com.multihistoria'
+    compileSdk 36
+    buildToolsVersion '36.0.0'
+    defaultConfig {
+        applicationId 'com.elevenfate.game'
+        minSdk 24
+        targetSdk 36
+        versionCode 6
+        versionName '0.9.0'
+        testInstrumentationRunner providers.gradleProperty('probeRunner').getOrElse('com.multihistoria.AndroidSmokeProbe')
+        manifestPlaceholders = [admobAppId: sampleApp]
+        buildConfigField 'String', 'ADMOB_APP_ID', quoted(sampleApp)
+        buildConfigField 'String', 'INTERSTITIAL_ID', quoted(sampleInterstitial)
+        buildConfigField 'String', 'REWARDED_ID', quoted(sampleRewarded)
+        buildConfigField 'String', 'BANNER_ID', quoted('ca-app-pub-3940256099942544/6300978111')
+        buildConfigField 'String', 'PRIVACY_POLICY_URL', '""'
+        buildConfigField 'boolean', 'ADS_ENABLED', 'true'
+        buildConfigField 'boolean', 'AD_DIAGNOSTICS', 'true'
+    }
+    signingConfigs {
+        debug { storeFile rootProject.file('.local/debug.keystore') }
+        if (config('storeFile')) {
+            productionKey {
+                storeFile file(config('storeFile'))
+                storePassword config('storePassword')
+                keyAlias config('keyAlias')
+                keyPassword config('keyPassword')
+            }
+        }
+    }
+    buildTypes {
+        debug { applicationIdSuffix '.debug'; versionNameSuffix '-debug' }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [admobAppId: config('admobAppId') ?: sampleApp]
+            buildConfigField 'String', 'ADMOB_APP_ID', quoted(config('admobAppId'))
+            buildConfigField 'String', 'INTERSTITIAL_ID', quoted(config('interstitialId'))
+            buildConfigField 'String', 'REWARDED_ID', '""'
+            buildConfigField 'String', 'BANNER_ID', quoted(config('bannerId'))
+            buildConfigField 'String', 'PRIVACY_POLICY_URL', quoted(config('privacyPolicyUrl'))
+            buildConfigField 'boolean', 'AD_DIAGNOSTICS', 'false'
+            if (signingConfigs.findByName('productionKey')) signingConfig signingConfigs.productionKey
+        }
+        qa {
+            initWith release
+            proguardFiles 'proguard-qa.pro'
+            applicationIdSuffix '.qa'
+            versionNameSuffix '-qa'
+            signingConfig signingConfigs.debug
+            manifestPlaceholders = [admobAppId: sampleApp]
+            buildConfigField 'String', 'ADMOB_APP_ID', quoted(sampleApp)
+            buildConfigField 'String', 'INTERSTITIAL_ID', quoted(sampleInterstitial)
+            buildConfigField 'String', 'REWARDED_ID', quoted(sampleRewarded)
+            buildConfigField 'String', 'PRIVACY_POLICY_URL', '""'
+            buildConfigField 'boolean', 'AD_DIAGNOSTICS', 'true'
+            buildConfigField 'String', 'BANNER_ID', quoted('ca-app-pub-3940256099942544/6300978111')
+            matchingFallbacks = ['release']
+        }
+        // First Play internal test: real package/upload key, no ad requests or diagnostics.
+        // Commercial release still requires the complete production configuration below.
+        playtest {
+            initWith release
+            versionNameSuffix '-internal'
+            manifestPlaceholders = [admobAppId: sampleApp]
+            buildConfigField 'String', 'ADMOB_APP_ID', quoted(sampleApp)
+            buildConfigField 'String', 'INTERSTITIAL_ID', quoted(sampleInterstitial)
+            buildConfigField 'String', 'BANNER_ID', quoted('ca-app-pub-3940256099942544/6300978111')
+            buildConfigField 'String', 'REWARDED_ID', '""'
+            buildConfigField 'boolean', 'ADS_ENABLED', 'false'
+            buildConfigField 'boolean', 'AD_DIAGNOSTICS', 'false'
+            matchingFallbacks = ['release']
+        }
+    }
+    testBuildType providers.gradleProperty('testVariant').getOrElse('debug')
+    buildFeatures { buildConfig true }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    lint { abortOnError true }
+}
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.12.1'
+    implementation 'androidx.activity:activity:1.11.0'
+    implementation 'com.google.android.gms:play-services-ads:25.5.0'
+    implementation 'com.google.android.ump:user-messaging-platform:4.0.0'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+tasks.register('verifyProductionConfiguration') {
+    doLast {
+        ['admobAppId', 'interstitialId', 'bannerId'].each { key ->
+            def value = config(key)
+            def separator = key == 'admobAppId' ? '~' : '/'
+            if (!(value ==~ /ca-app-pub-\d{16}[~\/]\d{10}/) || !value.contains(separator) || value.contains('3940256099942544'))
+                throw new GradleException("Falta un ID real de AdMob: ${key}. Usa debug o qa para pruebas.")
+        }
+        if (!config('privacyPolicyUrl').startsWith('https://')) throw new GradleException('Falta privacyPolicyUrl HTTPS.')
+        if (config('audienceAndFamiliesReviewed') != 'true') throw new GradleException('Falta revisar público, contenido y Families en Play Console.')
+        if (!config('storeFile') || !file(config('storeFile')).isFile() || !config('keyAlias') || !config('storePassword') || !config('keyPassword'))
+            throw new GradleException('Falta configurar la clave de subida de producción.')
+    }
+}
+tasks.register('verifyPlayTestConfiguration') {
+    doLast {
+        if (!config('storeFile') || !file(config('storeFile')).isFile() || !config('keyAlias') || !config('storePassword') || !config('keyPassword'))
+            throw new GradleException('Falta configurar la clave de subida para pruebas internas de Play.')
+    }
+}
+tasks.configureEach { task ->
+    if (task.name == 'preReleaseBuild') task.dependsOn tasks.named('verifyProductionConfiguration')
+    if (task.name == 'prePlaytestBuild') task.dependsOn tasks.named('verifyPlayTestConfiguration')
 }

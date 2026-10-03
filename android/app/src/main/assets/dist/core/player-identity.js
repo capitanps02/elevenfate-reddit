@@ -1,0 +1,57 @@
+export const PLAYER_ID = "PLR_001";
+export const LEGACY_PLAYER_DISPLAY_NAME = "Jugador";
+export const PLAYER_DISPLAY_NAME_MIN_GRAPHEMES = 2;
+export const PLAYER_DISPLAY_NAME_MAX_GRAPHEMES = 32;
+const ALLOWED_PLAYER_NAME = /^[\p{L}\p{M}](?:[\p{L}\p{M}\p{Zs}'’.-]*[\p{L}\p{M}.])?$/u;
+const PLAYER_NAME_SEGMENTER = new Intl.Segmenter("es", { granularity: "grapheme" });
+export function playerDisplayNameGraphemeCount(value) {
+    return Array.from(PLAYER_NAME_SEGMENTER.segment(value)).length;
+}
+export function normalizePlayerDisplayName(value) {
+    if (typeof value !== "string")
+        return null;
+    const trimmed = value.trim();
+    if (!trimmed)
+        return null;
+    const normalizedSpaces = trimmed.replace(/\p{Zs}+/gu, " ");
+    const graphemes = playerDisplayNameGraphemeCount(normalizedSpaces);
+    if (graphemes < PLAYER_DISPLAY_NAME_MIN_GRAPHEMES || graphemes > PLAYER_DISPLAY_NAME_MAX_GRAPHEMES)
+        return null;
+    if (!ALLOWED_PLAYER_NAME.test(normalizedSpaces))
+        return null;
+    return normalizedSpaces;
+}
+export function makePlayerIdentity(displayName = LEGACY_PLAYER_DISPLAY_NAME) {
+    const normalized = normalizePlayerDisplayName(displayName);
+    if (!normalized)
+        throw new Error("Nombre de jugador no válido.");
+    return { id: PLAYER_ID, displayName: normalized };
+}
+export function inspectPlayerIdentity(value) {
+    if (!value || typeof value !== "object" || Array.isArray(value))
+        return "playerIdentity no es un objeto";
+    const row = value;
+    if (row.id !== PLAYER_ID)
+        return "playerIdentity.id no es PLR_001";
+    const normalized = normalizePlayerDisplayName(row.displayName);
+    if (!normalized)
+        return "playerIdentity.displayName no es un nombre válido";
+    if (row.displayName !== normalized)
+        return "playerIdentity.displayName no está en forma canónica";
+    return null;
+}
+/**
+ * Historical saves/snapshots may omit identity because schema 8 predates ID-01.
+ * Upgrade is deterministic, consumes no RNG and never overwrites a persisted identity.
+ */
+export function ensurePlayerIdentityInPlace(state) {
+    if (!state || typeof state !== "object" || Array.isArray(state))
+        throw new Error("Estado inválido para identidad de jugador.");
+    const row = state;
+    if (row.playerIdentity === undefined)
+        row.playerIdentity = makePlayerIdentity();
+    const issue = inspectPlayerIdentity(row.playerIdentity);
+    if (issue)
+        throw new Error(issue);
+    return row.playerIdentity;
+}

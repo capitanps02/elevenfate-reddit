@@ -1,0 +1,123 @@
+{
+  "sourceIdentity": "4e8077d3e04c37c657a0b697978fcaf1c9154e48b08336026054cba551025302",
+  "requested": 10,
+  "start": 3210000,
+  "days": 365,
+  "fullCareer": false,
+  "completed": 10,
+  "blocked": 0,
+  "issues": [],
+  "careers": [
+    {
+      "seed": 3210000,
+      "ms": 4816,
+      "blocked": 0,
+      "ages": {
+        "19": 1
+      },
+      "closures": {
+        "null": 1
+      }
+    },
+    {
+      "seed": 3210001,
+      "ms": 4473,
+      "blocked": 0,
+      "ages": {
+        "19": 1
+      },
+      "closures": {
+        "null": 1
+      }
+    },
+    {
+      "seed": 3210002,
+      "ms": 5835,
+      "blocked": 0,
+      "ages": {
+        "19": 1
+      },
+      "closures": {
+        "null": 1
+      }
+    },
+    {
+      "seed": 3210003,
+      "ms": 8389,
+      "blocked": 0,
+      "ages": {
+        "19": 1
+      },
+      "closures": {
+        "null": 1
+      }
+    },
+    {
+      "seed": 3210004,
+      "ms": 8446,
+      "blocked": 0,
+      "ages": {
+        "19": 1
+      },
+      "closures": {
+        "null": 1
+      }
+    },
+    {
+      "seed": 3210005,
+      "ms": 14494,
+      "blocked": 0,
+      "ages": {
+        "19": 1
+      },
+      "closures": {
+        "null": 1
+      }
+    },
+    {
+      "seed": 3210006,
+      "ms": 9291,
+      "blocked": 0,
+      "ages": {
+        "19": 1
+      },
+      "closures": {
+        "null": 1
+      }
+    },
+    {
+      "seed": 3210007,
+      "ms": 14378,
+      "blocked": 0,
+      "ages": {
+        "19": 1
+      },
+      "closures": {
+        "null": 1
+      }
+    },
+    {
+      "seed": 3210008,
+      "ms": 10603,
+      "blocked": 0,
+      "ages": {
+        "19": 1
+      },
+      "closures": {
+        "null": 1
+      }
+    },
+    {
+      "seed": 3210009,
+      "ms": 8254,
+      "blocked": 0,
+      "ages": {
+        "19": 1
+      },
+      "closures": {
+        "null": 1
+      }
+    }
+  ],
+  "passed": true
+}

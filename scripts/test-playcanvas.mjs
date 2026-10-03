@@ -31,3 +31,11 @@ test('package is self-contained and requires no localhost or external image/font
   assert.ok(!source.includes('127.0.0.1'));assert.ok(!source.includes('localhost:'));assert.ok(source.includes('data:image/jpeg;base64,'));assert.ok(!source.includes('new Function('));
   const manifest=JSON.parse(fs.readFileSync('playcanvas/manifest.json'));assert.equal(manifest.targetScene,2593315);assert.equal(manifest.bundleBytes,Buffer.byteLength(source));
 });
+
+test('PlayCanvas lazy migration stays self-contained for historical saves',async()=>{
+  const events=JSON.parse(fs.readFileSync('qa/fixtures/t5.1/pre-t51-event-catalog.json','utf8'));
+  const old=await GameSession.create(123456,{sessionId:'bundled-legacy',events});
+  const a=await GameSession.migrateAndResume(old.exportSnapshot());
+  const b=await Bundled.migrateAndResume(old.exportSnapshot());
+  assert.equal(json(a.exportSnapshot()),json(b.exportSnapshot()));
+});

@@ -1,0 +1,20 @@
+Ejecutando prueba Android: create
+INSTRUMENTATION_RESULT: actualChoiceSaved=PASS
+INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS
+INSTRUMENTATION_RESULT: nativeBack=PASS
+INSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only
+INSTRUMENTATION_RESULT: result=PASS create: packaged game, saves, controls, back and protected advertising treatment
+INSTRUMENTATION_RESULT: startupMs=13179
+INSTRUMENTATION_CODE: -1
+
+Ejecutando prueba Android: resume
+INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS
+INSTRUMENTATION_RESULT: nativeBack=PASS
+INSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only
+INSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS
+INSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment
+INSTRUMENTATION_RESULT: rotationKeepsSave=PASS
+INSTRUMENTATION_RESULT: startupMs=9890
+INSTRUMENTATION_CODE: -1
+
+{"passed":true,"report":"/Users/capitanps/Documents/Codex/2026-10-01/vamos-con-la-prueba-definitiva-me/outputs/ELEVENFATE/docs/android/runtime-qa.json"}

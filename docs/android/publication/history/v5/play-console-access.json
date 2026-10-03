@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-10-02T09:13:40.174924+00:00",
+  "source": "Play Console home and prepared creation form inspected 2026-10-02",
+  "accountAvailable": true,
+  "accountType": "personal",
+  "developerDisplayName": "El ingeniero",
+  "appCreationEnabled": true,
+  "createApplicationLabel": "Crear aplicaci\u00f3n enabled",
+  "blockers": [
+    "ownerConfirmationOfMandatoryDeclarations"
+  ],
+  "uploadedToPlay": false,
+  "note": "Current browser shows policy/signing checkboxes selected without agent actions; export checkbox not selected. No form submission/app creation/upload observed. All-policy assessment incomplete.",
+  "screenshot": "play-console-creacion-preparada-2026-10-02.png",
+  "officialDeviceGuide": "https://support.google.com/googleplay/android-developer/answer/14316361?hl=es",
+  "screenshotSha256": "19aa65c7cb6df7d8162e30c306b481135ca8c5cc9639cd0d2c9a9ffb2c19fe26",
+  "packageName": "com.elevenfate.game",
+  "packageAvailable": true,
+  "appCreated": false,
+  "latestPolicyReview": "policy-review-2026-10-02.md"
+}

@@ -1,0 +1,131 @@
+{
+  "apkSha256": "9fd19c2482de3148d2506201d62b2cc0f4977afa02fe8e000ab1185660dcd30f",
+  "api": 36,
+  "variant": "debug",
+  "scope": "One AVD with different display size/density; not three devices",
+  "passed": true,
+  "views": [
+    {
+      "name": "small",
+      "physicalSize": "720x1600",
+      "density": 320,
+      "metrics": {
+        "width": 360,
+        "height": 752,
+        "mainWidth": 348,
+        "mainScrollWidth": 348,
+        "images": [
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/9ecd06ef94fb013335d267254afa0e9b7552ab927d0a80a114c65a5324490645.png",
+            "width": 1672
+          },
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/48d3cb0cf572d306afd0edea892af0de0fcbdeac56e5c916e188339159b22559.png",
+            "width": 1024
+          },
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/48d3cb0cf572d306afd0edea892af0de0fcbdeac56e5c916e188339159b22559.png",
+            "width": 1024
+          },
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/17e34e80533bf7cd21ab094828bf36cd9bb83b7f0949f4d2943a6774e8e1e532.jpg",
+            "width": 520
+          },
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/b369cc9fae9b709977a1beae1b34f259fb2683970c8190f99cb1c493d0d39844.jpg",
+            "width": 520
+          }
+        ],
+        "functionalFonts": [
+          "12px",
+          "12px",
+          "12px",
+          "12px"
+        ]
+      },
+      "screenshot": "elevenfate-android-small.png"
+    },
+    {
+      "name": "large",
+      "physicalSize": "824x1830",
+      "density": 320,
+      "metrics": {
+        "width": 412,
+        "height": 867,
+        "mainWidth": 396,
+        "mainScrollWidth": 396,
+        "images": [
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/9ecd06ef94fb013335d267254afa0e9b7552ab927d0a80a114c65a5324490645.png",
+            "width": 1672
+          },
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/48d3cb0cf572d306afd0edea892af0de0fcbdeac56e5c916e188339159b22559.png",
+            "width": 1024
+          },
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/48d3cb0cf572d306afd0edea892af0de0fcbdeac56e5c916e188339159b22559.png",
+            "width": 1024
+          },
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/17e34e80533bf7cd21ab094828bf36cd9bb83b7f0949f4d2943a6774e8e1e532.jpg",
+            "width": 520
+          },
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/b369cc9fae9b709977a1beae1b34f259fb2683970c8190f99cb1c493d0d39844.jpg",
+            "width": 520
+          }
+        ],
+        "functionalFonts": [
+          "12px",
+          "12px",
+          "12px",
+          "12px"
+        ]
+      },
+      "screenshot": "elevenfate-android-large.png"
+    },
+    {
+      "name": "tablet",
+      "physicalSize": "1600x2560",
+      "density": 320,
+      "metrics": {
+        "width": 800,
+        "height": 1232,
+        "mainWidth": 784,
+        "mainScrollWidth": 784,
+        "images": [
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/9ecd06ef94fb013335d267254afa0e9b7552ab927d0a80a114c65a5324490645.png",
+            "width": 1672
+          },
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/48d3cb0cf572d306afd0edea892af0de0fcbdeac56e5c916e188339159b22559.png",
+            "width": 1024
+          },
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/48d3cb0cf572d306afd0edea892af0de0fcbdeac56e5c916e188339159b22559.png",
+            "width": 1024
+          },
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/17e34e80533bf7cd21ab094828bf36cd9bb83b7f0949f4d2943a6774e8e1e532.jpg",
+            "width": 520
+          },
+          {
+            "source": "https://appassets.androidplatform.net/assets/web/assets/images/b369cc9fae9b709977a1beae1b34f259fb2683970c8190f99cb1c493d0d39844.jpg",
+            "width": 520
+          }
+        ],
+        "functionalFonts": [
+          "12px",
+          "12px",
+          "12px",
+          "12px"
+        ]
+      },
+      "screenshot": "elevenfate-android-tablet.png"
+    }
+  ],
+  "visibleBuildInfo": "ELEVENFATE 0.9.0 · Build 20261001.ac65785d5156",
+  "physicalAndroidBack": true
+}

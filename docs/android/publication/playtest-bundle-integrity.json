@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "versionCode": 6,
+  "buildInfo": {
+    "appVersion": "0.9.0",
+    "versionCode": 6,
+    "engineVersion": "0.8.0-t2.5",
+    "catalogVersion": "world-v2-a2-2026-09-28",
+    "gitSha": "68ed39383c80ffca9823980f35f43b1fe8897bdf",
+    "gitDirty": true,
+    "sourceHash": "a236b3990daa5ab36776499177874bf5886e8d797a3a80e511711dfdfd022116",
+    "buildId": "20261002.a236b3990daa",
+    "timestamp": "2026-10-02T12:08:19.904Z"
+  },
+  "sha256": "b5cc4848836b3b003b15d3274cd40211ba5d5c87c409c080cb5bd81b379e384e",
+  "assetChecks": 447,
+  "changedAssetsComparedWithTestedV3": [
+    "build-info.json",
+    "web/assets/images/00acab604a7efb12683576b22fc5987c7d703be193e57d86f20c209cb0772341.png",
+    "web/assets/images/ed0739606f2df935a712214d1dd40af0e09b733755a136b5d1de1b806467e829.png",
+    "web/build-info.js",
+    "web/game-ui.css",
+    "web/game-ui.js",
+    "web/local.js"
+  ],
+  "engineAndVideosMatchTestedV3": true,
+  "embeddedNativeLibraries": [],
+  "signingSecretsInBundle": false,
+  "signedByUploadKey": true,
+  "lintErrors": 0,
+  "lintWarnings": 1,
+  "certificateWarnings": "Local self-signed certificate warnings expected; no Play acceptance or certificate-chain approval claimed.",
+  "certificateSha256": "9ceb1c96a68423633cc14242a4eae2e5001a381c39c10c838accd6ef7af55f2b"
+}

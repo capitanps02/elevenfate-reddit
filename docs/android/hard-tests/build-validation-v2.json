@@ -1,0 +1,103 @@
+{
+  "builtAndChecked": true,
+  "variants": [
+    "debug",
+    "qa"
+  ],
+  "lintErrors": 0,
+  "lintWarnings": 1,
+  "adPolicyTests": 5,
+  "saveAndMigrationTests": 149,
+  "playcanvasTests": 4,
+  "offlineAndRefinementTests": 8,
+  "runtimeReports": [
+    "runtime-debug.json",
+    "runtime-qa.json"
+  ],
+  "artifacts": [
+    {
+      "file": "ELEVENFATE-debug.apk",
+      "bytes": 60951351,
+      "sha256": "e81893eca84e3dd5fa07df51f8266e5daf719a08085c52d87c166416ffb46c76",
+      "nativeSharedLibraries": [],
+      "production": false,
+      "emulatorRuntimeVerified": true
+    },
+    {
+      "file": "ELEVENFATE-QA.apk",
+      "bytes": 56014830,
+      "sha256": "2e57b44746dce598ed9a7104e55ab16c95ac2478db650dbc6e613251db4d16f7",
+      "nativeSharedLibraries": [],
+      "production": false,
+      "emulatorRuntimeVerified": true
+    },
+    {
+      "file": "ELEVENFATE-QA-no-publicar.aab",
+      "bytes": 58056266,
+      "sha256": "76144649647600112da1e0d3a9a4a0af3da0df0126347caec6d203d87c4272ad",
+      "nativeSharedLibraries": [],
+      "production": false,
+      "emulatorRuntimeVerified": false
+    }
+  ],
+  "note": "La prueba de ejecución acredita solo estos APK por hash. El AAB QA no es publicable; anuncios y SAF requieren pruebas pendientes.",
+  "buildInfo": {
+    "appVersion": "0.9.0",
+    "versionCode": 2,
+    "engineVersion": "0.8.0-t2.5",
+    "catalogVersion": "world-v2-a2-2026-09-28",
+    "gitSha": "68ed39383c80ffca9823980f35f43b1fe8897bdf",
+    "gitDirty": true,
+    "sourceHash": "a44624d00ce9118d2069c96eac9200f22994db19ccc530c13ef88f514a97f6b4",
+    "buildId": "20261001.a44624d00ce9",
+    "timestamp": "2026-10-01T09:35:00.788Z"
+  },
+  "upgradeRuntime": {
+    "date": "2026-10-01T09:52:26.307Z",
+    "oldApkSha256": "07893411b8f57dbba6787d224a1ac7381bd1690e075ad1b0e3987729fd582dad",
+    "newApkSha256": "2e57b44746dce598ed9a7104e55ab16c95ac2478db650dbc6e613251db4d16f7",
+    "passed": true,
+    "phases": [
+      {
+        "phase": "create",
+        "output": "INSTRUMENTATION_RESULT: actualChoiceSaved=PASS\nINSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: result=PASS create: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: startupMs=13653\nINSTRUMENTATION_CODE: -1\n"
+      },
+      {
+        "phase": "career",
+        "output": "INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: multiYearCareerSaved=PASS: reached age 21 with canonical GameSession commands\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: result=PASS career: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: startupMs=10814\nINSTRUMENTATION_CODE: -1\n"
+      },
+      {
+        "phase": "resume",
+        "output": "INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS\nINSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: rotationKeepsSave=PASS\nINSTRUMENTATION_RESULT: startupMs=10440\nINSTRUMENTATION_CODE: -1\n"
+      },
+      {
+        "phase": "upgrade",
+        "output": "INSTRUMENTATION_RESULT: fileAndPrivacyControls=PASS\nINSTRUMENTATION_RESULT: nativeBack=PASS\nINSTRUMENTATION_RESULT: protectedAdTreatment=PASS: ads enabled with SDK CHILD treatment, contextual banner only\nINSTRUMENTATION_RESULT: recoveredAfterForceStop=PASS\nINSTRUMENTATION_RESULT: result=PASS resume: packaged game, saves, controls, back and protected advertising treatment\nINSTRUMENTATION_RESULT: rotationKeepsSave=PASS\nINSTRUMENTATION_RESULT: startupMs=10200\nINSTRUMENTATION_CODE: -1\n"
+      }
+    ]
+  },
+  "ads": {
+    "enabledAllAges": true,
+    "nonPersonalized": true,
+    "mobileAdsSdk": "com.google.android.gms:play-services-ads:25.5.0",
+    "initialActiveMinutes": 8,
+    "resultsBetweenAds": 6,
+    "activeMinutesBetweenAds": 8,
+    "maximumAdsPerSession": 2,
+    "protectedBannerMaximumSeconds": 20,
+    "actualAdDisplayVerified": false
+  },
+  "visualRuntime": {
+    "passed": false,
+    "report": "runtime-visual.json",
+    "reason": "System UI ANR and UiTestAutomationBridge errors in dedicated emulator"
+  },
+  "careerSample": {
+    "runs": 10,
+    "daysPerRun": 365,
+    "fullCareers": false,
+    "passed": true,
+    "resumeCheckPassed": true,
+    "report": "evidence/career-sample.json"
+  }
+}

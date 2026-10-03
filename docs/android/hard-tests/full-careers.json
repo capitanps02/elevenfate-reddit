@@ -1,0 +1,64 @@
+{
+  "sourceIdentity": "4e8077d3e04c37c657a0b697978fcaf1c9154e48b08336026054cba551025302",
+  "seeds": [
+    424242,
+    424243,
+    424244
+  ],
+  "fullCareers": true,
+  "completed": 3,
+  "blocked": 0,
+  "issues": [],
+  "careers": [
+    {
+      "start": 424242,
+      "count": 1,
+      "days": 14000,
+      "ms": 191440,
+      "blocked": 0,
+      "ages": {
+        "38": 1
+      },
+      "closures": {
+        "no_last_match": 1
+      },
+      "invariantIssues": []
+    },
+    {
+      "start": 424243,
+      "count": 1,
+      "days": 14000,
+      "ms": 147992,
+      "blocked": 0,
+      "ages": {
+        "39": 1
+      },
+      "closures": {
+        "no_last_match": 1
+      },
+      "invariantIssues": []
+    },
+    {
+      "start": 424244,
+      "count": 1,
+      "days": 14000,
+      "ms": 112375,
+      "blocked": 0,
+      "ages": {
+        "41": 1
+      },
+      "closures": {
+        "no_last_match": 1
+      },
+      "invariantIssues": []
+    }
+  ],
+  "passed": true,
+  "initialTimeout": {
+    "seed": 424243,
+    "timeoutMs": 300000,
+    "retryTimeoutMs": 900000,
+    "retryPassed": true
+  },
+  "timingNote": "The host clock advanced during this run; elapsed times are not a device performance benchmark."
+}

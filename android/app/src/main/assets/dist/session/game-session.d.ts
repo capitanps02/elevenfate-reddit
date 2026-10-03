@@ -7,7 +7,7 @@ import { type PlayerActionCategory } from "../player-actions/index.js";
 import { type NpcKnowledgeLegacyCertification } from "../narrative/npc-knowledge-reconciliation.js";
 import { type VisibleConsequence } from "../narrative/consequences.js";
 import { type CareerMatchResult, type CareerSeasonRecord, type CareerSportMilestones } from "../simulation/match-model.js";
-import { type ContentEvidenceSource, type ContentMigrationRoute } from "./content-migration.js";
+import { type ContentEvidenceSource, type ContentMigrationRoute } from "./content-migration-core.js";
 import { type AutoSimulationState, type PublicAutoSimulationState } from "./auto-simulation.js";
 export declare const SESSION_VERSION = 3;
 export declare const SESSION_BUILD = "0.8.0-t2.5";
@@ -22,6 +22,9 @@ export type SessionCommand = (CommandBase & {
     type: "auto";
     action: "start" | "step" | "pause" | "resume" | "stop";
     maxWeeks?: number;
+}) | (CommandBase & {
+    type: "identity";
+    displayName: string;
 }) | (CommandBase & {
     type: "player_action";
     actionId: string;
@@ -173,6 +176,10 @@ export interface PlayerView {
     careerMilestones: CareerSportMilestones;
     latestMatch: CareerMatchResult | null;
     retirementStatus: GameState["retirement"]["status"];
+    /** Public protagonist identity only; internal PLR_001 id is not exposed to presentation. */
+    player: {
+        displayName: string;
+    };
     date: string;
     age: number;
     club: string;
@@ -230,6 +237,7 @@ export declare class GameSession {
     static create(seed: number, options?: SessionOptions & {
         sessionId?: string;
         microfeeds?: boolean;
+        playerDisplayName?: string;
     }): Promise<GameSession>;
     /** Validates before use; restoring is read-only until a command is committed. */
     static resume(snapshot: unknown, options?: SessionOptions): Promise<GameSession>;

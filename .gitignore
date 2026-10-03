@@ -28,3 +28,6 @@ android/local.properties
 # Generated analysis files
 analysis/**/guion-render/page-*.png
 analysis/**/tools/package/
+
+android/release.properties
+android/.local/

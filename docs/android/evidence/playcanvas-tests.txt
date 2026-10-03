@@ -1,0 +1,12 @@
+✔ PlayCanvas package preserves all states and RNG over 20 interactive choices (17971.378689ms)
+✔ presentation exposes public context without leaking NPC agendas or hidden outcomes (184.662706ms)
+✔ package is self-contained and requires no localhost or external image/font request (41.965661ms)
+✔ PlayCanvas lazy migration stays self-contained for historical saves (545.897378ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19961.67719
