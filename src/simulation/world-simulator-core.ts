@@ -17,7 +17,7 @@ import { recordAgeMilestone } from "./age-milestones.js";
 import { certifyCoachChangeInPlace, resolveRecentCurrentClubCoachChange } from "./coach-change-authority.js";
 import { expireDueSeedsInPlace } from "../narrative/resolver.js";
 import { hasActiveClubEmployment, transitionNaturalExpiryInPlace } from "./employment.js";
-import { previousOfficialMatch } from "./match-model.js";
+import { previousOfficialMatch, isOfficialMatchDay } from "./match-model.js";
 import { clubById } from "../catalog/football/index.js";
 import { selectBigClubDestination, selectForeignBigClubDestination, selectForeignMarketDestination, selectMarketDestination } from "../catalog/football/market-destination.js";
 
@@ -110,7 +110,7 @@ function updateContextFlags(state: GameState, rng: DeterministicRng, debutFromAp
   if ([2, 3, 4, 5].includes(month) && state.flags.OFFICIAL_DEBUT && rng.next() < 0.10) state.flags.SET_PIECE_WINDOW = true;
 
   // El club original evoluciona con su propia incertidumbre, aunque el protagonista salga cedido.
-  if (state.age === 18 && [5, 6].includes(month) && state.world.udvSeasonResolved !== true) {
+  if (!(typeof state.world.redditCompetitionFrom === "string" && state.date >= state.world.redditCompetitionFrom) && state.age === 18 && [5, 6].includes(month) && state.world.udvSeasonResolved !== true) {
     const pressure = num(state.world.clubPressure, 42);
     const relegationP = clamp(0.12 + pressure / 260, 0.12, 0.42);
     const playoffP = clamp(0.10 + Math.max(0, form - 52) / 120, 0.10, 0.32);
@@ -232,7 +232,7 @@ function footballWeek(state: GameState): void {
   }
 
   const month = Number(state.date.slice(5, 7));
-  const officialSeasonWeek = month >= 8 || month <= 5;
+  const officialSeasonWeek = typeof state.world.redditCompetitionFrom === "string" ? isOfficialMatchDay(state) : month >= 8 || month <= 5;
   const suspendedForFixture = num(state.sport.suspensionMatches, 0) > 0;
   let debutFromAppearance = false;
   if (officialSeasonWeek) {
@@ -620,8 +620,10 @@ export function advanceWorldDayInPlace(next: GameState): GameState {
     } else if(next.age>34) lateCareerPreseason(next);
   }
 
+  const redditCompetitions = typeof next.world.redditCompetitionFrom === "string" && next.date >= next.world.redditCompetitionFrom;
+  if(redditCompetitions && (isOfficialMatchDay(next)||next.runtime.day%7===0) && hasActiveClubEmployment(next)) footballWeek(next);
   if (next.runtime.day % 7 === 0) {
-    if (hasActiveClubEmployment(next)) footballWeek(next);
+    if (!redditCompetitions && hasActiveClubEmployment(next)) footballWeek(next);
     const rng = new DeterministicRng(next.rngState.football);
     professionalWeek(next, rng);
     maturityWeek(next);

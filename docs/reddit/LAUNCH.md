@@ -24,7 +24,7 @@ Estoy creando **ElevenFate**, un juego de carrera futbolística en español dond
 
 ¿Arriesgas para ganarte un puesto o cuidas tu físico? ¿Sigues al entrenador o buscas tu propio camino?
 
-Puedes vivir una carrera completa o probar el **Daily: cinco decisiones, un mismo comienzo y un resultado diferente según lo que elijas**.
+Puedes vivir una carrera completa o probar el **Daily: 30 decisiones, seis etapas, fichajes y una carrera entera en pocos minutos**.
 
 🎮 **Juega la beta aquí: [ENLACE PÚBLICO VERIFICADO]**
 
@@ -40,7 +40,7 @@ No publicar con el marcador de enlace ni sustituirlo por el post privado de desa
 
 I’m the developer of **ElevenFate**, a football career game built around decisions, relationships and consequences.
 
-The game is currently **in Spanish**. You can play a full career or try a Daily with five decisions and the same starting situation for everyone. I’ve just simplified the mobile interface so the player summary and main action fit within the game frame, and choices stay accessible.
+The game is currently **in Spanish**. You can play a full career or try a Daily with 30 decisions, six career stages, transfers and sporting career summaries. I’ve just simplified the mobile interface so the player summary and main action fit within the game frame, and choices stay accessible.
 
 **Try the beta: [VERIFIED PUBLIC GAME POST]**
 

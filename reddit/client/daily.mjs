@@ -1,43 +1,60 @@
 export function mountDaily({root,onClose,assets={}}){
-  let state=null,busy=false,mode='daily',screen='play',error='',selected=null;
-  const node=(tag,text,cls)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;};
-  const button=(text,action,cls='daily-button')=>{const el=node('button',text,cls);el.type='button';el.disabled=busy;el.addEventListener('click',action);return el;};
-  function pending(){root.setAttribute('aria-busy',String(busy));for(const el of root.querySelectorAll('button'))el.disabled=busy;const status=root.querySelector('.daily-status');if(status)status.textContent=busy?'Guardando…':error||'';for(const choice of root.querySelectorAll('[data-choice]'))choice.classList.toggle('selected',busy&&choice.dataset.choice===selected);}
-  async function request(body){
-    busy=true;error='';if(!state)render();pending();const previous=state;
-    try{const response=await fetch(`/api/daily?mode=${mode}`,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},...(body?{body:JSON.stringify({...body,mode})}:{})});const data=await response.json();if(!response.ok)throw Error(data.error||'No se pudo abrir el reto.');state={...data,...(mode==='daily'&&!data.leaderboard&&previous?.leaderboard?{leaderboard:previous.leaderboard}:{})};}catch(e){error=e.message;}
-    busy=false;selected=null;render();
+ let state=null,busy=false,mode='daily',screen='play',error='',selected=null;
+ const node=(tag,text,cls)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;};
+ const button=(text,action,cls='daily-button')=>{const el=node('button',text,cls);el.type='button';el.disabled=busy;el.addEventListener('click',action);return el;};
+ function pending(){root.setAttribute('aria-busy',String(busy));for(const el of root.querySelectorAll('button'))el.disabled=busy;const status=root.querySelector('.daily-status');if(status)status.textContent=busy?'Guardando…':error||'';for(const choice of root.querySelectorAll('[data-choice]'))choice.classList.toggle('selected',busy&&choice.dataset.choice===selected);}
+ async function request(body,seasonId){busy=true;error='';if(!state)render();pending();const previous=state;try{const response=await fetch(`/api/daily?mode=${mode}${seasonId?`&season=${encodeURIComponent(seasonId)}`:''}`,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},...(body?{body:JSON.stringify({...body,mode})}:{})});const data=await response.json();if(!response.ok)throw Error(data.error||'No se pudo abrir el reto.');state={...data,...(mode==='daily'&&!data.leaderboard&&previous?.leaderboard?{leaderboard:previous.leaderboard}:{})};}catch(e){error=e.message;}busy=false;selected=null;render();}
+ const act=command=>{selected=command.choiceId??null;return request({dailyId:state.config.id,action:'command',command:{...command,commandId:crypto.randomUUID(),expectedRevision:state.view.revision}});};
+ function switchMode(){mode=mode==='daily'?'practice':'daily';screen='play';state=null;request();}
+ function numbers(parent,stats){const list=node('div',undefined,'daily-numbers');for(const [key,label]of [['played','Partidos'],['goals','Goles'],['assists','Asistencias'],['starts','Titular']]){const item=node('div');item.append(node('strong',String(stats[key]??0)),node('span',label));list.append(item);}parent.append(list);}
+ function honours(parent,title,items){const section=node('section',undefined,'daily-honours');section.append(node('h2',title));if(!items?.length)section.append(node('p','Ninguno en esta carrera.'));else for(const item of items)section.append(node('p',`${item.title} · ${item.season}\n${item.club}`));parent.append(section);}
+ function render(){
+  root.replaceChildren();root.dataset.screen=screen;
+  const header=node('header',undefined,'daily-header');header.append(button('←',onClose,'daily-icon'),node('strong',mode==='practice'?'ELEVENFATE · PRÁCTICA':'ELEVENFATE · DAILY'),button('?',()=>{screen=screen==='rules'?'play':'rules';render();},'daily-icon'));header.firstChild.setAttribute('aria-label','Volver a carrera');header.lastChild.setAttribute('aria-label','Cómo jugar Daily');root.append(header);
+  const done=state?.resolved??0,limit=state?.config.decisions??30,stage=state?.view?.stage;
+  const timeline=node('div',undefined,'daily-timeline');timeline.append(node('span',stage?`${stage.from}–${stage.to} años · ${stage.name}`:'18–38 años · Una carrera entera'),node('span',`${done}/${limit}`));const progress=node('div',undefined,'daily-progress');for(let i=0;i<6;i++){const part=node('span');part.style.setProperty('--completion',`${Math.max(0,Math.min(100,(done-i*5)*20))}%`);progress.append(part);}progress.setAttribute('aria-label',`${done} de ${limit} decisiones`);timeline.append(progress);root.append(timeline);
+  const stageView=state?.view;if(state?.started){const bar=node('div',undefined,'daily-player');bar.append(node('strong',`${stageView.club} · ${stageView.age} años`),node('span',`Técnica ${stageView.technique} · Forma ${stageView.form} · Físico ${stageView.fitness}`));root.append(bar);}else root.append(node('div',undefined,'daily-player'));
+  const match=node('div',undefined,'daily-match'),card=node('section',undefined,'daily-card'),actions=node('footer',undefined,'daily-actions');match.append(card,actions);root.append(match);
+  const title=(kicker,heading,body)=>{card.append(node('span',kicker,'daily-kicker'),node('h1',heading));if(body)card.append(node('p',body,'daily-story'));};
+  if(['results','table','continental'].includes(screen)&&state?.view?.league){
+   const league=state.view.league,c=state.view.continental;
+   title('TU TEMPORADA',screen==='table'?'Clasificación de liga':screen==='results'?'Resultados':'Champions',league.division);
+   const select=node('select',undefined,'daily-season-select');select.setAttribute('aria-label','Elegir temporada');for(const season of state.view.seasons){const option=node('option',`${season.id} · ${season.club}`);option.value=season.id;option.selected=season.id===league.id;select.append(option);}select.addEventListener('change',()=>request(undefined,select.value));select.disabled=busy;card.append(select);
+   const tabs=node('nav',undefined,'daily-sports-tabs');for(const [id,label]of [['results','Resultados'],['table','Liga'],['continental','Champions']]){const b=button(label,()=>{screen=id;render();},'daily-link');b.setAttribute('aria-pressed',String(screen===id));tabs.append(b);}card.append(tabs);
+   if(screen==='table'||screen==='continental'){
+    const rows=screen==='table'?league.rows:c?.rows??[];
+    if(screen==='continental'){card.append(node('p',c?.format??''));if(!c?.qualified)card.append(node('p','Tu equipo no se clasificó esta temporada.'));if(c?.winner)card.append(node('p','Campeón: '+c.winner));}
+    if(rows.length){const table=node('table',undefined,'daily-league-table');const heading=node('tr');for(const text of ['#','Equipo','PJ','DG','Pts'])heading.append(node('th',text));table.append(heading);for(const row of rows){const line=node('tr',undefined,row.you?'your-team':'');for(const value of [row.position,row.name,row.played,row.gf-row.ga,row.points])line.append(node('td',String(value)));table.append(line);}card.append(table);}
+   }
+   if(screen!=='table'){
+    const comp=screen==='results'?league:c,own=league.rows.find(r=>r.you)?.id,fixtures=comp?.matches.filter(m=>comp.teams[m.home].id===own||comp.teams[m.away].id===own)??[];
+    if(!fixtures.length)card.append(node('p','Todavía no hay resultados de tu equipo.'));
+    for(const m of fixtures){const row=node('div',undefined,'daily-fixture');row.append(node('small',`${m.date} · ${m.stage??'Jornada '+m.round}`),node('span',`${comp.teams[m.home].name} ${m.hg===null?'vs':m.hg+'–'+m.ag} ${comp.teams[m.away].name}`));if(m.penalties)row.append(node('small',`Penaltis ${m.penalties.home}–${m.penalties.away}`));card.append(row);}
+   }
+   actions.append(button('Volver a mi carrera',()=>{screen='play';render();},'daily-primary'));
+  }else if(screen==='rules'){
+   title('CÓMO JUGAR','Una vida de fútbol','Elige tu primer equipo y recorre seis etapas. Cada tramo tiene una decisión de club y cuatro decisiones deportivas o personales.');card.append(node('p','Puedes quedarte o fichar por uno de dos equipos. Las propuestas muestran el papel previsto, sin garantizar los minutos. Cada tramo termina con tus partidos, titularidades, goles y asistencias.'),node('p','30 decisiones. Un intento diario por cuenta. Reinicio a las 00:00 UTC; la práctica no entra en el ranking.'),node('p','Puntuación: forma 20%, papel deportivo 20%, físico 15%, técnica 15%, profesionalidad 15% y control 15%. Los títulos de liga salen de la clasificación completa. Champions usa un formato adaptado de grupos y eliminatorias; solo juegan los equipos clasificados.'));actions.append(button('Volver al reto',()=>{screen='play';render();},'daily-primary'),button(mode==='daily'?'Ir a práctica':'Volver al Daily',switchMode,'daily-link'));
+  }else if(screen==='ranking'){
+   title('CLASIFICACIÓN DE HOY','El legado de hoy');const board=state?.leaderboard;if(!board?.total)card.append(node('p','Sé el primero en publicar tu carrera.'));else{if(board.position)card.append(node('p',`Tu posición: ${board.position}`));for(const row of board.rows){const line=node('div',undefined,'daily-rank');line.append(node('span',`${row.position}. ${row.you?'Tú':'Jugador'}`),node('strong',`${row.score} pts`));card.append(line);}}actions.append(button('Volver a mi carrera',()=>{screen='play';render();},'daily-primary'));
+  }else if(!state){title('DAILY','Preparando tu carrera…');}
+  else if(!state.started){
+   const portrait=node('img',undefined,'daily-portrait');portrait.src=assets.hero_player??'./cover.png';portrait.alt='';card.append(portrait);title('30 DECISIONES · 6 ETAPAS','Del debut al legado','Elige equipo. Gánate los minutos. Decide cuándo marcharte. Una carrera de los 18 a los 38 años en pocos minutos.');actions.append(button(mode==='practice'?'Empezar práctica':'Jugar el Daily',()=>request({dailyId:state.config.id,action:'start'}),'daily-primary'),button(mode==='daily'?'Practicar primero':'Volver al Daily',switchMode,'daily-link'));
+  }else if(state.finished){
+   title(mode==='practice'?'PRÁCTICA COMPLETADA':'TU CARRERA',`${state.score.total} puntos`,'Veinte años. Treinta decisiones. Este es tu legado.');numbers(card,state.view.totals);honours(card,'Títulos colectivos',state.view.titles);honours(card,'Distinciones individuales',state.view.awards);
+   const stages=node('details',undefined,'daily-details');stages.append(node('summary','Recorrido por etapas'));for(const part of state.view.summaries){stages.append(node('h2',`${part.from}–${part.to} · ${part.club}`));numbers(stages,part);}card.append(stages);
+   const history=node('details',undefined,'daily-details');history.append(node('summary','Las decisiones de tu historia'));for(const entry of state.view.history??[])history.append(node('p',`${entry.age} años · ${entry.title}\n${entry.choice}`));card.append(history);
+   if(mode==='daily')actions.append(button(state.leaderboard?.position?'Resultado publicado ✓':'Publicar en el ranking',()=>request({dailyId:state.config.id,action:'publish'}),'daily-primary'),button('Ver clasificación',()=>{screen='ranking';render();},'daily-link'));else actions.append(button('Otra carrera de práctica',()=>request({dailyId:state.config.id,action:'restart',expectedRevision:state.view.revision}),'daily-primary'),button('Jugar el Daily',switchMode,'daily-link'));
+  }else if(state.view.screen==='summary'){
+   const part=state.view.summary;title(`${part.from}–${part.to} AÑOS`,part.name,`${part.club} · Titular en el ${part.role}% de tus partidos`);numbers(card,part);if(part.titles.length)honours(card,'Títulos colectivos',part.titles);if(part.awards.length)honours(card,'Distinciones individuales',part.awards);actions.append(button(`Siguiente etapa · ${state.view.nextStage.from}–${state.view.nextStage.to} →`,()=>act({type:'acknowledge'}),'daily-primary'));
+  }else if(state.view.screen==='club'){
+   title(done===0?'EL PRIMER CONTRATO':'EL MERCADO',done===0?'¿Dónde empiezas?':'¿Te quedas o te vas?',done===0?'Tres equipos. Tres caminos para ganarte un puesto.':'Dos propuestas nuevas. Compara el nivel y los minutos antes de decidir.');
+   for(const club of state.view.clubs){const b=button('',()=>act({type:'choose',choiceId:club.id}),'daily-choice daily-club');b.dataset.choice=club.id;const copy=node('span');copy.append(node('strong',club.stay?`Quedarme en ${club.name}`:club.name),node('small',`División ${club.tier} · ${club.role>=65?'Aspiras a ser titular':club.role>=40?'Papel de rotación':'Competencia por minutos'}`));b.append(node('span',club.stay?'↺':'→','daily-letter'),copy);actions.append(b);}
+  }else{
+   const decision=state.view.decision;title(`DECISIÓN ${done+1} DE ${limit}`,decision.title,decision.body);actions.setAttribute('aria-label','Opciones de decisión');for(const [i,choice]of decision.choices.entries()){const el=button('',()=>act({type:'choose',choiceId:choice.id}),'daily-choice');el.dataset.choice=choice.id;el.append(node('span',String.fromCharCode(65+i),'daily-letter'),node('span',choice.label));actions.append(el);}
   }
-  const act=command=>{selected=command.choiceId??null;return request({dailyId:state.config.id,action:'command',command:{...command,commandId:crypto.randomUUID(),expectedRevision:state.view.revision}});};
-  function switchMode(){mode=mode==='daily'?'practice':'daily';screen='play';state=null;request();}
-  function render(){
-    root.replaceChildren();root.dataset.screen=screen;
-    const header=node('header',undefined,'daily-header');header.append(button('←',onClose,'daily-icon'),node('strong',mode==='practice'?'PRÁCTICA':'ELEVENFATE DAILY'),button('?',()=>{screen=screen==='rules'?'play':'rules';render();},'daily-icon'));header.firstChild.setAttribute('aria-label','Volver a carrera');header.lastChild.setAttribute('aria-label','Cómo jugar Daily');root.append(header);
-    const progress=node('div',undefined,'daily-progress'),done=state?.resolved??0;for(let i=0;i<5;i++)progress.append(node('span',undefined,i<done?'complete':''));progress.setAttribute('aria-label',`${done} de 5 decisiones`);root.append(progress);
-    const card=node('section',undefined,'daily-card'),actions=node('footer',undefined,'daily-actions');root.append(card,actions);
-    if(screen==='rules'){
-      card.append(node('span','CÓMO JUGAR','daily-kicker'),node('h1','Tu camino en 5 decisiones'),node('p','Lee la situación, elige y descubre qué cambia. Todos empiezan con las mismas condiciones.'),node('p','Forma 30% · papel deportivo 25% · físico 20% · profesionalidad 15% · control 10%.'),node('p','Un intento por cuenta y día. Cambia a las 00:00 UTC. La práctica no entra en el ranking. La puntuación aún está en pruebas.'));actions.append(button('Volver al reto',()=>{screen='play';render();},'daily-primary'),button(mode==='daily'?'Ir a práctica':'Volver al Daily',switchMode,'daily-link'));
-    }else if(screen==='ranking'){
-      card.append(node('span','CLASIFICACIÓN DE HOY','daily-kicker'),node('h1','¿Hasta dónde llegaste?'));const board=state?.leaderboard;
-      if(!board?.total)card.append(node('p','Sé el primero en publicar tu resultado.'));else{if(board.position)card.append(node('p',`Tu posición: ${board.position}`));for(const row of board.rows){const line=node('div',undefined,'daily-rank');line.append(node('span',`${row.position}. ${row.you?'Tú':'Jugador'}`),node('strong',`${row.score} pts`));card.append(line);}}actions.append(button('Volver al reto',()=>{screen='play';render();},'daily-primary'));
-    }else if(!state){card.append(node('span','UN NUEVO CAPÍTULO','daily-kicker'),node('h1','Preparando tu reto…'));
-    }else if(!state.started){
-      const portrait=node('img',undefined,'daily-portrait');portrait.src=assets.hero_player??'./cover.png';portrait.alt='';card.append(portrait,node('span','RETO DE HOY · 5 DECISIONES','daily-kicker'),node('h1','Tu primera oportunidad'),node('p','18 años. Valdoria. Un futuro por construir.'),node('div','Lee · Elige · Descubre','daily-prompt'));actions.append(button(mode==='practice'?'Empezar práctica':'Jugar el reto de hoy',()=>request({dailyId:state.config.id,action:'start'}),'daily-primary'),button(mode==='daily'?'Practicar primero':'Volver al Daily',switchMode,'daily-link'));
-    }else if(state.finished){
-      card.append(node('span',mode==='practice'?'PRÁCTICA COMPLETADA':'TU RESULTADO','daily-kicker'),node('h1',String(state.score.total),'daily-score'),node('p','puntos de 1.000','daily-score-label'),node('p',(state.view.result?.messages??['Cinco decisiones que construyen tu camino.']).join('\n')));const breakdown=node('div',undefined,'daily-breakdown');for(const part of state.score.breakdown){const row=node('div');row.append(node('span',part.label),node('strong',String(part.points)));breakdown.append(row);}card.append(breakdown);
-      if(mode==='daily')actions.append(button(state.leaderboard?.position?'Resultado publicado ✓':'Publicar en el ranking',()=>request({dailyId:state.config.id,action:'publish'}),'daily-primary'),button('Ver clasificación',()=>{screen='ranking';render();},'daily-link'));else actions.append(button('Jugar el Daily',switchMode,'daily-primary'));
-    }else{
-      const view=state.view;card.append(node('span',view.screen==='result'?`DECISIÓN ${done} · CONSECUENCIAS`:`DECISIÓN ${done+1} DE 5`,'daily-kicker'));
-      if(view.screen==='decision'){
-        card.append(node('h1',view.decision.title),node('p',view.decision.body,'daily-story'));actions.dataset.choices=String(view.decision.choices.length);
-        for(const [i,choice]of view.decision.choices.entries()){const el=button('',()=>act({type:'choose',pendingInstanceId:view.decision.instanceId,choiceId:choice.id}),'daily-choice');el.dataset.choice=choice.id;el.append(node('span',String.fromCharCode(65+i),'daily-letter'),node('span',choice.label));actions.append(el);}
-      }else if(view.screen==='result'){
-        card.append(node('h1',view.result.title));for(const message of view.result.messages)card.append(node('p',message,'daily-story'));const effects=node('div',undefined,'daily-effects');for(const effect of view.result.visibleEffects??[])effects.append(node('span',`${effect.label} ${effect.delta>0?'+':''}${new Intl.NumberFormat('es',{maximumFractionDigits:1}).format(effect.delta)}`));card.append(effects);actions.append(button('Siguiente decisión →',()=>act({type:'acknowledge'}),'daily-primary'));
-      }else if(view.screen==='offer'){
-        card.append(node('h1','Una oferta para ti'),node('p',view.offer.reason),node('p',`${view.offer.terms.salary} € al mes · ${view.offer.terms.months} meses`));for(const [action,label]of [['accept','Aceptar'],['reject','Rechazar']])actions.append(button(label,()=>act({type:'offer',offerId:view.offer.id,action}),'daily-choice'));
-      }
-    }
-    if(error)actions.append(button('Recuperar intento',()=>request(),'daily-link'));const status=node('div',undefined,'daily-status');status.setAttribute('role','status');root.append(status);pending();root.scrollTop=0;const heading=card.querySelector('h1');if(heading&&!busy){heading.tabIndex=-1;heading.focus({preventScroll:true});}
-  }
-  request();
+  if(screen==='play'&&state?.view?.league){card.append(button('Temporadas · resultados y clasificación',()=>{screen='table';render();},'daily-link'));}
+  if(state?.view?.lastMessage&&!state.finished&&state.view.screen!=='summary'){const note=node('div',undefined,'daily-consequence');note.append(node('span','Última elección'),node('p',state.view.lastMessage));card.append(note);}
+  if(error)actions.append(button('Recuperar intento',()=>request(),'daily-link'));const status=node('div',undefined,'daily-status');status.setAttribute('role','status');root.append(status);pending();root.scrollTop=0;
+ }
+ request();
 }

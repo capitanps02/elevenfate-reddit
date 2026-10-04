@@ -98,6 +98,8 @@ export interface CommitExpectation {
 /** Must either persist the complete snapshot or reject without confirming it. */
 export type CommitSnapshot = (snapshot: SessionSnapshot, previous: CommitExpectation | null) => Promise<void>;
 export interface SessionOptions {
+    /** Reddit-only coherent competitions; historical results remain unchanged. */
+    redditCompetitions?: boolean;
     events?: EventDefinition[];
     commit?: CommitSnapshot;
     migrationRoutes?: readonly ContentMigrationRoute[];

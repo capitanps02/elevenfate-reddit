@@ -144,6 +144,8 @@ export interface CommitExpectation { sessionId: string; revision: number; }
 /** Must either persist the complete snapshot or reject without confirming it. */
 export type CommitSnapshot = (snapshot: SessionSnapshot, previous: CommitExpectation | null) => Promise<void>;
 export interface SessionOptions {
+  /** Reddit-only coherent competitions; historical results remain unchanged. */
+  redditCompetitions?: boolean;
   events?: EventDefinition[];
   commit?: CommitSnapshot;
   migrationRoutes?: readonly ContentMigrationRoute[];
@@ -510,6 +512,7 @@ export class GameSession {
       pendingDecision: null, pendingResult: null, receipts: [], journal: [], decisionProvenance: [], needsWorldAdvance: false,
       autoSimulation: idleAutoSimulationState()
     };
+    if(options.redditCompetitions) snapshot.state.world.redditCompetitionFrom=snapshot.state.date;
     marketState(snapshot.state);
     const session = new GameSession(
       snapshot,
@@ -542,6 +545,10 @@ export class GameSession {
     next.autoSimulation ??= idleAutoSimulationState();
     reconcileKnowledge(next, activeEvidence, options.knowledgeLegacyCertifications);
     marketState(next.state);
+    if(options.redditCompetitions && typeof next.state.world.redditCompetitionFrom!=="string") {
+      const fixtures = next.state.world.sportMatchModel as {fixtures?:unknown[]}|undefined;
+      next.state.world.redditCompetitionFrom=fixtures?.fixtures?.length ? `${Number(next.state.season.slice(0,4))+1}-07-01` : next.state.date;
+    }
     next.build=SESSION_BUILD; // Existing narrative and RNG are preserved; new offers require explicit consent.
     await assertSessionSnapshot(next, { events, activeContentIdentity, activeEvidence, contentSources });
     return new GameSession(next, events, activeEvidence, options.commit, options.migrationRoutes ?? CONTENT_MIGRATION_ROUTES, contentSources);
@@ -925,6 +932,7 @@ export class GameSession {
       const beforeRetirement = next.state.retirement.status;
       const beforeObjectiveStatus = getSportMatchModelStore(next.state)?.objective?.status ?? null;
       const beforeNationalSelection = JSON.stringify(getNationalSelectionAuthorityStore(next.state));
+      const beforeMatches=getSportMatchModelStore(next.state)?.fixtures.length??0;
       const beforeDay = next.state.runtime.day;
       this.#worldDay(next);
       const advanced = Math.max(0, next.state.runtime.day - beforeDay);
@@ -941,6 +949,7 @@ export class GameSession {
       const afterObjectiveStatus = getSportMatchModelStore(next.state)?.objective?.status ?? null;
       seasonCompleted ||= beforeObjectiveStatus !== "closed" && afterObjectiveStatus === "closed";
       nationalSelectionChanged ||= JSON.stringify(getNationalSelectionAuthorityStore(next.state)) !== beforeNationalSelection;
+      if(typeof next.state.world.redditCompetitionFrom==="string" && (getSportMatchModelStore(next.state)?.fixtures.length??0)>beforeMatches)return true;
       return stopAtRelevantBoundary && (
         seasonChanged || ageChanged || importantInjuryStarted || nationalSelectionChanged ||
         roleChanged || clubChanged || seasonCompleted || retirementChanged

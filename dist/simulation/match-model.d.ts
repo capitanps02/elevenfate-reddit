@@ -1,6 +1,6 @@
 import type { GameState } from "../core/types.js";
 export type MatchHomeAway = "home" | "away";
-export type MatchCompetition = "league";
+export type MatchCompetition = "league" | "champions";
 export type MatchOutcome = "win" | "draw" | "loss";
 export type SquadStatus = "not_called" | "bench" | "substitute" | "starter";
 export type LeagueObjectiveStatus = "open" | "closed";
@@ -250,3 +250,6 @@ export declare function nextScheduledTrainingDate(state: GameState): string | nu
 export declare function remainingLeagueFixtures(state: GameState): number;
 /** Read-only validation for the optional match-model store. */
 export declare function inspectSportMatchModelStore(value: unknown, maxDate?: string, state?: GameState): MatchModelIssue | null;
+/** Reddit's accelerated league supplies its own coherent fixture/result calendar.
+ * Reuse the canonical player-stat producer without changing the long-career loop. */
+export declare function playerStatsForFixture(state: GameState, fixture: ScheduledFixture, player: MatchPlayerFact, result: MatchResultFact, performance: MatchPerformanceContext): MatchPlayerStats;

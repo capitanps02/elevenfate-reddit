@@ -1,16 +1,43 @@
-✔ PC save continues on a second device; accounts remain isolated (43.368834ms)
-✔ stale device cannot overwrite progress, but user can reload and retry (4.367033ms)
-✔ concurrent saves allow exactly one writer and retain the recovery copy (0.764349ms)
-✔ retry after a lost response is idempotent; old unrelated save is rejected (0.679551ms)
-✔ invalid, oversized and anonymous writes never change a confirmed save (3.491748ms)
-✔ network failure cannot be presented as a successful cloud save (2.827104ms)
-✔ deletion removes active and recovery data and rejects stale-device resurrection (0.889872ms)
-✔ real ElevenFate snapshots survive cloud roundtrip with unchanged RNG and view (3965.788217ms)
-ℹ tests 8
+$ pnpm run build:reddit && node scripts/check-reddit-config.mjs && pnpm run test:reddit
+$ node scripts/build.mjs && node scripts/build-reddit.mjs
+Build 0.8.0-t2.5 · TypeScript 5.8.3 · fuentes b6ac51e7da8c
+ElevenFate Reddit: reused engine/UI; extracted images; no videos or native Android code.
+Devvit config validated by installed CLI; client and server entries exist.
+$ node --test reddit/test/*.test.mjs
+✔ calendar and simulated table are deterministic and never change career or RNG (21.384395ms)
+✔ team standings retain recorded scores; league points reconcile and every team plays each round (5.584756ms)
+✔ PC save continues on a second device; accounts remain isolated (56.333371ms)
+✔ stale device cannot overwrite progress, but user can reload and retry (5.693107ms)
+✔ concurrent saves allow exactly one writer and retain the recovery copy (0.907624ms)
+✔ retry after a lost response is idempotent; old unrelated save is rejected (1.072411ms)
+✔ invalid, oversized and anonymous writes never change a confirmed save (4.29494ms)
+✔ network failure cannot be presented as a successful cloud save (2.119813ms)
+✔ deletion removes active and recovery data and rejects stale-device resurrection (0.799979ms)
+✔ retries and stale writes/deletions release unfinished Redis transactions (0.779495ms)
+✔ anonymous, ordinary users and moderators without post permission cannot create game posts (3.620475ms)
+✔ authorized moderators can create posts only in the trusted context community (2.555603ms)
+✔ Daily configuration uses UTC and changes at the next UTC day (2.994232ms)
+✔ same Daily choices give identical results, survive reload and never overwrite career (3206.744158ms)
+✔ Daily rejects old days and simulation/import commands without changing progress (1.623378ms)
+✔ practice can finish without entering ranking or consuming the Daily attempt (1015.762673ms)
+✔ Daily simulates six age stages, three club choices, recorded sporting totals and a final career (971.041328ms)
+✔ club spoofing and stale choices are rejected; retries do not advance twice (14.448854ms)
+✔ different career strategies and clubs stay within save limits and reconcile actual fixtures (12170.215692ms)
+✔ real ElevenFate snapshots survive cloud roundtrip with unchanged RNG and view (3635.589106ms)
+✔ complete league has two legs, one match per team per round and reconciled results (20.252033ms)
+✔ clubs do not automatically win and successive seasons have different scores (48.430311ms)
+✔ continental qualifiers, group totals and aggregate knockouts agree; no future score leaks (41.027855ms)
+✔ long career records coherent league rounds; save/load preserves the next fixture and exact results (489.420469ms)
+✔ long continental fixtures do not collide with league dates across seasons and record official player facts (175.013783ms)
+✔ manual Reddit advance stops after a single round instead of skipping a season (30.60398ms)
+✔ multi-season session saves retain historical results after real contract decisions (543.643292ms)
+✔ startup GET recovers from a cold gateway and stops after three failures (5.344605ms)
+✔ startup GET does not retry authentication or missing-asset responses (1.010045ms)
+ℹ tests 29
 ℹ suites 0
-ℹ pass 8
+ℹ pass 29
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 4336.731158
+ℹ duration_ms 17762.752512

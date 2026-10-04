@@ -1,3 +1,4 @@
+import {careerLeagueOutcome} from "../../reddit/shared/league-simulator.mjs";
 import type { GameState } from "../core/types.js";
 import { materializeAge18MarketOfferInPlace } from "./early-career-market.js";
 import {
@@ -6,6 +7,7 @@ import {
   currentSportsCoachTrust
 } from "./world-simulator-core.js";
 import {
+  isOfficialMatchDay,
   buildMatchPerformanceContext,
   closeLeagueObjectiveInPlace,
   recordOfficialMatchInPlace,
@@ -95,6 +97,7 @@ export function advanceWorldDayInPlace(next: GameState): GameState {
   // be materialized after the terminal state.
   if (next.retirement.status === "closed") return next;
 
+  if(next.date.endsWith("07-01") && typeof next.world.redditCompetitionFrom==="string" && next.professional.registrationClub==="UDV" && next.flags.UDV_RELEGATED===true){next.tier=4;next.professional.leagueTier=4;}
   publishNationalSelectionFactsInPlace(next, beforeNationalTournamentCycle);
 
   const afterInjuryWeeks = num(next.world.injuryWeeksRemaining, 0);
@@ -112,7 +115,7 @@ export function advanceWorldDayInPlace(next: GameState): GameState {
     recordCoreFinalCompetitionMomentInPlace(next);
   }
 
-  if (next.runtime.day % 7 === 0 && hasActiveClubEmployment(next)) {
+  if ((typeof next.world.redditCompetitionFrom === "string" ? isOfficialMatchDay(next) : next.runtime.day % 7 === 0) && hasActiveClubEmployment(next)) {
     const appeared = num(next.sport.appearances) > beforeAppearances;
     const performanceContext = buildMatchPerformanceContext(next, coachTrustAtKickoff);
     const match = recordOfficialMatchInPlace(next, {
@@ -142,6 +145,9 @@ export function advanceWorldDayInPlace(next: GameState): GameState {
     // evidence that the concrete league objective is closed. Close the objective
     // only when the producer's own fixture calendar is exhausted.
     if (match && remainingLeagueFixtures(next) === 0) {
+      if(typeof next.world.redditCompetitionFrom==="string" && next.professional.registrationClub==="UDV") {
+        const leagueOutcome=careerLeagueOutcome(next);next.flags.UDV_RELEGATED=leagueOutcome==="relegated";next.flags.UDV_PLAYOFF=leagueOutcome==="playoff";next.world.udvSeasonResolved=true;if(leagueOutcome==="relegated")next.world.udvTier=4;
+      }
       const outcome = next.professional.registrationClub === "UDV"
         ? next.flags.UDV_RELEGATED === true
           ? "relegated"

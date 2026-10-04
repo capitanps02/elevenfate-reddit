@@ -1,8 +1,11 @@
 {
-  "checkedAt": "2026-10-03T23:18:10.312730+00:00",
   "originalFilesChecked": 2130,
-  "originalFilesChanged": [],
-  "coreFilesChecked": 197,
-  "coreFilesChanged": [],
-  "gitObjectsIndependent": true
+  "originalChanged": [],
+  "copyCoreFilesChecked": 197,
+  "copyCoreChanged": [
+    "src/session/game-session.ts",
+    "src/simulation/match-model.ts",
+    "src/simulation/world-simulator-core.ts",
+    "src/simulation/world-simulator.ts"
+  ]
 }

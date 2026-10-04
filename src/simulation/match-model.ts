@@ -1,3 +1,4 @@
+import {careerCompetitionFixture} from '../../reddit/shared/league-simulator.mjs';
 import type { DataValue, GameState } from "../core/types.js";
 import { selectFixtureOpponent } from "../catalog/football/fixture-opponent.js";
 
@@ -6,7 +7,7 @@ const OFFICIAL_MONTHS = new Set([8, 9, 10, 11, 12, 1, 2, 3, 4, 5]);
 const TRAINING_MONTHS = new Set([7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5]);
 
 export type MatchHomeAway = "home" | "away";
-export type MatchCompetition = "league";
+export type MatchCompetition = "league" | "champions";
 export type MatchOutcome = "win" | "draw" | "loss";
 export type SquadStatus = "not_called" | "bench" | "substitute" | "starter";
 export type LeagueObjectiveStatus = "open" | "closed";
@@ -265,6 +266,8 @@ function fixtureId(season: string, date: string, club: string): string {
 }
 
 function fixtureProjection(state: GameState, date: string): ScheduledFixture {
+  const competition = careerCompetitionFixture(state,date);
+  if(competition) return competition.fixture;
   const club = state.professional.registrationClub;
   const fingerprint = avalanche32(hashString(`${state.season}|${date}|${club}|${state.professional.leagueTier}`));
   const opponent = selectFixtureOpponent({
@@ -334,7 +337,12 @@ function goalCount(roll: number): number {
   return goals[roll % goals.length]!;
 }
 
-function deterministicMatchResult(state: GameState, fixture: ScheduledFixture): MatchResultFact {
+function deterministicMatchResult(state: GameState, fixture: ScheduledFixture, context?: MatchPerformanceContext): MatchResultFact {
+  const historical = fixture.club!==state.professional.registrationClub || fixture.season!==state.season || context?.leagueTier!==undefined&&context.leagueTier!==state.professional.leagueTier
+    ? {...state,season:fixture.season,professional:{...state.professional,registrationClub:fixture.club,leagueTier:context?.leagueTier??state.professional.leagueTier}}
+    : state;
+  const competition = careerCompetitionFixture(historical,fixture.date);
+  if(competition && competition.fixture.club===fixture.club) return competition.result;
   const clubGoals = goalCount(footballProducerRoll(state, fixture, "club-goals"));
   const opponentGoals = goalCount(footballProducerRoll(state, fixture, "opponent-goals"));
   const homeGoals = fixture.homeAway === "home" ? clubGoals : opponentGoals;
@@ -449,6 +457,7 @@ function deterministicDebutContext(state: GameState, fixture: ScheduledFixture):
  */
 export function isOfficialMatchDay(state: GameState, offsetDays = 0): boolean {
   const date = addDays(state.date, offsetDays);
+  if(typeof state.world.redditCompetitionFrom === "string" && date>=state.world.redditCompetitionFrom) return careerCompetitionFixture(state,date)!==null;
   return OFFICIAL_MONTHS.has(monthOf(date)) && (state.runtime.day + offsetDays) % 7 === 0;
 }
 
@@ -989,7 +998,8 @@ export function scheduledLeagueFixtures(state: GameState, horizonDays = 14): Sch
     const date = addDays(state.date, offset);
     if (date > seasonEnd) break;
     if (!isOfficialMatchDay(state, offset)) continue;
-    fixtures.push(fixtureProjection(state, date));
+    const fixture=fixtureProjection(state,date);
+    if(fixture.competition==="league") fixtures.push(fixture);
   }
   return fixtures;
 }
@@ -1113,7 +1123,7 @@ function fixtureIssue(value: unknown, index: number, maxDate?: string, state?: G
   if (!validIsoDate(value.date)) return { path: `${path}.date`, reason: "invalid fixture date" };
   if (maxDate && value.date > maxDate) return { path: `${path}.date`, reason: "fixture cannot be in the future" };
   if (value.id !== fixtureId(value.season as string, value.date as string, value.club as string)) return { path: `${path}.id`, reason: "fixture id is not canonical" };
-  if (value.competition !== "league" || value.official !== true) return { path, reason: "unsupported competition or non-official fixture" };
+  if (!["league","champions"].includes(String(value.competition)) || value.official !== true) return { path, reason: "unsupported competition or non-official fixture" };
   if (value.homeAway !== "home" && value.homeAway !== "away") return { path: `${path}.homeAway`, reason: "invalid home/away value" };
 
   const player = value.player;
@@ -1181,7 +1191,7 @@ function fixtureIssue(value: unknown, index: number, maxDate?: string, state?: G
     if (result.outcome !== expectedOutcome) return { path: `${path}.result.outcome`, reason: "outcome contradicts final score" };
 
     if (state) {
-      const expected = deterministicMatchResult(state, value as unknown as ScheduledFixture);
+      const expected = deterministicMatchResult(state, value as unknown as ScheduledFixture, value.performanceContext as MatchPerformanceContext|undefined);
       if (result.homeGoals !== expected.homeGoals
         || result.awayGoals !== expected.awayGoals
         || result.halfTimeHomeGoals !== expected.halfTimeHomeGoals
@@ -1302,4 +1312,13 @@ export function inspectSportMatchModelStore(value: unknown, maxDate?: string, st
     if (objective.status === "closed" && (objective.resolvedAt === null || objective.outcome === null)) return { path: `${path}.objective`, reason: "closed objective requires resolution data" };
   }
   return null;
+}
+
+/** Reddit's accelerated league supplies its own coherent fixture/result calendar.
+ * Reuse the canonical player-stat producer without changing the long-career loop. */
+export function playerStatsForFixture(
+  state: GameState, fixture: ScheduledFixture, player: MatchPlayerFact,
+  result: MatchResultFact, performance: MatchPerformanceContext
+): MatchPlayerStats {
+  return deterministicPlayerStats(state, fixture, player, result, performance);
 }

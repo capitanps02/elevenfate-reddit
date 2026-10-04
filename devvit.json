@@ -48,7 +48,10 @@
     "web/assets/cutscenes/",
     "reddit/public/",
     "reddit/build/",
-    "docs/reddit/source-copy.json"
+    "docs/reddit/source-copy.json",
+    "marketing/",
+    ".env",
+    ".env.*"
   ],
   "dev": {
     "subreddit": "elevenfate_dev2"
