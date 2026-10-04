@@ -1,0 +1,44 @@
+$ pnpm run build:reddit && node scripts/check-reddit-config.mjs && pnpm run test:reddit
+$ node scripts/build.mjs && node scripts/build-reddit.mjs
+Build 0.8.0-t2.5 · TypeScript 5.8.3 · fuentes b6ac51e7da8c
+ElevenFate Reddit: reused engine/UI; extracted images; no videos or native Android code.
+Devvit config validated by installed CLI; client and server entries exist.
+$ node --test reddit/test/*.test.mjs
+✔ calendar and simulated table are deterministic and never change career or RNG (21.674068ms)
+✔ team standings retain recorded scores; league points reconcile and every team plays each round (7.719643ms)
+✔ legacy careers show only the last result on home without losing detailed history (5.500454ms)
+✔ PC save continues on a second device; accounts remain isolated (54.595402ms)
+✔ stale device cannot overwrite progress, but user can reload and retry (5.237097ms)
+✔ concurrent saves allow exactly one writer and retain the recovery copy (0.759143ms)
+✔ retry after a lost response is idempotent; old unrelated save is rejected (0.837671ms)
+✔ invalid, oversized and anonymous writes never change a confirmed save (4.062936ms)
+✔ network failure cannot be presented as a successful cloud save (2.739609ms)
+✔ deletion removes active and recovery data and rejects stale-device resurrection (1.062313ms)
+✔ retries and stale writes/deletions release unfinished Redis transactions (0.977925ms)
+✔ anonymous, ordinary users and moderators without post permission cannot create game posts (2.742491ms)
+✔ authorized moderators can create posts only in the trusted context community (2.152856ms)
+✔ Daily configuration uses UTC and changes at the next UTC day (3.916826ms)
+✔ same Daily choices give identical results, survive reload and never overwrite career (3157.24024ms)
+✔ Daily rejects old days and simulation/import commands without changing progress (1.432638ms)
+✔ practice can finish without entering ranking or consuming the Daily attempt (1037.161644ms)
+✔ Daily simulates six age stages, three club choices, recorded sporting totals and a final career (980.233032ms)
+✔ club spoofing and stale choices are rejected; retries do not advance twice (14.066882ms)
+✔ different career strategies and clubs stay within save limits and reconcile actual fixtures (12789.258436ms)
+✔ real ElevenFate snapshots survive cloud roundtrip with unchanged RNG and view (3675.375955ms)
+✔ complete league has two legs, one match per team per round and reconciled results (23.068865ms)
+✔ clubs do not automatically win and successive seasons have different scores (62.428069ms)
+✔ continental qualifiers, group totals and aggregate knockouts agree; no future score leaks (43.600143ms)
+✔ long career records coherent league rounds; save/load preserves the next fixture and exact results (456.985311ms)
+✔ long continental fixtures do not collide with league dates across seasons and record official player facts (154.106877ms)
+✔ manual Reddit advance stops after a single round instead of skipping a season (30.501706ms)
+✔ multi-season session saves retain historical results after real contract decisions (544.264413ms)
+✔ startup GET recovers from a cold gateway and stops after three failures (3.736843ms)
+✔ startup GET does not retry authentication or missing-asset responses (0.495324ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18378.870623

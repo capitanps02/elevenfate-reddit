@@ -35,7 +35,7 @@ function legacyCareerSports(state){
  }
  const sorted=[...rows.values()].sort((a,b)=>b.points-a.points||(b.gf-b.ga)-(a.gf-a.ga)||b.gf-a.gf||a.name.localeCompare(b.name)).map((r,i)=>({...r,position:i+1}));
  const own=sorted.find(r=>r.you);
- return {club:formatClubName(club),division:division.name,season:state.season,recent:actual.filter(m=>m.result).slice(-2),upcoming:upcoming.slice(0,3),rows:sorted,position:own?.played?own.position:null,played:own?.played??0,points:own?.points??0,simulated:true};
+ return {club:formatClubName(club),division:division.name,season:state.season,recent:actual.filter(m=>m.result).slice(-1),allRecent:actual.filter(m=>m.result),upcoming:upcoming.slice(0,1),rows:sorted,position:own?.played?own.position:null,played:own?.played??0,points:own?.points??0,simulated:true};
 }
 export function createCareerSportsView(){let key='',cached=null;return session=>{const view=session.getView(),next=`${view.sessionId}:${view.revision}`;if(next!==key){cached=projectCareerSports(session.exportSnapshot().state);key=next;}return cached;};}
 

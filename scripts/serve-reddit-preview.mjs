@@ -7,6 +7,9 @@ import {createMemoryRedis} from '../reddit/test/memory-redis.mjs';
 import {createDailyService} from '../reddit/server/daily-service.mjs';
 const app=express(),service=createCareerService({redis:createMemoryRedis(),validate:raw=>GameSession.migrateFromSave(raw)});
 app.use(express.json({limit:'2mb'}));
+// Optional local-only latency to inspect pending UI, never included in Devvit.
+const qaDelay=Math.min(10000,Math.max(0,Number(process.env.ELEVENFATE_PREVIEW_SAVE_DELAY_MS)||0));
+app.use('/api',async(req,_res,next)=>{if(qaDelay&&['POST','PUT'].includes(req.method))await new Promise(resolve=>setTimeout(resolve,qaDelay));next();});
 const userId='t2_preview';
 // Optional local QA fixture. Still validated by the original session loader.
 if(process.env.ELEVENFATE_PREVIEW_FIXTURE)await service.write(userId,{raw:await readFile(process.env.ELEVENFATE_PREVIEW_FIXTURE,'utf8'),expectedGeneration:0});

@@ -21,3 +21,11 @@ test('team standings retain recorded scores; league points reconcile and every t
  assert.equal(sports.rows.reduce((n,r)=>n+r.gf,0),sports.rows.reduce((n,r)=>n+r.ga,0));
  assert.ok(sports.upcoming.every(m=>m.date>state.date));
 });
+
+test('legacy careers show only the last result on home without losing detailed history',()=>{
+ const state=createInitialState(71),matches=[];
+ for(const [date,day]of [['2026-08-05',35],['2026-08-12',42]]){state.date=date;state.runtime.day=day;matches.push(recordOfficialMatchInPlace(state,{appeared:true,debutOccurred:matches.length===0,injuryUnavailable:false}));}
+ const before=structuredClone(state),sports=projectCareerSports(state);
+ assert.deepEqual(sports.recent,[matches.at(-1)]);assert.deepEqual(sports.allRecent,matches);
+ assert.equal(sports.upcoming.length,1);assert.deepEqual(state,before);
+});
