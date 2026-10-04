@@ -11,7 +11,7 @@
 | C05 Inicio y pantallas de detalle | 100% | Inicio: puesto/puntos, último resultado y siguiente rival; resultados/tabla/Champions en detalle; matriz de detalle en nueve tamaños completada |
 | C06 Regresión y persistencia | 100% | Pruebas de calendario, balances, determinismo, contratos, dos temporadas y guardado; 29 pruebas Reddit y 221 regresiones aprobadas |
 | C07 Actualizar beta privada | 100% | 0.0.9 instalada y práctica completa real verificada |
-| C08 Enviar a revisión | 0% | Tras comprobar la nueva beta; todavía no enviado |
+| C08 Enviar a revisión | 100% | Versión 0.1.0 enviada; estado In Review confirmado en Developers |
 
 ## Reglas
 
@@ -44,3 +44,7 @@ Pendiente completar la matriz visual nueva, comprobación en Reddit real de la n
 Beta 0.0.9 subida e instalada en la comunidad privada. Práctica real completa: 30/30, 645 puntos, 265 partidos, 114 goles, 50 asistencias, 125 titularidades; ningún título en esta trayectoria. Temporadas histórica/final consultadas en Reddit: puesto 13.º y 17.º respectivamente. Daily competitivo confirmado sin empezar (0/30). La carrera larga existente se recuperó en 1 de noviembre de 2026; se conserva su calendario anterior hasta la siguiente temporada.
 
 Prueba visual con club clasificado: sesión local válida, transferencia aceptada mediante el protocolo del motor y 16 partidos oficiales, cuatro de Champions. Grupo de Alicante Puente: 4 partidos, 8 puntos, DG +2; concuerda con 1–0, 2–1, 2–2 y 0–0. Captura: `champions-ui.jpg`. Tabla y cuadros de detalle revisados en nueve tamaños, sin desbordamiento horizontal y con controles de cierre visibles.
+
+## Envío confirmado
+
+Versión **0.1.0** enviada con el código fuente a la revisión de Reddit. Developers muestra **Private · In Review**, cero instalaciones para ese candidato; la beta privada instalada continúa en **0.0.9**. Todavía no está aprobada ni disponible públicamente. Código enviado: commit `dbd6a13`, subido al repositorio independiente. Captura: `review-0.1.0.jpg`.
