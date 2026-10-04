@@ -29,8 +29,8 @@ export function createDailyService({redis,now=()=>new Date()}){
     async read(userId,mode='daily',seasonId){
       if(!['daily','practice'].includes(mode))throw new CareerError(400,'Modo Daily inválido.');
       const config=dailyConfig(now()),record=await store(config,mode).read(userId);
-      const result=projected(config,record.active?load(record.active):null,mode,seasonId);
-      if(mode==='daily')result.leaderboard=await leaderboard(config,userId);
+      const session=record.active?load(record.active):null,result=projected(config,session,mode,seasonId);
+      if(mode==='daily'){if(result.finished)await registerScore(config,userId,result.score.total);result.leaderboard=await leaderboard(config,userId);}
       return result;
     },
     async act(userId,body={}){
@@ -46,8 +46,7 @@ export function createDailyService({redis,now=()=>new Date()}){
         const result=projected(config,session,mode);
         if(!result.finished)throw new CareerError(400,'Termina las decisiones antes de publicar.');
         // Score and identity come exclusively from the confirmed server attempt.
-        await redis.zAdd(`${config.id}:ranking`,{member:userId,score:result.score.total});
-        await redis.expire(`${config.id}:ranking`,8*86400);
+        await registerScore(config,userId,result.score.total);
         result.leaderboard=await leaderboard(config,userId);
         return result;
       }
@@ -68,13 +67,19 @@ export function createDailyService({redis,now=()=>new Date()}){
       }
       await saves.write(userId,{raw:JSON.stringify(session),expectedGeneration:record.generation});
       const result=projected(config,session,mode);
+      if(mode==='daily'&&result.finished){await registerScore(config,userId,result.score.total);result.leaderboard=await leaderboard(config,userId);}
       return result;
     },
   };
+  async function registerScore(config,userId,score){
+    // Only after a confirmed run save; retries cannot create duplicate entries.
+    await redis.zAdd(`${config.id}:ranking`,{member:userId,score});
+    await redis.expire(`${config.id}:ranking`,8*86400);
+  }
   async function leaderboard(config,userId){
     const key=`${config.id}:ranking`;
-    const [top,total,rank]=await Promise.all([redis.zRange(key,0,9,{reverse:true}),redis.zCard(key),redis.zRank(key,userId)]);
+    const [top,total,rank,score]=await Promise.all([redis.zRange(key,0,24,{reverse:true}),redis.zCard(key),redis.zRank(key,userId),redis.zScore(key,userId)]);
     // No public identifiers/names: disclose only score, position and own-entry flag.
-    return {total,position:rank===undefined?null:total-rank,rows:top.map((row,index)=>({position:index+1,score:row.score,you:row.member===userId}))};
+    return {total,position:typeof rank==='number'?total-rank:null,score:typeof score==='number'?score:null,limit:25,rows:top.map((row,index)=>({position:index+1,score:row.score,you:row.member===userId}))};
   }
 }

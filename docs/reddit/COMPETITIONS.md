@@ -1,4 +1,4 @@
-> Actualización de interfaz: **0.1.3 instalada en pruebas y enviada a revisión (In Review)**. Guardado discreto, último resultado compacto y detalle de partidos antiguos corregido. Avance total hacia publicación: **93%**. Estado actual y tareas pendientes: [PUBLICATION-PROGRESS.md](PUBLICATION-PROGRESS.md). El resto del documento recoge la entrega del simulador 0.1.0.
+> Actualización de interfaz: **0.1.4 instalada en pruebas y enviada a revisión (In Review)**. Guardado discreto, último resultado compacto y detalle de partidos antiguos corregido. Avance total hacia publicación: **93%**. Estado actual y tareas pendientes: [PUBLICATION-PROGRESS.md](PUBLICATION-PROGRESS.md). El resto del documento recoge la entrega del simulador 0.1.0.
 
 # Competiciones de la edición Reddit
 

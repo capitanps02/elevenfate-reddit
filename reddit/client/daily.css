@@ -17,3 +17,5 @@ html,body{height:100%;margin:0;overflow:hidden;background:#09090b}#game{height:1
 .daily-status{font-size:10px;color:#a1a1a6;text-align:right;line-height:16px;padding:0 2px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
 .daily-status.is-pending::before{content:"";display:inline-block;width:4px;height:4px;margin:0 5px 1px 0;border-radius:50%;background:#9eafba}
 .daily-status.is-error{text-align:left;color:#ffb4a9;white-space:normal;overflow:auto;font-size:11px;line-height:16px}
+
+.daily-header{gap:8px}.daily-header>strong{min-width:0;font-size:11px}.daily-tools{display:flex;gap:4px;flex-shrink:0}.daily-ranking-button{font-size:12px!important;color:#d6b86a}.daily-own-rank{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid #409cff40;border-radius:10px;background:#0a6dcc20;font-size:13px}.daily-rank.your-score{color:#d6b86a;background:#ffffff05}.daily-card .daily-ranking-note{font-size:11px;line-height:1.4;color:#a1a1a6}
