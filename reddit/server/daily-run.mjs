@@ -1,3 +1,5 @@
+import {dailyScore,scoreSnapshot} from './daily-score.mjs';
+export {dailyScore} from './daily-score.mjs';
 import {createInitialState} from '../../dist/content/initial-state.js';
 import {FOOTBALL_CLUBS} from '../../dist/catalog/football/index.js';
 import {EVENTS} from '../../dist/content/events/index.js';
@@ -54,7 +56,7 @@ function prepare(run){
  const event=original?.event??fallbackEvent(run);
  run.pending={kind:'story',event,choices:eligibleChoices(s,event).map(c=>({id:c.id,label:c.label})),original:Boolean(original)};
 }
-export function newDailyRun(config){const run={version:3,strengths:{},competitions:[],seed:config.seed,revision:0,resolved:0,stage:0,finished:false,state:createInitialState(config.seed),pending:null,summaries:[],seasons:[],history:[],lastMessage:'',receipts:[],summaryPending:false};prepare(run);return run;}
+export function newDailyRun(config){const run={version:3,scoringVersion:(config.rulesVersion??4)>=4?2:1,scoreStages:[],strengths:{},competitions:[],seed:config.seed,revision:0,resolved:0,stage:0,finished:false,state:createInitialState(config.seed),pending:null,summaries:[],seasons:[],history:[],lastMessage:'',receipts:[],summaryPending:false};prepare(run);return run;}
 function sign(run,id){const c=clubById.get(id),s=run.state,stay=id===s.club;s.club=id;s.tier=c.tier;s.professional.ownerClub=id;s.professional.registrationClub=id;s.professional.leagueTier=c.tier;s.professional.clubPrestigeScore=c.prestige;s.professional.route=c.countryCode==='ESP'?'domestic':'abroad';s.world.ownerClub=id;s.flags.ABROAD_ROUTE=c.countryCode!=='ESP';s.sport.roleScore=predictedRole(s,c);s.role=s.sport.roleScore>=65?'starter':s.sport.roleScore>=40?'rotation':'reserve';s.contract.monthsRemaining=48;s.contract.salaryMonthly=Math.round((500+c.financialPower*100)*(1+s.reputation.prestige/100));run.lastMessage=stay?`Sigues en ${c.name}.`:`Nueva etapa en ${c.name}.`;}
 // Advance the entire league without animations or one request per match.
 function simulateTo(run,targetAge){
@@ -77,12 +79,13 @@ function simulateTo(run,targetAge){
  s.date=targetDate;s.age=Math.floor(targetAge);s.season=`${year}-${String(year+1).slice(-2)}`;
 }
 function closeStage(run){
+ if(run.scoringVersion===2)run.scoreStages.push(scoreSnapshot(run.state));
  const stage=STAGES[run.stage],seasons=run.seasons.filter(row=>!row.closed),club=clubById.get(run.state.club);
  for(const row of seasons)row.closed=true;
  const sum=key=>seasons.reduce((n,row)=>n+row[key],0);
  run.summaries.push({from:stage.from,to:stage.to,name:stage.name,club:club.name,played:sum('played'),starts:sum('starts'),goals:sum('goals'),assists:sum('assists'),minutes:sum('minutes'),role:sum('played')?Math.round(sum('starts')/sum('played')*100):0,titles:seasons.flatMap(r=>r.titles.map(title=>({title,season:r.season,club:r.clubName}))),awards:seasons.flatMap(r=>r.awards.map(title=>({title,season:r.season,club:r.clubName})))});
  run.summaryPending=true;run.pending=null;
- if(run.resolved===30){run.finished=true;run.state.retirement.status='closed';}else run.stage++;
+ if(run.resolved===30){run.finished=true;run.state.retirement.status='closed';if(run.scoringVersion===2)run.finalScore=dailyScore(run.state,run);}else run.stage++;
 }
 export function applyDailyCommand(run,command){
  if(!command||typeof command.commandId!=='string'||command.commandId.length>100||!command.commandId.length)throw new CareerError(400,'Acción Daily inválida.');
@@ -109,10 +112,4 @@ export function dailyRunView(run,seasonId){
  const selected=run.competitions.find(c=>c.id===seasonId)??run.competitions.at(-1);
  const s=run.state,p=run.pending,stage=STAGES[Math.min(run.summaryPending&&!run.finished?run.stage-1:run.stage,5)],totals={played:0,starts:0,goals:0,assists:0};for(const season of run.seasons)for(const key of Object.keys(totals))totals[key]+=season[key];
  return {seasons:run.competitions.map(c=>({id:c.id,club:clubById.get(c.clubId).name,division:c.division})),league:selected?publicLeagueSeason(selected):null,continental:selected?publicContinentalSeason(createContinentalSeason({seed:run.seed,year:selected.year,clubId:selected.clubId,previousLeague:run.competitions.find(c=>c.year===selected.year-1)}),s.date):null,revision:run.revision,age:Math.floor(s.age),club:clubById.get(s.club)?.name??'Sin equipo',form:Math.round(s.sport.form),fitness:Math.round(s.body.fitness),technique:Math.round(s.professional.technique),role:s.role,stage,nextStage:run.summaryPending&&!run.finished?STAGES[run.stage]:null,screen:run.finished?'epilogue':run.summaryPending?'summary':p.kind==='club'?'club':'decision',clubs:p?.clubs,decision:p?.kind==='story'?{title:p.event.text.title,body:p.event.text.body,choices:p.choices,original:p.original}:null,lastMessage:run.lastMessage,summary:run.summaries.at(-1),summaries:run.summaries,totals,titles:run.summaries.flatMap(r=>r.titles),awards:run.summaries.flatMap(r=>r.awards),history:run.finished?run.history:undefined};
-}
-export function dailyScore(state,run){
- const clampValue=n=>clamp(Number.isFinite(n)?n:0);
- const parts=[['Forma',state.sport.form,20],['Papel deportivo',state.sport.roleScore,20],['Estado físico',state.body.fitness,15],['Técnica',state.professional.technique,15],['Profesionalidad',state.personality.professionalism,15],['Control de carrera',state.control.career,15]];
- const breakdown=parts.map(([label,value,weight])=>({label,value:clampValue(value),weight,points:Math.round(clampValue(value)*weight/10)}));
- return {total:Math.min(1000,breakdown.reduce((n,p)=>n+p.points,0)),breakdown};
 }
