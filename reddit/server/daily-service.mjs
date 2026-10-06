@@ -2,11 +2,12 @@ import {newDailyRun,applyDailyCommand,dailyRunView,dailyScore} from './daily-run
 export {dailyScore} from './daily-run.mjs';
 import {createCareerService,CareerError} from './career-service.mjs';
 
-export function dailyConfig(now=new Date()){
-  const day=now.toISOString().slice(0,10),id=`daily-v3:${day}`;
+export const SCORE_V2_START_DAY='2026-10-07';
+export function dailyConfig(now=new Date(),mode='daily'){
+  const day=now.toISOString().slice(0,10),rulesVersion=day>=SCORE_V2_START_DAY?4:3,id=`daily-v${rulesVersion}:${day}`;
   let seed=2166136261;
-  for(const char of id)seed=Math.imul(seed^char.charCodeAt(0),16777619)>>>0;
-  return {id,day,seed,decisions:30,rulesVersion:3,resetsAt:new Date(Date.parse(day+'T00:00:00Z')+86400000).toISOString()};
+  for(const char of (rulesVersion>=4&&mode==='practice'?`${id}:practice`:id))seed=Math.imul(seed^char.charCodeAt(0),16777619)>>>0;
+  return {id,day,seed,decisions:30,rulesVersion,resetsAt:new Date(Date.parse(day+'T00:00:00Z')+86400000).toISOString()};
 }
 function projected(config,run,mode='daily',seasonId){
   if(!run)return {config,mode,started:false};
@@ -28,15 +29,15 @@ export function createDailyService({redis,now=()=>new Date()}){
   return {
     async read(userId,mode='daily',seasonId){
       if(!['daily','practice'].includes(mode))throw new CareerError(400,'Modo Daily inválido.');
-      const config=dailyConfig(now()),record=await store(config,mode).read(userId);
+      const config=dailyConfig(now(),mode),record=await store(config,mode).read(userId);
       const session=record.active?load(record.active):null,result=projected(config,session,mode,seasonId);
       if(mode==='daily'){if(result.finished)await registerScore(config,userId,result.score.total);result.leaderboard=await leaderboard(config,userId);}
       return result;
     },
     async act(userId,body={}){
-      const config=dailyConfig(now());
       const mode=body.mode??'daily';
       if(!['daily','practice'].includes(mode))throw new CareerError(400,'Modo Daily inválido.');
+      const config=dailyConfig(now(),mode);
       if(body.dailyId!==config.id)throw new CareerError(409,'Ha comenzado un nuevo Daily. Abre el reto de hoy.');
       const saves=store(config,mode),record=await saves.read(userId);
       let session;
@@ -83,3 +84,4 @@ export function createDailyService({redis,now=()=>new Date()}){
     return {total,position:typeof rank==='number'?total-rank:null,score:typeof score==='number'?score:null,limit:25,rows:top.map((row,index)=>({position:index+1,score:row.score,you:row.member===userId}))};
   }
 }
+

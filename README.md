@@ -51,3 +51,8 @@ pnpm exec devvit publish --version 0.1.4
 El repositorio es una copia independiente. No se modifica el juego original. Plan del Daily (`docs/reddit/DAILY.md` en el repositorio), verificación visual (`docs/reddit/UI-REDESIGN.md` en el repositorio).
 
 Competiciones y estado de la nueva beta: COMPETITIONS.md (`docs/reddit/COMPETITIONS.md` en el repositorio).
+
+
+## Sistema de puntos del Daily
+
+La propuesta de puntuación v2, sus fórmulas, pruebas y límites se documenta en [el informe de puntuación](docs/reddit/scoring-v2-report.md). Se puede reproducir la comparación con `node docs/reddit/scoring-v2-study.mjs`. La activación está prevista para el 7 de octubre de 2026 a las 00:00 UTC; antes de publicar hay que comprobar que la fecha sigue siendo futura y moverla si es necesario.
