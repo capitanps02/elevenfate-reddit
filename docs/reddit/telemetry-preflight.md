@@ -2,7 +2,7 @@
 
 ## Estado y alcance
 
-Referencia: Plan de ingeniería de telemetría para ElevenFate, versión 1.4, 10 de octubre de 2026. Este cambio prepara un núcleo aislado, un contrato de diagnóstico local y un medidor de duración por segmento. No conecta eventos al juego, no activa recogida y no implementa transporte, identidad ni panel.
+Referencia: Plan de ingeniería de telemetría para ElevenFate, versión 1.6, 10 de octubre de 2026. Este cambio prepara un núcleo aislado, un contrato de diagnóstico local y un medidor de duración por segmento. No conecta eventos al juego, no activa recogida y no implementa transporte, identidad ni panel.
 
 Base inspeccionada: `capitanps02/elevenfate-reddit`, rama `codex/reddit-adaptation`, HEAD `91b6449b6e9dc4226f0b36b35384bc3558a425dc`. El árbol recursivo no contiene AGENTS.md. Dependencias declaradas: Devvit/Web 0.14.6, esbuild 0.28.2, Express 5.2.1, Node >=24. La versión publicada y el bundle desplegado aún deben verificarse; leer el repositorio no acredita producción.
 
@@ -52,10 +52,18 @@ El ring contiene 256 registros, de los que como máximo 192 son de comportamient
 
 El planificador futuro deberá coalescer resúmenes dentro del mismo presupuesto global del núcleo, transmitirlos con counter_epoch y deduplicarlos. Este medidor no los introduce aún en la cola ni conserva históricos de segmentos. Una secuencia simulada de dos horas verifica exactitud; no sustituye una prueba real de heap, batería o carga de esa duración.
 
+## Contrato remoto técnico y admisión simulada
+
+`reddit/telemetry/diagnostic-wire.mjs` define un prototipo JSON v1, catálogo v1, exclusivamente diagnostic. Campos cerrados: schema, catalog, session, generation, batchId y records. Cada registro conserva los seis campos numéricos locales. Como máximo 32 registros y 16 KiB UTF-8; se verifica tamaño antes de JSON.parse, esquema, secuencias crecientes, reloj no decreciente y catálogo. El parser HTTP futuro debe imponer también el límite antes de crear la cadena. La normalización JSON usa los valores resultantes de JSON.parse; claves duplicadas siguen su semántica de último valor. No usar otro parser con interpretación distinta ni firmas sobre el JSON original.
+
+La sesión y generación se comparan con un lease de contexto autenticado suministrado por servidor; ningún identificador de usuario enviado por cliente es admitido. El lease debe validarse de nuevo en cada petición, antes de reconocer un duplicado. No se implementa todavía emisión de leases, autenticación, ventana temporal por evento ni política de retención.
+
+`decideDiagnosticAdmission` es una función pura para lotes secuenciales con uno en vuelo. Conserva solo el último recibo canónico por sesión/generación: un reintento equivalente es duplicate, mismo ID con datos distintos es conflict; solapamiento o lote antiguo se rechaza. Permite huecos por descarte y rechaza regresión temporal entre lotes. Un recibo antiguo después de otro aceptado se rechaza como stale, sin ACK positivo. La sesión debe caducar antes de borrar su recibo; nunca recrear admisión para un lease expirado. El servidor futuro debe persistir recibo, cuota y datos en una misma operación atómica. Esta simulación no prueba atomicidad Redis, concurrencia, revocación en vuelo ni memoria global entre sujetos. No sirve aún para checkpoints de duración ni comportamiento.
+
 ## Validación y pendientes
 
-Ejecutar `node --test reddit/test/telemetry-*.test.mjs`: 32 pruebas superadas en Node 24.19.0. Cubre núcleo, contrato, correlación de incertidumbre, visibilidad, inactividad, pausas y esperas superpuestas, cambio de segmento, checkpoints, cierre parcial y reloj defectuoso. El benchmark `node scripts/bench-telemetry-core.mjs` es una comprobación de laboratorio Node; mide coste amortizado por bloques, no p99 por llamada ni rendimiento Reddit.
+Ejecutar `node --test reddit/test/telemetry-*.test.mjs`: 44 pruebas superadas en Node 24.19.0. Cubre núcleo, contrato, correlación de incertidumbre, visibilidad, inactividad, pausas y esperas superpuestas, cambio de segmento, checkpoints, cierre parcial y reloj defectuoso. El benchmark `node scripts/bench-telemetry-core.mjs` es una comprobación de laboratorio Node; mide coste amortizado por bloques, no p99 por llamada ni rendimiento Reddit.
 
-P0 está parcialmente verificado: HEAD, fronteras y build declarados. Pendientes: versión desplegada, baseline visual y de rendimiento, dispositivos físicos, capacidad real de transacciones y permisos. P1 tiene un contrato ejecutable de captura técnica, pero siguen pendientes esquema remoto, catálogo definitivo, run_id, identidad permitida, ventanas de admisión, generación de permisos y retención. P2 y el cálculo local de P5 tienen prototipos probados, sin integración ni certificación. P3, P4 y P6–P8 siguen pendientes.
+P0 está parcialmente verificado: HEAD, fronteras y build declarados. Pendientes: versión desplegada, baseline visual y de rendimiento, dispositivos físicos, capacidad real de transacciones y permisos. P1 tiene un contrato ejecutable de captura técnica, pero hay un prototipo de esquema remoto técnico y admisión pura; siguen pendientes catálogo definitivo, run_id, identidad permitida, ventanas de admisión, generación de permisos y retención. P2 y el cálculo local de P5 tienen prototipos probados, sin integración ni certificación. P3, P4 y P6–P8 siguen pendientes.
 
 No afirmar coste cero, paridad integrada, certificado energético ni recogida activa. El próximo cambio debe cerrar P1 y medir el núcleo antes de conectar diagnósticos. Mantener esta entrega como draft hasta revisar dichas fronteras.
