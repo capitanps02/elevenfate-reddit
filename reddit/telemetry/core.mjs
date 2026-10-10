@@ -9,7 +9,7 @@ const technical = code => Number.isInteger(code) && code >= 1 && code <= 8;
 const behavioral = code => Number.isInteger(code) && code >= 32 && code <= 39;
 const scalar = n => typeof n === 'number' && Number.isFinite(n) && Math.abs(n) <= MAX;
 const noop = () => false;
-const OFF = Object.freeze({enabled:false,tryRecord:noop,freeze:()=>null,ack:noop,expire:noop,disable:noop,health:()=>Object.freeze({enabled:false,queued:0,inFlight:0,dropped:0,invalid:0,expired:0,typedBytes:0})});
+const OFF = Object.freeze({enabled:false,tryRecord:noop,freeze:()=>null,ack:noop,discard:noop,expire:noop,disable:noop,health:()=>Object.freeze({enabled:false,queued:0,inFlight:0,dropped:0,invalid:0,expired:0,typedBytes:0})});
 
 export function createTelemetryCore({mode='off',now=()=>performance.now()}={}) {
   if(mode !== 'diagnostic' && mode !== 'behavior') return OFF;
@@ -51,14 +51,14 @@ export function createTelemetryCore({mode='off',now=()=>performance.now()}={}) {
       count++;if(behavior)behaviorCount++;
       return true;
     },
-    freeze(batchPrefix) {
+    freeze(batchPrefix,limit=MAX_BATCH) {
       if(!enabled)return null;
       // Returning the same object guarantees byte-stable serialization by a future adapter.
       if(batch)return batch;
-      if(!count||typeof batchPrefix!=='string'||! /^[A-Za-z0-9_-]{1,40}$/.test(batchPrefix))return null;
+      if(!count||!Number.isInteger(limit)||limit<1||limit>MAX_BATCH||typeof batchPrefix!=='string'||! /^[A-Za-z0-9_-]{1,40}$/.test(batchPrefix))return null;
       const t=clock();if(t===null)return null;
       const records=[];
-      for(let j=0;j<Math.min(count,MAX_BATCH);j++) {
+      for(let j=0;j<Math.min(count,limit);j++) {
         const i=(head+j)%CAPACITY;
         records.push(Object.freeze({code:codes[i],seq:seqs[i],at:times[i],a:a[i],b:b[i],c:c[i]}));
       }
@@ -72,6 +72,10 @@ export function createTelemetryCore({mode='off',now=()=>performance.now()}={}) {
       const t=clock();if(t===null)return false;
       if(t-created>=BATCH_TTL_MS){api.expire();return false;}
       remove(batch.records.length);batch=null;return true;
+    },
+    discard(batchId) {
+      if(!enabled||!batch||batchId!==batch.batchId)return false;
+      dropped=add(dropped,batch.records.length);remove(batch.records.length);batch=null;return true;
     },
     expire() {
       if(!enabled||!batch)return false;
