@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {TxClientImplementation} from '@devvit/redis';
-import {runWithContext} from '@devvit/server';
+import {TxClientImplementation,runWithContext} from '@devvit/web/server';
+import {createRequire} from 'node:module';
 import webPackage from '@devvit/web/package.json' with {type:'json'};
-import redisPackage from '@devvit/redis/package.json' with {type:'json'};
+const redisPackage=createRequire(import.meta.resolve('@devvit/web/package.json'))('@devvit/redis/package.json');
 import {createDiagnosticStore} from '../telemetry/diagnostic-store.mjs';
 test('exact SDK 0.14.6 get queues and returns the transaction',async()=>{
   assert.equal(webPackage.version,'0.14.6');assert.equal(redisPackage.version,'0.14.6');
