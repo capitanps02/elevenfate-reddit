@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "locale": "es",
+  "sourceLocale": "es",
+  "scope": "elevenfate-reddit-daily-draft",
+  "status": "translation-draft-not-runtime-enabled",
+  "ui": {
+    "brand.tagline": "Tu carrera. Tus decisiones. Tu legado.",
+    "brand.subtitle": "Vive una carrera de futbolista de principio a fin.",
+    "brand.play": "Jugar a ElevenFate",
+    "brand.account": "Español · Guardado con tu cuenta de Reddit",
+    "global.loginTitle": "Tu carrera te espera",
+    "global.loginBody": "Inicia sesión en Reddit y vuelve a abrir el juego para guardar tu carrera y continuar desde otro dispositivo.",
+    "global.loadError": "No se pudo abrir ElevenFate",
+    "global.retry": "Reintentar",
+    "daily.loading": "Cargando…",
+    "daily.saving": "Guardando…",
+    "daily.openError": "No se pudo abrir el reto.",
+    "daily.back": "Volver a carrera",
+    "daily.rankingA11y": "Ver clasificación Daily de hoy",
+    "daily.helpA11y": "Cómo jugar Daily",
+    "daily.practiceBrand": "ELEVENFATE · PRÁCTICA",
+    "daily.ageSpan": "18–38 años · Una carrera entera",
+    "daily.progress": "{done} de {limit} decisiones",
+    "daily.stage": "{from}–{to} años · {name}",
+    "daily.player": "{club} · {age} años",
+    "daily.playerStats": "Técnica {technique} · Forma {form} · Físico {fitness}",
+    "daily.matches": "Partidos",
+    "daily.goals": "Goles",
+    "daily.assists": "Asistencias",
+    "daily.starts": "Titular",
+    "daily.noHonours": "Ninguno en esta carrera.",
+    "daily.mySeason": "TU TEMPORADA",
+    "daily.leagueTable": "Clasificación de liga",
+    "daily.results": "Resultados",
+    "daily.league": "Liga",
+    "daily.champions": "Champions",
+    "daily.chooseSeason": "Elegir temporada",
+    "daily.notQualified": "Tu equipo no se clasificó esta temporada.",
+    "daily.champion": "Campeón: {team}",
+    "daily.team": "Equipo",
+    "daily.playedShort": "PJ",
+    "daily.goalDifferenceShort": "DG",
+    "daily.pointsShort": "Pts",
+    "daily.noFixtures": "Todavía no hay resultados de tu equipo.",
+    "daily.round": "Jornada {round}",
+    "daily.penalties": "Penaltis {home}–{away}",
+    "daily.backCareer": "Volver a mi carrera",
+    "daily.howToPlay": "CÓMO JUGAR",
+    "daily.lifeFootball": "Una vida de fútbol",
+    "daily.rulesIntro": "Elige tu primer equipo y recorre seis etapas. Cada tramo tiene una decisión de club y cuatro decisiones deportivas o personales.",
+    "daily.rulesClubs": "Puedes quedarte o fichar por uno de dos equipos. Las propuestas muestran el papel previsto, sin garantizar los minutos. Cada tramo termina con tus partidos, titularidades, goles y asistencias.",
+    "daily.rulesDaily": "30 decisiones. Un intento diario por cuenta. Reinicio a las 00:00 UTC; la práctica no entra en el ranking. Los Daily completados se registran automáticamente; la clasificación reúne a quienes juegan en esta comunidad de Reddit.",
+    "daily.rulesPoints": "Puntuación: forma 20%, papel deportivo 20%, físico 15%, técnica 15%, profesionalidad 15% y control 15%. Los títulos de liga salen de la clasificación completa. Champions usa un formato adaptado de grupos y eliminatorias; solo juegan los equipos clasificados.",
+    "daily.backChallenge": "Volver al reto",
+    "daily.toPractice": "Ir a práctica",
+    "daily.backDaily": "Volver al Daily",
+    "daily.todayLeaderboard": "CLASIFICACIÓN DE HOY",
+    "daily.todayLegacy": "El legado de hoy",
+    "daily.careersCompleted": "{day} · {total} carreras completadas",
+    "daily.loadingRanking": "Cargando la clasificación…",
+    "daily.rankingNote": "Un Daily por cuenta. Tu puntuación entra al terminar. Reinicio a las 00:00 UTC.",
+    "daily.yourPosition": "Tu posición · #{position}",
+    "daily.completeToRank": "Completa el Daily para entrar en la clasificación.",
+    "daily.noRunsToday": "Todavía no hay carreras completadas hoy.",
+    "daily.you": "Tú",
+    "daily.playerGeneric": "Jugador",
+    "daily.backDailyButton": "Volver al Daily",
+    "daily.refreshRanking": "Actualizar clasificación",
+    "daily.preparing": "Preparando tu carrera…",
+    "daily.introEyebrow": "30 DECISIONES · 6 ETAPAS",
+    "daily.introTitle": "Del debut al legado",
+    "daily.introBody": "Elige equipo. Gánate los minutos. Decide cuándo marcharte. Una carrera de los 18 a los 38 años en pocos minutos.",
+    "daily.startPractice": "Empezar práctica",
+    "daily.playDaily": "Jugar el Daily",
+    "daily.practiceFirst": "Practicar primero",
+    "daily.practiceComplete": "PRÁCTICA COMPLETADA",
+    "daily.yourCareer": "TU CARRERA",
+    "daily.totalPoints": "{score} puntos",
+    "daily.legacy": "Veinte años. Treinta decisiones. Este es tu legado.",
+    "daily.teamTitles": "Títulos colectivos",
+    "daily.individualAwards": "Distinciones individuales",
+    "daily.stageJourney": "Recorrido por etapas",
+    "daily.storyChoices": "Las decisiones de tu historia",
+    "daily.rankingPosition": "Clasificación de hoy · #{position} de {total}",
+    "daily.rankRegistered": "Tu resultado se registra en la clasificación de hoy.",
+    "daily.viewRanking": "Ver clasificación de hoy",
+    "daily.againPractice": "Otra carrera de práctica",
+    "daily.nextStage": "Siguiente etapa · {from}–{to} →",
+    "daily.startsPercent": "{club} · Titular en el {role}% de tus partidos",
+    "daily.firstContract": "EL PRIMER CONTRATO",
+    "daily.transferMarket": "EL MERCADO",
+    "daily.whereStart": "¿Dónde empiezas?",
+    "daily.stayOrGo": "¿Te quedas o te vas?",
+    "daily.firstClubsIntro": "Tres equipos. Tres caminos para ganarte un puesto.",
+    "daily.transferIntro": "Dos propuestas nuevas. Compara el nivel y los minutos antes de decidir.",
+    "daily.stayClub": "Quedarme en {club}",
+    "daily.divisionRole": "División {tier} · {role}",
+    "daily.roleStarter": "Aspiras a ser titular",
+    "daily.roleRotation": "Papel de rotación",
+    "daily.roleCompetition": "Competencia por minutos",
+    "daily.decisionIndex": "DECISIÓN {current} DE {total}",
+    "daily.decisionOptionsA11y": "Opciones de decisión",
+    "daily.seasonResults": "Temporadas · resultados y clasificación",
+    "daily.lastChoice": "Última elección",
+    "daily.recover": "Recuperar intento"
+  },
+  "stages": {
+    "0": "Primeros pasos",
+    "1": "Hacerse un sitio",
+    "2": "El salto",
+    "3": "Años de plenitud",
+    "4": "Cambiar para seguir",
+    "5": "El último capítulo"
+  },
+  "fallbackEvents": {
+    "DAILY_0_0": {
+      "title": "Un sitio en el vestuario",
+      "body": "Un veterano te invita a quedarte después del entrenamiento. Mañana compites por tus primeros minutos."
+    },
+    "DAILY_0_1": {
+      "title": "La primera llamada",
+      "body": "Tu familia quiere verte este fin de semana. El entrenador ha preparado una sesión extra."
+    },
+    "DAILY_0_2": {
+      "title": "Piernas cargadas",
+      "body": "La carga de trabajo empieza a pasar factura. El próximo partido puede ser tu oportunidad."
+    },
+    "DAILY_0_3": {
+      "title": "Primer foco",
+      "body": "Una entrevista te pide hablar de tu futuro antes de que tengas un puesto fijo."
+    },
+    "DAILY_1_0": {
+      "title": "Ganarte el puesto",
+      "body": "Un compañero ocupa tu posición. El entrenador quiere ver quién responde mejor esta semana."
+    },
+    "DAILY_1_1": {
+      "title": "Fuera del campo",
+      "body": "Un amigo de siempre necesita que estés presente. No todo se resuelve con dinero."
+    },
+    "DAILY_1_2": {
+      "title": "El ritmo de la temporada",
+      "body": "Estás jugando más, pero el cansancio se acumula. Tienes que elegir cómo sostenerlo."
+    },
+    "DAILY_1_3": {
+      "title": "Una voz propia",
+      "body": "Te preguntan por tu papel en el equipo. Puedes pedir más minutos o dejar que hable tu trabajo."
+    },
+    "DAILY_2_0": {
+      "title": "Subir el nivel",
+      "body": "Los rivales ya conocen tus movimientos. El cuerpo técnico propone trabajar una nueva variante."
+    },
+    "DAILY_2_1": {
+      "title": "Dos vidas",
+      "body": "La carrera crece y tu vida personal pide espacio. Hay una conversación pendiente."
+    },
+    "DAILY_2_2": {
+      "title": "No forzar",
+      "body": "Notas una molestia al acelerar. Ocultarla te permitiría entrar en la convocatoria."
+    },
+    "DAILY_2_3": {
+      "title": "Una promesa pública",
+      "body": "Un periodista te invita a prometer que serás la figura del equipo esta temporada."
+    },
+    "DAILY_3_0": {
+      "title": "Partido grande",
+      "body": "Se acerca una semana decisiva. El entrenador te pregunta cómo quieres prepararte."
+    },
+    "DAILY_3_1": {
+      "title": "Estar a la altura",
+      "body": "Una persona importante para ti atraviesa un mal momento mientras el equipo exige concentración."
+    },
+    "DAILY_3_2": {
+      "title": "Administrar el cuerpo",
+      "body": "Acumulas minutos. Un día de descanso puede darte aire, pero no quieres perder el ritmo."
+    },
+    "DAILY_3_3": {
+      "title": "El peso del vestuario",
+      "body": "Los jóvenes te escuchan. Puedes acompañarlos, centrarte en ti o asumir una voz más fuerte."
+    },
+    "DAILY_4_0": {
+      "title": "Otra forma de jugar",
+      "body": "Ya no ganas cada duelo por velocidad. Tu lectura del juego puede abrir un camino distinto."
+    },
+    "DAILY_4_1": {
+      "title": "Volver a casa",
+      "body": "Tu familia quiere recuperar tiempo contigo. La próxima temporada puede cambiar tus prioridades."
+    },
+    "DAILY_4_2": {
+      "title": "Elegir los esfuerzos",
+      "body": "El físico exige una planificación nueva. La rutina que funcionaba a los veinte ya no basta."
+    },
+    "DAILY_4_3": {
+      "title": "Tu lugar",
+      "body": "Un jugador joven pide minutos. El entrenador quiere saber cómo afrontarás la competencia."
+    },
+    "DAILY_5_0": {
+      "title": "El último recurso",
+      "body": "Tu experiencia puede decidir un partido. El equipo necesita saber qué puedes ofrecer todavía."
+    },
+    "DAILY_5_1": {
+      "title": "Tiempo que no vuelve",
+      "body": "Un compromiso familiar coincide con una concentración. Quedan pocas temporadas y muchas cosas pendientes."
+    },
+    "DAILY_5_2": {
+      "title": "Llegar al final",
+      "body": "El cuerpo tarda más en recuperarse. Puedes cuidarlo, insistir o reinventar tu preparación."
+    },
+    "DAILY_5_3": {
+      "title": "Cómo quieres que te recuerden",
+      "body": "Se acerca el cierre de tu carrera. Puedes poner el foco en tu rendimiento, en el equipo o en tu vida fuera del fútbol."
+    }
+  },
+  "fallbackChoices": {
+    "0:c0": "Trabajar una variante técnica",
+    "0:c1": "Ganar la confianza del entrenador",
+    "0:c2": "Buscar mi momento por mi cuenta",
+    "1:c0": "Reservar tiempo para los míos",
+    "1:c1": "Hablar y encontrar un equilibrio",
+    "1:c2": "Priorizar el fútbol esta vez",
+    "2:c0": "Descansar y ajustar la carga",
+    "2:c1": "Entrenar con un plan específico",
+    "2:c2": "Forzar para no perder minutos",
+    "3:c0": "Responder con trabajo",
+    "3:c1": "Hablar con el entrenador",
+    "3:c2": "Asumir el protagonismo"
+  },
+  "server": {
+    "daily.clubChange": "Nueva etapa en {club}.",
+    "daily.clubStay": "Sigues en {club}.",
+    "daily.fallbackOutcome": "{choice}. Tu elección acompaña el siguiente tramo de la temporada.",
+    "daily.unsigned": "Sin equipo",
+    "daily.pickClub": "Elegir equipo",
+    "daily.trophyAdapted": "Champions · formato adaptado",
+    "score.form": "Forma",
+    "score.playingRole": "Papel deportivo",
+    "score.fitness": "Estado físico",
+    "score.technique": "Técnica",
+    "score.professionalism": "Profesionalidad",
+    "score.agency": "Control de carrera"
+  }
+}
