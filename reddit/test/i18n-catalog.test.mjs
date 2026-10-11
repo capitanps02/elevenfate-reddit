@@ -12,7 +12,7 @@ test('Spanish and English drafts have one-to-one keys and translated content',()
   assert.equal(Object.keys(en.stages).length,6);
   assert.equal(es.status,'translation-draft-not-runtime-enabled');
   assert.equal(en.status,es.status);
-  const p=s=>(s.match(/\\{[a-zA-Z]+\\}/g)||[]).sort();
+  const p=s=>(s.match(new RegExp('[{][a-zA-Z]+[}]','g'))||[]).sort();
   for(const section of ['ui','server'])for(const key of Object.keys(es[section])){
     assert.ok(es[section][key].length&&en[section][key].length,section+'.'+key);
     assert.deepEqual(p(es[section][key]),p(en[section][key]),section+'.'+key);
