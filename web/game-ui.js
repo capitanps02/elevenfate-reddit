@@ -16,7 +16,9 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   function messageCopy(){
     if(locale()==='es')return message;
     const id=({'Introduce el nombre del jugador para empezar otra carrera.':'career.new.nameRequired','Introduce un código de historia entre 0 y 4294967295.':'career.new.codeInvalid','No se ha podido cargar el juego. Comprueba tu conexión o almacenamiento e inténtalo de nuevo. Tu copia guardada se conserva.':'career.loadError','Otra pestaña ha cambiado la copia antigua. Puedes descargarla en Tu partida para revisarla antes de importar.':'career.legacyChanged'})[message];
-    return copy(id||'career.genericError',message);
+    const recoveryId={"Carrera eliminada. Puedes empezar otra cuando quieras.": "career.save.deleted", "No hay una partida guardada.": "career.save.noSave", "No hay copia anterior.": "career.save.noPrevious", "La copia supera 8 MiB.": "career.save.tooLarge", "Recupera la partida guardada antes de continuar.": "career.save.revision", "La carrera cambió en otro dispositivo. Recupera la partida actual antes de continuar.": "career.save.conflict", "No se pudo confirmar el guardado en Reddit. Comprueba la conexión y recupera la partida actual.": "career.save.connection"};
+    if(message.startsWith('No se pudo importar. '))return copy(message==='No se pudo importar. La copia supera 8 MiB.'?'career.save.tooLarge':'career.save.importError',message);
+    return copy(id||recoveryId[message]||'career.genericError',message);
   }
   function resumeLoadedSimulation(){autoResumeAllowed=true;queueAutoStep();render();}
   const watchedKey=KEY+'.watched-cutscenes.v1';
@@ -754,12 +756,12 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   function downloadText(raw,filename){if(win.AndroidBridge?.saveTextFile){win.AndroidBridge.saveTextFile(filename,raw);return;}const url=URL.createObjectURL(new Blob([raw],{type:'application/json'}));const a=el('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);}
   async function importFile(file){if(!file||busy)return;busy=true;busyKind='write';busyLabel='Comprobando la copia…';message='';render();try{if(file.size>8*1024*1024)throw Error('La copia supera 8 MiB.');const raw=await file.text();const candidate=await GameSession.migrateFromSave(raw,{...sessionOptions,commit});const previous=await store.readRaw();busy=false;render();confirmReplace('Recuperar esta copia',`Partida del ${date(candidate.getView().date)}, con ${decisionCount(candidate.getView().decisionsMade)}. Se conservará una copia de la partida actual.`,async()=>{
       await store.write(candidate.exportSnapshot(),previous);savedRaw=JSON.stringify(candidate.exportSnapshot());session=candidate;view='home';cinematic=false;replaceRouteState();
-    });}catch(e){message='No se pudo importar. '+e.message;busy=false;render();}}
-  function confirmReplace(title,body,accept,{titleKey,bodyKey}={}){
+    },{titleKey:'career.save.restore',bodyKey:'career.save.restoreBody',bodyParameters:()=>({date:date(candidate.getView().date),count:decisionCount(candidate.getView().decisionsMade)})});}catch(e){message='No se pudo importar. '+e.message;busy=false;render();}}
+  function confirmReplace(title,body,accept,{titleKey,bodyKey,bodyParameters}={}){
     const dialog=el('dialog',undefined,'dialog'),heading=el('h2'),description=el('p'),actions=el('div',undefined,'dialog-actions');
     const cancel=button(copy('career.cancel','Cancelar'),()=>dialog.close());
     const confirm=button(copy('career.confirm','Confirmar'),async()=>{if(busy)return;dialog.close();busy=true;busyKind='write';busyLabel='Guardando tu historia…';message='';render();try{await accept();}catch(e){message=e.message;}finally{busy=false;render();}},'primary');
-    activeDialogLocale=()=>{dialog.lang=locale();heading.textContent=titleKey?copy(titleKey,title):title;description.textContent=bodyKey?copy(bodyKey,body):body;cancel.firstChild.textContent=copy('career.cancel','Cancelar');confirm.firstChild.textContent=copy('career.confirm','Confirmar');};
+    activeDialogLocale=()=>{dialog.lang=locale();heading.textContent=titleKey?copy(titleKey,title):title;description.textContent=bodyKey?copy(bodyKey,body,typeof bodyParameters==='function'?bodyParameters():bodyParameters):body;cancel.firstChild.textContent=copy('career.cancel','Cancelar');confirm.firstChild.textContent=copy('career.confirm','Confirmar');};
     activeDialogLocale();dialog.append(heading,description);actions.append(cancel,confirm);dialog.append(actions);shell.append(dialog);
     dialog.addEventListener('close',()=>{activeDialogLocale=null;dialog.remove();if(presentationLocale&&!disposed&&!busy)render();});dialog.showModal();
   }
@@ -793,39 +795,40 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   function saves(v,main){
     main.classList.add('p8-save');
     const intro=el('header',undefined,'save-intro');
-    intro.append(el('span','CONTINÚA DONDE LO DEJASTE','eyebrow'),el('h1','Tu partida'),el('p',saveDescription==='reddit'?'Tu carrera se guarda en esta comunidad de Reddit. Continúa desde otro dispositivo con la misma cuenta.':'Gestiona la copia local de esta carrera, recupera una copia existente o empieza otra historia.','muted'));main.append(intro);
+    intro.append(el('span',copy('career.save.eyebrow','CONTINÚA DONDE LO DEJASTE'),'eyebrow'),el('h1',copy('career.save.title','Tu partida')),el('p',saveDescription==='reddit'?copy('career.save.redditIntro','Tu carrera se guarda en esta comunidad de Reddit. Continúa desde otro dispositivo con la misma cuenta.'):copy('career.save.localIntro','Gestiona la copia local de esta carrera, recupera una copia existente o empieza otra historia.'),'muted'));main.append(intro);
     const build=globalThis.ELEVENFATE_BUILD_INFO;
     if(build){const info=el('p',`ELEVENFATE ${build.appVersion} · Build ${build.buildId}`,'muted build-info');info.title=`Motor ${build.engineVersion} · Catálogo ${build.catalogVersion}`;intro.append(info);}
 
-    const current=panel('Partida actual');current.classList.add('save-current');
-    current.append(el('p',v?`${date(v.date)} · ${decisionCount(v.decisionsMade)}`:'Partida sin abrir','save-current-meta'),el('p','Es el último estado guardado de esta carrera.','muted'));
+    const current=panel(copy('career.save.current','Partida actual'));current.classList.add('save-current');
+    current.append(el('p',v?`${date(v.date)} · ${decisionCount(v.decisionsMade)}`:copy('career.save.unopened','Partida sin abrir'),'save-current-meta'));
+    if(v)current.append(el('p',copy('career.save.latest','Es el último estado guardado de esta carrera.'),'muted'));
     const currentActions=el('div',undefined,'save-actions save-current-actions');
-    currentActions.append(button('Descargar copia',download,'primary'),button(v?'Recuperar partida actual':'Reintentar carga',load));
-    current.append(currentActions,el('p','Guardado automático activo','save-auto-status'));main.append(current);
+    currentActions.append(button(copy('career.save.download','Descargar copia'),download,'primary'),button(v?copy('career.save.reload','Recuperar partida actual'):copy('career.save.retry','Reintentar carga'),load));
+    current.append(currentActions);if(v)current.append(el('p',copy('career.save.automatic','Guardado automático activo'),'save-auto-status'));main.append(current);
 
-    const recovery=panel('Copias y recuperación');recovery.classList.add('save-recovery');
-    recovery.append(el('p',saveDescription==='reddit'?'Puedes descargar una copia o recuperar una anterior. Antes de sustituir tu carrera se mostrará una confirmación.':'Estas opciones trabajan únicamente con copias locales de tu partida. Antes de sustituirla se mostrará una confirmación.','muted'));
+    const recovery=panel(copy('career.save.recovery','Copias y recuperación'));recovery.classList.add('save-recovery');
+    recovery.append(el('p',saveDescription==='reddit'?copy('career.save.redditRecovery','Puedes descargar una copia o recuperar una anterior. Antes de sustituir tu carrera se mostrará una confirmación.'):copy('career.save.localRecovery','Estas opciones trabajan únicamente con copias locales de tu partida. Antes de sustituirla se mostrará una confirmación.'),'muted'));
     const support=el('div',undefined,'save-support-grid');
 
     const importBlock=el('section',undefined,'save-support-card save-import');
-    importBlock.append(el('h3','Importar una copia'),el('p','Selecciona una copia JSON compatible para recuperarla en este dispositivo.','muted'));
-    const input=el('input');input.type='file';input.accept='.json,application/json';input.id='mh-import';input.setAttribute('aria-label','Importar copia de partida');input.addEventListener('change',()=>importFile(input.files[0]));
-    const label=el('label','Importar copia de partida','file-label');label.append(input);importBlock.append(label);support.append(importBlock);
+    importBlock.append(el('h3',copy('career.save.import','Importar una copia')),el('p',copy('career.save.importHelp','Selecciona una copia JSON compatible para recuperarla en este dispositivo.'),'muted'));
+    const input=el('input');input.type='file';input.accept='.json,application/json';input.id='mh-import';input.setAttribute('aria-label',copy('career.save.importA11y','Importar copia de partida'));input.addEventListener('change',()=>importFile(input.files[0]));
+    const label=el('label',copy('career.save.importA11y','Importar copia de partida'),'file-label');label.append(input);importBlock.append(label);support.append(importBlock);
 
     if(hasBackup()){
-      const previous=el('section',undefined,'save-support-card save-backup');previous.append(el('h3','Copia anterior'),el('p','Estado anterior de recuperación. Si lo restauras, volverás a ese punto y la partida actual quedará protegida durante la sustitución.','muted'),button('Recuperar copia anterior',async()=>{try{const raw=await store.previous();if(!raw)throw Error('No hay copia anterior.');await importFile(new File([raw],'anterior.json',{type:'application/json'}));}catch(e){message=e.message;render();}}));support.append(previous);
+      const previous=el('section',undefined,'save-support-card save-backup');previous.append(el('h3',copy('career.save.previous','Copia anterior')),el('p',copy('career.save.previousHelp','Estado anterior de recuperación. Si lo restauras, volverás a ese punto y la partida actual quedará protegida durante la sustitución.'),'muted'),button(copy('career.save.restorePrevious','Recuperar copia anterior'),async()=>{try{const raw=await store.previous();if(!raw)throw Error('No hay copia anterior.');await importFile(new File([raw],'anterior.json',{type:'application/json'}));}catch(e){message=e.message;render();}}));support.append(previous);
     }
 
     const legacy=store.legacyRaw();
     if(legacy){
-      const old=el('section',undefined,'save-support-card save-legacy');old.append(el('h3','Copia antigua'),el('p','Procede del sistema de guardado anterior. Descargarla no restaura ni sustituye tu partida actual.','muted'),button('Descargar copia antigua',()=>downloadText(legacy,'elevenfate-copia-antigua.json')));support.append(old);
+      const old=el('section',undefined,'save-support-card save-legacy');old.append(el('h3',copy('career.save.legacy','Copia antigua')),el('p',copy('career.save.legacyHelp','Procede del sistema de guardado anterior. Descargarla no restaura ni sustituye tu partida actual.'),'muted'),button(copy('career.save.downloadLegacy','Descargar copia antigua'),()=>downloadText(legacy,'elevenfate-copia-antigua.json')));support.append(old);
     }
     recovery.append(support);main.append(recovery);
 
     main.append(newStoryPanel());
     if(store.remove){
-      const privacy=panel('Eliminar tu carrera');
-      privacy.append(el('p','Elimina de esta comunidad tu carrera y su copia anterior. Descarga una copia antes si quieres conservarla.','muted'),button('Eliminar carrera de Reddit',()=>confirmReplace('Eliminar carrera de Reddit','Se eliminarán tu partida y su copia anterior. Esta acción no se puede deshacer sin una exportación.',async()=>{await store.remove();suspendAutoScheduler();session=null;savedRaw=null;replacement=null;message='Carrera eliminada. Puedes empezar otra cuando quieras.';view='save';})));
+      const privacy=panel(copy('career.save.delete','Eliminar tu carrera'));
+      privacy.append(el('p',copy('career.save.deleteHelp','Elimina de esta comunidad tu carrera y su copia anterior. Descarga una copia antes si quieres conservarla.'),'muted'),button(copy('career.save.deleteAction','Eliminar carrera de Reddit'),()=>confirmReplace(copy('career.save.deleteAction','Eliminar carrera de Reddit'),'Se eliminarán tu partida y su copia anterior. Esta acción no se puede deshacer sin una exportación.',async()=>{await store.remove();suspendAutoScheduler();session=null;savedRaw=null;replacement=null;message='Carrera eliminada. Puedes empezar otra cuando quieras.';view='save';},{titleKey:'career.save.deleteAction',bodyKey:'career.save.deleteConfirm'})));
       main.append(privacy);
     }
     if(win.AndroidBridge?.getAdStatus){

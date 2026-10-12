@@ -2,7 +2,7 @@
 
 12 de octubre de 2026. PR #4; código en borrador, no publicado.
 
-## Avance estimado: 69 %; pendiente: 31 %
+## Avance estimado: 70 %; pendiente: 30 %
 
 Es una estimación de trabajo completado, no una certificación funcional ni visual. Los pesos se fijan para no tratar la traducción completa como un pequeño botón. Cada porcentaje de pasada incluye preparación y código; PASS final exige sus gates.
 
@@ -12,10 +12,10 @@ Es una estimación de trabajo completado, no una certificación funcional ni vis
 | P1 Contrato | 10 % | 90 % | 9 % | Especificado; revisión final contra versión publicada pendiente |
 | P2 Portada | 15 % | 80 % | 12 % | Menú implementado; validación gráfica pendiente |
 | P3 Flujos | 20 % | 95 % | 19 % | Navegación Atrás/Adelante implementada y probada en modelos; validación en Reddit pendiente |
-| P4 ES/EN | 20 % | 60 % | 12 % | Daily, creación, cabecera/nav y avisos de arranque conectados; contenido de carrera y recuperación semántica pendientes |
+| P4 ES/EN | 20 % | 65 % | 13 % | Daily, creación, cabecera/nav, arranque y Tu partida conectados; relatos/paneles de carrera y errores semánticos restantes pendientes |
 | P5 Simular | 5 % | 80 % | 4 % | Selector ausente en Inicio publicado 0.1.6; candidato pendiente de comparación |
 | P6 Arte/a11y | 10 % | 10 % | 1 % | Estilos y targets iniciales; arte final y QA real pendientes |
-| P7 Certificación | 8 % | 75 % | 6 % | CI anterior completa PASS; 74 pruebas locales y 12 de motor auditado PASS; nueva CI de interfaz pendiente |
+| P7 Certificación | 8 % | 75 % | 6 % | CI de 3c7061f completa PASS; build y 117 pruebas Reddit locales PASS; regresión ampliada en curso |
 | P8 Reddit real | 4 % | 0 % | 0 % | Sin prueba ni publicación del candidato |
 
 Quedan seis pasadas principales de ejecución: cerrar P3, P4, P5, P6, P7 y P8. También siguen pendientes las comprobaciones de cierre de P0/P1/P2; no se consideran certificadas. No hacen falta nuevas pasadas inventadas para esos controles: se cierran dentro de las existentes.
@@ -81,3 +81,24 @@ mountBootPresentation localiza login, carga fallida y reintento antes de autenti
 74/74 pruebas locales PASS: siete nuevas de creación bilingüe y tres de arranque, además de la regresión previa. DOM simulado, sin QA visual ni dispositivo. CI completa anterior 172da7624a0b2012153eda9421103f7a4553229e PASS; esta iteración shared UI requiere nueva CI de build, guardado/sesión y contratos UI.
 
 69% ponderado exacto: P4=60%; P7 permanece 75% hasta validar el nuevo HEAD. Siguen seis pasadas principales. Pendientes para habilitar English: pantallas y relatos de carrera, recuperación semántica completa, cinematics/formatos restantes, equivalencia de presentación del build final y QA visual/Reddit.
+
+## Continuación local: copias y recuperación
+
+Recuperada la rama del PR #4 desde 3c7061f0a55fc6c94b757116706d14c88f0beed2. Su CI oficial terminó SUCCESS (run 38283769252). Este estado reemplaza la indicación anterior de CI pendiente para ese commit.
+
+37 claves adicionales en career-save-catalog.mjs: 242 claves UI ES/EN en total. Tu partida localiza controles, ayuda, copia anterior/antigua, importación y confirmación de eliminación. La confirmación de importación recalcula fecha y número de decisiones según locale sin cambiar candidato ni backup. Cancelar no escribe; la confirmación sigue bloqueando salida y doble activación. Los errores conocidos de revisión/conflicto/conexión tienen consejo específico EN; importaciones incompatibles usan consejo recuperable sin filtrar detalles internos. ES mantiene los mensajes existentes. No se cambia save-store, servicio, motor ni schema.
+
+Ocho pruebas nuevas PASS con DOM simulado. Build/configuración y 117/117 pruebas Reddit PASS mediante verify:reddit. Regresiones de sesión, saves y contratos de interfaz: resultado se registra al finalizar. No equivale a validación visual o Redis real.
+
+70% ponderado exacto: P4 pasa de 60% a 65%; demás pesos y avances sin cambios. No mide porcentaje de textos traducidos. Quedan seis pasadas principales (P3/P4/P5/P6/P7/P8) y comprobaciones de cierre de P0/P1/P2. English continúa desactivado; candidato sin publicar.
+
+Siguiente ejecución:
+- P4: paneles Inicio/Carrera/Mundo/Relaciones/Perfil, historias/resultados y cinematics por IDs, formatos y errores restantes.
+- P3/P5: navegación y preservación de estados en webview, comparación de Simular con baseline.
+- P6: composición artística, recortes, tamaños, foco, contraste, zoom y estados ES/EN reales.
+- P7: equivalencia de snapshots/scores, ciclos de navegación, peso/latencia, build final y CI.
+- P8: candidato en Reddit real y revisión de publicación.
+
+Inspección visual local ES: portada en 320×480 y 390×844. Los seis controles aparecen en el árbol accesible; targets de acciones 48 px mínimo y fila de idiomas en paralelo (139 px por control en 320 px). El host permite scroll para el estado inferior en poca altura. Nueva partida y Tu partida abren desde controles reales. No se creó ni eliminó una carrera en el navegador. Preview con almacenamiento en memoria, sin evidencia de Redis ni webview Reddit. El recorte/artista, resto de tamaños, EN, zoom y foco requieren P6 completa.
+
+Corrección de estado vacío: sin sesión abierta, Tu partida no declara que el guardado automático esté activo ni identifica un último estado confirmado. Se repitieron los 8 tests de recuperación y 28 contratos UI: 36/36 PASS, y se reconstruyó el bundle.
