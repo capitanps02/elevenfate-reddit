@@ -57,7 +57,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     return {elapsedDays,totalDays,percent:Math.min(100,Math.max(0,elapsedDays/totalDays*100))};
   }
   const club=v=>clubName(v.club);
-  const position=v=>({winger:'Extremo',midfielder:'Centrocampista',striker:'Delantero',defender:'Defensa',goalkeeper:'Portero'})[v.position]||'Futbolista';
+  const position=v=>{const labels={winger:'Extremo',midfielder:'Centrocampista',striker:'Delantero',defender:'Defensa',goalkeeper:'Portero'};return copy('career.position.'+(Object.hasOwn(labels,v.position)?v.position:'other'),labels[v.position]||'Futbolista');};
   const svgPaths={home:'M3 10 12 3l9 7v11h-6v-7H9v7H3z',career:'M5 3h14v18H5z M8 8h8M8 12h8M8 16h5',world:'M3 12h18M12 3c-5 5-5 13 0 18 5-5 5-13 0-18 M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18',relations:'M2 21c0-9 13-9 13 0M15 14c4-1 7 2 7 6 M8.5 3a4 4 0 1 0 0 8 4 4 0 1 0 0-8 M17 5a3 3 0 0 1 0 6',profile:'M4 21c0-10 16-10 16 0 M12 3a4 4 0 1 0 0 8 4 4 0 1 0 0-8',save:'M4 3h14l3 3v15H3V3h1 M7 3v7h10V3M7 21v-7h10v7',arrow:'M4 12h15M14 6l6 6-6 6','pa-training':'M7 8v8M17 8v8M4 10v4M20 10v4M7 12h10','pa-health':'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.6-7 10-7 10z','pa-representative':'M4 8h16v11H4z M9 8V5h6v3 M4 12h16 M10 12v2h4v-2','pa-image':'M4 7h4l2-2h4l2 2h4v12H4z M12 10a4 4 0 1 0 0 8 4 4 0 1 0 0-8','pa-life':'M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18 M12 7v5l3 2'};
   function icon(name){const key=svgPaths[name]?name:'arrow';const s=doc.createElementNS('http://www.w3.org/2000/svg','svg');s.classList.add('muir-icon');s.dataset.icon=key;s.setAttribute('viewBox','0 0 24 24');s.setAttribute('aria-hidden','true');s.setAttribute('focusable','false');const p=doc.createElementNS(s.namespaceURI,'path');p.setAttribute('d',svgPaths[key]);s.append(p);return s;}
   function button(text,fn,cls='secondary',options={}){const b=el('button',undefined,cls);b.type='button';b.append(el('span',text));b.disabled=busy||options.disabled===true||(paused&&options.blockedWhenPaused===true);if(options.allowDuringRead&&!autoCreateOnLoad&&busyKind==='read'&&options.disabled!==true&&!(paused&&options.blockedWhenPaused===true))b.disabled=false;if(options.ariaLabel)b.setAttribute('aria-label',options.ariaLabel);if(options.pressed!==undefined)b.setAttribute('aria-pressed',String(options.pressed));b.addEventListener('click',fn);return b;}
@@ -239,16 +239,16 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     if(platformSuspended||doc.visibilityState==='hidden'||!v||view!=='home'||cinematic||v.simulation?.mode!=='auto_simulating')return false;
     const progress=autoSimulationProgress(v);
     const dateButton=shell.querySelector('.date-button span');
-    if(dateButton)dateButton.textContent=date(v.date)+' · Partida';
+    if(dateButton)dateButton.textContent=copy('career.header.saveDate',date(v.date)+' · Partida',{date:date(v.date)});
     for(const currentDate of shell.querySelectorAll('[data-p5-auto-date]'))currentDate.textContent=date(v.date);
     const progressBar=shell.querySelector('[data-p5-auto-progress]');
     const progressText=shell.querySelector('[data-p5-auto-progress-text]');
     if(progress&&progressBar){
       progressBar.max=progress.totalDays;
       progressBar.value=progress.elapsedDays;
-      progressBar.setAttribute('aria-label',`Progreso de la simulación: ${progress.elapsedDays} de ${progress.totalDays} días, ${Math.round(progress.percent)} %`);
+      progressBar.setAttribute('aria-label',copy('career.home.progressA11y',`Progreso de la simulación: ${progress.elapsedDays} de ${progress.totalDays} días, ${Math.round(progress.percent)} %`,{elapsed:progress.elapsedDays,total:progress.totalDays,percent:Math.round(progress.percent)}));
     }
-    if(progress&&progressText)progressText.textContent=`${progress.elapsedDays} de ${progress.totalDays} días · ${Math.round(progress.percent)} %`;
+    if(progress&&progressText)progressText.textContent=copy('career.home.progress',`${progress.elapsedDays} de ${progress.totalDays} días · ${Math.round(progress.percent)} %`,{elapsed:progress.elapsedDays,total:progress.totalDays,percent:Math.round(progress.percent)});
     lastAutoVisualAt=performance.now();
     return true;
   }
@@ -436,49 +436,49 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     if(!['auto_simulating','paused'].includes(mode))return null;
     const p=el('section',undefined,'auto-sim-state');
     const state=el('div',undefined,'auto-sim-state-row');
-    state.append(el('span',mode==='paused'?'PAUSADA':'SIMULANDO','auto-sim-state-label'),el('span',date(v.date),'auto-sim-current-date'));
+    state.append(el('span',mode==='paused'?copy('career.home.paused','PAUSADA'):copy('career.home.simulating','SIMULANDO'),'auto-sim-state-label'),el('span',date(v.date),'auto-sim-current-date'));
     state.lastChild.dataset.p5AutoDate='';
     p.append(state);
     const progress=autoSimulationProgress(v);
     if(progress){
-      const copy=el('span',`${progress.elapsedDays} de ${progress.totalDays} días · ${Math.round(progress.percent)} %`,'auto-sim-progress-text');
-      copy.dataset.p5AutoProgressText='';
+      const progressLabel=el('span',copy('career.home.progress',`${progress.elapsedDays} de ${progress.totalDays} días · ${Math.round(progress.percent)} %`,{elapsed:progress.elapsedDays,total:progress.totalDays,percent:Math.round(progress.percent)}),'auto-sim-progress-text');
+      progressLabel.dataset.p5AutoProgressText='';
       const meter=el('progress',undefined,'auto-sim-progress');
       meter.max=progress.totalDays;meter.value=progress.elapsedDays;meter.dataset.p5AutoProgress='';
-      meter.setAttribute('aria-label',`Progreso de la simulación: ${progress.elapsedDays} de ${progress.totalDays} días, ${Math.round(progress.percent)} %`);
-      p.append(copy,meter);
+      meter.setAttribute('aria-label',copy('career.home.progressA11y',`Progreso de la simulación: ${progress.elapsedDays} de ${progress.totalDays} días, ${Math.round(progress.percent)} %`,{elapsed:progress.elapsedDays,total:progress.totalDays,percent:Math.round(progress.percent)}));
+      p.append(progressLabel,meter);
     }
     return p;
   }
   function mainAction(v){
-    if(v.screen==='offer')return button('Revisar oferta',openCinematic,'primary',{blockedWhenPaused:true});
-    if(v.screen==='decision')return button('Una decisión te espera',openCinematic,'primary',{blockedWhenPaused:true});
-    if(v.screen==='result')return button('Volver a tu decisión',openCinematic,'primary',{blockedWhenPaused:true});
-    if(v.screen==='epilogue')return button('Ver mi carrera',()=>navigate('career'),'primary');
-    if(compactHome&&['career','home'].includes(v.screen)&&!['auto_simulating','paused'].includes(v.simulation?.mode))return button('Simular próximo partido',()=>run('continue',{maxDays:90}),'primary',{blockedWhenPaused:true});
+    if(v.screen==='offer')return button(copy('career.home.reviewOffer','Revisar oferta'),openCinematic,'primary',{blockedWhenPaused:true});
+    if(v.screen==='decision')return button(copy('career.home.decision','Una decisión te espera'),openCinematic,'primary',{blockedWhenPaused:true});
+    if(v.screen==='result')return button(copy('career.home.result','Volver a tu decisión'),openCinematic,'primary',{blockedWhenPaused:true});
+    if(v.screen==='epilogue')return button(copy('career.home.career','Ver mi carrera'),()=>navigate('career'),'primary');
+    if(compactHome&&['career','home'].includes(v.screen)&&!['auto_simulating','paused'].includes(v.simulation?.mode))return button(copy('career.home.nextMatch','Simular próximo partido'),()=>run('continue',{maxDays:90}),'primary',{blockedWhenPaused:true});
     if(v.simulation){
-      if(v.screen==='summary')return button('Seguir simulando',()=>run('auto',{action:'start'}),'primary',{blockedWhenPaused:true});
-      if(v.simulation.mode==='auto_simulating'&&!autoResumeAllowed)return button('Reanudar simulación',resumeLoadedSimulation,'primary');
-      if(v.simulation.mode==='auto_simulating')return button('Pausar simulación',()=>run('auto',{action:'pause'}),'primary',{blockedWhenPaused:true});
-      if(v.simulation.mode==='paused')return button('Reanudar simulación',()=>run('auto',{action:'resume'}),'primary',{blockedWhenPaused:true});
-      return button('Simular',()=>run('auto',{action:'start'}),'primary',{blockedWhenPaused:true});
+      if(v.screen==='summary')return button(copy('career.home.keepSimulating','Seguir simulando'),()=>run('auto',{action:'start'}),'primary',{blockedWhenPaused:true});
+      if(v.simulation.mode==='auto_simulating'&&!autoResumeAllowed)return button(copy('career.home.resume','Reanudar simulación'),resumeLoadedSimulation,'primary');
+      if(v.simulation.mode==='auto_simulating')return button(copy('career.home.pause','Pausar simulación'),()=>run('auto',{action:'pause'}),'primary',{blockedWhenPaused:true});
+      if(v.simulation.mode==='paused')return button(copy('career.home.resume','Reanudar simulación'),()=>run('auto',{action:'resume'}),'primary',{blockedWhenPaused:true});
+      return button(copy('career.home.simulate','Simular'),()=>run('auto',{action:'start'}),'primary',{blockedWhenPaused:true});
     }
-    return button('Simular semana',()=>run('continue',{maxDays:7}),'primary',{blockedWhenPaused:true});
+    return button(copy('career.home.week','Simular semana'),()=>run('continue',{maxDays:7}),'primary',{blockedWhenPaused:true});
   }
-  function hero(v){const h=el('article',undefined,'hero profile-hero');h.append(photo('hero_player'));const c=el('div',undefined,'hero-copy');c.append(el('span','TU PERFIL','eyebrow'),el('h1',v.player.displayName,'player-name'),el('p',position(v)+' · '+v.age+' años'),el('p',club(v),'muted'));h.append(c);return h;}
+  function hero(v){const h=el('article',undefined,'hero profile-hero');h.append(photo('hero_player'));const c=el('div',undefined,'hero-copy');c.append(el('span',copy('career.home.profile','TU PERFIL'),'eyebrow'),el('h1',v.player.displayName,'player-name'),el('p',copy('career.home.age',position(v)+' · '+v.age+' años',{position:position(v),age:v.age})),el('p',club(v),'muted'));h.append(c);return h;}
   function homeHero(v){
     const h=el('article',undefined,'hero home-hero');h.append(photo('hero_player'));
     const c=el('div',undefined,'hero-copy');
-    c.append(el('span','MI CARRERA','eyebrow'),el('h1',v.player.displayName,'player-name'),el('p',position(v)+' · '+v.age+' años'),el('p',club(v),'muted'));
+    c.append(el('span',copy('career.home.myCareer','MI CARRERA'),'eyebrow'),el('h1',v.player.displayName,'player-name'),el('p',copy('career.home.age',position(v)+' · '+v.age+' años',{position:position(v),age:v.age})),el('p',club(v),'muted'));
     h.append(c);return h;
   }
   function stats(v,compact=false,embedded=false){
-    const p=embedded?el('section',undefined,'panel profile-moment'):panel('Tu momento');
-    if(embedded)p.append(el('h2','Tu momento'));if(compact)p.classList.add('moment-compact');
+    const p=embedded?el('section',undefined,'panel profile-moment'):panel(copy('career.home.moment','Tu momento'));
+    if(embedded)p.append(el('h2',copy('career.home.moment','Tu momento')));if(compact)p.classList.add('moment-compact');
     const rows=[
-      ['Forma',v.form,'Rendimiento actual: refleja cómo estás compitiendo ahora.'],
-      ['Estado físico',v.fitness,'Condición corporal y disponibilidad física.'],
-      ['Fatiga',v.fatigue,'Desgaste acumulado: cuanto más alta, peor.']
+      [copy('career.home.form','Forma'),v.form,copy('career.home.formHelp','Rendimiento actual: refleja cómo estás compitiendo ahora.')],
+      [copy('career.home.fitness','Estado físico'),v.fitness,copy('career.home.fitnessHelp','Condición corporal y disponibilidad física.')],
+      [copy('career.home.fatigue','Fatiga'),v.fatigue,copy('career.home.fatigueHelp','Desgaste acumulado: cuanto más alta, peor.')]
     ];
     for(const [label,value,help] of rows){
       const row=el('div',undefined,'meter');
@@ -490,11 +490,11 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
       p.append(row);
     }
     if(compact){
-      const help=el('details',undefined,'moment-help');help.append(el('summary','Qué significan estos datos'));
-      help.append(el('p','Forma mide tu rendimiento actual. Estado físico refleja disponibilidad corporal. Fatiga es el desgaste acumulado: cuanto más alta, peor.','muted'));
+      const help=el('details',undefined,'moment-help');help.append(el('summary',copy('career.home.dataHelp','Qué significan estos datos')));
+      help.append(el('p',copy('career.home.dataHelpBody','Forma mide tu rendimiento actual. Estado físico refleja disponibilidad corporal. Fatiga es el desgaste acumulado: cuanto más alta, peor.'),'muted'));
       p.append(help);
     }
-    p.append(el('p',v.appearances+(v.appearances===1?' partido disputado':' partidos disputados'),'muted'));
+    p.append(el('p',copy(v.appearances===1?'career.home.appearancesOne':'career.home.appearancesMany',v.appearances+(v.appearances===1?' partido disputado':' partidos disputados'),{count:v.appearances}),'muted'));
     return p;
   }
   function retirementPanel(v){
@@ -544,12 +544,12 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     if(compactHome){
       main.classList.add('reddit-home');
       const card=el('section',undefined,'reddit-player');card.append(photo('hero_player','reddit-portrait'));
-      const identity=el('div',undefined,'reddit-identity');identity.append(el('span','TU CARRERA','eyebrow'),el('h1',v.player.displayName),el('p',position(v)+' · '+v.age+' años'),el('p',club(v),'muted'));card.append(identity);
+      const identity=el('div',undefined,'reddit-identity');identity.append(el('span',copy('career.home.yourCareer','TU CARRERA'),'eyebrow'),el('h1',v.player.displayName),el('p',copy('career.home.age',position(v)+' · '+v.age+' años',{position:position(v),age:v.age})),el('p',club(v),'muted'));card.append(identity);
       const metrics=el('div',undefined,'reddit-metrics');
-      for(const [label,value]of[['Forma',v.form],['Físico',v.fitness],['Fatiga',v.fatigue]]){const metric=el('div');metric.append(el('span',label),el('strong',String(Math.round(value))));const bar=el('progress');bar.max=100;bar.value=value;bar.setAttribute('aria-label',label+' '+Math.round(value)+' de 100');metric.append(bar);metrics.append(metric);}card.append(metrics);main.append(card);
-      const next=el('section',undefined,'reddit-next');next.append(el('span',date(v.date),'eyebrow'),el('h2',v.decision?.title||v.result?.title||(v.offer?'Una oferta para ti':null)||(v.screen==='epilogue'?'Tu legado':v.simulation?.mode==='auto_simulating'?'El tiempo avanza…':'Tu siguiente capítulo')));
-      next.append(el('p',['decision','result','offer'].includes(v.screen)?'Tus decisiones construyen tu historia.':'Avanza hasta el próximo momento importante.','muted'),mainAction(v));const advance=el('div',undefined,'reddit-advance');advance.append(next);if(careerSports){const sports=careerSports(session);advance.append(calendarCard(sports));}main.append(advance);
-      if(onDaily){const daily=button('',onDaily,'reddit-daily');daily.replaceChildren(el('span','RETO DEL DÍA','eyebrow'),el('strong','30 decisiones. Una carrera entera.'),el('span','Jugar Daily →'));main.append(daily);}
+      for(const [label,value]of[[copy('career.home.form','Forma'),v.form],[copy('career.home.physical','Físico'),v.fitness],[copy('career.home.fatigue','Fatiga'),v.fatigue]]){const metric=el('div');metric.append(el('span',label),el('strong',String(Math.round(value))));const bar=el('progress');bar.max=100;bar.value=value;bar.setAttribute('aria-label',copy('career.home.meter',label+' '+Math.round(value)+' de 100',{label,value:Math.round(value)}));metric.append(bar);metrics.append(metric);}card.append(metrics);main.append(card);
+      const next=el('section',undefined,'reddit-next');next.append(el('span',date(v.date),'eyebrow'),el('h2',v.decision?.title||v.result?.title||(v.offer?copy('career.home.offerTitle','Una oferta para ti'):null)||(v.screen==='epilogue'?copy('career.home.legacy','Tu legado'):v.simulation?.mode==='auto_simulating'?copy('career.home.time','El tiempo avanza…'):copy('career.home.nextChapter','Tu siguiente capítulo'))));
+      next.append(el('p',['decision','result','offer'].includes(v.screen)?copy('career.home.decisionsHelp','Tus decisiones construyen tu historia.'):copy('career.home.advanceHelp','Avanza hasta el próximo momento importante.'),'muted'));const primary=mainAction(v);primary.dataset.localeFocus='primary';next.append(primary);const advance=el('div',undefined,'reddit-advance');advance.append(next);if(careerSports){const sports=careerSports(session);advance.append(calendarCard(sports));}main.append(advance);
+      if(onDaily){const daily=button('',onDaily,'reddit-daily');daily.replaceChildren(el('span',copy('career.home.dailyEyebrow','RETO DEL DÍA'),'eyebrow'),el('strong',copy('career.home.dailyBody','30 decisiones. Una carrera entera.')),el('span',copy('career.home.dailyPlay','Jugar Daily →')));main.append(daily);}
       return;
     }
     if(assets.brand_cover){const cover=el('div',undefined,'brand-home-cover');cover.append(photo('brand_cover','brand-cover'));main.append(cover);}
@@ -568,7 +568,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
       el('p',v.offer?'Hay una propuesta de contrato que necesita tu respuesta.':v.decision?'Hay un momento que necesita tu respuesta.':v.result?'Tu decisión ya forma parte de esta historia.':v.screen==='epilogue'?'Mira atrás y recorre los momentos que te han traído hasta aquí.':v.screen==='summary'?'Revisa este tramo antes de seguir.':simMode==='paused'?'Reanuda cuando quieras o termina este bloque.':simMode==='auto_simulating'?'El tiempo avanza hasta el siguiente momento importante.':'Simula hasta el siguiente momento importante.','muted')
     );
     const autoState=autoSimulationState(v);if(autoState)content.append(autoState);
-    content.append(mainAction(v));
+    const primary=mainAction(v);primary.dataset.localeFocus='primary';content.append(primary);
     if(v.screen==='career'&&v.simulation?.mode==='idle'&&v.actions?.available)content.append(button('Gestionar mi carrera',openPlayerActions,'secondary'));
     if(v.screen==='career'&&v.simulation?.mode==='paused')content.append(button('Terminar simulación',()=>run('auto',{action:'stop'}),'secondary'));
     next.append(content);
@@ -596,24 +596,25 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     if(v.offerHistory.length){const h=v.offerHistory.at(-1),p=panel('Tu última respuesta de contrato');p.append(el('p',h.explanation));main.append(p);}
   }
   function calendarCard(sports){
-    const card=el('section',undefined,'reddit-calendar');card.append(el('span','TU EQUIPO','eyebrow'));
-    const summary=button(sports.position?`Liga · ${sports.position}º · ${sports.points} pts`:'Liga · Sin empezar',()=>showSports(sports),'reddit-league-link');summary.setAttribute('aria-label','Ver calendario y clasificación de la liga');card.append(summary);
+    const card=el('section',undefined,'reddit-calendar');card.append(el('span',copy('career.calendar.team','TU EQUIPO'),'eyebrow'));
+    const summary=button(sports.position?copy('career.calendar.leagueReady',`Liga · ${sports.position}º · ${sports.points} pts`,{position:sports.position,points:sports.points}):copy('career.calendar.leagueEmpty','Liga · Sin empezar'),()=>showSports(sports),'reddit-league-link');summary.setAttribute('aria-label',copy('career.calendar.calendarA11y','Ver calendario y clasificación de la liga'));card.append(summary);
     for(const match of sports.recent){const home=match.homeAway==='home',gf=home?match.result.homeGoals:match.result.awayGoals,ga=home?match.result.awayGoals:match.result.homeGoals;const row=el('div',undefined,'reddit-fixture');row.append(el('small',(match.competition==='champions'?'CH · ':'')+date(match.date)),el('span',clubName(match.opponent)),el('strong',`${gf}–${ga}`));card.append(row);}
-    const upcoming=sports.upcoming[0];if(upcoming){const row=el('div',undefined,'reddit-fixture upcoming');row.append(el('small',(upcoming.competition==='champions'?'CHAMPIONS · ':'PRÓXIMO · ')+date(upcoming.date)),el('span',clubName(upcoming.opponent)));card.append(row);}else if(!sports.recent.length)card.append(el('p','Sin partidos programados.','muted'));
+    const upcoming=sports.upcoming[0];if(upcoming){const row=el('div',undefined,'reddit-fixture upcoming');row.append(el('small',(upcoming.competition==='champions'?'CHAMPIONS · ':copy('career.calendar.upcoming','PRÓXIMO · '))+date(upcoming.date)),el('span',clubName(upcoming.opponent)));card.append(row);}else if(!sports.recent.length)card.append(el('p',copy('career.calendar.noFixtures','Sin partidos programados.'),'muted'));
     return card;
   }
   function showSports(sports){
-    const dialog=el('dialog',undefined,'dialog reddit-sports-dialog'),head=el('header');head.append(el('h2',sports.club),button('Cerrar',()=>dialog.close()));dialog.append(head);
+    const dialog=el('dialog',undefined,'dialog reddit-sports-dialog'),head=el('header');const close=button(copy('career.calendar.close','Cerrar'),()=>dialog.close());head.append(el('h2',sports.club),close);dialog.append(head);
     const tabs=el('nav',undefined,'reddit-sports-tabs'),body=el('div',undefined,'reddit-sports-body');dialog.append(tabs,body);
-    const table=rows=>{const t=el('table',undefined,'reddit-league-table'),thead=el('thead'),tr=el('tr');for(const label of ['#','Equipo','PJ','DG','Pts'])tr.append(el('th',label));thead.append(tr);t.append(thead);const tbody=el('tbody');for(const row of rows){const line=el('tr',undefined,row.you?'your-team':'');for(const value of [row.position,row.name,row.played,row.gf-row.ga,row.points])line.append(el('td',String(value)));tbody.append(line);}t.append(tbody);return t;};
-    const results=(competition)=>{const teams=competition.teams;let previous='';for(const m of competition.matches){const heading=m.stage?`${m.stage} · ${date(m.date)}`:`Jornada ${m.round} · ${date(m.date)}`;if(heading!==previous){body.append(el('h3',heading));previous=heading;}const home=teams[m.home],away=teams[m.away],row=el('div',undefined,'reddit-calendar-row');row.append(el('span',home.name),el('strong',`${m.hg} – ${m.ag}`),el('span',away.name));if(m.penalties)row.append(el('small',`Penaltis ${m.penalties.home}–${m.penalties.away}`));body.append(row);}};
-    function show(tab){body.replaceChildren();for(const b of tabs.children)b.setAttribute('aria-pressed',String(b.dataset.tab===tab));body.append(el('p','Temporada '+sports.season+' · '+sports.division,'muted'));
-      if(tab==='table')body.append(el('h3','Clasificación de liga'),table(sports.rows));
-      else if(tab==='results'){if(sports.league?.matches.length)results(sports.league);else{const history=(sports.allRecent??sports.recent).filter(m=>m.result);body.append(el('p',history.length?'Resultados de tu equipo':'Todavía no hay jornadas disputadas.','muted'));for(const m of history){const home=m.homeAway==='home',row=el('div',undefined,'reddit-calendar-row');row.append(el('span',`${date(m.date)} · ${home?sports.club:clubName(m.opponent)}`),el('strong',`${m.result.homeGoals} – ${m.result.awayGoals}`),el('span',home?clubName(m.opponent):sports.club));body.append(row);}}}
-      else {const c=sports.continental;if(!c)body.append(el('p','Disponible con el nuevo calendario de competiciones.'));else{body.append(el('h3','Champions'),el('p',c.format,'muted'));if(!c.qualified)body.append(el('p','Tu equipo no está clasificado esta temporada.'));if(c.rows.length)body.append(table(c.rows));if(c.winner)body.append(el('p','Campeón: '+c.winner));if(c.matches.length)results(c);}}
+    const table=rows=>{const t=el('table',undefined,'reddit-league-table'),thead=el('thead'),tr=el('tr');for(const label of ['#',copy('career.calendar.teamColumn','Equipo'),copy('career.calendar.played','PJ'),copy('career.calendar.difference','DG'),copy('career.calendar.points','Pts')])tr.append(el('th',label));thead.append(tr);t.append(thead);const tbody=el('tbody');for(const row of rows){const line=el('tr',undefined,row.you?'your-team':'');for(const value of [row.position,row.name,row.played,row.gf-row.ga,row.points])line.append(el('td',String(value)));tbody.append(line);}t.append(tbody);return t;};
+    const results=(competition)=>{const teams=competition.teams;let previous='';for(const m of competition.matches){const heading=m.stage?`${m.stage} · ${date(m.date)}`:copy('career.calendar.round',`Jornada ${m.round} · ${date(m.date)}`,{round:m.round,date:date(m.date)});if(heading!==previous){body.append(el('h3',heading));previous=heading;}const home=teams[m.home],away=teams[m.away],row=el('div',undefined,'reddit-calendar-row');row.append(el('span',home.name),el('strong',`${m.hg} – ${m.ag}`),el('span',away.name));if(m.penalties)row.append(el('small',copy('career.calendar.penalties',`Penaltis ${m.penalties.home}–${m.penalties.away}`,m.penalties)));body.append(row);}};
+    let selectedTab='table';
+    function show(tab){selectedTab=tab;body.replaceChildren();for(const b of tabs.children)b.setAttribute('aria-pressed',String(b.dataset.tab===tab));body.append(el('p',copy('career.calendar.season','Temporada '+sports.season+' · '+sports.division,{season:sports.season,division:sports.division}),'muted'));
+      if(tab==='table')body.append(el('h3',copy('career.calendar.leagueTable','Clasificación de liga')),table(sports.rows));
+      else if(tab==='results'){if(sports.league?.matches.length)results(sports.league);else{const history=(sports.allRecent??sports.recent).filter(m=>m.result);body.append(el('p',history.length?copy('career.calendar.teamResults','Resultados de tu equipo'):copy('career.calendar.noRounds','Todavía no hay jornadas disputadas.'),'muted'));for(const m of history){const home=m.homeAway==='home',row=el('div',undefined,'reddit-calendar-row');row.append(el('span',`${date(m.date)} · ${home?sports.club:clubName(m.opponent)}`),el('strong',`${m.result.homeGoals} – ${m.result.awayGoals}`),el('span',home?clubName(m.opponent):sports.club));body.append(row);}}}
+      else {const c=sports.continental;if(!c)body.append(el('p',copy('career.calendar.newCalendar','Disponible con el nuevo calendario de competiciones.')));else{body.append(el('h3','Champions'),el('p',c.format,'muted'));if(!c.qualified)body.append(el('p',copy('career.calendar.notQualified','Tu equipo no está clasificado esta temporada.')));if(c.rows.length)body.append(table(c.rows));if(c.winner)body.append(el('p',copy('career.calendar.champion','Campeón: '+c.winner,{team:c.winner})));if(c.matches.length)results(c);}}
       body.scrollTop=0;
     }
-    for(const [id,label]of [['table','Clasificación'],['results','Resultados'],['continental','Champions']]){const b=button(label,()=>show(id));b.dataset.tab=id;tabs.append(b);}show('table');shell.append(dialog);dialog.addEventListener('close',()=>dialog.remove());dialog.showModal();
+    for(const [id,label]of [['table',copy('career.calendar.table','Clasificación')],['results',copy('career.calendar.results','Resultados')],['continental','Champions']]){const b=button(label,()=>show(id));b.dataset.tab=id;tabs.append(b);}activeDialogLocale=()=>{dialog.lang=locale();close.firstChild.textContent=copy('career.calendar.close','Cerrar');for(const b of tabs.children)b.firstChild.textContent=b.dataset.tab==='table'?copy('career.calendar.table','Clasificación'):b.dataset.tab==='results'?copy('career.calendar.results','Resultados'):'Champions';show(selectedTab);};activeDialogLocale();shell.append(dialog);dialog.addEventListener('close',()=>{activeDialogLocale=null;dialog.remove();if(presentationLocale&&!disposed&&!busy)render();});dialog.showModal();
   }
   function portrait(id){return ({NPC_CCH_01:'portrait_coach',NPC_MED_01:'portrait_doctor',NPC_FAM_01:'portrait_mother',NPC_FAM_02:'portrait_father',NPC_AGT_01:'portrait_agent',NPC_AGT_02:'portrait_agent'})[id]||null;}
   function renderDecision(v,main){if(v.screen==='offer'){renderOffer(v,main);return;}const d=v.decision, result=v.screen==='result';if(d)lastArt=['preseason','sport','team','captaincy','tactical'].includes(d.family)?'prematch_scene':'stadium_bg';
@@ -849,14 +850,14 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
       }
     }
   }
-  function render(focus=false){disposeCutscene?.();disposeCutscene=null;if(autoVisualTimer!==null){clearTimeout(autoVisualTimer);autoVisualTimer=null;}const v=session?.getView();shell.replaceChildren();const frame=doc.createDocumentFragment();shell.classList.toggle('immersive',cinematic&&!!v);shell.classList.toggle('create-entry',view==='new');shell.lang=locale();const header=el('header',undefined,'topbar');const brand=el('div',undefined,'brand');brand.append(assets.brand_emblem?photo('brand_emblem','brand-emblem'):el('span','E','brand-mark'));const name=el('div');name.append(el('strong','ELEVENFATE'),el('small',copy('career.header.subtitle','Carrera de futbolista')));brand.append(name);const simMode=v?.simulation?.mode;const pause=v&&['auto_simulating','paused'].includes(simMode)?button(simMode==='paused'?'Reanudar':'Pausar',pauseToggle,'secondary',{ariaLabel:simMode==='paused'?'Reanudar la simulación':'Pausar la simulación',pressed:simMode==='paused'}):null;if(pause)pause.classList.add('pause-button');const dateControl=button(v?copy('career.header.saveDate',date(v.date)+' · Partida',{date:date(v.date)}):copy('career.header.save','Tu partida'),()=>navigate('save'),'date-button',{ariaLabel:v?copy('career.header.saveDateA11y','Abrir Tu partida y el contexto de guardado de '+date(v.date),{date:date(v.date)}):copy('career.header.saveA11y','Abrir Tu partida')});let saveContext=dateControl;if(compactHome){saveContext=el('div',undefined,'reddit-save-context');const sync=el('span',busy?busyCopy():'','reddit-save-indicator');sync.setAttribute('role','status');sync.setAttribute('aria-live','polite');sync.dataset.pending=String(busy);saveContext.append(dateControl,sync);}if(onMenu){const menu=button(copy('career.header.cover','Portada'),requestMenu,'secondary',{ariaLabel:copy('career.header.coverA11y','Volver a portada'),allowDuringRead:true});header.append(menu);}
+  function render(focus=false){activeDialogLocale=null;disposeCutscene?.();disposeCutscene=null;if(autoVisualTimer!==null){clearTimeout(autoVisualTimer);autoVisualTimer=null;}const v=session?.getView();shell.replaceChildren();const frame=doc.createDocumentFragment();shell.classList.toggle('immersive',cinematic&&!!v);shell.classList.toggle('create-entry',view==='new');shell.lang=locale();const header=el('header',undefined,'topbar');const brand=el('div',undefined,'brand');brand.append(assets.brand_emblem?photo('brand_emblem','brand-emblem'):el('span','E','brand-mark'));const name=el('div');name.append(el('strong','ELEVENFATE'),el('small',copy('career.header.subtitle','Carrera de futbolista')));brand.append(name);const simMode=v?.simulation?.mode;const pause=v&&['auto_simulating','paused'].includes(simMode)?button(simMode==='paused'?copy('career.home.shortResume','Reanudar'):copy('career.home.shortPause','Pausar'),pauseToggle,'secondary',{ariaLabel:simMode==='paused'?copy('career.home.resumeA11y','Reanudar la simulación'):copy('career.home.pauseA11y','Pausar la simulación'),pressed:simMode==='paused'}):null;if(pause){pause.classList.add('pause-button');pause.dataset.localeFocus='pause';}const dateControl=button(v?copy('career.header.saveDate',date(v.date)+' · Partida',{date:date(v.date)}):copy('career.header.save','Tu partida'),()=>navigate('save'),'date-button',{ariaLabel:v?copy('career.header.saveDateA11y','Abrir Tu partida y el contexto de guardado de '+date(v.date),{date:date(v.date)}):copy('career.header.saveA11y','Abrir Tu partida')});dateControl.dataset.localeFocus='save-context';let saveContext=dateControl;if(compactHome){saveContext=el('div',undefined,'reddit-save-context');const sync=el('span',busy?busyCopy():'','reddit-save-indicator');sync.setAttribute('role','status');sync.setAttribute('aria-live','polite');sync.dataset.pending=String(busy);saveContext.append(dateControl,sync);}if(onMenu){const menu=button(copy('career.header.cover','Portada'),requestMenu,'secondary',{ariaLabel:copy('career.header.coverA11y','Volver a portada'),allowDuringRead:true});menu.dataset.localeFocus='cover';header.append(menu);}
     header.append(brand,el('span',v?copy('career.header.season','Temporada '+v.season.replace('-',' / 20'),{season:v.season.replace('-',' / 20')}):copy('career.header.tagline','Una vida. Mil decisiones.'),'chapter'),...(pause?[pause]:[]),saveContext);frame.append(header);
-    const nav=el('nav',undefined,'navigation');nav.setAttribute('aria-label',copy('career.nav.a11y','Navegación principal'));for(const [key,label]of[['home','Inicio'],['career','Carrera'],['world','Mundo'],['relations','Relaciones'],['profile','Perfil'],['save','Tu partida']]){const b=button(copy('career.nav.'+key,label),()=>navigate(key),'nav-button');b.prepend(icon(key));if(key===view){b.classList.add('active');b.setAttribute('aria-current','page');}nav.append(b);}const foot=el('div',undefined,'nav-foot');foot.append(el('span',copy('career.nav.tagline','Cada elección cuenta.')),el('small',copy('career.nav.end','De principio a fin.')));nav.append(foot);frame.append(nav);
+    const nav=el('nav',undefined,'navigation');nav.setAttribute('aria-label',copy('career.nav.a11y','Navegación principal'));for(const [key,label]of[['home','Inicio'],['career','Carrera'],['world','Mundo'],['relations','Relaciones'],['profile','Perfil'],['save','Tu partida']]){const b=button(copy('career.nav.'+key,label),()=>navigate(key),'nav-button');b.dataset.localeFocus='nav-'+key;b.prepend(icon(key));if(key===view){b.classList.add('active');b.setAttribute('aria-current','page');}nav.append(b);}const foot=el('div',undefined,'nav-foot');foot.append(el('span',copy('career.nav.tagline','Cada elección cuenta.')),el('small',copy('career.nav.end','De principio a fin.')));nav.append(foot);frame.append(nav);
     const main=el('main');main.tabIndex=0;main.setAttribute('aria-busy',String(busy));frame.append(main);
     if(v){if(cinematic&&['decision','result','offer'].includes(v.screen))renderDecision(v,main);else({home,career,world,relations,profile,save:saves,new:newStory})[view](v,main);}else if(view==='save')saves(null,main);else if(view==='new')newStory(null,main);else{const cover=el('section',undefined,'brand-welcome');if(assets.brand_cover)cover.append(photo('brand_cover','brand-cover'));cover.append(el('h1','Tu historia está a punto de empezar'),el('p','Tu carrera. Tu destino.','muted'));main.append(cover);}
     if(message){const alert=el('div',undefined,'alert');alert.setAttribute('role','alert');alert.append(el('p',messageCopy()),button(copy('career.header.save','Tu partida'),()=>navigate('save')));frame.append(alert);}
-    if(busy){if(!compactHome){const status=el('div',busyCopy(),'busy-status');status.setAttribute('role','status');frame.append(status);}}else if(paused||v?.simulation?.mode==='paused'){const status=el('div','Juego en pausa · reanuda cuando quieras.','pause-status');status.setAttribute('role','status');frame.append(status);}else if(v?.simulation?.mode==='auto_simulating'){const status=el('div','Simulando el siguiente tramo…','save-status');frame.append(status);}else{const status=el('div',session?copy('career.autosave','Guardado automático · '+decisionCount(v?.decisionsMade||0),{count:decisionCount(v?.decisionsMade||0)}):'','save-status');frame.append(status);}
-    if(v&&['auto_simulating','paused'].includes(v.simulation?.mode)){const live=el('span',v.simulation.mode==='paused'?'Simulación pausada.':'Simulación en curso.','p5-live-status');live.setAttribute('role','status');live.setAttribute('aria-live','polite');frame.append(live);}
+    if(busy){if(!compactHome){const status=el('div',busyCopy(),'busy-status');status.setAttribute('role','status');frame.append(status);}}else if(paused||v?.simulation?.mode==='paused'){const status=el('div',copy('career.home.pausedStatus','Juego en pausa · reanuda cuando quieras.'),'pause-status');status.setAttribute('role','status');frame.append(status);}else if(v?.simulation?.mode==='auto_simulating'){const status=el('div',copy('career.home.simulatingStatus','Simulando el siguiente tramo…'),'save-status');frame.append(status);}else{const status=el('div',session?copy('career.autosave','Guardado automático · '+decisionCount(v?.decisionsMade||0),{count:decisionCount(v?.decisionsMade||0)}):'','save-status');frame.append(status);}
+    if(v&&['auto_simulating','paused'].includes(v.simulation?.mode)){const live=el('span',v.simulation.mode==='paused'?copy('career.home.pausedLive','Simulación pausada.'):copy('career.home.simulatingLive','Simulación en curso.'),'p5-live-status');live.setAttribute('role','status');live.setAttribute('aria-live','polite');frame.append(live);}
     shell.append(frame);if(v?.simulation?.mode==='auto_simulating')lastAutoVisualAt=performance.now();
     if(focus){const target=cinematic&&v?.screen==='result'?main.querySelector('[data-result-continue]'):main.querySelector('h1');if(target?.tagName==='H1')target.tabIndex=-1;(target||main).focus({preventScroll:true});main.scrollTop=0;}
   }
@@ -871,8 +872,9 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     moneyFormatter=new Intl.NumberFormat(locale()==='en'?'en-GB':'es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
     decimalFormatter=new Intl.NumberFormat(locale()==='en'?'en-GB':'es-ES',{maximumFractionDigits:1});
     if(activeDialogLocale){activeDialogLocale();return;}
-    const active=doc.activeElement,field=active?.dataset?.entryField,start=active?.selectionStart,end=active?.selectionEnd,direction=active?.selectionDirection;render();
+    const active=doc.activeElement,field=active?.dataset?.entryField,start=active?.selectionStart,end=active?.selectionEnd,direction=active?.selectionDirection,focusKey=active?.dataset?.localeFocus;render();
     if(field)for(const input of shell.querySelectorAll('input'))if(input.dataset.entryField===field){input.focus();if(typeof start==='number'&&typeof end==='number')input.setSelectionRange?.(start,end,direction);}
+    if(!field&&focusKey)for(const button of shell.querySelectorAll('button'))if(button.dataset.localeFocus===focusKey&&!button.disabled)button.focus({preventScroll:true});
   })||(()=>{});
   const dispose=()=>{disposed=true;unsubscribeLocale();activeDialogLocale=null;win.removeEventListener?.('elevenfate:ads-state',adsstate);disposeCutscene?.();clearTimeout(autoTimer);if(autoVisualTimer!==null)clearTimeout(autoVisualTimer);store.close().catch(()=>{});root.removeEventListener('keydown',keyboard);win.removeEventListener?.('popstate',popstate);win.removeEventListener?.('muir:platform-pause',platformpause);win.removeEventListener?.('muir:platform-resume',platformresume);doc.removeEventListener('visibilitychange',visibilitychange);shell.remove();style.remove();};
   dispose.canLeave=canLeaveEntry;

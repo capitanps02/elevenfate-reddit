@@ -4,7 +4,8 @@ import {coverCatalog} from '../i18n/cover-catalog.mjs';
 import {dailyCatalog} from '../i18n/daily-catalog.mjs';
 import {careerEntryCatalog} from '../i18n/career-entry-catalog.mjs';
 import {careerSaveCatalog} from '../i18n/career-save-catalog.mjs';
-export const presentationCatalog={es:{...esBase.ui,...coverCatalog.es,...dailyCatalog.es,...careerEntryCatalog.es,...careerSaveCatalog.es},en:{...enBase.ui,...coverCatalog.en,...dailyCatalog.en,...careerEntryCatalog.en,...careerSaveCatalog.en}};
+import {careerHomeCatalog} from '../i18n/career-home-catalog.mjs';
+export const presentationCatalog={es:{...esBase.ui,...coverCatalog.es,...dailyCatalog.es,...careerEntryCatalog.es,...careerSaveCatalog.es,...careerHomeCatalog.es},en:{...enBase.ui,...coverCatalog.en,...dailyCatalog.en,...careerEntryCatalog.en,...careerSaveCatalog.en,...careerHomeCatalog.en}};
 const normalize=value=>typeof value==='string'?({es:'es',en:'en'})[value.trim().toLowerCase().split('-')[0]]??null:null;
 // Locale is presentation preference only. No engine, session, save or network imports.
 export function createPresentationLocale({storage=null,key='elevenfate.presentation.locale.v1',availableLocales=['es'],initialLocale=null}={}){

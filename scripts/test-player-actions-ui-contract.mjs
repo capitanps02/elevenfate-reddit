@@ -40,7 +40,7 @@ test('A4-001 CAREER MENU: career UI exposes optional Player Actions entry',async
 
 test('A4-002 SIMULATE PRIMARY: SIMULAR remains the primary career CTA',()=>{
   assert.match(preview,/action\('Simular','auto'.*action:'start'/s);
-  assert.match(web,/button\('Simular'.*run\('auto'.*action:'start'.*'primary'/s);
+  assert.match(web,/button\((?:'Simular'|copy\('career\.home\.simulate','Simular'\)).*run\('auto'.*action:'start'.*'primary'/s);
   assert.match(web,/Gestionar mi carrera'.*'secondary'/s);
 });
 

@@ -42,3 +42,10 @@ Avisos boot/login/retry se localizan por separado antes de init, con una prefere
 career-save-catalog.mjs añade 37 claves ES/EN (242 UI combinadas). Traduce controles/ayuda de copias, importación, backup, legacy y eliminación; no cambia operaciones del almacén. Los parámetros de confirmación se vuelven a calcular con el formatter activo al cambiar idioma, conservando diálogo/candidato/backup. Mensajes fijos conocidos de revisión/conflicto/conexión tienen traducción explícita; no se deduce idioma de datos de carrera ni se traducen errores arbitrarios del servidor. Importaciones desconocidas usan consejo EN genérico; los códigos semánticos completos permanecen pendientes.
 
 Ocho pruebas nuevas de recuperación PASS con DOM simulado, incluidas cancelación sin escritura, bloqueo durante confirmación, snapshot/backup idénticos, cambio de idioma sin relectura, conflicto y archivos inválidos. verify:reddit pasa build/config y 117 pruebas. EN de producción sigue bloqueado hasta cobertura completa y QA final.
+
+## Inicio, simulación y controles deportivos
+76 claves en career-home-catalog.mjs: 318 UI en total. Posiciones se presentan por enum; Inicio compacto usa claves para identidad, métricas, CTA y Daily. Render y actualización ligera comparten fecha/progreso localizados. No se modifica PlayerView, comandos, RNG ni datos de calendario.
+
+El diálogo deportivo conserva tab y objeto deportivo al cambiar locale. Sus controles/tablas/avisos están traducidos; división, formato y fases dinámicas siguen originales y requieren proyección de IDs en un próximo bloque. Textos de decisión/resultado/oferta, paneles Carrera/Mundo/Relaciones/Perfil, acciones de jugador y parte de Home no compacto permanecen pendientes. English de producción sigue deshabilitado.
+
+Diez pruebas runtime nuevas PASS; 127 tests Reddit con build oficial PASS; 53 checks combinados y 28 contratos UI posteriores al ajuste CSS PASS. QA local con fixture ES/EN en seis tamaños, sin escrituras ni evidencia de Redis/webview. Foco preservado en controles identificados; listener del diálogo se descarta al navegar.

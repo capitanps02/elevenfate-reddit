@@ -2,7 +2,7 @@
 
 12 de octubre de 2026. PR #4; código en borrador, no publicado.
 
-## Avance estimado: 70 %; pendiente: 30 %
+## Avance estimado: 72 %; pendiente: 28 %
 
 Es una estimación de trabajo completado, no una certificación funcional ni visual. Los pesos se fijan para no tratar la traducción completa como un pequeño botón. Cada porcentaje de pasada incluye preparación y código; PASS final exige sus gates.
 
@@ -12,10 +12,10 @@ Es una estimación de trabajo completado, no una certificación funcional ni vis
 | P1 Contrato | 10 % | 90 % | 9 % | Especificado; revisión final contra versión publicada pendiente |
 | P2 Portada | 15 % | 80 % | 12 % | Menú implementado; validación gráfica pendiente |
 | P3 Flujos | 20 % | 95 % | 19 % | Navegación Atrás/Adelante implementada y probada en modelos; validación en Reddit pendiente |
-| P4 ES/EN | 20 % | 65 % | 13 % | Daily, creación, cabecera/nav, arranque y Tu partida conectados; relatos/paneles de carrera y errores semánticos restantes pendientes |
+| P4 ES/EN | 20 % | 70 % | 14 % | Daily, creación, arranque, Tu partida, Inicio compacto y controles de calendario conectados; relatos/paneles y datos deportivos dinámicos de carrera pendientes |
 | P5 Simular | 5 % | 80 % | 4 % | Selector ausente en Inicio publicado 0.1.6; candidato pendiente de comparación |
-| P6 Arte/a11y | 10 % | 10 % | 1 % | Estilos y targets iniciales; arte final y QA real pendientes |
-| P7 Certificación | 8 % | 75 % | 6 % | CI de 3c7061f completa PASS; build y 117 pruebas Reddit locales PASS; regresión ampliada en curso |
+| P6 Arte/a11y | 10 % | 20 % | 2 % | Inicio ES/EN revisado en seis tamaños; foco y recorte Daily corregidos; arte final, zoom y resto de pantallas pendientes |
+| P7 Certificación | 8 % | 75 % | 6 % | CI de d243f10 completa PASS; 205 regresiones anteriores PASS; bloque actual build/127 Reddit y contratos PASS |
 | P8 Reddit real | 4 % | 0 % | 0 % | Sin prueba ni publicación del candidato |
 
 Quedan seis pasadas principales de ejecución: cerrar P3, P4, P5, P6, P7 y P8. También siguen pendientes las comprobaciones de cierre de P0/P1/P2; no se consideran certificadas. No hacen falta nuevas pasadas inventadas para esos controles: se cierran dentro de las existentes.
@@ -102,3 +102,19 @@ Siguiente ejecución:
 Inspección visual local ES: portada en 320×480 y 390×844. Los seis controles aparecen en el árbol accesible; targets de acciones 48 px mínimo y fila de idiomas en paralelo (139 px por control en 320 px). El host permite scroll para el estado inferior en poca altura. Nueva partida y Tu partida abren desde controles reales. No se creó ni eliminó una carrera en el navegador. Preview con almacenamiento en memoria, sin evidencia de Redis ni webview Reddit. El recorte/artista, resto de tamaños, EN, zoom y foco requieren P6 completa.
 
 Corrección de estado vacío: sin sesión abierta, Tu partida no declara que el guardado automático esté activo ni identifica un último estado confirmado. Se repitieron los 8 tests de recuperación y 28 contratos UI: 36/36 PASS, y se reconstruyó el bundle.
+
+## Continuación: Inicio, simulación y calendario ES/EN
+
+CI oficial del bloque de recuperación d243f10dedfa464917e1bfe5b1e6ed82cba159b1 SUCCESS (run 38305056864). La regresión local ampliada anterior también terminó: 205/205 PASS.
+
+career-home-catalog.mjs añade 76 claves (318 UI combinadas). Inicio compacto localiza identidad/posición por enum, métricas, ayuda, títulos neutros, acción principal y acceso Daily. Los estados de simulación, pausa/reanudación, progreso y fecha de guardado también se localizan en el render completo y en la actualización ligera. Los títulos/cuerpos narrativos y las propuestas originales permanecen intactos: este bloque no certifica traducción de la historia ni de Inicio completo no compacto.
+
+Calendario localiza controles, tablas, fechas y avisos; conserva el diálogo y la pestaña seleccionada al cambiar idioma. Nombres de divisiones, formato y fases dinámicas de carrera todavía requieren metadatos por ID y cobertura EN; no se traducen por texto. Foco de acción principal, navegación, menú, pausa y fecha vuelve al mismo control tras cambiar locale. Un render por navegación limpia el callback de un diálogo retirado.
+
+Verificación: diez nuevas pruebas runtime con DOM simulado PASS, incluyendo paridad del comando principal ES/EN/default ES, preservación de PlayerView/calendario/score, estados pendientes, progreso accesible, pestaña, foco e historial del navegador. Build/config y 127/127 tests Reddit PASS. 53 checks combinados de Home, creación, recuperación y contratos UI PASS; 28 contratos repetidos tras ajuste CSS PASS. El contrato histórico de CTA ahora admite el adaptador explícito además del literal ES; la prueba runtime exige type/revision/action/maxDays idénticos.
+
+QA visual local aislada con fixture marcado, sin escrituras de carrera: 320×480, 360×800, 390×844, 412×915, 375×600 y 900×650, sin overflow horizontal. Se detectó recorte de Daily a 320×480 en ES: main tenía overflow:hidden, scrollHeight=391 frente a clientHeight=376. Cambiado a overflow-y:auto; End permite scrollTop≈15 y el Daily queda íntegro dentro del área principal. El grid de Daily usa minmax(0,1fr) y wrapping para texto largo. El harness QA vive en work; sus archivos se retiran de reddit/public y no se envían con el juego. Los selectores de idioma del harness no forman parte de Simular.
+
+Decisión visual COVER-OVERFLOW-001: ACTUAL overflow:hidden en Inicio; PROPUESTO scroll vertical solo cuando falta altura; COMPONENTE main.reddit-home; MOTIVO acceso completo a Daily sin reducir texto; RIESGO aparición de scrollbar en plataformas que no lo superponen; ROLLBACK restaurar la regla anterior. CSS compartida Android intacta. Esto no cierra la dirección artística ni P6 entera.
+
+72% ponderado exacto: P4=70% (14 puntos) y P6=20% (2 puntos); los demás pesos/avances siguen iguales. Quedan seis pasadas principales y controles de cierre P0/P1/P2. Siguiente bloque: contenido/paneles de carrera y deporte dinámico por IDs; después arte final, equivalencia del candidato y webview Reddit. English sigue desactivado, PR en borrador y candidato sin publicar.
