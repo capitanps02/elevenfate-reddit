@@ -54,7 +54,7 @@ try{
   // Suspend timers while a mounted career is hidden; do not change persisted game state.
   if(origin==='career')window.dispatchEvent(new Event('muir:platform-pause'));
   host.hidden=true;dailyPanel.hidden=false;disposeDaily?.();
-  disposeDaily=mountDaily({root:dailyPanel,assets,onClose(){if(disposeDaily?.canLeave?.()!==false)navigation.back(origin);}});
+  disposeDaily=mountDaily({root:dailyPanel,assets,i18n:presentationLocale,returnTo:origin,onClose(){if(disposeDaily?.canLeave?.()!==false)navigation.back(origin);}});
  }
  showCover();
 }catch(error){

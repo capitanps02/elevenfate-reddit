@@ -2,7 +2,7 @@
 
 12 de octubre de 2026. PR #4; código en borrador, no publicado.
 
-## Avance estimado: 61 %; pendiente: 39 %
+## Avance estimado: 64 %; pendiente: 36 %
 
 Es una estimación de trabajo completado, no una certificación funcional ni visual. Los pesos se fijan para no tratar la traducción completa como un pequeño botón. Cada porcentaje de pasada incluye preparación y código; PASS final exige sus gates.
 
@@ -12,10 +12,10 @@ Es una estimación de trabajo completado, no una certificación funcional ni vis
 | P1 Contrato | 10 % | 90 % | 9 % | Especificado; revisión final contra versión publicada pendiente |
 | P2 Portada | 15 % | 80 % | 12 % | Menú implementado; validación gráfica pendiente |
 | P3 Flujos | 20 % | 95 % | 19 % | Navegación Atrás/Adelante implementada y probada en modelos; validación en Reddit pendiente |
-| P4 ES/EN | 20 % | 25 % | 5 % | Adaptador, preferencias y portada/tutorial bilingües; carrera/Daily integral pendiente |
+| P4 ES/EN | 20 % | 35 % | 7 % | Portada/tutorial y UI Daily conectados; historias, carrera y arranque pendientes |
 | P5 Simular | 5 % | 80 % | 4 % | Selector ausente en Inicio publicado 0.1.6; candidato pendiente de comparación |
 | P6 Arte/a11y | 10 % | 10 % | 1 % | Estilos y targets iniciales; arte final y QA real pendientes |
-| P7 Certificación | 8 % | 60 % | 4,8 % | CI completa de tutorial PASS; 30 pruebas locales PASS, nueva CI de navegación pendiente |
+| P7 Certificación | 8 % | 70 % | 5,6 % | CI completa de portada/localización PASS; 48 tests locales PASS; nueva CI Daily pendiente |
 | P8 Reddit real | 4 % | 0 % | 0 % | Sin prueba ni publicación del candidato |
 
 Quedan seis pasadas principales de ejecución: cerrar P3, P4, P5, P6, P7 y P8. También siguen pendientes las comprobaciones de cierre de P0/P1/P2; no se consideran certificadas. No hacen falta nuevas pasadas inventadas para esos controles: se cierran dentro de las existentes.
@@ -41,3 +41,12 @@ Se reutilizan sin modificaciones los JSON de PR #3 (74d60cf0224bcd59b06f03f98176
 40/40 pruebas locales PASS, incluyendo cambio de idioma durante tutorial, elección preservada, storage bloqueado y errores localizados. La CI de 154d466333165bf5d1babc3dca388b571b8640a9 pasó build/62 pruebas Reddit/177 sesión y guardado; falló 1/28 contratos de UI porque la condición de bloqueo de botones cambió de forma. Se restaura el bloqueo general busy y se deja una excepción explícita solo para controles de salida durante una lectura. Los tests locales del guard y de salidas durante lectura/escritura pasan; nueva CI necesaria. Último PASS completo sigue siendo 26eda35c51655a790ca5e19ea6f6b74f29d7002a.
 
 La cifra 61% redondea 60,8% ponderado. No equivale a 61% de textos traducidos ni a una localización completa. Continúan pendientes carrera, Daily canónico completo, creación, login/error de arranque, helpers de Intl, errores de recuperación, equivalencia determinista y Reddit bilingüe real. La duración del tutorial y los layouts EN aún no se han medido visualmente.
+
+## Continuación: interfaz Daily bilingüe
+Daily recibe el mismo adaptador que la portada. Usa claves para intro, práctica, reglas, ranking, contratos, indicadores, resultados deportivos, resúmenes, cierre y recuperación. Intl cambia el idioma de fecha manteniendo UTC. Las etiquetas pendientes dependen de read/write, no de palabras traducidas; salir durante lectura y bloquear durante escritura funciona en ambos idiomas. La vuelta desde portada anuncia «Volver al menú». Los errores originales en ES se conservan; EN muestra un fallback localizado mientras no hay códigos semánticos de error completos.
+
+El catálogo combinado tiene ahora 155 claves UI (99 originales, 53 portada/tutorial, 3 de formato/retorno Daily); los JSON iniciales se conservan intactos. No cambian comandos, IDs, revisiones, puntuaciones, tablas ni nombres propios. Los textos dinámicos del servidor se conservan sin traducciones deducidas por texto: títulos/cuerpos/opciones/resultados canónicos, nombres de etapas, trofeos, formatos y fases deportivas siguen pendientes. La vista pública Daily actual no envía eventId, y el historial persistido no conserva eventId/choiceId; se requiere diseñar metadatos aditivos y compatibilidad con partidas antiguas antes de traducir por IDs. No se ha modificado el servidor ni el estado persistido en esta pasada.
+
+48/48 tests locales PASS: comandos equivalentes ES/EN, bloqueo de escrituras y selección durante cambios de idioma, reglas/ranking UTC, tablas/resultados/resúmenes, recuperación y listeners. Usan DOM simulado; no certifican motor determinista ni layout. La CI completa de db16e82b2166eab86bd8513f8336a35927c224ae PASS incluye build, Reddit, sesión/guardado y contratos UI: restaurado A4-012. Esta iteración Daily requiere su propia CI. English continúa desactivado en game.mjs.
+
+64% redondea 63,6% ponderado. Quedan las mismas seis pasadas principales: cerrar P3, P4, P5, P6, P7 y P8; incluye cierres pendientes de baseline, contrato y portada. No es porcentaje de traducción ni certificación de publicación.

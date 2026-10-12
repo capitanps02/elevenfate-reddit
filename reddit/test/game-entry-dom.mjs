@@ -9,7 +9,7 @@ export function makeGameRoot(){
   n.removeEventListener=()=>{};
   n.showModal=()=>{n.open=true;};n.close=()=>{n.open=false;n.listeners.close?.();};
   n.querySelector=selector=>all(n).find(child=>selector==='dialog[open]'?child.tagName==='DIALOG'&&child.open:selector.startsWith('.')?child.classList.contains(selector.slice(1)):child.tagName===selector.toUpperCase())||null;
-  n.querySelectorAll=selector=>all(n).filter(child=>selector.split(',').some(tag=>child.tagName===tag.toUpperCase()));
+  n.querySelectorAll=selector=>all(n).filter(child=>selector.split(',').some(tag=>tag==='[data-choice]'?Object.hasOwn(child.dataset,'choice'):child.tagName===tag.toUpperCase()));
   return n;
  }
  doc.createElement=make;doc.createElementNS=(ns,tag)=>{const n=make(tag);n.namespaceURI=ns;return n;};doc.createDocumentFragment=()=>make('fragment');

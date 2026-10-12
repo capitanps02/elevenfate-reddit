@@ -11,3 +11,8 @@ La entrada game.mjs fija availableLocales=['es']. English sigue deshabilitado en
 Pendiente antes de habilitar EN: traducir el modo carrera, formulario de creación, login/arranque, Daily UI y todas sus historias canónicas alcanzables, resultados/históricos, helpers de formato, mensajes de error/recuperación; probar paridad de snapshots y scores para mismos comandos; revisar layouts y Reddit real. No cambiar la lista de idiomas disponibles hasta superar esos gates.
 
 No hay red de traducción ni dependencia de SDK analítico. El bundle contiene ambos catálogos; medir su coste real de empaquetado en CI y performance antes de certificar. Las pruebas actuales usan Node/DOM simulado, no dispositivo físico.
+
+## Integración Daily
+mountDaily recibe el adaptador compartido, fija lang en su raíz y limpia la suscripción al salir. Los textos estáticos UI y formatos de edad/rango usan claves; las fechas del ranking usan Intl con locale y UTC. daily-catalog.mjs añade tres claves y el total combinado pasa a 155. Estado pendiente read/write independiente del idioma. Ningún locale viaja en el POST ni modifica dailyId, choiceId, commandId o expectedRevision.
+
+Ocho tests nuevos cubren las ramas UI y cambios de idioma durante solicitudes: 48/48 tests locales de la integración PASS. Los tests de decisión y deportes verifican explícitamente que los textos dinámicos siguen intactos: no representan una traducción completa. dailyRunView carece de eventId y el historial no guarda IDs de evento/elección; historias, consecuencias, etapas, honores, formatos deportivos y códigos de error requieren cobertura adicional. AvailableLocales sigue siendo [es].

@@ -1,7 +1,8 @@
 import esBase from '../i18n/es.json' with {type:'json'};
 import enBase from '../i18n/en.json' with {type:'json'};
 import {coverCatalog} from '../i18n/cover-catalog.mjs';
-export const presentationCatalog={es:{...esBase.ui,...coverCatalog.es},en:{...enBase.ui,...coverCatalog.en}};
+import {dailyCatalog} from '../i18n/daily-catalog.mjs';
+export const presentationCatalog={es:{...esBase.ui,...coverCatalog.es,...dailyCatalog.es},en:{...enBase.ui,...coverCatalog.en,...dailyCatalog.en}};
 const normalize=value=>typeof value==='string'?({es:'es',en:'en'})[value.trim().toLowerCase().split('-')[0]]??null:null;
 // Locale is presentation preference only. No engine, session, save or network imports.
 export function createPresentationLocale({storage=null,key='elevenfate.presentation.locale.v1',availableLocales=['es'],initialLocale=null}={}){
