@@ -6,7 +6,7 @@ import {makeGameRoot,findButton,all,text} from './game-entry-dom.mjs';
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 const locale=initialLocale=>createPresentationLocale({availableLocales:['es','en'],initialLocale});
 const intro={started:false,config:{id:'day-1',day:'2026-10-12',decisions:30}};
-const view={revision:7,age:18,club:'Real Club',technique:52,form:63,fitness:78,stage:{from:18,to:20,name:'Primeros pasos'}};
+const view={revision:7,age:18,club:'Real Club',technique:52,form:63,fitness:78,stage:{stageId:0,from:18,to:20,name:'Primeros pasos'}};
 async function mounted(i18n,response,run,fetchOverride){
  const root=makeGameRoot(),oldDocument=globalThis.document,oldFetch=globalThis.fetch,calls=[];
  globalThis.document=root.ownerDocument;
@@ -48,21 +48,21 @@ test('club choice command retains the original ID and revision in both locales',
  }
  assert.deepEqual(bodies[0],bodies[1]);assert.equal(bodies[0].command.choiceId,'club-original');assert.equal(bodies[0].command.expectedRevision,7);
 });
-test('decision selection and pending marker survive a locale change without changing story text',async()=>{
+test('translated fallback selection and pending marker survive a locale change without changing IDs',async()=>{
  const i18n=locale('en');let finish;
- const response={...intro,started:true,resolved:1,view:{...view,screen:'decision',decision:{title:'Historia canónica',body:'Texto original sin traducción inventada.',choices:[{id:'CANONICAL_CHOICE',label:'Opción original'}]},lastMessage:'Consecuencia original'}};
+ const response={...intro,started:true,resolved:1,view:{...view,screen:'decision',decision:{eventId:'DAILY_0_0',original:false,title:'Un sitio en el vestuario',body:'Texto original ES',choices:[{id:'c0',label:'Trabajar una variante técnica'}]},lastMessage:'Consecuencia original'}};
  await mounted(i18n,response,async({root,calls})=>{
-  assert.match(text(root),/DECISION 2 OF 30/);assert.match(text(root),/Historia canónica/);
-  all(root).find(n=>n.dataset.choice==='CANONICAL_CHOICE').click();await tick();i18n.setLocale('es');
-  const choice=all(root).find(n=>n.dataset.choice==='CANONICAL_CHOICE');assert.equal(choice.classList.contains('selected'),true);assert.equal(choice.disabled,true);assert.equal(calls.length,2);
-  assert.match(text(root),/DECISIÓN 2 DE 30/);assert.match(text(root),/Consecuencia original/);
+  assert.match(text(root),/DECISION 2 OF 30/);assert.match(text(root),/Finding your place in the dressing room/);assert.equal(root.dataset.storyTranslation,'ready');
+  all(root).find(n=>n.dataset.choice==='c0').click();await tick();i18n.setLocale('es');
+  const choice=all(root).find(n=>n.dataset.choice==='c0');assert.equal(choice.classList.contains('selected'),true);assert.equal(choice.disabled,true);assert.equal(calls.length,2);
+  assert.match(text(root),/DECISIÓN 2 DE 30/);assert.match(text(root),/Un sitio en el vestuario/);assert.match(text(root),/Consecuencia original/);assert.equal(JSON.parse(calls[1].options.body).command.choiceId,'c0');
   finish({ok:true,json:async()=>response});await tick();
  },(_url,options)=>options.method==='GET'?{ok:true,json:async()=>response}:new Promise(resolve=>{finish=resolve;}));
 });
 test('summary and finished UI translate while scores and honours stay unchanged',async()=>{
- const part={from:18,to:20,name:'Primeros pasos',club:'Real Club',role:50,played:20,starts:10,goals:3,assists:2,titles:[],awards:[]};
+ const part={stageId:0,from:18,to:20,name:'Primeros pasos',club:'Real Club',role:50,played:20,starts:10,goals:3,assists:2,titles:[],awards:[]};
  await mounted(locale('en'),{...intro,started:true,view:{...view,screen:'summary',summary:part,nextStage:{from:20,to:23}}},async({root})=>{
-  assert.match(text(root),/AGES 18–20/);assert.match(text(root),/Started 50%/);assert.ok(findButton(root,'Next stage · 20–23 →'));assert.match(text(root),/Matches/);
+  assert.match(text(root),/AGES 18–20/);assert.match(text(root),/First steps/);assert.match(text(root),/Started 50%/);assert.ok(findButton(root,'Next stage · 20–23 →'));assert.match(text(root),/Matches/);
  });
  await mounted(locale('en'),{...intro,started:true,finished:true,score:{total:811},view:{...view,totals:part,titles:[{title:'Trofeo original',season:'2026-27',club:'Real Club'}],awards:[],summaries:[part],history:[{age:18,title:'Historia original',choice:'Elección original'}]}},async({root})=>{
   assert.match(text(root),/811 points/);assert.match(text(root),/Team honours/);assert.match(text(root),/Trofeo original/);assert.match(text(root),/Age 18 · Historia original/);assert.ok(findButton(root,"View today's leaderboard"));
@@ -89,4 +89,13 @@ test('disposing Daily removes the shared locale listener and late read cannot re
  await mounted(i18n,null,async({root,dispose,calls})=>{
   assert.equal(dispose.canLeave(),true);dispose();i18n.setLocale('es');finish({ok:true,json:async()=>intro});await tick();assert.equal(root.children.length,0);assert.equal(calls.length,1);
  },()=>new Promise(resolve=>{finish=resolve;}));
+});
+
+test('an uncovered original story is blocked in English preview and returns intact in Spanish',async()=>{
+ const i18n=locale('en');const response={...intro,started:true,resolved:1,view:{...view,screen:'decision',decision:{eventId:'EVT_REAL',original:true,title:'Historia real',body:'Texto real',choices:[{id:'REAL_CHOICE',label:'Respuesta real'}]}}};
+ const before=JSON.stringify(response);
+ await mounted(i18n,response,async({root,calls})=>{
+  assert.equal(root.dataset.storyTranslation,'unavailable');assert.match(text(root),/Story available in Spanish/);assert.doesNotMatch(text(root),/Historia real/);assert.equal(all(root).filter(n=>n.dataset.choice).length,0);assert.equal(calls.length,1);
+  i18n.setLocale('es');assert.equal(root.dataset.storyTranslation,'ready');assert.match(text(root),/Historia real/);assert.ok(all(root).find(n=>n.dataset.choice==='REAL_CHOICE'));assert.equal(calls.length,1);assert.equal(JSON.stringify(response),before);
+ });
 });

@@ -1,3 +1,4 @@
+import {publicDailyDecision,publicDailyStage} from './daily-presentation.mjs';
 import {createInitialState} from '../../dist/content/initial-state.js';
 import {FOOTBALL_CLUBS} from '../../dist/catalog/football/index.js';
 import {EVENTS} from '../../dist/content/events/index.js';
@@ -108,7 +109,7 @@ export function applyDailyCommand(run,command){
 export function dailyRunView(run,seasonId){
  const selected=run.competitions.find(c=>c.id===seasonId)??run.competitions.at(-1);
  const s=run.state,p=run.pending,stage=STAGES[Math.min(run.summaryPending&&!run.finished?run.stage-1:run.stage,5)],totals={played:0,starts:0,goals:0,assists:0};for(const season of run.seasons)for(const key of Object.keys(totals))totals[key]+=season[key];
- return {seasons:run.competitions.map(c=>({id:c.id,club:clubById.get(c.clubId).name,division:c.division})),league:selected?publicLeagueSeason(selected):null,continental:selected?publicContinentalSeason(createContinentalSeason({seed:run.seed,year:selected.year,clubId:selected.clubId,previousLeague:run.competitions.find(c=>c.year===selected.year-1)}),s.date):null,revision:run.revision,age:Math.floor(s.age),club:clubById.get(s.club)?.name??'Sin equipo',form:Math.round(s.sport.form),fitness:Math.round(s.body.fitness),technique:Math.round(s.professional.technique),role:s.role,stage,nextStage:run.summaryPending&&!run.finished?STAGES[run.stage]:null,screen:run.finished?'epilogue':run.summaryPending?'summary':p.kind==='club'?'club':'decision',clubs:p?.clubs,decision:p?.kind==='story'?{title:p.event.text.title,body:p.event.text.body,choices:p.choices,original:p.original}:null,lastMessage:run.lastMessage,summary:run.summaries.at(-1),summaries:run.summaries,totals,titles:run.summaries.flatMap(r=>r.titles),awards:run.summaries.flatMap(r=>r.awards),history:run.finished?run.history:undefined};
+ return {seasons:run.competitions.map(c=>({id:c.id,club:clubById.get(c.clubId).name,division:c.division})),league:selected?publicLeagueSeason(selected):null,continental:selected?publicContinentalSeason(createContinentalSeason({seed:run.seed,year:selected.year,clubId:selected.clubId,previousLeague:run.competitions.find(c=>c.year===selected.year-1)}),s.date):null,revision:run.revision,age:Math.floor(s.age),club:clubById.get(s.club)?.name??'Sin equipo',form:Math.round(s.sport.form),fitness:Math.round(s.body.fitness),technique:Math.round(s.professional.technique),role:s.role,stage:publicDailyStage(stage,STAGES.indexOf(stage)),nextStage:run.summaryPending&&!run.finished?publicDailyStage(STAGES[run.stage],run.stage):null,screen:run.finished?'epilogue':run.summaryPending?'summary':p.kind==='club'?'club':'decision',clubs:p?.clubs,decision:publicDailyDecision(p),lastMessage:run.lastMessage,summary:publicDailyStage(run.summaries.at(-1),run.summaries.length-1),summaries:run.summaries.map((part,index)=>publicDailyStage(part,index)),totals,titles:run.summaries.flatMap(r=>r.titles),awards:run.summaries.flatMap(r=>r.awards),history:run.finished?run.history:undefined};
 }
 export function dailyScore(state,run){
  const clampValue=n=>clamp(Number.isFinite(n)?n:0);
@@ -116,3 +117,4 @@ export function dailyScore(state,run){
  const breakdown=parts.map(([label,value,weight])=>({label,value:clampValue(value),weight,points:Math.round(clampValue(value)*weight/10)}));
  return {total:Math.min(1000,breakdown.reduce((n,p)=>n+p.points,0)),breakdown};
 }
+

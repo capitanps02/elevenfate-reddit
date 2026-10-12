@@ -1,7 +1,9 @@
+import {translateDailyDecision,translateDailyStage,MissingDailyTranslation} from './daily-story-locale.mjs';
 import {createPresentationLocale} from './presentation-locale.mjs';
 export function mountDaily({root,onClose,assets={},i18n=createPresentationLocale(),returnTo='career'}){
  let disposed=false;
  const t=(id,params)=>i18n.t(id,params);
+ const stageText=stage=>{try{return translateDailyStage(stage,i18n.getLocale());}catch(error){if(!(error instanceof MissingDailyTranslation))throw error;return {...stage,name:t('daily.translationPending')};}};
  let state=null,busy=false,mode='daily',screen='play',error='',selected=null,pendingKind='read';
  const node=(tag,text,cls)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;};
  const button=(text,action,cls='daily-button')=>{const el=node('button',text,cls);el.type='button';el.disabled=busy;if(action===onClose)el.dataset.dailyExit='true';el.addEventListener('click',action);return el;};
@@ -14,9 +16,9 @@ export function mountDaily({root,onClose,assets={},i18n=createPresentationLocale
  function honours(parent,title,items){const section=node('section',undefined,'daily-honours');section.append(node('h2',title));if(!items?.length)section.append(node('p',t('daily.noHonours')));else for(const item of items)section.append(node('p',`${item.title} · ${item.season}\n${item.club}`));parent.append(section);}
  function render(){
   if(disposed)return;
-  root.replaceChildren();root.dataset.screen=screen;root.lang=i18n.getLocale();
+  root.replaceChildren();root.dataset.screen=screen;root.lang=i18n.getLocale();delete root.dataset.storyTranslation;
   const header=node('header',undefined,'daily-header'),tools=node('div',undefined,'daily-tools'),ranking=button('Top',openRanking,'daily-icon daily-ranking-button'),help=button('?',()=>{screen=screen==='rules'?'play':'rules';render();},'daily-icon');ranking.setAttribute('aria-label',t('daily.rankingA11y'));help.setAttribute('aria-label',t('daily.helpA11y'));tools.append(ranking,help);header.append(button('←',onClose,'daily-icon'),node('strong',mode==='practice'?t('daily.practiceBrand'):'ELEVENFATE · DAILY'),tools);header.firstChild.setAttribute('aria-label',t(returnTo==='cover'?'daily.backMenu':'daily.back'));root.append(header);
-  const done=state?.resolved??0,limit=state?.config.decisions??30,stage=state?.view?.stage;
+  const done=state?.resolved??0,limit=state?.config.decisions??30,stage=state?.view?.stage?stageText(state.view.stage):null;
   const timeline=node('div',undefined,'daily-timeline');timeline.append(node('span',stage?t('daily.stage',stage):t('daily.ageSpan')),node('span',`${done}/${limit}`));const progress=node('div',undefined,'daily-progress');for(let i=0;i<6;i++){const part=node('span');part.style.setProperty('--completion',`${Math.max(0,Math.min(100,(done-i*5)*20))}%`);progress.append(part);}progress.setAttribute('aria-label',t('daily.progress',{done,limit}));timeline.append(progress);root.append(timeline);
   const stageView=state?.view;if(state?.started){const bar=node('div',undefined,'daily-player');bar.append(node('strong',t('daily.player',stageView)),node('span',t('daily.playerStats',stageView)));root.append(bar);}else root.append(node('div',undefined,'daily-player'));
   const match=node('div',undefined,'daily-match'),card=node('section',undefined,'daily-card'),actions=node('footer',undefined,'daily-actions');match.append(card,actions);root.append(match);
@@ -50,15 +52,20 @@ export function mountDaily({root,onClose,assets={},i18n=createPresentationLocale
    const history=node('details',undefined,'daily-details');history.append(node('summary',t('daily.storyChoices')));for(const entry of state.view.history??[])history.append(node('p',t('daily.historyEntry',entry)));card.append(history);
    if(mode==='daily'){card.append(node('p',state.leaderboard?.position?t('daily.rankingPosition',state.leaderboard):t('daily.rankRegistered'),'daily-ranking-note'));actions.append(button(t('daily.viewRanking'),openRanking,'daily-primary'));}else actions.append(button(t('daily.againPractice'),()=>request({dailyId:state.config.id,action:'restart',expectedRevision:state.view.revision}),'daily-primary'),button(t('daily.playDaily'),switchMode,'daily-link'));
   }else if(state.view.screen==='summary'){
-   const part=state.view.summary;title(t('daily.stageAges',part),part.name,t('daily.startsPercent',part));numbers(card,part);if(part.titles.length)honours(card,t('daily.teamTitles'),part.titles);if(part.awards.length)honours(card,t('daily.individualAwards'),part.awards);actions.append(button(t('daily.nextStage',state.view.nextStage),()=>act({type:'acknowledge'}),'daily-primary'));
+   const part=stageText(state.view.summary);title(t('daily.stageAges',part),part.name,t('daily.startsPercent',part));numbers(card,part);if(part.titles.length)honours(card,t('daily.teamTitles'),part.titles);if(part.awards.length)honours(card,t('daily.individualAwards'),part.awards);actions.append(button(t('daily.nextStage',state.view.nextStage),()=>act({type:'acknowledge'}),'daily-primary'));
   }else if(state.view.screen==='club'){
    title(done===0?t('daily.firstContract'):t('daily.transferMarket'),done===0?t('daily.whereStart'):t('daily.stayOrGo'),done===0?t('daily.firstClubsIntro'):t('daily.transferIntro'));
    for(const club of state.view.clubs){const b=button('',()=>act({type:'choose',choiceId:club.id}),'daily-choice daily-club');b.dataset.choice=club.id;const copy=node('span');copy.append(node('strong',club.stay?t('daily.stayClub',{club:club.name}):club.name),node('small',t('daily.divisionRole',{tier:club.tier,role:club.role>=65?t('daily.roleStarter'):club.role>=40?t('daily.roleRotation'):t('daily.roleCompetition')})));b.append(node('span',club.stay?'↺':'→','daily-letter'),copy);actions.append(b);}
   }else{
-   const decision=state.view.decision;title(t('daily.decisionIndex',{current:done+1,total:limit}),decision.title,decision.body);actions.setAttribute('aria-label',t('daily.decisionOptionsA11y'));for(const [i,choice]of decision.choices.entries()){const el=button('',()=>act({type:'choose',choiceId:choice.id}),'daily-choice');el.dataset.choice=choice.id;el.append(node('span',String.fromCharCode(65+i),'daily-letter'),node('span',choice.label));actions.append(el);}
+   try{
+    const decision=translateDailyDecision(state.view.decision,i18n.getLocale());root.dataset.storyTranslation='ready';title(t('daily.decisionIndex',{current:done+1,total:limit}),decision.title,decision.body);actions.setAttribute('aria-label',t('daily.decisionOptionsA11y'));for(const [i,choice]of decision.choices.entries()){const el=button('',()=>act({type:'choose',choiceId:choice.id}),'daily-choice');el.dataset.choice=choice.id;el.append(node('span',String.fromCharCode(65+i),'daily-letter'),node('span',choice.label));actions.append(el);}
+   }catch(error){
+    if(!(error instanceof MissingDailyTranslation))throw error;
+    root.dataset.storyTranslation='unavailable';card.setAttribute('role','alert');title(t('daily.decisionIndex',{current:done+1,total:limit}),t('daily.translationPending'),t('daily.translationPendingBody'));
+   }
   }
   if(screen==='play'&&state?.view?.league){card.append(button(t('daily.seasonResults'),()=>{screen='table';render();},'daily-link'));}
-  if(state?.view?.lastMessage&&!state.finished&&state.view.screen!=='summary'){const note=node('div',undefined,'daily-consequence');note.append(node('span',t('daily.lastChoice')),node('p',state.view.lastMessage));card.append(note);}
+  if(state?.view?.lastMessage&&!state.finished&&state.view.screen!=='summary'&&root.dataset.storyTranslation!=='unavailable'){const note=node('div',undefined,'daily-consequence');note.append(node('span',t('daily.lastChoice')),node('p',state.view.lastMessage));card.append(note);}
   if(error)actions.append(button(t('daily.recover'),()=>request(),'daily-link'));const status=node('div',undefined,'daily-status');status.setAttribute('role','status');root.append(status);pending();root.scrollTop=0;
  }
  const unsubscribe=i18n.subscribe(()=>render());

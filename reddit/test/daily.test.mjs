@@ -135,3 +135,23 @@ test('ranking failure after a confirmed finish preserves the Daily and is repair
  assert.ok(failed);const restored=await daily.read('t2_recovery');assert.equal(restored.finished,true);assert.equal(restored.resolved,30);assert.equal(restored.leaderboard.total,1);assert.equal(restored.leaderboard.score,restored.score.total);
  const second=await daily.read('t2_recovery');assert.deepEqual(second,restored);assert.equal(second.leaderboard.total,1);
 });
+
+test('presentation metadata never enters a persisted Daily run and old runs still project',async()=>{
+ const {newDailyRun,applyDailyCommand,dailyRunView}=await import('../server/daily-run.mjs');
+ const run=newDailyRun({seed:207});
+ applyDailyCommand(run,{type:'choose',choiceId:run.pending.clubs[0].id,commandId:'metadata-first',expectedRevision:run.revision});
+ const before=JSON.stringify(run),view=dailyRunView(run);
+ assert.equal(JSON.stringify(run),before);assert.equal(view.decision.eventId,run.pending.event.id);
+ assert.equal(view.stage.stageId,0);assert.equal(Object.hasOwn(run,'stageId'),false);assert.equal(Object.hasOwn(run.pending,'eventId'),false);
+ view.decision.choices[0].label='external presentation change';assert.equal(JSON.stringify(run),before);
+ // Stored runs and history from before this feature have no presentation IDs.
+ assert.equal(Object.hasOwn(run.history[0],'eventId'),false);
+ assert.equal(dailyRunView(JSON.parse(before)).decision.eventId,run.pending.event.id);
+ for(let i=0;i<5&&!run.summaryPending;i++){
+  applyDailyCommand(run,{type:'choose',choiceId:run.pending.choices[0].id,commandId:'metadata-'+i,expectedRevision:run.revision});
+ }
+ assert.equal(run.summaryPending,true);const saved=JSON.stringify(run),hydrated=JSON.parse(saved),summaryView=dailyRunView(hydrated);
+ assert.equal(JSON.stringify(hydrated),saved);
+ assert.equal(summaryView.summary.stageId,0);assert.equal(summaryView.summaries[0].stageId,0);assert.equal(summaryView.nextStage.stageId,1);
+ assert.equal(Object.hasOwn(run.summaries[0],'stageId'),false);assert.equal(JSON.stringify(run),saved);
+});
