@@ -6,6 +6,7 @@ import {createRedditSaveStore} from './save-store.mjs';
 import {createStoryScene} from './story-scene.mjs';
 import {mountDaily} from './daily.mjs';
 import {mountCover} from './cover.mjs';
+import {createPresentationLocale} from './presentation-locale.mjs';
 import {createEntryNavigation} from './entry-navigation.mjs';
 import {readWithRetry} from './read-request.mjs';
 import {createCareerSportsView} from './career-sports.mjs';
@@ -21,6 +22,8 @@ try{
  const init=await initResponse.json(),assets=await assetsResponse.json();
  let storage=null;try{storage=globalThis.localStorage;}catch{}
  const store=init.userId?createRedditSaveStore({validate:raw=>GameSession.migrateFromSave(raw),storage,cacheKey:`elevenfate.reddit.${init.subredditId}.${init.userId}.confirmed.v1`}):null;
+ // English is deliberately gated until career/Daily coverage is complete.
+ const presentationLocale=createPresentationLocale({storage,key:`elevenfate.reddit.${init.subredditId}.${init.userId||'anonymous'}.presentation.locale.v1`,availableLocales:['es']});
  let shown='cover';
  const navigation=createEntryNavigation({window,onRoute(route,state){
   if(!store&&route!=='cover'){showCover();return;}
@@ -34,7 +37,7 @@ try{
   shown='cover';navigation.enter('cover',{push:false});
   disposeCareer?.();disposeCareer=null;disposeDaily?.();disposeDaily=null;disposeCover?.();
   host.hidden=true;dailyPanel.hidden=true;cover.hidden=false;
-  disposeCover=mountCover({root:cover,assets,authenticated:!!init.userId,readCareer:()=>store.read(),onContinue:()=>openCareer('home'),onNew:()=>openCareer('new'),onDaily:()=>openDaily('cover')});
+  disposeCover=mountCover({root:cover,assets,i18n:presentationLocale,authenticated:!!init.userId,readCareer:()=>store.read(),onContinue:()=>openCareer('home'),onNew:()=>openCareer('new'),onDaily:()=>openDaily('cover')});
   const heading=cover.querySelector('h1');if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}
  }
  function openCareer(initialView,{push=true}={}){

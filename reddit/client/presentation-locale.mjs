@@ -1,0 +1,21 @@
+import esBase from '../i18n/es.json' with {type:'json'};
+import enBase from '../i18n/en.json' with {type:'json'};
+import {coverCatalog} from '../i18n/cover-catalog.mjs';
+export const presentationCatalog={es:{...esBase.ui,...coverCatalog.es},en:{...enBase.ui,...coverCatalog.en}};
+const normalize=value=>typeof value==='string'?({es:'es',en:'en'})[value.trim().toLowerCase().split('-')[0]]??null:null;
+// Locale is presentation preference only. No engine, session, save or network imports.
+export function createPresentationLocale({storage=null,key='elevenfate.presentation.locale.v1',availableLocales=['es'],initialLocale=null}={}){
+ if(!availableLocales.includes('es')||availableLocales.some(locale=>!['es','en'].includes(locale)))throw Error('Invalid presentation locales');
+ const available=new Set(availableLocales),listeners=new Set();let remembered=null;
+ try{remembered=storage?.getItem(key);}catch{}
+ let locale=normalize(initialLocale??remembered);if(!available.has(locale))locale='es';
+ return {
+  getLocale:()=>locale,isAvailable:value=>available.has(normalize(value)),
+  setLocale(value){const next=normalize(value);if(!available.has(next))return false;const changed=next!==locale;locale=next;try{storage?.setItem(key,locale);}catch{}if(changed)for(const listener of [...listeners])listener(locale);return true;},
+  subscribe(listener){listeners.add(listener);return ()=>listeners.delete(listener);},
+  t(id,parameters={}){
+   const template=presentationCatalog[locale][id];if(typeof template!=='string')throw Error('Missing presentation translation: '+locale+'/'+id);
+   return template.replace(/\{([A-Za-z0-9_]+)\}/g,(_match,name)=>{if(!Object.hasOwn(parameters,name))throw Error('Missing translation parameter: '+name);return String(parameters[name]);});
+  },
+ };
+}
