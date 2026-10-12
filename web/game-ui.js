@@ -4,9 +4,9 @@ import { createIndexedSaveStore } from './indexed-save-store.js';
 // UI reads PlayerView only. All career mutations go through GameSession commands.
 export function mountGame({root, GameSession, assets, css, storageKey='historia-jugador.preview.session.v1', events, saveStore, cutsceneFactory=createCutscenePlayer, saveDescription='local', compactHome=false, onDaily, careerSports, cutsceneUrl=clip=>'/web/assets/cutscenes/'+clip.file, initialView='home', autoCreateOnLoad=true, deferAutoResume=false, onMenu}) {
   const KEY=storageKey;
-  let session=null, busy=false, busyLabel='Guardando…', paused=false, platformSuspended=false, view=['save','new'].includes(initialView)?initialView:'home', cinematic=false, message='', replacement=null, lastArt='stadium_bg', autoTimer=null, autoVisualTimer=null, lastAutoVisualAt=0;
+  let session=null, busy=false, busyLabel='Guardando…', paused=false, platformSuspended=false, view=['home','career','world','relations','profile','save','new'].includes(initialView)?initialView:'home', cinematic=false, message='', replacement=null, lastArt='stadium_bg', autoTimer=null, autoVisualTimer=null, lastAutoVisualAt=0;
   const AUTO_VISUAL_MIN_MS=280;
-  let savedRaw=null, disposeCutscene=null;
+  let savedRaw=null, disposeCutscene=null, disposed=false;
   let autoResumeAllowed=!deferAutoResume;
   let newStoryDraft={displayName:'',seed:'424242'};
   function resumeLoadedSimulation(){autoResumeAllowed=true;queueAutoStep();render();}
@@ -49,7 +49,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   const position=v=>({winger:'Extremo',midfielder:'Centrocampista',striker:'Delantero',defender:'Defensa',goalkeeper:'Portero'})[v.position]||'Futbolista';
   const svgPaths={home:'M3 10 12 3l9 7v11h-6v-7H9v7H3z',career:'M5 3h14v18H5z M8 8h8M8 12h8M8 16h5',world:'M3 12h18M12 3c-5 5-5 13 0 18 5-5 5-13 0-18 M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18',relations:'M2 21c0-9 13-9 13 0M15 14c4-1 7 2 7 6 M8.5 3a4 4 0 1 0 0 8 4 4 0 1 0 0-8 M17 5a3 3 0 0 1 0 6',profile:'M4 21c0-10 16-10 16 0 M12 3a4 4 0 1 0 0 8 4 4 0 1 0 0-8',save:'M4 3h14l3 3v15H3V3h1 M7 3v7h10V3M7 21v-7h10v7',arrow:'M4 12h15M14 6l6 6-6 6','pa-training':'M7 8v8M17 8v8M4 10v4M20 10v4M7 12h10','pa-health':'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.6-7 10-7 10z','pa-representative':'M4 8h16v11H4z M9 8V5h6v3 M4 12h16 M10 12v2h4v-2','pa-image':'M4 7h4l2-2h4l2 2h4v12H4z M12 10a4 4 0 1 0 0 8 4 4 0 1 0 0-8','pa-life':'M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18 M12 7v5l3 2'};
   function icon(name){const key=svgPaths[name]?name:'arrow';const s=doc.createElementNS('http://www.w3.org/2000/svg','svg');s.classList.add('muir-icon');s.dataset.icon=key;s.setAttribute('viewBox','0 0 24 24');s.setAttribute('aria-hidden','true');s.setAttribute('focusable','false');const p=doc.createElementNS(s.namespaceURI,'path');p.setAttribute('d',svgPaths[key]);s.append(p);return s;}
-  function button(text,fn,cls='secondary',options={}){const b=el('button',undefined,cls);b.type='button';b.append(el('span',text));b.disabled=busy||options.disabled===true||(paused&&options.blockedWhenPaused===true);if(options.ariaLabel)b.setAttribute('aria-label',options.ariaLabel);if(options.pressed!==undefined)b.setAttribute('aria-pressed',String(options.pressed));b.addEventListener('click',fn);return b;}
+  function button(text,fn,cls='secondary',options={}){const b=el('button',undefined,cls);b.type='button';b.append(el('span',text));b.disabled=(busy&&!(options.allowDuringRead&&!autoCreateOnLoad&&busyLabel==='Cargando…'))||options.disabled===true||(paused&&options.blockedWhenPaused===true);if(options.ariaLabel)b.setAttribute('aria-label',options.ariaLabel);if(options.pressed!==undefined)b.setAttribute('aria-pressed',String(options.pressed));b.addEventListener('click',fn);return b;}
   function photo(name,cls='photo'){const img=el('img',undefined,cls);img.src=assets[name]||assets.stadium_bg;img.alt='';img.draggable=false;return img;}
   function panel(title){const p=el('article',undefined,'panel');p.append(el('h2',title));return p;}
   function semanticRow(label,value,cls='data-row'){
@@ -158,13 +158,16 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   }
   const validViews=new Set(['home','career','world','relations','profile','save','new']);
   let historyReady=false;
-  function routeState(){return {mhOwner:true,mhView:view,mhCinematic:cinematic};}
+  function routeState(){return {mhOwner:true,mhView:view,mhCinematic:cinematic,...(onMenu?{efEntry:'career'}:{})};}
   function replaceRouteState(){if(win.history?.replaceState)win.history.replaceState(routeState(),'');}
   function prepareHistory(){if(historyReady||!win.history?.replaceState)return;const initialCinematic=cinematic;win.history.replaceState({...routeState(),mhCinematic:false},'');historyReady=true;if(initialCinematic)win.history.pushState(routeState(),'');}
   function navigate(name){view=validViews.has(name)?name:'home';cinematic=false;message='';playerActionUi={screen:'career',categoryId:null,actionId:null,targetId:null,resultExecutionId:null};if(historyReady)win.history.pushState(routeState(),'');else prepareHistory();render(true);}
   function openCinematic(){if(!session)return;cinematic=true;if(historyReady)win.history.pushState(routeState(),'');else prepareHistory();render(true);}
   function closeCinematic(){if(historyReady&&win.history.state?.mhOwner&&win.history.state.mhCinematic){win.history.back();return;}cinematic=false;view='home';replaceRouteState();render(true);}
+  function canLeaveEntry(){return !shell.querySelector('dialog[open]')&&(!busy||(!autoCreateOnLoad&&busyLabel==='Cargando…'));}
+  function requestMenu(){if(onMenu&&canLeaveEntry()){suspendAutoScheduler();onMenu();}}
   function goBack(){
+    if(onMenu&&view==='new'){requestMenu();return;}
     if(cinematic){closeCinematic();return;}
     if(playerActionUi.screen!=='career'){
       if(playerActionUi.screen==='player_action_result'||playerActionUi.screen==='player_action_detail')playerActionUi={screen:'player_action_category',categoryId:playerActionUi.categoryId,actionId:null,targetId:null,resultExecutionId:null};
@@ -173,7 +176,8 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
       render(true);return;
     }
     if(historyReady&&win.history.state?.mhOwner&&view!=='home'){win.history.back();return;}
-    if(view!=='home'){view='home';replaceRouteState();render(true);}
+    if(view!=='home'){view='home';replaceRouteState();render(true);return;}
+    if(onMenu)requestMenu();
   }
   async function pauseToggle(){
     if(!session||busy)return;
@@ -189,9 +193,9 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   }
   async function load(){
     if(busy)return;busy=true;busyLabel='Cargando…';message='';render();
-    try{const raw=await store.read();savedRaw=raw;if(raw){session=await GameSession.migrateFromSave(raw,{...sessionOptions,commit});cinematic=!compactHome&&['decision','result','offer'].includes(session.getView().screen);}else{replacement=null;if(autoCreateOnLoad)session=await GameSession.create(424242,{...sessionOptions,commit});else{session=null;if(view!=='new')view='save';}}prepareHistory(); if(await store.legacyChanged())message='Otra pestaña ha cambiado la copia antigua. Puedes descargarla en Tu partida para revisarla antes de importar.'; }
+    try{const raw=await store.read();if(disposed)return;savedRaw=raw;if(raw){session=await GameSession.migrateFromSave(raw,{...sessionOptions,commit});cinematic=!compactHome&&['decision','result','offer'].includes(session.getView().screen);}else{replacement=null;if(autoCreateOnLoad)session=await GameSession.create(424242,{...sessionOptions,commit});else{session=null;if(view!=='new')view='save';}}prepareHistory(); if(await store.legacyChanged())message='Otra pestaña ha cambiado la copia antigua. Puedes descargarla en Tu partida para revisarla antes de importar.'; }
     catch(e){console.error('ELEVENFATE load failed',e);session=null;message='No se ha podido cargar el juego. Comprueba tu conexión o almacenamiento e inténtalo de nuevo. Tu copia guardada se conserva.';view='save';}
-    finally{busy=false;render();queueAutoStep();}
+    finally{busy=false;if(!disposed){render(Boolean(onMenu));queueAutoStep();}}
   }
   function suspendAutoScheduler(){
     clearTimeout(autoTimer);autoTimer=null;
@@ -768,7 +772,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   }
   function newStory(v,main){
     main.classList.add('new-story-entry');main.append(el('h1','Nueva partida'),el('p','Elige el nombre de tu futbolista.','muted'),newStoryPanel({compact:true}));
-    if(onMenu)main.append(button('Cancelar',()=>{if(!busy)onMenu();}));
+    if(onMenu)main.append(button('Cancelar',requestMenu,'secondary',{allowDuringRead:true}));
   }
   function saves(v,main){
     main.classList.add('p8-save');
@@ -826,7 +830,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
       }
     }
   }
-  function render(focus=false){disposeCutscene?.();disposeCutscene=null;if(autoVisualTimer!==null){clearTimeout(autoVisualTimer);autoVisualTimer=null;}const v=session?.getView();shell.replaceChildren();const frame=doc.createDocumentFragment();shell.classList.toggle('immersive',cinematic&&!!v);shell.classList.toggle('create-entry',view==='new');const header=el('header',undefined,'topbar');const brand=el('div',undefined,'brand');brand.append(assets.brand_emblem?photo('brand_emblem','brand-emblem'):el('span','E','brand-mark'));const name=el('div');name.append(el('strong','ELEVENFATE'),el('small','Carrera de futbolista'));brand.append(name);const simMode=v?.simulation?.mode;const pause=v&&['auto_simulating','paused'].includes(simMode)?button(simMode==='paused'?'Reanudar':'Pausar',pauseToggle,'secondary',{ariaLabel:simMode==='paused'?'Reanudar la simulación':'Pausar la simulación',pressed:simMode==='paused'}):null;if(pause)pause.classList.add('pause-button');const dateControl=button(v?date(v.date)+' · Partida':'Tu partida',()=>navigate('save'),'date-button',{ariaLabel:v?'Abrir Tu partida y el contexto de guardado de '+date(v.date):'Abrir Tu partida'});let saveContext=dateControl;if(compactHome){saveContext=el('div',undefined,'reddit-save-context');const sync=el('span',busy?busyLabel:'','reddit-save-indicator');sync.setAttribute('role','status');sync.setAttribute('aria-live','polite');sync.dataset.pending=String(busy);saveContext.append(dateControl,sync);}if(onMenu){const menu=button('Portada',()=>{if(busy||shell.querySelector('dialog[open]'))return;suspendAutoScheduler();onMenu();},'secondary',{ariaLabel:'Volver a portada'});header.append(menu);}
+  function render(focus=false){disposeCutscene?.();disposeCutscene=null;if(autoVisualTimer!==null){clearTimeout(autoVisualTimer);autoVisualTimer=null;}const v=session?.getView();shell.replaceChildren();const frame=doc.createDocumentFragment();shell.classList.toggle('immersive',cinematic&&!!v);shell.classList.toggle('create-entry',view==='new');const header=el('header',undefined,'topbar');const brand=el('div',undefined,'brand');brand.append(assets.brand_emblem?photo('brand_emblem','brand-emblem'):el('span','E','brand-mark'));const name=el('div');name.append(el('strong','ELEVENFATE'),el('small','Carrera de futbolista'));brand.append(name);const simMode=v?.simulation?.mode;const pause=v&&['auto_simulating','paused'].includes(simMode)?button(simMode==='paused'?'Reanudar':'Pausar',pauseToggle,'secondary',{ariaLabel:simMode==='paused'?'Reanudar la simulación':'Pausar la simulación',pressed:simMode==='paused'}):null;if(pause)pause.classList.add('pause-button');const dateControl=button(v?date(v.date)+' · Partida':'Tu partida',()=>navigate('save'),'date-button',{ariaLabel:v?'Abrir Tu partida y el contexto de guardado de '+date(v.date):'Abrir Tu partida'});let saveContext=dateControl;if(compactHome){saveContext=el('div',undefined,'reddit-save-context');const sync=el('span',busy?busyLabel:'','reddit-save-indicator');sync.setAttribute('role','status');sync.setAttribute('aria-live','polite');sync.dataset.pending=String(busy);saveContext.append(dateControl,sync);}if(onMenu){const menu=button('Portada',requestMenu,'secondary',{ariaLabel:'Volver a portada',allowDuringRead:true});header.append(menu);}
     header.append(brand,el('span',v?'Temporada '+v.season.replace('-',' / 20'):'Una vida. Mil decisiones.','chapter'),...(pause?[pause]:[]),saveContext);frame.append(header);
     const nav=el('nav',undefined,'navigation');nav.setAttribute('aria-label','Navegación principal');for(const [key,label]of[['home','Inicio'],['career','Carrera'],['world','Mundo'],['relations','Relaciones'],['profile','Perfil'],['save','Tu partida']]){const b=button(label,()=>navigate(key),'nav-button');b.prepend(icon(key));if(key===view){b.classList.add('active');b.setAttribute('aria-current','page');}nav.append(b);}const foot=el('div',undefined,'nav-foot');foot.append(el('span','Cada elección cuenta.'),el('small','De principio a fin.'));nav.append(foot);frame.append(nav);
     const main=el('main');main.tabIndex=0;main.setAttribute('aria-busy',String(busy));frame.append(main);
@@ -838,10 +842,13 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     if(focus){const target=cinematic&&v?.screen==='result'?main.querySelector('[data-result-continue]'):main.querySelector('h1');if(target?.tagName==='H1')target.tabIndex=-1;(target||main).focus({preventScroll:true});main.scrollTop=0;}
   }
   function keyboard(e){if(e.key==='Escape'&&!shell.querySelector('dialog[open]')){e.preventDefault();goBack();}if(['ArrowDown','ArrowRight','ArrowUp','ArrowLeft'].includes(e.key)&&e.target.closest('.choices,.navigation')){const group=e.target.closest('.choices,.navigation'),buttons=[...group.querySelectorAll('button:not(:disabled)')],index=buttons.indexOf(e.target.closest('button'));e.preventDefault();buttons[(index+(['ArrowDown','ArrowRight'].includes(e.key)?1:buttons.length-1))%buttons.length]?.focus();}}
-  function popstate(e){const s=e.state;resetPlayerActions();if(!s?.mhOwner){view='home';cinematic=false;message='';render(true);return;}view=validViews.has(s.mhView)?s.mhView:'home';cinematic=Boolean(s.mhCinematic)&&Boolean(session&&['decision','result','offer'].includes(session.getView().screen));message='';render(true);}
+  function popstate(e){const s=e.state;if(onMenu&&s?.efEntry&&s.efEntry!=='career')return;resetPlayerActions();if(!s?.mhOwner){view='home';cinematic=false;message='';render(true);return;}view=validViews.has(s.mhView)?s.mhView:'home';cinematic=Boolean(s.mhCinematic)&&Boolean(session&&['decision','result','offer'].includes(session.getView().screen));message='';render(true);}
   const adsstate=()=>{if(view==='save'&&!busy)render();};
   win.addEventListener?.('elevenfate:ads-state',adsstate);
   root.addEventListener('keydown',keyboard);win.addEventListener?.('popstate',popstate);win.addEventListener?.('muir:platform-pause',platformpause);win.addEventListener?.('muir:platform-resume',platformresume);doc.addEventListener('visibilitychange',visibilitychange);load();
-  return ()=>{win.removeEventListener?.('elevenfate:ads-state',adsstate);disposeCutscene?.();clearTimeout(autoTimer);if(autoVisualTimer!==null)clearTimeout(autoVisualTimer);store.close().catch(()=>{});root.removeEventListener('keydown',keyboard);win.removeEventListener?.('popstate',popstate);win.removeEventListener?.('muir:platform-pause',platformpause);win.removeEventListener?.('muir:platform-resume',platformresume);doc.removeEventListener('visibilitychange',visibilitychange);shell.remove();style.remove();};
+  const dispose=()=>{disposed=true;win.removeEventListener?.('elevenfate:ads-state',adsstate);disposeCutscene?.();clearTimeout(autoTimer);if(autoVisualTimer!==null)clearTimeout(autoVisualTimer);store.close().catch(()=>{});root.removeEventListener('keydown',keyboard);win.removeEventListener?.('popstate',popstate);win.removeEventListener?.('muir:platform-pause',platformpause);win.removeEventListener?.('muir:platform-resume',platformresume);doc.removeEventListener('visibilitychange',visibilitychange);shell.remove();style.remove();};
+  dispose.canLeave=canLeaveEntry;
+  dispose.getRouteState=routeState;
+  return dispose;
 }
 

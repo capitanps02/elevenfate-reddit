@@ -1,5 +1,6 @@
 export class FakeNode {
  constructor(tag,document){this.tagName=tag.toUpperCase();this.ownerDocument=document;this.children=[];this.dataset={};this.attributes={};this.listeners={};this.parentNode=null;this.disabled=false;this.textContent='';}
+ get firstChild(){return this.children[0]||null;}
  get lastChild(){return this.children.at(-1)||null;}
  append(...nodes){for(const n of nodes){n.parentNode=this;this.children.push(n);}}
  replaceChildren(...nodes){for(const n of this.children)n.parentNode=null;this.children=[];this.append(...nodes);}

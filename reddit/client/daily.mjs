@@ -2,8 +2,8 @@ export function mountDaily({root,onClose,assets={}}){
  let disposed=false;
  let state=null,busy=false,mode='daily',screen='play',error='',selected=null,pendingLabel='Cargando…';
  const node=(tag,text,cls)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;};
- const button=(text,action,cls='daily-button')=>{const el=node('button',text,cls);el.type='button';el.disabled=busy;el.addEventListener('click',action);return el;};
- function pending(){root.setAttribute('aria-busy',String(busy));for(const el of root.querySelectorAll('button,select'))el.disabled=busy;const status=root.querySelector('.daily-status');if(status){status.textContent=busy?pendingLabel:error||'';status.classList.toggle('is-pending',busy);status.classList.toggle('is-error',!busy&&!!error);status.setAttribute('role',!busy&&error?'alert':'status');}for(const choice of root.querySelectorAll('[data-choice]'))choice.classList.toggle('selected',busy&&choice.dataset.choice===selected);}
+ const button=(text,action,cls='daily-button')=>{const el=node('button',text,cls);el.type='button';el.disabled=busy;if(action===onClose)el.dataset.dailyExit='true';el.addEventListener('click',action);return el;};
+ function pending(){root.setAttribute('aria-busy',String(busy));for(const el of root.querySelectorAll('button,select'))el.disabled=busy&&!(el.dataset.dailyExit==='true'&&pendingLabel==='Cargando…');const status=root.querySelector('.daily-status');if(status){status.textContent=busy?pendingLabel:error||'';status.classList.toggle('is-pending',busy);status.classList.toggle('is-error',!busy&&!!error);status.setAttribute('role',!busy&&error?'alert':'status');}for(const choice of root.querySelectorAll('[data-choice]'))choice.classList.toggle('selected',busy&&choice.dataset.choice===selected);}
  async function request(body,seasonId){if(disposed||busy)return;pendingLabel=body?'Guardando…':'Cargando…';busy=true;error='';if(!state)render();pending();const previous=state;try{const response=await fetch(`/api/daily?mode=${mode}${seasonId?`&season=${encodeURIComponent(seasonId)}`:''}`,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},...(body?{body:JSON.stringify({...body,mode})}:{})});const data=await response.json();if(disposed)return;if(!response.ok)throw Error(data.error||'No se pudo abrir el reto.');state={...data,...(mode==='daily'&&!data.leaderboard&&previous?.leaderboard?{leaderboard:previous.leaderboard}:{})};}catch(e){if(disposed)return;error=e.message;}busy=false;selected=null;render();}
  const act=command=>{selected=command.choiceId??null;return request({dailyId:state.config.id,action:'command',command:{...command,commandId:crypto.randomUUID(),expectedRevision:state.view.revision}});};
  const openRanking=()=>{mode='daily';screen='ranking';selected=null;return request();};
@@ -60,5 +60,8 @@ export function mountDaily({root,onClose,assets={}}){
   if(error)actions.append(button('Recuperar intento',()=>request(),'daily-link'));const status=node('div',undefined,'daily-status');status.setAttribute('role','status');root.append(status);pending();root.scrollTop=0;
  }
  request();
- return ()=>{disposed=true;root.replaceChildren();};
+ const dispose=()=>{disposed=true;root.replaceChildren();};
+ dispose.canLeave=()=>!busy||pendingLabel==='Cargando…';
+ return dispose;
 }
+
