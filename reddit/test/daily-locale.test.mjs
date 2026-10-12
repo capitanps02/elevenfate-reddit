@@ -6,7 +6,7 @@ import {makeGameRoot,findButton,all,text} from './game-entry-dom.mjs';
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 const locale=initialLocale=>createPresentationLocale({availableLocales:['es','en'],initialLocale});
 const intro={started:false,config:{id:'day-1',day:'2026-10-12',decisions:30}};
-const view={revision:7,age:18,club:'Real Club',technique:52,form:63,fitness:78,stage:{stageId:0,from:18,to:20,name:'Primeros pasos'}};
+const view={revision:7,age:18,club:'Real Club',clubStatus:'signed',technique:52,form:63,fitness:78,stage:{stageId:0,from:18,to:20,name:'Primeros pasos'}};
 async function mounted(i18n,response,run,fetchOverride){
  const root=makeGameRoot(),oldDocument=globalThis.document,oldFetch=globalThis.fetch,calls=[];
  globalThis.document=root.ownerDocument;
@@ -50,9 +50,9 @@ test('club choice command retains the original ID and revision in both locales',
 });
 test('translated fallback selection and pending marker survive a locale change without changing IDs',async()=>{
  const i18n=locale('en');let finish;
- const response={...intro,started:true,resolved:1,view:{...view,screen:'decision',decision:{eventId:'DAILY_0_0',original:false,title:'Un sitio en el vestuario',body:'Texto original ES',choices:[{id:'c0',label:'Trabajar una variante técnica'}]},lastMessage:'Consecuencia original'}};
+ const response={...intro,started:true,resolved:1,view:{...view,screen:'decision',decision:{eventId:'DAILY_0_0',original:false,title:'Un sitio en el vestuario',body:'Texto original ES',choices:[{id:'c0',label:'Trabajar una variante técnica'}]},lastMessage:'Consecuencia original',lastMessagePresentation:{kind:'story',eventId:'DAILY_0_0',choiceId:'c0',outcomeId:'o0'}}};
  await mounted(i18n,response,async({root,calls})=>{
-  assert.match(text(root),/DECISION 2 OF 30/);assert.match(text(root),/Finding your place in the dressing room/);assert.equal(root.dataset.storyTranslation,'ready');
+  assert.match(text(root),/DECISION 2 OF 30/);assert.match(text(root),/Finding your place in the dressing room/);assert.equal(root.dataset.storyTranslation,'ready');assert.match(text(root),/Your decision shapes the next part of your season/);assert.doesNotMatch(text(root),/Consecuencia original/);
   all(root).find(n=>n.dataset.choice==='c0').click();await tick();i18n.setLocale('es');
   const choice=all(root).find(n=>n.dataset.choice==='c0');assert.equal(choice.classList.contains('selected'),true);assert.equal(choice.disabled,true);assert.equal(calls.length,2);
   assert.match(text(root),/DECISIÓN 2 DE 30/);assert.match(text(root),/Un sitio en el vestuario/);assert.match(text(root),/Consecuencia original/);assert.equal(JSON.parse(calls[1].options.body).command.choiceId,'c0');
@@ -64,15 +64,15 @@ test('summary and finished UI translate while scores and honours stay unchanged'
  await mounted(locale('en'),{...intro,started:true,view:{...view,screen:'summary',summary:part,nextStage:{from:20,to:23}}},async({root})=>{
   assert.match(text(root),/AGES 18–20/);assert.match(text(root),/First steps/);assert.match(text(root),/Started 50%/);assert.ok(findButton(root,'Next stage · 20–23 →'));assert.match(text(root),/Matches/);
  });
- await mounted(locale('en'),{...intro,started:true,finished:true,score:{total:811},view:{...view,totals:part,titles:[{title:'Trofeo original',season:'2026-27',club:'Real Club'}],awards:[],summaries:[part],history:[{age:18,title:'Historia original',choice:'Elección original'}]}},async({root})=>{
-  assert.match(text(root),/811 points/);assert.match(text(root),/Team honours/);assert.match(text(root),/Trofeo original/);assert.match(text(root),/Age 18 · Historia original/);assert.ok(findButton(root,"View today's leaderboard"));
+ await mounted(locale('en'),{...intro,started:true,finished:true,score:{total:811},view:{...view,totals:part,titles:[{title:'Trofeo original',honourId:'league-champion',season:'2026-27',club:'Real Club'}],awards:[],summaries:[part],history:[{age:18,title:'Historia original',choice:'Elección original',presentation:{kind:'story',eventId:'DAILY_0_0',choiceId:'c0',outcomeId:'o0'}}]}},async({root})=>{
+  assert.match(text(root),/811 points/);assert.match(text(root),/Team honours/);assert.match(text(root),/League champion/);assert.match(text(root),/Age 18 · Finding your place in the dressing room/);assert.ok(findButton(root,"View today's leaderboard"));
  });
 });
 test('sports UI translates without changing season IDs, rows, names or scores',async()=>{
- const league={id:'2026-27',division:'División original',rows:[{id:'club-a',name:'Real Club',you:true,position:1,played:2,gf:4,ga:1,points:6}],teams:[{id:'club-a',name:'Real Club'},{id:'club-b',name:'Other Club'}],matches:[{date:'2026-10-12',round:4,home:0,away:1,hg:2,ag:1,penalties:{home:5,away:4}}]};
- const response={...intro,started:true,view:{...view,screen:'club',clubs:[],league,seasons:[{id:league.id,club:'Real Club'}],continental:{qualified:false,rows:[],teams:[],matches:[],format:'Formato original'}}};
+ const league={id:'2026-27',division:'División original',divisionId:'ESP_D1',rows:[{id:'club-a',name:'Real Club',you:true,position:1,played:2,gf:4,ga:1,points:6}],teams:[{id:'club-a',name:'Real Club'},{id:'club-b',name:'Other Club'}],matches:[{date:'2026-10-12',round:4,home:0,away:1,hg:2,ag:1,penalties:{home:5,away:4}}]};
+ const response={...intro,started:true,view:{...view,screen:'club',clubs:[],league,seasons:[{id:league.id,club:'Real Club'}],continental:{qualified:false,rows:[],teams:[],matches:[],format:'Formato original',formatId:'groups-knockout-v1'}}};
  await mounted(locale('en'),response,async({root})=>{
-  findButton(root,'Seasons · results and tables').click();assert.match(text(root),/League table/);assert.match(text(root),/División original/);assert.equal(all(root).find(n=>n.tagName==='OPTION').value,'2026-27');
+  findButton(root,'Seasons · results and tables').click();assert.match(text(root),/League table/);assert.match(text(root),/Spanish Top Division/);assert.equal(all(root).find(n=>n.tagName==='OPTION').value,'2026-27');
   findButton(root,'Results').click();assert.match(text(root),/Matchday 4/);assert.match(text(root),/Real Club 2–1 Other Club/);assert.match(text(root),/Penalties 5–4/);
   findButton(root,'Champions League').click();assert.match(text(root),/Your team did not qualify/);
  });
@@ -97,5 +97,14 @@ test('an uncovered original story is blocked in English preview and returns inta
  await mounted(i18n,response,async({root,calls})=>{
   assert.equal(root.dataset.storyTranslation,'unavailable');assert.match(text(root),/Story available in Spanish/);assert.doesNotMatch(text(root),/Historia real/);assert.equal(all(root).filter(n=>n.dataset.choice).length,0);assert.equal(calls.length,1);
   i18n.setLocale('es');assert.equal(root.dataset.storyTranslation,'ready');assert.match(text(root),/Historia real/);assert.ok(all(root).find(n=>n.dataset.choice==='REAL_CHOICE'));assert.equal(calls.length,1);assert.equal(JSON.stringify(response),before);
+ });
+});
+
+test('unmatched old history shows English availability guidance without changing a finished score',async()=>{
+ const response={...intro,started:true,finished:true,score:{total:811},view:{...view,totals:{},titles:[],awards:[],summaries:[],history:[{age:18,title:'Historia antigua',choice:'Texto antiguo',presentation:null}]}};
+ const before=JSON.stringify(response),i18n=locale('en');
+ await mounted(i18n,response,async({root,calls})=>{
+  assert.equal(root.dataset.historyTranslation,'unavailable');assert.match(text(root),/811 points/);assert.doesNotMatch(text(root),/Historia antigua/);assert.match(text(root),/Return to the menu/);
+  i18n.setLocale('es');assert.match(text(root),/Historia antigua/);assert.equal(root.dataset.historyTranslation,undefined);assert.equal(calls.length,1);assert.equal(JSON.stringify(response),before);
  });
 });

@@ -1,6 +1,7 @@
 // Extra presentation labels; original seed JSON files stay unchanged.
 export const dailyCatalog={
  es:{
+  'daily.translationMissing':'Disponible en español',
   'daily.translationPending':'Historia disponible en español',
   'daily.translationPendingBody':'Vuelve al menú y selecciona Español para continuar esta historia.',
   'daily.backMenu':'Volver al menú',
@@ -8,6 +9,7 @@ export const dailyCatalog={
   'daily.historyEntry':'{age} años · {title}\n{choice}',
  },
  en:{
+  'daily.translationMissing':'Available in Spanish',
   'daily.translationPending':'Story available in Spanish',
   'daily.translationPendingBody':'Return to the menu and select Español to continue this story.',
   'daily.backMenu':'Back to menu',

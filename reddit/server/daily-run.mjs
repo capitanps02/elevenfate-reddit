@@ -1,4 +1,6 @@
-import {publicDailyDecision,publicDailyStage} from './daily-presentation.mjs';
+import {publicDailyLeague,publicDailyContinental,publicDailyHonours} from './daily-sports-presentation.mjs';
+import {eligibleDailyStories} from './daily-story-policy.mjs';
+import {publicDailyDecision,publicDailyStage,publicDailyHistory} from './daily-presentation.mjs';
 import {createInitialState} from '../../dist/content/initial-state.js';
 import {FOOTBALL_CLUBS} from '../../dist/catalog/football/index.js';
 import {EVENTS} from '../../dist/content/events/index.js';
@@ -18,10 +20,7 @@ export const hash=text=>{let h=2166136261;for(const c of text)h=Math.imul(h^c.ch
 const roll=(run,key)=>hash(`${run.seed}:${key}`)/4294967296;
 // Keep original stories only when they cannot change the Daily's own calendar,
 // employment or retirement protocol. Scheduler gates and choice eligibility stay intact.
-const families=new Set(['family','social','medical','tactical','press','image','life','team']);
-const safePath=/^(body\.|sport\.(form|roleScore|minutesShare|positionIdentity)|personality\.|reputation\.|control\.|professional\.(technique|composure|tacticalReading|motivationReserve|recoveryMargin)|finances\.)/;
-const safeEffect=e=>e.kind==='numeric'&&safePath.test(e.path);
-const stories=new EventIndex(EVENTS.filter(e=>families.has(e.family)&&!e.seedsRead?.length&&!e.seedsWrite?.length&&e.choices.length>=2&&e.choices.length<=3&&!/Valdoria|UDV|Nano|Vela/.test(e.text.body)&&e.outcomes.every(o=>!o.seedTransitions?.length&&o.effects.every(safeEffect))&&e.choices.every(c=>[...(c.immediateEffects??[]),...(c.hiddenCosts??[])].every(safeEffect))));
+const stories=new EventIndex(eligibleDailyStories(EVENTS));
 const fallback=[
  [['Un sitio en el vestuario','Un veterano te invita a quedarte después del entrenamiento. Mañana compites por tus primeros minutos.'],['La primera llamada','Tu familia quiere verte este fin de semana. El entrenador ha preparado una sesión extra.'],['Piernas cargadas','La carga de trabajo empieza a pasar factura. El próximo partido puede ser tu oportunidad.'],['Primer foco','Una entrevista te pide hablar de tu futuro antes de que tengas un puesto fijo.']],
  [['Ganarte el puesto','Un compañero ocupa tu posición. El entrenador quiere ver quién responde mejor esta semana.'],['Fuera del campo','Un amigo de siempre necesita que estés presente. No todo se resuelve con dinero.'],['El ritmo de la temporada','Estás jugando más, pero el cansancio se acumula. Tienes que elegir cómo sostenerlo.'],['Una voz propia','Te preguntan por tu papel en el equipo. Puedes pedir más minutos o dejar que hable tu trabajo.']],
@@ -108,8 +107,10 @@ export function applyDailyCommand(run,command){
 }
 export function dailyRunView(run,seasonId){
  const selected=run.competitions.find(c=>c.id===seasonId)??run.competitions.at(-1);
+ const history=publicDailyHistory(run,id=>clubById.get(id)?.name);
+ const summaries=run.summaries.map((part,index)=>publicDailyStage({...part,titles:publicDailyHonours(part.titles),awards:publicDailyHonours(part.awards)},index));
  const s=run.state,p=run.pending,stage=STAGES[Math.min(run.summaryPending&&!run.finished?run.stage-1:run.stage,5)],totals={played:0,starts:0,goals:0,assists:0};for(const season of run.seasons)for(const key of Object.keys(totals))totals[key]+=season[key];
- return {seasons:run.competitions.map(c=>({id:c.id,club:clubById.get(c.clubId).name,division:c.division})),league:selected?publicLeagueSeason(selected):null,continental:selected?publicContinentalSeason(createContinentalSeason({seed:run.seed,year:selected.year,clubId:selected.clubId,previousLeague:run.competitions.find(c=>c.year===selected.year-1)}),s.date):null,revision:run.revision,age:Math.floor(s.age),club:clubById.get(s.club)?.name??'Sin equipo',form:Math.round(s.sport.form),fitness:Math.round(s.body.fitness),technique:Math.round(s.professional.technique),role:s.role,stage:publicDailyStage(stage,STAGES.indexOf(stage)),nextStage:run.summaryPending&&!run.finished?publicDailyStage(STAGES[run.stage],run.stage):null,screen:run.finished?'epilogue':run.summaryPending?'summary':p.kind==='club'?'club':'decision',clubs:p?.clubs,decision:publicDailyDecision(p),lastMessage:run.lastMessage,summary:publicDailyStage(run.summaries.at(-1),run.summaries.length-1),summaries:run.summaries.map((part,index)=>publicDailyStage(part,index)),totals,titles:run.summaries.flatMap(r=>r.titles),awards:run.summaries.flatMap(r=>r.awards),history:run.finished?run.history:undefined};
+ return {seasons:run.competitions.map(c=>({id:c.id,club:clubById.get(c.clubId).name,division:c.division})),league:selected?publicDailyLeague(publicLeagueSeason(selected),selected.divisionId):null,continental:selected?publicDailyContinental(publicContinentalSeason(createContinentalSeason({seed:run.seed,year:selected.year,clubId:selected.clubId,previousLeague:run.competitions.find(c=>c.year===selected.year-1)}),s.date)):null,revision:run.revision,age:Math.floor(s.age),club:clubById.get(s.club)?.name??'Sin equipo',clubStatus:clubById.has(s.club)?'signed':'unsigned',form:Math.round(s.sport.form),fitness:Math.round(s.body.fitness),technique:Math.round(s.professional.technique),role:s.role,stage:publicDailyStage(stage,STAGES.indexOf(stage)),nextStage:run.summaryPending&&!run.finished?publicDailyStage(STAGES[run.stage],run.stage):null,screen:run.finished?'epilogue':run.summaryPending?'summary':p.kind==='club'?'club':'decision',clubs:p?.clubs,decision:publicDailyDecision(p),lastMessage:run.lastMessage,lastMessagePresentation:history.at(-1)?.presentation??null,summary:summaries.at(-1),summaries,totals,titles:summaries.flatMap(r=>r.titles),awards:summaries.flatMap(r=>r.awards),history:run.finished?history:undefined};
 }
 export function dailyScore(state,run){
  const clampValue=n=>clamp(Number.isFinite(n)?n:0);

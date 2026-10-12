@@ -1,9 +1,11 @@
-import {translateDailyDecision,translateDailyStage,MissingDailyTranslation} from './daily-story-locale.mjs';
+import {translateDailyDivision,translateDailyHonour,translateDailyFormat,translateDailyFixtureStage} from './daily-sports-locale.mjs';
+import {translateDailyDecision,translateDailyStage,translateDailyResult,translateDailyHistory,translateDailyPlayer,MissingDailyTranslation} from './daily-story-locale.mjs';
 import {createPresentationLocale} from './presentation-locale.mjs';
 export function mountDaily({root,onClose,assets={},i18n=createPresentationLocale(),returnTo='career'}){
  let disposed=false;
  const t=(id,params)=>i18n.t(id,params);
- const stageText=stage=>{try{return translateDailyStage(stage,i18n.getLocale());}catch(error){if(!(error instanceof MissingDailyTranslation))throw error;return {...stage,name:t('daily.translationPending')};}};
+ const translatedText=read=>{try{return read();}catch(error){if(!(error instanceof MissingDailyTranslation))throw error;return t('daily.translationMissing');}};
+ const stageText=stage=>{try{return translateDailyStage(stage,i18n.getLocale());}catch(error){if(!(error instanceof MissingDailyTranslation))throw error;return {...stage,name:t('daily.translationMissing')};}};
  let state=null,busy=false,mode='daily',screen='play',error='',selected=null,pendingKind='read';
  const node=(tag,text,cls)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;};
  const button=(text,action,cls='daily-button')=>{const el=node('button',text,cls);el.type='button';el.disabled=busy;if(action===onClose)el.dataset.dailyExit='true';el.addEventListener('click',action);return el;};
@@ -13,30 +15,30 @@ export function mountDaily({root,onClose,assets={},i18n=createPresentationLocale
  const openRanking=()=>{mode='daily';screen='ranking';selected=null;return request();};
  function switchMode(){mode=mode==='daily'?'practice':'daily';screen='play';state=null;request();}
  function numbers(parent,stats){const list=node('div',undefined,'daily-numbers');for(const [key,label]of [['played',t('daily.matches')],['goals',t('daily.goals')],['assists',t('daily.assists')],['starts',t('daily.starts')]]){const item=node('div');item.append(node('strong',String(stats[key]??0)),node('span',label));list.append(item);}parent.append(list);}
- function honours(parent,title,items){const section=node('section',undefined,'daily-honours');section.append(node('h2',title));if(!items?.length)section.append(node('p',t('daily.noHonours')));else for(const item of items)section.append(node('p',`${item.title} · ${item.season}\n${item.club}`));parent.append(section);}
+ function honours(parent,title,items){const section=node('section',undefined,'daily-honours');section.append(node('h2',title));if(!items?.length)section.append(node('p',t('daily.noHonours')));else for(const item of items)section.append(node('p',`${translatedText(()=>translateDailyHonour(item,i18n.getLocale()))} · ${item.season}\n${item.club}`));parent.append(section);}
  function render(){
   if(disposed)return;
-  root.replaceChildren();root.dataset.screen=screen;root.lang=i18n.getLocale();delete root.dataset.storyTranslation;
+  root.replaceChildren();root.dataset.screen=screen;root.lang=i18n.getLocale();delete root.dataset.storyTranslation;delete root.dataset.historyTranslation;
   const header=node('header',undefined,'daily-header'),tools=node('div',undefined,'daily-tools'),ranking=button('Top',openRanking,'daily-icon daily-ranking-button'),help=button('?',()=>{screen=screen==='rules'?'play':'rules';render();},'daily-icon');ranking.setAttribute('aria-label',t('daily.rankingA11y'));help.setAttribute('aria-label',t('daily.helpA11y'));tools.append(ranking,help);header.append(button('←',onClose,'daily-icon'),node('strong',mode==='practice'?t('daily.practiceBrand'):'ELEVENFATE · DAILY'),tools);header.firstChild.setAttribute('aria-label',t(returnTo==='cover'?'daily.backMenu':'daily.back'));root.append(header);
   const done=state?.resolved??0,limit=state?.config.decisions??30,stage=state?.view?.stage?stageText(state.view.stage):null;
   const timeline=node('div',undefined,'daily-timeline');timeline.append(node('span',stage?t('daily.stage',stage):t('daily.ageSpan')),node('span',`${done}/${limit}`));const progress=node('div',undefined,'daily-progress');for(let i=0;i<6;i++){const part=node('span');part.style.setProperty('--completion',`${Math.max(0,Math.min(100,(done-i*5)*20))}%`);progress.append(part);}progress.setAttribute('aria-label',t('daily.progress',{done,limit}));timeline.append(progress);root.append(timeline);
-  const stageView=state?.view;if(state?.started){const bar=node('div',undefined,'daily-player');bar.append(node('strong',t('daily.player',stageView)),node('span',t('daily.playerStats',stageView)));root.append(bar);}else root.append(node('div',undefined,'daily-player'));
+  const stageView=state?.view;if(state?.started){const bar=node('div',undefined,'daily-player');bar.append(node('strong',t('daily.player',{...stageView,club:translatedText(()=>translateDailyPlayer(stageView,i18n.getLocale()).club)})),node('span',t('daily.playerStats',stageView)));root.append(bar);}else root.append(node('div',undefined,'daily-player'));
   const match=node('div',undefined,'daily-match'),card=node('section',undefined,'daily-card'),actions=node('footer',undefined,'daily-actions');match.append(card,actions);root.append(match);
   const title=(kicker,heading,body)=>{card.append(node('span',kicker,'daily-kicker'),node('h1',heading));if(body)card.append(node('p',body,'daily-story'));};
   if(['results','table','continental'].includes(screen)&&state?.view?.league){
    const league=state.view.league,c=state.view.continental;
-   title(t('daily.mySeason'),screen==='table'?t('daily.leagueTable'):screen==='results'?t('daily.results'):t('daily.champions'),league.division);
+   title(t('daily.mySeason'),screen==='table'?t('daily.leagueTable'):screen==='results'?t('daily.results'):t('daily.champions'),translatedText(()=>translateDailyDivision(league,i18n.getLocale())));
    const select=node('select',undefined,'daily-season-select');select.setAttribute('aria-label',t('daily.chooseSeason'));for(const season of state.view.seasons){const option=node('option',`${season.id} · ${season.club}`);option.value=season.id;option.selected=season.id===league.id;select.append(option);}select.addEventListener('change',()=>request(undefined,select.value));select.disabled=busy;card.append(select);
    const tabs=node('nav',undefined,'daily-sports-tabs');for(const [id,label]of [['results',t('daily.results')],['table',t('daily.league')],['continental',t('daily.champions')]]){const b=button(label,()=>{screen=id;render();},'daily-link');b.setAttribute('aria-pressed',String(screen===id));tabs.append(b);}card.append(tabs);
    if(screen==='table'||screen==='continental'){
     const rows=screen==='table'?league.rows:c?.rows??[];
-    if(screen==='continental'){card.append(node('p',c?.format??''));if(!c?.qualified)card.append(node('p',t('daily.notQualified')));if(c?.winner)card.append(node('p',t('daily.champion',{team:c.winner})));}
+    if(screen==='continental'){card.append(node('p',c?translatedText(()=>translateDailyFormat(c,i18n.getLocale())):''));if(!c?.qualified)card.append(node('p',t('daily.notQualified')));if(c?.winner)card.append(node('p',t('daily.champion',{team:c.winner})));}
     if(rows.length){const table=node('table',undefined,'daily-league-table');const heading=node('tr');for(const text of ['#',t('daily.team'),t('daily.playedShort'),t('daily.goalDifferenceShort'),t('daily.pointsShort')])heading.append(node('th',text));table.append(heading);for(const row of rows){const line=node('tr',undefined,row.you?'your-team':'');for(const value of [row.position,row.name,row.played,row.gf-row.ga,row.points])line.append(node('td',String(value)));table.append(line);}card.append(table);}
    }
    if(screen!=='table'){
     const comp=screen==='results'?league:c,own=league.rows.find(r=>r.you)?.id,fixtures=comp?.matches.filter(m=>comp.teams[m.home].id===own||comp.teams[m.away].id===own)??[];
     if(!fixtures.length)card.append(node('p',t('daily.noFixtures')));
-    for(const m of fixtures){const row=node('div',undefined,'daily-fixture');row.append(node('small',`${m.date} · ${m.stage??t('daily.round',{round:m.round})}`),node('span',`${comp.teams[m.home].name} ${m.hg===null?'vs':m.hg+'–'+m.ag} ${comp.teams[m.away].name}`));if(m.penalties)row.append(node('small',t('daily.penalties',m.penalties)));card.append(row);}
+    for(const m of fixtures){const row=node('div',undefined,'daily-fixture');row.append(node('small',`${m.date} · ${translatedText(()=>translateDailyFixtureStage(m,i18n.getLocale()))??t('daily.round',{round:m.round})}`),node('span',`${comp.teams[m.home].name} ${m.hg===null?'vs':m.hg+'–'+m.ag} ${comp.teams[m.away].name}`));if(m.penalties)row.append(node('small',t('daily.penalties',m.penalties)));card.append(row);}
    }
    actions.append(button(t('daily.backCareer'),()=>{screen='play';render();},'daily-primary'));
   }else if(screen==='rules'){
@@ -49,7 +51,7 @@ export function mountDaily({root,onClose,assets={},i18n=createPresentationLocale
   }else if(state.finished){
    title(mode==='practice'?t('daily.practiceComplete'):t('daily.yourCareer'),t('daily.totalPoints',{score:state.score.total}),t('daily.legacy'));numbers(card,state.view.totals);honours(card,t('daily.teamTitles'),state.view.titles);honours(card,t('daily.individualAwards'),state.view.awards);
    const stages=node('details',undefined,'daily-details');stages.append(node('summary',t('daily.stageJourney')));for(const part of state.view.summaries){stages.append(node('h2',`${part.from}–${part.to} · ${part.club}`));numbers(stages,part);}card.append(stages);
-   const history=node('details',undefined,'daily-details');history.append(node('summary',t('daily.storyChoices')));for(const entry of state.view.history??[])history.append(node('p',t('daily.historyEntry',entry)));card.append(history);
+   const history=node('details',undefined,'daily-details');history.append(node('summary',t('daily.storyChoices')));try{for(const entry of translateDailyHistory(state.view.history??[],i18n.getLocale()))history.append(node('p',t('daily.historyEntry',entry)));}catch(error){if(!(error instanceof MissingDailyTranslation))throw error;history.append(node('p',t('daily.translationPendingBody')));root.dataset.historyTranslation='unavailable';}card.append(history);
    if(mode==='daily'){card.append(node('p',state.leaderboard?.position?t('daily.rankingPosition',state.leaderboard):t('daily.rankRegistered'),'daily-ranking-note'));actions.append(button(t('daily.viewRanking'),openRanking,'daily-primary'));}else actions.append(button(t('daily.againPractice'),()=>request({dailyId:state.config.id,action:'restart',expectedRevision:state.view.revision}),'daily-primary'),button(t('daily.playDaily'),switchMode,'daily-link'));
   }else if(state.view.screen==='summary'){
    const part=stageText(state.view.summary);title(t('daily.stageAges',part),part.name,t('daily.startsPercent',part));numbers(card,part);if(part.titles.length)honours(card,t('daily.teamTitles'),part.titles);if(part.awards.length)honours(card,t('daily.individualAwards'),part.awards);actions.append(button(t('daily.nextStage',state.view.nextStage),()=>act({type:'acknowledge'}),'daily-primary'));
@@ -65,7 +67,7 @@ export function mountDaily({root,onClose,assets={},i18n=createPresentationLocale
    }
   }
   if(screen==='play'&&state?.view?.league){card.append(button(t('daily.seasonResults'),()=>{screen='table';render();},'daily-link'));}
-  if(state?.view?.lastMessage&&!state.finished&&state.view.screen!=='summary'&&root.dataset.storyTranslation!=='unavailable'){const note=node('div',undefined,'daily-consequence');note.append(node('span',t('daily.lastChoice')),node('p',state.view.lastMessage));card.append(note);}
+  if(state?.view?.lastMessage&&!state.finished&&state.view.screen!=='summary'&&root.dataset.storyTranslation!=='unavailable'){const note=node('div',undefined,'daily-consequence');let result;try{result=translateDailyResult(state.view.lastMessage,state.view.lastMessagePresentation,i18n.getLocale());}catch(error){if(!(error instanceof MissingDailyTranslation))throw error;result=t('daily.translationPendingBody');}note.append(node('span',t('daily.lastChoice')),node('p',result));card.append(note);}
   if(error)actions.append(button(t('daily.recover'),()=>request(),'daily-link'));const status=node('div',undefined,'daily-status');status.setAttribute('role','status');root.append(status);pending();root.scrollTop=0;
  }
  const unsubscribe=i18n.subscribe(()=>render());

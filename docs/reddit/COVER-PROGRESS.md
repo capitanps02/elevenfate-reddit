@@ -2,7 +2,7 @@
 
 12 de octubre de 2026. PR #4; código en borrador, no publicado.
 
-## Avance estimado: 65 %; pendiente: 35 %
+## Avance estimado: 67 %; pendiente: 33 %
 
 Es una estimación de trabajo completado, no una certificación funcional ni visual. Los pesos se fijan para no tratar la traducción completa como un pequeño botón. Cada porcentaje de pasada incluye preparación y código; PASS final exige sus gates.
 
@@ -12,10 +12,10 @@ Es una estimación de trabajo completado, no una certificación funcional ni vis
 | P1 Contrato | 10 % | 90 % | 9 % | Especificado; revisión final contra versión publicada pendiente |
 | P2 Portada | 15 % | 80 % | 12 % | Menú implementado; validación gráfica pendiente |
 | P3 Flujos | 20 % | 95 % | 19 % | Navegación Atrás/Adelante implementada y probada en modelos; validación en Reddit pendiente |
-| P4 ES/EN | 20 % | 40 % | 8 % | UI Daily, 24 escenas de reserva y seis etapas conectadas; historias originales, carrera y arranque pendientes |
+| P4 ES/EN | 20 % | 50 % | 10 % | Daily: UI, historias, consecuencias, historial y deportes conectados; carrera/arranque y errores semánticos pendientes |
 | P5 Simular | 5 % | 80 % | 4 % | Selector ausente en Inicio publicado 0.1.6; candidato pendiente de comparación |
 | P6 Arte/a11y | 10 % | 10 % | 1 % | Estilos y targets iniciales; arte final y QA real pendientes |
-| P7 Certificación | 8 % | 70 % | 5,6 % | CI completa de portada/localización PASS; 54 tests locales PASS; CI UI Daily PASS, nueva CI de metadatos pendiente |
+| P7 Certificación | 8 % | 75 % | 6 % | CI anterior completa PASS; 64 pruebas locales y 12 de motor auditado PASS; nueva CI pendiente |
 | P8 Reddit real | 4 % | 0 % | 0 % | Sin prueba ni publicación del candidato |
 
 Quedan seis pasadas principales de ejecución: cerrar P3, P4, P5, P6, P7 y P8. También siguen pendientes las comprobaciones de cierre de P0/P1/P2; no se consideran certificadas. No hacen falta nuevas pasadas inventadas para esos controles: se cierran dentro de las existentes.
@@ -59,3 +59,14 @@ La presentación conecta las 24 escenas Daily de reserva, sus 72 opciones mostra
 54/54 pruebas locales PASS, incluyendo paridad completa de escenas de reserva, ausencia de mutación y bloqueo de cobertura ausente. Un test de integración con motor comprueba la proyección sobre runs antiguos, stageId de resúmenes y serialización idéntica del run: se ejecutará en CI, al faltar dist compilado en el entorno local parcial. La CI completa de 92905e7c60c6caac07e925e480b2da4e044a9b5b PASS (build, Reddit, sesión/guardado, UI); metadatos y escenas requieren nueva CI.
 
 65% redondea 64,6% ponderado. Continúan seis pasadas principales, con P4 avanzando sin certificar el juego bilingüe.
+
+## Continuación: inventario real, consecuencias e historial
+Se reconstruyó el catálogo final con sus reemplazos y reparaciones desde b253155c1ff89ecf283048704ad6e815c560b18b. EVENTS contiene 388 escenas originales. Aplicando exactamente la política Daily actual, los conteos sucesivos son 388 → 110 → 9 → 2 → 2 → 0 → 0; ningún original es elegible. El Daily actual usa las 24 escenas de reserva. Esto corrige la incertidumbre anterior sobre «Daily canónico completo»; no elimina ni cambia las historias de carrera. La misma política se extrae a daily-story-policy.mjs sin modificar criterios; CI registra el inventario y exige revisar cobertura si empieza a admitir originales.
+
+El motor ya conserva eventId/choiceId/outcomeId en run.state.history. Aunque el historial público antiguo carece de esos IDs, ahora se proyectan desde ese registro interno usando la cadencia de 1 club + 4 historias, con validación de conteo, edad y orden de eventos. No se reescribe ningún run ni receipt. El historial y el último resultado se traducen por esos metadatos; registros incompatibles muestran disponibilidad en español, sin adivinar. Se traducen los 72 resultados posibles de reserva y las elecciones de club (fichar/quedarse).
+
+La presentación deportiva añade divisionId (27 divisiones ficticias), honourId (4 distinciones), formatId y stageId de grupo/eliminatorias. Los textos legacy usados para honores y fases son enums fijos del simulador; se convierten a códigos públicos en una capa de compatibilidad, sin cambiar sus valores persistidos ni los textos que alimentan las claves RNG. Los nombres de clubes, calendarios, marcadores, ganadores, penaltis y tablas permanecen iguales. clubStatus permite traducir «Sin equipo» sin comparar nombres. El catálogo UI tiene 158 claves; deportes tienen su catálogo por IDs.
+
+64 pruebas locales de presentación/DOM simulado PASS. También 12/12 pruebas Daily PASS sobre las fuentes del motor auditadas localmente (Node 24 con transformación TS y rutas de importación adaptadas en copia temporal); incluyen tres estrategias completas, guardado/reload, ranking, estadísticas y proyección sin mutación. Tras añadir deporte, se repitieron las tres comprobaciones de inventario/carreras completas/metadatos: 3/3 PASS. Esto no sustituye compilación oficial ni QA visual. CI completa anterior b253155c1ff89ecf283048704ad6e815c560b18b PASS; esta iteración requiere nueva CI.
+
+67% ponderado exacto: P4=50%, P7=75%; el resto de pesos y avances se conserva. Siguen seis pasadas principales. English permanece deshabilitado: faltan carrera, creación/arranque, códigos semánticos de recuperación, revisión visual y equivalencia certificada en el build final/Reddit. El Daily está mucho más cubierto, pero no se certifica el juego completo bilingüe ni publicado.
