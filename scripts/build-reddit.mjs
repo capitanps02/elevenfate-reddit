@@ -15,7 +15,7 @@ for(const [key,value] of Object.entries(assets)){
 fs.writeFileSync(path.join(out,'assets.json'),JSON.stringify(assets));
 for(const file of ['game.html','splash.html','splash.css'])fs.copyFileSync(path.join(root,'reddit/client',file),path.join(out,file));
 fs.copyFileSync(path.join(root,'web/assets/brand/cover.png'),path.join(out,'cover.png'));
-fs.writeFileSync(path.join(out,'page.css'),fs.readFileSync(path.join(root,'reddit/client/daily.css'),'utf8')+'\n.notice{max-width:520px;margin:8vh auto;padding:24px;color:white;font-family:system-ui}.notice[hidden]{display:none}');
+fs.writeFileSync(path.join(out,'page.css'),fs.readFileSync(path.join(root,'reddit/client/daily.css'),'utf8')+'\n'+fs.readFileSync(path.join(root,'reddit/client/cover.css'),'utf8')+'\n.notice{max-width:520px;margin:8vh auto;padding:24px;color:white;font-family:system-ui}.notice[hidden]{display:none}');
 const configs=[
  // Page chrome is Reddit-specific; original Android stylesheet stays untouched.
  {entryPoints:[path.join(root,'reddit/client/game.mjs'),path.join(root,'reddit/client/splash.mjs')],outdir:out,bundle:true,format:'esm',platform:'browser',target:'es2022',splitting:true,minify:true,loader:{'.css':'text'},metafile:true},

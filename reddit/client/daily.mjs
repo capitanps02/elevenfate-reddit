@@ -1,15 +1,17 @@
 export function mountDaily({root,onClose,assets={}}){
+ let disposed=false;
  let state=null,busy=false,mode='daily',screen='play',error='',selected=null,pendingLabel='Cargando…';
  const node=(tag,text,cls)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;};
  const button=(text,action,cls='daily-button')=>{const el=node('button',text,cls);el.type='button';el.disabled=busy;el.addEventListener('click',action);return el;};
  function pending(){root.setAttribute('aria-busy',String(busy));for(const el of root.querySelectorAll('button,select'))el.disabled=busy;const status=root.querySelector('.daily-status');if(status){status.textContent=busy?pendingLabel:error||'';status.classList.toggle('is-pending',busy);status.classList.toggle('is-error',!busy&&!!error);status.setAttribute('role',!busy&&error?'alert':'status');}for(const choice of root.querySelectorAll('[data-choice]'))choice.classList.toggle('selected',busy&&choice.dataset.choice===selected);}
- async function request(body,seasonId){pendingLabel=body?'Guardando…':'Cargando…';busy=true;error='';if(!state)render();pending();const previous=state;try{const response=await fetch(`/api/daily?mode=${mode}${seasonId?`&season=${encodeURIComponent(seasonId)}`:''}`,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},...(body?{body:JSON.stringify({...body,mode})}:{})});const data=await response.json();if(!response.ok)throw Error(data.error||'No se pudo abrir el reto.');state={...data,...(mode==='daily'&&!data.leaderboard&&previous?.leaderboard?{leaderboard:previous.leaderboard}:{})};}catch(e){error=e.message;}busy=false;selected=null;render();}
+ async function request(body,seasonId){if(disposed||busy)return;pendingLabel=body?'Guardando…':'Cargando…';busy=true;error='';if(!state)render();pending();const previous=state;try{const response=await fetch(`/api/daily?mode=${mode}${seasonId?`&season=${encodeURIComponent(seasonId)}`:''}`,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},...(body?{body:JSON.stringify({...body,mode})}:{})});const data=await response.json();if(disposed)return;if(!response.ok)throw Error(data.error||'No se pudo abrir el reto.');state={...data,...(mode==='daily'&&!data.leaderboard&&previous?.leaderboard?{leaderboard:previous.leaderboard}:{})};}catch(e){if(disposed)return;error=e.message;}busy=false;selected=null;render();}
  const act=command=>{selected=command.choiceId??null;return request({dailyId:state.config.id,action:'command',command:{...command,commandId:crypto.randomUUID(),expectedRevision:state.view.revision}});};
  const openRanking=()=>{mode='daily';screen='ranking';selected=null;return request();};
  function switchMode(){mode=mode==='daily'?'practice':'daily';screen='play';state=null;request();}
  function numbers(parent,stats){const list=node('div',undefined,'daily-numbers');for(const [key,label]of [['played','Partidos'],['goals','Goles'],['assists','Asistencias'],['starts','Titular']]){const item=node('div');item.append(node('strong',String(stats[key]??0)),node('span',label));list.append(item);}parent.append(list);}
  function honours(parent,title,items){const section=node('section',undefined,'daily-honours');section.append(node('h2',title));if(!items?.length)section.append(node('p','Ninguno en esta carrera.'));else for(const item of items)section.append(node('p',`${item.title} · ${item.season}\n${item.club}`));parent.append(section);}
  function render(){
+  if(disposed)return;
   root.replaceChildren();root.dataset.screen=screen;
   const header=node('header',undefined,'daily-header'),tools=node('div',undefined,'daily-tools'),ranking=button('Top',openRanking,'daily-icon daily-ranking-button'),help=button('?',()=>{screen=screen==='rules'?'play':'rules';render();},'daily-icon');ranking.setAttribute('aria-label','Ver clasificación Daily de hoy');help.setAttribute('aria-label','Cómo jugar Daily');tools.append(ranking,help);header.append(button('←',onClose,'daily-icon'),node('strong',mode==='practice'?'ELEVENFATE · PRÁCTICA':'ELEVENFATE · DAILY'),tools);header.firstChild.setAttribute('aria-label','Volver a carrera');root.append(header);
   const done=state?.resolved??0,limit=state?.config.decisions??30,stage=state?.view?.stage;
@@ -58,4 +60,5 @@ export function mountDaily({root,onClose,assets={}}){
   if(error)actions.append(button('Recuperar intento',()=>request(),'daily-link'));const status=node('div',undefined,'daily-status');status.setAttribute('role','status');root.append(status);pending();root.scrollTop=0;
  }
  request();
+ return ()=>{disposed=true;root.replaceChildren();};
 }
