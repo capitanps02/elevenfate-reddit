@@ -28,3 +28,8 @@ html,body{margin:0;background:#09090b;color:#f5f5f7;font-family:system-ui,sans-s
 @media(min-width:800px){.cover-content{margin-left:8vw}.cover-art{object-position:70% 25%;opacity:.6}.cover-page::before{background:linear-gradient(90deg,#09090b,transparent),linear-gradient(0deg,#09090b,transparent)}}
 @media(max-height:600px){.cover-page{padding:16px}.cover-tagline{margin-bottom:12px}.cover-languages{margin-top:12px}.cover-brand{margin-bottom:8px}.cover-tutorial{padding:16px}}
 @media(prefers-reduced-motion:no-preference){.cover-button{transition:background-color 120ms,border-color 120ms}}
+
+
+.cover-demo h2{font-size:20px;line-height:1.2;margin:0}
+.cover-demo .tutorial-story{font-size:14px;line-height:1.5;margin:0}
+.cover-demo [data-choice-id]{text-align:left;font-size:14px;font-weight:500}

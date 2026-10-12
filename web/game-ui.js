@@ -763,7 +763,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     const fields=el('div',undefined,'save-new-fields');
     const nameLabel=el('label','Nombre y apellido','file-label'),name=el('input');name.type='text';name.autocomplete='name';name.value=newStoryDraft.displayName;name.setAttribute('aria-label','Nombre y apellido de la nueva carrera');name.addEventListener('input',()=>{newStoryDraft.displayName=name.value;});nameLabel.append(name);fields.append(nameLabel);
     const codeLabel=el('label','Código de historia','file-label'),seed=el('input');seed.type='number';seed.min='0';seed.max='4294967295';seed.value=newStoryDraft.seed;seed.setAttribute('aria-label','Código de historia de la nueva carrera');seed.addEventListener('input',()=>{newStoryDraft.seed=seed.value;});codeLabel.append(seed);
-    if(compact){const advanced=el('details',undefined,'new-story-advanced');advanced.append(el('summary','Opciones de historia'),el('p','El mismo código permite empezar la misma historia desde el inicio.','muted'),codeLabel);fields.append(advanced);}else fields.append(codeLabel);
+    if(compact){const advanced=el('details',undefined,'new-story-advanced');advanced.append(el('summary','Opciones de historia'),el('p','El mismo código permite reproducir esta historia desde el inicio.','muted'),codeLabel);fields.append(advanced);}else fields.append(codeLabel);
     n.append(fields,button(compact?'Empezar mi carrera':'Empezar otra carrera',startNewStory,'primary'));return n;
   }
   function newStory(v,main){

@@ -5,6 +5,7 @@ export class FakeNode {
  replaceChildren(...nodes){for(const n of this.children)n.parentNode=null;this.children=[];this.append(...nodes);}
  setAttribute(key,value){this.attributes[key]=String(value);}
  addEventListener(type,fn){this.listeners[type]=fn;}
+ removeEventListener(type,fn){if(this.listeners[type]===fn)delete this.listeners[type];}
  focus(){this.ownerDocument.activeElement=this;}
  contains(node){return this===node||this.children.some(child=>child.contains(node));}
  remove(){if(this.parentNode)this.parentNode.children=this.parentNode.children.filter(n=>n!==this);}
@@ -15,3 +16,4 @@ export class FakeNode {
  click(){if(!this.disabled)this.listeners.click?.({target:this});}
 }
 export function makeRoot(){const document={activeElement:null,createElement(tag){return new FakeNode(tag,this);}};return new FakeNode('section',document);}
+

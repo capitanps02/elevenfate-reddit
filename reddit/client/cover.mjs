@@ -1,9 +1,11 @@
+import {tutorialSample} from './tutorial-sample.mjs';
 import {createCoverState} from './cover-state.mjs';
 export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,authenticated=true}){
  const doc=root.ownerDocument;
  let screen='menu',step=0,selection=null,disposed=false,state={status:'checking',hasCareer:null,error:''};
  const el=(tag,text,cls)=>{const n=doc.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;if(tag==='h1'){n.dataset.coverAction='heading';n.tabIndex=-1;}return n;};
  const button=(label,fn,key,primary=false)=>{const b=el('button',label,'cover-button'+(primary?' is-primary':''));b.type='button';b.dataset.coverAction=key;b.addEventListener('click',fn);return b;};
+ function startPlaying(){if(!authenticated||state.status!=='ready'){show('menu');return;}if(state.hasCareer)onContinue();else onNew();}
  function focusHeading(){const h=root.querySelector('h1');if(h){h.tabIndex=-1;h.focus();}}
  function show(next){screen=next;render();focusHeading();}
  function render(){
@@ -37,24 +39,27 @@ export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,a
    panel.append(el('p',['Simular avanza hasta un partido o un momento importante.','Cuando aparece una decisión, toca una de sus opciones.','Lee lo ocurrido y pulsa Continuar para seguir.'][step]));
    const demo=el('div',undefined,'cover-demo');demo.setAttribute('aria-label','Ejemplo de controles; no modifica tu partida');
    if(step===0)demo.append(button('Simular',()=>{step=1;render();focusHeading();},'simulate',true));
-   if(step===1){demo.append(button('Elegir opción A',()=>{selection='A';step=2;render();focusHeading();},'a'),button('Elegir opción B',()=>{selection='B';step=2;render();focusHeading();},'b'));}
-   if(step===2){demo.append(el('p','Has seleccionado la opción '+selection+'. Aquí leerás su resultado en la carrera real.'));demo.append(button('Continuar',()=>show('finish'),'acknowledge',true));}
-   panel.append(demo,el('p','Este ejemplo enseña controles. No guarda decisiones ni consume el Daily.','cover-caption'));
-   panel.append(button('Saltar tutorial',()=>show('menu'),'skip'),button('Volver a portada',()=>show('menu'),'back'));
+   if(step===1){demo.append(el('h2',tutorialSample.title),el('p',tutorialSample.body,'tutorial-story'));for(const [i,choice] of tutorialSample.choices.entries()){const option=button(choice.label,()=>{selection=choice.id;step=2;render();focusHeading();},String.fromCharCode(97+i));option.dataset.choiceId=choice.id;demo.append(option);}}
+   if(step===2){const choice=tutorialSample.choices.find(c=>c.id===selection);demo.append(el('p','EJEMPLO DE RESULTADO','cover-brand'),el('p',choice?.exampleResult||''),el('p','En tu partida, el contexto puede cambiar el resultado.','cover-caption'));demo.append(button('Continuar',()=>show('finish'),'acknowledge',true));}
+   panel.append(demo,el('p','Demostración de una escena real. No cambia tu carrera ni consume el Daily.','cover-caption'));
+   panel.append(button('Saltar tutorial',startPlaying,'skip'),button('Volver a portada',()=>show('menu'),'back'));
    page.append(panel);
    if(screen==='finish'){
     panel.replaceChildren(el('p','LISTO PARA JUGAR','cover-brand'),el('h1','Tu historia te espera'),el('p','Simula, decide y continúa.'));
     const details=el('details',undefined,'cover-features');details.append(el('summary','¿Qué puedes hacer en ElevenFate?'));
-    for(const text of ['Carrera: consulta tu trayectoria, partidos y contratos.','Mundo: descubre las noticias de tu carrera.','Relaciones: consulta a las personas de tu historia.','Perfil: revisa tu jugador.','Tu partida: recupera, exporta o importa una copia.','Daily: juega el reto diario o practica por separado.'])details.append(el('p',text));
+    for(const text of ['Carrera: partidos, contratos, fichajes y tu trayectoria.','Mundo: descubre las noticias de tu carrera.','Gestionar carrera: entrenamiento, salud y otras acciones opcionales.','Relaciones: consulta a las personas de tu historia.','Perfil: revisa tu jugador.','Tu partida: recupera, exporta o importa una copia.','Daily: juega el reto diario o practica por separado.'])details.append(el('p',text));
     panel.append(details);
-    const play=button(state.hasCareer?'Continuar mi carrera':'Empezar mi carrera',state.hasCareer?onContinue:onNew,'play',true);play.disabled=!authenticated||state.status!=='ready';panel.append(play);
+    const play=button(state.hasCareer?'Continuar mi carrera':'Empezar mi carrera',startPlaying,'play',true);play.disabled=!authenticated||state.status!=='ready';panel.append(play);
     const daily=button('Jugar Daily',onDaily,'daily');daily.disabled=!authenticated;panel.append(daily,button('Volver a portada',()=>show('menu'),'back'));
    }
   }
   root.append(page);
   if(focused)root.querySelector('[data-cover-action="'+focused+'"]')?.focus({preventScroll:true});
  }
+ function keyboard(event){if(event.key==='Escape'&&screen!=='menu'){event.preventDefault();show('menu');}}
+ root.addEventListener('keydown',keyboard);
  const model=createCoverState({readCareer,onChange(next){state=next;if(screen==='menu'||screen==='finish')render();}});
  render();if(authenticated)model.refresh();else{state={status:'ready',hasCareer:false,error:''};render();}
- return ()=>{disposed=true;model.dispose();root.replaceChildren();};
+ return ()=>{disposed=true;model.dispose();root.removeEventListener('keydown',keyboard);root.replaceChildren();};
 }
+
