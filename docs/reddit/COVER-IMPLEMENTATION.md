@@ -27,3 +27,8 @@ No se fusionan scoring, telemetría o PR de idiomas; no se cambia save schema ni
 ## Validación
 `pnpm run verify:reddit` incorpora pruebas nuevas de disponibilidad, error, lecturas concurrentes y desmontaje.
 La CI existente verifica build y regresión adicional de UI/guardado. Revisar resultados del SHA exacto; no considerar pruebas añadidas como pruebas pasadas.
+
+## Progreso de esta sesión
+Primera ejecución CI: build y verify:reddit PASS sobre f9b3294a226c9da2cec0e81384eb5885285b36bf. Regresión ampliada de sesión/guardado/UI todavía en ejecución al registrar este estado; no es certificación del HEAD posterior.
+Añadidas cuatro pruebas de interacción sobre DOM simulado, además de seis de disponibilidad. Las diez comprobaciones se ejecutaron con V8 durante desarrollo; deben pasar también en Node/CI del candidato final.
+Corregida interacción con el overflow global del Reddit existente: cover-host tiene scroll propio y altura de webview, sin alterar layout de carrera o Daily. Layout visual/dispositivo todavía pendiente.
