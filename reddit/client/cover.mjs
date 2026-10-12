@@ -2,7 +2,7 @@ import {createCoverState} from './cover-state.mjs';
 export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,authenticated=true}){
  const doc=root.ownerDocument;
  let screen='menu',step=0,selection=null,disposed=false,state={status:'checking',hasCareer:null,error:''};
- const el=(tag,text,cls)=>{const n=doc.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
+ const el=(tag,text,cls)=>{const n=doc.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;if(tag==='h1')n.dataset.coverAction='heading';return n;};
  const button=(label,fn,key,primary=false)=>{const b=el('button',label,'cover-button'+(primary?' is-primary':''));b.type='button';b.dataset.coverAction=key;b.addEventListener('click',fn);return b;};
  function focusHeading(){const h=root.querySelector('h1');if(h){h.tabIndex=-1;h.focus();}}
  function show(next){screen=next;render();focusHeading();}

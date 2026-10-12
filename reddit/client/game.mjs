@@ -10,7 +10,7 @@ import {readWithRetry} from './read-request.mjs';
 import {createCareerSportsView} from './career-sports.mjs';
 const host=document.querySelector('#game'),shadow=host.attachShadow({mode:'open'});
 const cover=document.createElement('section'),dailyPanel=document.createElement('section');
-dailyPanel.className='daily-panel';dailyPanel.hidden=true;host.hidden=true;
+cover.className='cover-host';dailyPanel.className='daily-panel';dailyPanel.hidden=true;host.hidden=true;
 host.before(cover,dailyPanel);
 document.querySelector('#retry').addEventListener('click',()=>location.reload());
 let disposeCareer=null,disposeDaily=null,disposeCover=null;
@@ -25,6 +25,7 @@ try{
   disposeCareer?.();disposeCareer=null;disposeDaily?.();disposeDaily=null;disposeCover?.();
   host.hidden=true;dailyPanel.hidden=true;cover.hidden=false;
   disposeCover=mountCover({root:cover,assets,authenticated:!!init.userId,readCareer:()=>store.read(),onContinue:()=>openCareer('home'),onNew:()=>openCareer('save'),onDaily:()=>openDaily('cover')});
+  const heading=cover.querySelector('h1');if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}
  }
  function openCareer(initialView){
   if(!store)return;
