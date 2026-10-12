@@ -2,7 +2,7 @@
 
 12 de octubre de 2026. PR #4; código en borrador, no publicado.
 
-## Avance estimado: 67 %; pendiente: 33 %
+## Avance estimado: 69 %; pendiente: 31 %
 
 Es una estimación de trabajo completado, no una certificación funcional ni visual. Los pesos se fijan para no tratar la traducción completa como un pequeño botón. Cada porcentaje de pasada incluye preparación y código; PASS final exige sus gates.
 
@@ -12,10 +12,10 @@ Es una estimación de trabajo completado, no una certificación funcional ni vis
 | P1 Contrato | 10 % | 90 % | 9 % | Especificado; revisión final contra versión publicada pendiente |
 | P2 Portada | 15 % | 80 % | 12 % | Menú implementado; validación gráfica pendiente |
 | P3 Flujos | 20 % | 95 % | 19 % | Navegación Atrás/Adelante implementada y probada en modelos; validación en Reddit pendiente |
-| P4 ES/EN | 20 % | 50 % | 10 % | Daily: UI, historias, consecuencias, historial y deportes conectados; carrera/arranque y errores semánticos pendientes |
+| P4 ES/EN | 20 % | 60 % | 12 % | Daily, creación, cabecera/nav y avisos de arranque conectados; contenido de carrera y recuperación semántica pendientes |
 | P5 Simular | 5 % | 80 % | 4 % | Selector ausente en Inicio publicado 0.1.6; candidato pendiente de comparación |
 | P6 Arte/a11y | 10 % | 10 % | 1 % | Estilos y targets iniciales; arte final y QA real pendientes |
-| P7 Certificación | 8 % | 75 % | 6 % | CI anterior completa PASS; 64 pruebas locales y 12 de motor auditado PASS; nueva CI pendiente |
+| P7 Certificación | 8 % | 75 % | 6 % | CI anterior completa PASS; 74 pruebas locales y 12 de motor auditado PASS; nueva CI de interfaz pendiente |
 | P8 Reddit real | 4 % | 0 % | 0 % | Sin prueba ni publicación del candidato |
 
 Quedan seis pasadas principales de ejecución: cerrar P3, P4, P5, P6, P7 y P8. También siguen pendientes las comprobaciones de cierre de P0/P1/P2; no se consideran certificadas. No hacen falta nuevas pasadas inventadas para esos controles: se cierran dentro de las existentes.
@@ -70,3 +70,14 @@ La presentación deportiva añade divisionId (27 divisiones ficticias), honourId
 64 pruebas locales de presentación/DOM simulado PASS. También 12/12 pruebas Daily PASS sobre las fuentes del motor auditadas localmente (Node 24 con transformación TS y rutas de importación adaptadas en copia temporal); incluyen tres estrategias completas, guardado/reload, ranking, estadísticas y proyección sin mutación. Tras añadir deporte, se repitieron las tres comprobaciones de inventario/carreras completas/metadatos: 3/3 PASS. Esto no sustituye compilación oficial ni QA visual. CI completa anterior b253155c1ff89ecf283048704ad6e815c560b18b PASS; esta iteración requiere nueva CI.
 
 67% ponderado exacto: P4=50%, P7=75%; el resto de pesos y avances se conserva. Siguen seis pasadas principales. English permanece deshabilitado: faltan carrera, creación/arranque, códigos semánticos de recuperación, revisión visual y equivalencia certificada en el build final/Reddit. El Daily está mucho más cubierto, pero no se certifica el juego completo bilingüe ni publicado.
+
+## Continuación: creación de partida y arranque
+mountGame acepta un adaptador opcional de presentación; sin inyección conserva los textos ES. Reddit lo comparte con portada/Daily. Se incorporan 47 claves de creación, cabecera/navegación, validaciones, estados pendientes, avisos de carga y arranque (205 claves UI totales). La preferencia de arranque usa su propia clave y no escribe durante la construcción; al cambiar la preferencia por cuenta se sincroniza la de arranque. Ambas entradas conservan availableLocales=[es].
+
+El formulario mantiene nombre, código, foco/selección y opciones abiertas durante un cambio de idioma. La confirmación existente se traduce sin cerrarla, mantiene bloqueo de salida y confirma una sola escritura incluso con dos activaciones. Los estados internos read/write se separan del texto mostrado; salir durante carga inicial sigue permitido, crear/sustituir sigue bloqueado. Ningún locale entra en GameSession.create ni commit. Las fechas/moneda/decimales de cabecera usan locale y UTC manteniendo EUR y sus valores. El código de historia y la frase contractual ES siguen presentes.
+
+mountBootPresentation localiza login, carga fallida y reintento antes de autenticar, anuncia el error y centra el título. Los fallos internos de arranque no se muestran como contenido al jugador. La capa no hace fetch, autenticación ni escrituras de partida. Durante creación, ES conserva el error original y EN usa un mensaje de recuperación localizado para errores sin código semántico. El resto del contenido de carrera permanece sin traducir: no se afirma que la cabecera bilingüe complete las escenas ni todos los paneles.
+
+74/74 pruebas locales PASS: siete nuevas de creación bilingüe y tres de arranque, además de la regresión previa. DOM simulado, sin QA visual ni dispositivo. CI completa anterior 172da7624a0b2012153eda9421103f7a4553229e PASS; esta iteración shared UI requiere nueva CI de build, guardado/sesión y contratos UI.
+
+69% ponderado exacto: P4=60%; P7 permanece 75% hasta validar el nuevo HEAD. Siguen seis pasadas principales. Pendientes para habilitar English: pantallas y relatos de carrera, recuperación semántica completa, cinematics/formatos restantes, equivalencia de presentación del build final y QA visual/Reddit.

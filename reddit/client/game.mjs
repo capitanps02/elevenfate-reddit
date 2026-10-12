@@ -1,3 +1,4 @@
+import {mountBootPresentation} from './boot-presentation.mjs';
 import {GameSession} from '../../dist/session/game-session.js';
 import {mountGame} from '../../web/game-ui.js';
 import css from '../../web/game-ui.css';
@@ -14,16 +15,18 @@ const host=document.querySelector('#game'),shadow=host.attachShadow({mode:'open'
 const cover=document.createElement('section'),dailyPanel=document.createElement('section');
 cover.className='cover-host';dailyPanel.className='daily-panel';dailyPanel.hidden=true;host.hidden=true;
 host.before(cover,dailyPanel);
-document.querySelector('#retry').addEventListener('click',()=>location.reload());
+let storage=null;try{storage=globalThis.localStorage;}catch{}
+const bootLocale=createPresentationLocale({storage,key:'elevenfate.reddit.boot.presentation.locale.v1',availableLocales:['es']});
+const bootPresentation=mountBootPresentation({document,i18n:bootLocale,onRetry:()=>location.reload()});
 let disposeCareer=null,disposeDaily=null,disposeCover=null;
 try{
  const [initResponse,assetsResponse]=await Promise.all([readWithRetry('/api/init'),readWithRetry('./assets.json')]);
  if(!initResponse.ok||!assetsResponse.ok)throw Error('No se pudo abrir el juego. Comprueba la conexión e inténtalo de nuevo.');
  const init=await initResponse.json(),assets=await assetsResponse.json();
- let storage=null;try{storage=globalThis.localStorage;}catch{}
  const store=init.userId?createRedditSaveStore({validate:raw=>GameSession.migrateFromSave(raw),storage,cacheKey:`elevenfate.reddit.${init.subredditId}.${init.userId}.confirmed.v1`}):null;
  // English is deliberately gated until career/Daily coverage is complete.
  const presentationLocale=createPresentationLocale({storage,key:`elevenfate.reddit.${init.subredditId}.${init.userId||'anonymous'}.presentation.locale.v1`,availableLocales:['es']});
+ presentationLocale.subscribe(locale=>bootLocale.setLocale(locale));
  let shown='cover';
  const navigation=createEntryNavigation({window,onRoute(route,state){
   if(!store&&route!=='cover'){showCover();return;}
@@ -45,7 +48,7 @@ try{
   navigation.enter('career',{push,context:{mhOwner:true,mhView:initialView,mhCinematic:false}});shown='career';
   clearCover();disposeDaily?.();disposeDaily=null;dailyPanel.hidden=true;host.hidden=false;
   disposeCareer?.();shadow.replaceChildren();
-  disposeCareer=mountGame({root:shadow,GameSession,assets,css:css+'\n'+careerCss,compactHome:true,initialView,autoCreateOnLoad:false,deferAutoResume:true,onMenu:showCover,onDaily:()=>openDaily('career'),careerSports:createCareerSportsView(),saveStore:store,saveDescription:'reddit',cutsceneFactory:createStoryScene,storageKey:`elevenfate.reddit.${init.subredditId}.${init.userId}`});
+  disposeCareer=mountGame({root:shadow,GameSession,assets,presentationLocale,css:css+'\n'+careerCss,compactHome:true,initialView,autoCreateOnLoad:false,deferAutoResume:true,onMenu:showCover,onDaily:()=>openDaily('career'),careerSports:createCareerSportsView(),saveStore:store,saveDescription:'reddit',cutsceneFactory:createStoryScene,storageKey:`elevenfate.reddit.${init.subredditId}.${init.userId}`});
  }
  function openDaily(origin,{push=true}={}){
   if(!store)return;
@@ -59,6 +62,6 @@ try{
  showCover();
 }catch(error){
  disposeCareer?.();disposeDaily?.();disposeCover?.();cover.hidden=true;dailyPanel.hidden=true;
- const panel=document.querySelector('#load-error');panel.hidden=false;panel.querySelector('p').textContent=error.message;host.hidden=true;
+ bootPresentation.showError();host.hidden=true;
 }
 

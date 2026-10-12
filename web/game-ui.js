@@ -2,13 +2,22 @@ import { createCutscenePlayer } from './cutscene-player.js';
 import { formatClubName } from './club-names.js';
 import { createIndexedSaveStore } from './indexed-save-store.js';
 // UI reads PlayerView only. All career mutations go through GameSession commands.
-export function mountGame({root, GameSession, assets, css, storageKey='historia-jugador.preview.session.v1', events, saveStore, cutsceneFactory=createCutscenePlayer, saveDescription='local', compactHome=false, onDaily, careerSports, cutsceneUrl=clip=>'/web/assets/cutscenes/'+clip.file, initialView='home', autoCreateOnLoad=true, deferAutoResume=false, onMenu}) {
+export function mountGame({root, GameSession, assets, css, storageKey='historia-jugador.preview.session.v1', events, saveStore, cutsceneFactory=createCutscenePlayer, saveDescription='local', compactHome=false, onDaily, careerSports, cutsceneUrl=clip=>'/web/assets/cutscenes/'+clip.file, initialView='home', autoCreateOnLoad=true, deferAutoResume=false, onMenu, presentationLocale}) {
   const KEY=storageKey;
   let session=null, busy=false, busyLabel='Guardando…', paused=false, platformSuspended=false, view=['home','career','world','relations','profile','save','new'].includes(initialView)?initialView:'home', cinematic=false, message='', replacement=null, lastArt='stadium_bg', autoTimer=null, autoVisualTimer=null, lastAutoVisualAt=0;
   const AUTO_VISUAL_MIN_MS=280;
   let savedRaw=null, disposeCutscene=null, disposed=false;
   let autoResumeAllowed=!deferAutoResume;
   let newStoryDraft={displayName:'',seed:'424242'};
+  let busyKind='write',newStoryAdvancedOpen=false,activeDialogLocale=null;
+  const copy=(id,fallback,parameters={})=>presentationLocale?presentationLocale.t(id,parameters):fallback;
+  const locale=()=>presentationLocale?.getLocale()||'es';
+  const busyCopy=()=>copy(({'Guardando…':'career.busy.save','Cargando…':'career.busy.load','Comprobando la copia…':'career.busy.checkCopy','Guardando tu historia…':'career.busy.saveStory','Comprobando tu partida…':'career.busy.checkCareer','Creando tu carrera…':'career.busy.create'})[busyLabel],busyLabel);
+  function messageCopy(){
+    if(locale()==='es')return message;
+    const id=({'Introduce el nombre del jugador para empezar otra carrera.':'career.new.nameRequired','Introduce un código de historia entre 0 y 4294967295.':'career.new.codeInvalid','No se ha podido cargar el juego. Comprueba tu conexión o almacenamiento e inténtalo de nuevo. Tu copia guardada se conserva.':'career.loadError','Otra pestaña ha cambiado la copia antigua. Puedes descargarla en Tu partida para revisarla antes de importar.':'career.legacyChanged'})[message];
+    return copy(id||'career.genericError',message);
+  }
   function resumeLoadedSimulation(){autoResumeAllowed=true;queueAutoStep();render();}
   const watchedKey=KEY+'.watched-cutscenes.v1';
   let watchedScenes=new Set();
@@ -28,11 +37,11 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   doc.title='ELEVENFATE';
   const style=el('style');style.textContent=css;root.append(style);
   const shell=el('div',undefined,'mh'+(compactHome?' reddit-shell':''));shell.dataset.release='2026-09-28-cinematicas-prologo';root.append(shell);
-  const dateFormatter=new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
-  const moneyFormatter=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
-  const decimalFormatter=new Intl.NumberFormat('es-ES',{maximumFractionDigits:1});
+  let dateFormatter=new Intl.DateTimeFormat(locale()==='en'?'en-GB':'es-ES',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
+  let moneyFormatter=new Intl.NumberFormat(locale()==='en'?'en-GB':'es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+  let decimalFormatter=new Intl.NumberFormat(locale()==='en'?'en-GB':'es-ES',{maximumFractionDigits:1});
   const date=s=>dateFormatter.format(new Date(s+'T00:00:00Z'));
-  const decisionCount=n=>`${n} ${n===1?'decisión':'decisiones'}`;
+  const decisionCount=n=>locale()==='en'?`${n} ${n===1?'decision':'decisions'}`:`${n} ${n===1?'decisión':'decisiones'}`;
   const hasBackup=()=>store.hasPrevious();
   const money=n=>moneyFormatter.format(n);
   const clubName=formatClubName;
@@ -49,7 +58,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   const position=v=>({winger:'Extremo',midfielder:'Centrocampista',striker:'Delantero',defender:'Defensa',goalkeeper:'Portero'})[v.position]||'Futbolista';
   const svgPaths={home:'M3 10 12 3l9 7v11h-6v-7H9v7H3z',career:'M5 3h14v18H5z M8 8h8M8 12h8M8 16h5',world:'M3 12h18M12 3c-5 5-5 13 0 18 5-5 5-13 0-18 M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18',relations:'M2 21c0-9 13-9 13 0M15 14c4-1 7 2 7 6 M8.5 3a4 4 0 1 0 0 8 4 4 0 1 0 0-8 M17 5a3 3 0 0 1 0 6',profile:'M4 21c0-10 16-10 16 0 M12 3a4 4 0 1 0 0 8 4 4 0 1 0 0-8',save:'M4 3h14l3 3v15H3V3h1 M7 3v7h10V3M7 21v-7h10v7',arrow:'M4 12h15M14 6l6 6-6 6','pa-training':'M7 8v8M17 8v8M4 10v4M20 10v4M7 12h10','pa-health':'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.6-7 10-7 10z','pa-representative':'M4 8h16v11H4z M9 8V5h6v3 M4 12h16 M10 12v2h4v-2','pa-image':'M4 7h4l2-2h4l2 2h4v12H4z M12 10a4 4 0 1 0 0 8 4 4 0 1 0 0-8','pa-life':'M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18 M12 7v5l3 2'};
   function icon(name){const key=svgPaths[name]?name:'arrow';const s=doc.createElementNS('http://www.w3.org/2000/svg','svg');s.classList.add('muir-icon');s.dataset.icon=key;s.setAttribute('viewBox','0 0 24 24');s.setAttribute('aria-hidden','true');s.setAttribute('focusable','false');const p=doc.createElementNS(s.namespaceURI,'path');p.setAttribute('d',svgPaths[key]);s.append(p);return s;}
-  function button(text,fn,cls='secondary',options={}){const b=el('button',undefined,cls);b.type='button';b.append(el('span',text));b.disabled=busy||options.disabled===true||(paused&&options.blockedWhenPaused===true);if(options.allowDuringRead&&!autoCreateOnLoad&&busyLabel==='Cargando…'&&options.disabled!==true&&!(paused&&options.blockedWhenPaused===true))b.disabled=false;if(options.ariaLabel)b.setAttribute('aria-label',options.ariaLabel);if(options.pressed!==undefined)b.setAttribute('aria-pressed',String(options.pressed));b.addEventListener('click',fn);return b;}
+  function button(text,fn,cls='secondary',options={}){const b=el('button',undefined,cls);b.type='button';b.append(el('span',text));b.disabled=busy||options.disabled===true||(paused&&options.blockedWhenPaused===true);if(options.allowDuringRead&&!autoCreateOnLoad&&busyKind==='read'&&options.disabled!==true&&!(paused&&options.blockedWhenPaused===true))b.disabled=false;if(options.ariaLabel)b.setAttribute('aria-label',options.ariaLabel);if(options.pressed!==undefined)b.setAttribute('aria-pressed',String(options.pressed));b.addEventListener('click',fn);return b;}
   function photo(name,cls='photo'){const img=el('img',undefined,cls);img.src=assets[name]||assets.stadium_bg;img.alt='';img.draggable=false;return img;}
   function panel(title){const p=el('article',undefined,'panel');p.append(el('h2',title));return p;}
   function semanticRow(label,value,cls='data-row'){
@@ -164,7 +173,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   function navigate(name){view=validViews.has(name)?name:'home';cinematic=false;message='';playerActionUi={screen:'career',categoryId:null,actionId:null,targetId:null,resultExecutionId:null};if(historyReady)win.history.pushState(routeState(),'');else prepareHistory();render(true);}
   function openCinematic(){if(!session)return;cinematic=true;if(historyReady)win.history.pushState(routeState(),'');else prepareHistory();render(true);}
   function closeCinematic(){if(historyReady&&win.history.state?.mhOwner&&win.history.state.mhCinematic){win.history.back();return;}cinematic=false;view='home';replaceRouteState();render(true);}
-  function canLeaveEntry(){return !shell.querySelector('dialog[open]')&&(!busy||(!autoCreateOnLoad&&busyLabel==='Cargando…'));}
+  function canLeaveEntry(){return !shell.querySelector('dialog[open]')&&(!busy||(!autoCreateOnLoad&&busyKind==='read'));}
   function requestMenu(){if(onMenu&&canLeaveEntry()){suspendAutoScheduler();onMenu();}}
   function goBack(){
     if(onMenu&&view==='new'){requestMenu();return;}
@@ -192,7 +201,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     savedRaw=JSON.stringify(next);
   }
   async function load(){
-    if(busy)return;busy=true;busyLabel='Cargando…';message='';render();
+    if(busy)return;busy=true;busyKind='read';busyLabel='Cargando…';message='';render();
     try{const raw=await store.read();if(disposed)return;savedRaw=raw;if(raw){session=await GameSession.migrateFromSave(raw,{...sessionOptions,commit});cinematic=!compactHome&&['decision','result','offer'].includes(session.getView().screen);}else{replacement=null;if(autoCreateOnLoad)session=await GameSession.create(424242,{...sessionOptions,commit});else{session=null;if(view!=='new')view='save';}}prepareHistory(); if(await store.legacyChanged())message='Otra pestaña ha cambiado la copia antigua. Puedes descargarla en Tu partida para revisarla antes de importar.'; }
     catch(e){console.error('ELEVENFATE load failed',e);session=null;message='No se ha podido cargar el juego. Comprueba tu conexión o almacenamiento e inténtalo de nuevo. Tu copia guardada se conserva.';view='save';}
     finally{busy=false;if(!disposed){render(Boolean(onMenu));queueAutoStep();}}
@@ -258,7 +267,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     const viewBefore=view;
     const screenBefore=session.getView().screen;
     let completed=false;
-    busy=true;busyLabel='Guardando…';message='';
+    busy=true;busyKind='write';busyLabel='Guardando…';message='';
     if(!quietAutoStep)render();
     try{
       const wasCinematic=cinematic;
@@ -743,36 +752,43 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   }
   async function download(){try{const raw=await store.readRaw();if(!raw)throw Error('No hay una partida guardada.');downloadText(raw,'elevenfate-partida.json');}catch(e){message=e.message;render();}}
   function downloadText(raw,filename){if(win.AndroidBridge?.saveTextFile){win.AndroidBridge.saveTextFile(filename,raw);return;}const url=URL.createObjectURL(new Blob([raw],{type:'application/json'}));const a=el('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);}
-  async function importFile(file){if(!file||busy)return;busy=true;busyLabel='Comprobando la copia…';message='';render();try{if(file.size>8*1024*1024)throw Error('La copia supera 8 MiB.');const raw=await file.text();const candidate=await GameSession.migrateFromSave(raw,{...sessionOptions,commit});const previous=await store.readRaw();busy=false;render();confirmReplace('Recuperar esta copia',`Partida del ${date(candidate.getView().date)}, con ${decisionCount(candidate.getView().decisionsMade)}. Se conservará una copia de la partida actual.`,async()=>{
+  async function importFile(file){if(!file||busy)return;busy=true;busyKind='write';busyLabel='Comprobando la copia…';message='';render();try{if(file.size>8*1024*1024)throw Error('La copia supera 8 MiB.');const raw=await file.text();const candidate=await GameSession.migrateFromSave(raw,{...sessionOptions,commit});const previous=await store.readRaw();busy=false;render();confirmReplace('Recuperar esta copia',`Partida del ${date(candidate.getView().date)}, con ${decisionCount(candidate.getView().decisionsMade)}. Se conservará una copia de la partida actual.`,async()=>{
       await store.write(candidate.exportSnapshot(),previous);savedRaw=JSON.stringify(candidate.exportSnapshot());session=candidate;view='home';cinematic=false;replaceRouteState();
     });}catch(e){message='No se pudo importar. '+e.message;busy=false;render();}}
-  function confirmReplace(title,body,accept){const dialog=el('dialog',undefined,'dialog');dialog.append(el('h2',title),el('p',body));const actions=el('div',undefined,'dialog-actions');actions.append(button('Cancelar',()=>dialog.close()),button('Confirmar',async()=>{dialog.close();busy=true;busyLabel='Guardando tu historia…';message='';render();try{await accept();}catch(e){message=e.message;}finally{busy=false;render();}},'primary'));dialog.append(actions);shell.append(dialog);dialog.addEventListener('close',()=>dialog.remove());dialog.showModal();}
+  function confirmReplace(title,body,accept,{titleKey,bodyKey}={}){
+    const dialog=el('dialog',undefined,'dialog'),heading=el('h2'),description=el('p'),actions=el('div',undefined,'dialog-actions');
+    const cancel=button(copy('career.cancel','Cancelar'),()=>dialog.close());
+    const confirm=button(copy('career.confirm','Confirmar'),async()=>{if(busy)return;dialog.close();busy=true;busyKind='write';busyLabel='Guardando tu historia…';message='';render();try{await accept();}catch(e){message=e.message;}finally{busy=false;render();}},'primary');
+    activeDialogLocale=()=>{dialog.lang=locale();heading.textContent=titleKey?copy(titleKey,title):title;description.textContent=bodyKey?copy(bodyKey,body):body;cancel.firstChild.textContent=copy('career.cancel','Cancelar');confirm.firstChild.textContent=copy('career.confirm','Confirmar');};
+    activeDialogLocale();dialog.append(heading,description);actions.append(cancel,confirm);dialog.append(actions);shell.append(dialog);
+    dialog.addEventListener('close',()=>{activeDialogLocale=null;dialog.remove();if(presentationLocale&&!disposed&&!busy)render();});dialog.showModal();
+  }
   async function startNewStory(){
     if(busy)return;
     const displayName=newStoryDraft.displayName,seedText=newStoryDraft.seed.trim(),selected=Number(seedText);
     if(!displayName.trim()){message='Introduce el nombre del jugador para empezar otra carrera.';render();return;}
     if(!seedText||!Number.isSafeInteger(selected)||selected<0||selected>4294967295){message='Introduce un código de historia entre 0 y 4294967295.';render();return;}
-    busy=true;busyLabel='Comprobando tu partida…';message='';render();
+    busy=true;busyKind='write';busyLabel='Comprobando tu partida…';message='';render();
     let old;
     try{old=await store.readRaw();}catch(e){message=e.message;busy=false;render();return;}
     busy=false;render();
-    const accept=async()=>{replacement=old;session=await GameSession.create(selected,{...sessionOptions,commit,playerDisplayName:displayName});newStoryDraft={displayName:'',seed:'424242'};view='home';cinematic=false;replaceRouteState();};
-    if(old!==null){confirmReplace('Empezar otra carrera','La partida actual pasará a la copia anterior.',accept);return;}
-    busy=true;busyLabel='Creando tu carrera…';render();
+    const accept=async()=>{replacement=old;session=await GameSession.create(selected,{...sessionOptions,commit,playerDisplayName:displayName});newStoryDraft={displayName:'',seed:'424242'};newStoryAdvancedOpen=false;view='home';cinematic=false;replaceRouteState();};
+    if(old!==null){confirmReplace('Empezar otra carrera','La partida actual pasará a la copia anterior.',accept,{titleKey:'career.new.replace',bodyKey:'career.new.replaceBody'});return;}
+    busy=true;busyKind='write';busyLabel='Creando tu carrera…';render();
     try{await accept();}catch(e){message=e.message;}finally{busy=false;render();}
   }
   function newStoryPanel({compact=false}={}){
-    const n=panel(compact?'Tu jugador':'Otra historia');n.classList.add('save-new-story');
-    if(!compact)n.append(el('p','Empieza una carrera distinta usando un nombre y un código de historia. Conservaremos una copia si ya tienes una carrera.','muted'));
+    const n=panel(compact?copy('career.new.player','Tu jugador'):copy('career.new.other','Otra historia'));n.classList.add('save-new-story');
+    if(!compact)n.append(el('p',copy('career.new.otherIntro','Empieza una carrera distinta usando un nombre y un código de historia. Conservaremos una copia si ya tienes una carrera.'),'muted'));
     const fields=el('div',undefined,'save-new-fields');
-    const nameLabel=el('label','Nombre y apellido','file-label'),name=el('input');name.type='text';name.autocomplete='name';name.value=newStoryDraft.displayName;name.setAttribute('aria-label','Nombre y apellido de la nueva carrera');name.addEventListener('input',()=>{newStoryDraft.displayName=name.value;});nameLabel.append(name);fields.append(nameLabel);
-    const codeLabel=el('label','Código de historia','file-label'),seed=el('input');seed.type='number';seed.min='0';seed.max='4294967295';seed.value=newStoryDraft.seed;seed.setAttribute('aria-label','Código de historia de la nueva carrera');seed.addEventListener('input',()=>{newStoryDraft.seed=seed.value;});codeLabel.append(seed);
-    if(compact){const advanced=el('details',undefined,'new-story-advanced');advanced.append(el('summary','Opciones de historia'),el('p','El mismo código permite reproducir esta historia desde el inicio.','muted'),codeLabel);fields.append(advanced);}else fields.append(codeLabel);
-    n.append(fields,button(compact?'Empezar mi carrera':'Empezar otra carrera',startNewStory,'primary'));return n;
+    const nameLabel=el('label',copy('career.new.name','Nombre y apellido'),'file-label'),name=el('input');name.type='text';name.autocomplete='name';name.value=newStoryDraft.displayName;name.dataset.entryField='name';name.setAttribute('aria-label',copy('career.new.nameA11y','Nombre y apellido de la nueva carrera'));name.addEventListener('input',()=>{newStoryDraft.displayName=name.value;});nameLabel.append(name);fields.append(nameLabel);
+    const codeLabel=el('label',copy('career.new.code','Código de historia'),'file-label'),seed=el('input');seed.type='number';seed.min='0';seed.max='4294967295';seed.value=newStoryDraft.seed;seed.dataset.entryField='code';seed.setAttribute('aria-label',copy('career.new.codeA11y','Código de historia de la nueva carrera'));seed.addEventListener('input',()=>{newStoryDraft.seed=seed.value;});codeLabel.append(seed);
+    if(compact){const advanced=el('details',undefined,'new-story-advanced');advanced.open=newStoryAdvancedOpen;advanced.addEventListener('toggle',()=>{newStoryAdvancedOpen=advanced.open;});advanced.append(el('summary',copy('career.new.advanced','Opciones de historia')),el('p',copy('career.new.codeHelp','El mismo código permite reproducir esta historia desde el inicio.'),'muted'),codeLabel);fields.append(advanced);}else fields.append(codeLabel);
+    n.append(fields,button(compact?copy('career.new.start','Empezar mi carrera'):copy('career.new.replace','Empezar otra carrera'),startNewStory,'primary'));return n;
   }
   function newStory(v,main){
-    main.classList.add('new-story-entry');main.append(el('h1','Nueva partida'),el('p','Elige el nombre de tu futbolista.','muted'),newStoryPanel({compact:true}));
-    if(onMenu)main.append(button('Cancelar',requestMenu,'secondary',{allowDuringRead:true}));
+    main.classList.add('new-story-entry');main.append(el('h1',copy('career.new.title','Nueva partida')),el('p',copy('career.new.intro','Elige el nombre de tu futbolista.'),'muted'),newStoryPanel({compact:true}));
+    if(onMenu)main.append(button(copy('career.cancel','Cancelar'),requestMenu,'secondary',{allowDuringRead:true}));
   }
   function saves(v,main){
     main.classList.add('p8-save');
@@ -830,13 +846,13 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
       }
     }
   }
-  function render(focus=false){disposeCutscene?.();disposeCutscene=null;if(autoVisualTimer!==null){clearTimeout(autoVisualTimer);autoVisualTimer=null;}const v=session?.getView();shell.replaceChildren();const frame=doc.createDocumentFragment();shell.classList.toggle('immersive',cinematic&&!!v);shell.classList.toggle('create-entry',view==='new');const header=el('header',undefined,'topbar');const brand=el('div',undefined,'brand');brand.append(assets.brand_emblem?photo('brand_emblem','brand-emblem'):el('span','E','brand-mark'));const name=el('div');name.append(el('strong','ELEVENFATE'),el('small','Carrera de futbolista'));brand.append(name);const simMode=v?.simulation?.mode;const pause=v&&['auto_simulating','paused'].includes(simMode)?button(simMode==='paused'?'Reanudar':'Pausar',pauseToggle,'secondary',{ariaLabel:simMode==='paused'?'Reanudar la simulación':'Pausar la simulación',pressed:simMode==='paused'}):null;if(pause)pause.classList.add('pause-button');const dateControl=button(v?date(v.date)+' · Partida':'Tu partida',()=>navigate('save'),'date-button',{ariaLabel:v?'Abrir Tu partida y el contexto de guardado de '+date(v.date):'Abrir Tu partida'});let saveContext=dateControl;if(compactHome){saveContext=el('div',undefined,'reddit-save-context');const sync=el('span',busy?busyLabel:'','reddit-save-indicator');sync.setAttribute('role','status');sync.setAttribute('aria-live','polite');sync.dataset.pending=String(busy);saveContext.append(dateControl,sync);}if(onMenu){const menu=button('Portada',requestMenu,'secondary',{ariaLabel:'Volver a portada',allowDuringRead:true});header.append(menu);}
-    header.append(brand,el('span',v?'Temporada '+v.season.replace('-',' / 20'):'Una vida. Mil decisiones.','chapter'),...(pause?[pause]:[]),saveContext);frame.append(header);
-    const nav=el('nav',undefined,'navigation');nav.setAttribute('aria-label','Navegación principal');for(const [key,label]of[['home','Inicio'],['career','Carrera'],['world','Mundo'],['relations','Relaciones'],['profile','Perfil'],['save','Tu partida']]){const b=button(label,()=>navigate(key),'nav-button');b.prepend(icon(key));if(key===view){b.classList.add('active');b.setAttribute('aria-current','page');}nav.append(b);}const foot=el('div',undefined,'nav-foot');foot.append(el('span','Cada elección cuenta.'),el('small','De principio a fin.'));nav.append(foot);frame.append(nav);
+  function render(focus=false){disposeCutscene?.();disposeCutscene=null;if(autoVisualTimer!==null){clearTimeout(autoVisualTimer);autoVisualTimer=null;}const v=session?.getView();shell.replaceChildren();const frame=doc.createDocumentFragment();shell.classList.toggle('immersive',cinematic&&!!v);shell.classList.toggle('create-entry',view==='new');shell.lang=locale();const header=el('header',undefined,'topbar');const brand=el('div',undefined,'brand');brand.append(assets.brand_emblem?photo('brand_emblem','brand-emblem'):el('span','E','brand-mark'));const name=el('div');name.append(el('strong','ELEVENFATE'),el('small',copy('career.header.subtitle','Carrera de futbolista')));brand.append(name);const simMode=v?.simulation?.mode;const pause=v&&['auto_simulating','paused'].includes(simMode)?button(simMode==='paused'?'Reanudar':'Pausar',pauseToggle,'secondary',{ariaLabel:simMode==='paused'?'Reanudar la simulación':'Pausar la simulación',pressed:simMode==='paused'}):null;if(pause)pause.classList.add('pause-button');const dateControl=button(v?copy('career.header.saveDate',date(v.date)+' · Partida',{date:date(v.date)}):copy('career.header.save','Tu partida'),()=>navigate('save'),'date-button',{ariaLabel:v?copy('career.header.saveDateA11y','Abrir Tu partida y el contexto de guardado de '+date(v.date),{date:date(v.date)}):copy('career.header.saveA11y','Abrir Tu partida')});let saveContext=dateControl;if(compactHome){saveContext=el('div',undefined,'reddit-save-context');const sync=el('span',busy?busyCopy():'','reddit-save-indicator');sync.setAttribute('role','status');sync.setAttribute('aria-live','polite');sync.dataset.pending=String(busy);saveContext.append(dateControl,sync);}if(onMenu){const menu=button(copy('career.header.cover','Portada'),requestMenu,'secondary',{ariaLabel:copy('career.header.coverA11y','Volver a portada'),allowDuringRead:true});header.append(menu);}
+    header.append(brand,el('span',v?copy('career.header.season','Temporada '+v.season.replace('-',' / 20'),{season:v.season.replace('-',' / 20')}):copy('career.header.tagline','Una vida. Mil decisiones.'),'chapter'),...(pause?[pause]:[]),saveContext);frame.append(header);
+    const nav=el('nav',undefined,'navigation');nav.setAttribute('aria-label',copy('career.nav.a11y','Navegación principal'));for(const [key,label]of[['home','Inicio'],['career','Carrera'],['world','Mundo'],['relations','Relaciones'],['profile','Perfil'],['save','Tu partida']]){const b=button(copy('career.nav.'+key,label),()=>navigate(key),'nav-button');b.prepend(icon(key));if(key===view){b.classList.add('active');b.setAttribute('aria-current','page');}nav.append(b);}const foot=el('div',undefined,'nav-foot');foot.append(el('span',copy('career.nav.tagline','Cada elección cuenta.')),el('small',copy('career.nav.end','De principio a fin.')));nav.append(foot);frame.append(nav);
     const main=el('main');main.tabIndex=0;main.setAttribute('aria-busy',String(busy));frame.append(main);
     if(v){if(cinematic&&['decision','result','offer'].includes(v.screen))renderDecision(v,main);else({home,career,world,relations,profile,save:saves,new:newStory})[view](v,main);}else if(view==='save')saves(null,main);else if(view==='new')newStory(null,main);else{const cover=el('section',undefined,'brand-welcome');if(assets.brand_cover)cover.append(photo('brand_cover','brand-cover'));cover.append(el('h1','Tu historia está a punto de empezar'),el('p','Tu carrera. Tu destino.','muted'));main.append(cover);}
-    if(message){const alert=el('div',undefined,'alert');alert.setAttribute('role','alert');alert.append(el('p',message),button('Tu partida',()=>navigate('save')));frame.append(alert);}
-    if(busy){if(!compactHome){const status=el('div',busyLabel,'busy-status');status.setAttribute('role','status');frame.append(status);}}else if(paused||v?.simulation?.mode==='paused'){const status=el('div','Juego en pausa · reanuda cuando quieras.','pause-status');status.setAttribute('role','status');frame.append(status);}else if(v?.simulation?.mode==='auto_simulating'){const status=el('div','Simulando el siguiente tramo…','save-status');frame.append(status);}else{const status=el('div',session?'Guardado automático · '+decisionCount(v?.decisionsMade||0):'','save-status');frame.append(status);}
+    if(message){const alert=el('div',undefined,'alert');alert.setAttribute('role','alert');alert.append(el('p',messageCopy()),button(copy('career.header.save','Tu partida'),()=>navigate('save')));frame.append(alert);}
+    if(busy){if(!compactHome){const status=el('div',busyCopy(),'busy-status');status.setAttribute('role','status');frame.append(status);}}else if(paused||v?.simulation?.mode==='paused'){const status=el('div','Juego en pausa · reanuda cuando quieras.','pause-status');status.setAttribute('role','status');frame.append(status);}else if(v?.simulation?.mode==='auto_simulating'){const status=el('div','Simulando el siguiente tramo…','save-status');frame.append(status);}else{const status=el('div',session?copy('career.autosave','Guardado automático · '+decisionCount(v?.decisionsMade||0),{count:decisionCount(v?.decisionsMade||0)}):'','save-status');frame.append(status);}
     if(v&&['auto_simulating','paused'].includes(v.simulation?.mode)){const live=el('span',v.simulation.mode==='paused'?'Simulación pausada.':'Simulación en curso.','p5-live-status');live.setAttribute('role','status');live.setAttribute('aria-live','polite');frame.append(live);}
     shell.append(frame);if(v?.simulation?.mode==='auto_simulating')lastAutoVisualAt=performance.now();
     if(focus){const target=cinematic&&v?.screen==='result'?main.querySelector('[data-result-continue]'):main.querySelector('h1');if(target?.tagName==='H1')target.tabIndex=-1;(target||main).focus({preventScroll:true});main.scrollTop=0;}
@@ -846,7 +862,16 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   const adsstate=()=>{if(view==='save'&&!busy)render();};
   win.addEventListener?.('elevenfate:ads-state',adsstate);
   root.addEventListener('keydown',keyboard);win.addEventListener?.('popstate',popstate);win.addEventListener?.('muir:platform-pause',platformpause);win.addEventListener?.('muir:platform-resume',platformresume);doc.addEventListener('visibilitychange',visibilitychange);load();
-  const dispose=()=>{disposed=true;win.removeEventListener?.('elevenfate:ads-state',adsstate);disposeCutscene?.();clearTimeout(autoTimer);if(autoVisualTimer!==null)clearTimeout(autoVisualTimer);store.close().catch(()=>{});root.removeEventListener('keydown',keyboard);win.removeEventListener?.('popstate',popstate);win.removeEventListener?.('muir:platform-pause',platformpause);win.removeEventListener?.('muir:platform-resume',platformresume);doc.removeEventListener('visibilitychange',visibilitychange);shell.remove();style.remove();};
+  const unsubscribeLocale=presentationLocale?.subscribe(()=>{
+    if(disposed)return;
+    dateFormatter=new Intl.DateTimeFormat(locale()==='en'?'en-GB':'es-ES',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
+    moneyFormatter=new Intl.NumberFormat(locale()==='en'?'en-GB':'es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+    decimalFormatter=new Intl.NumberFormat(locale()==='en'?'en-GB':'es-ES',{maximumFractionDigits:1});
+    if(activeDialogLocale){activeDialogLocale();return;}
+    const active=doc.activeElement,field=active?.dataset?.entryField,start=active?.selectionStart,end=active?.selectionEnd,direction=active?.selectionDirection;render();
+    if(field)for(const input of shell.querySelectorAll('input'))if(input.dataset.entryField===field){input.focus();if(typeof start==='number'&&typeof end==='number')input.setSelectionRange?.(start,end,direction);}
+  })||(()=>{});
+  const dispose=()=>{disposed=true;unsubscribeLocale();activeDialogLocale=null;win.removeEventListener?.('elevenfate:ads-state',adsstate);disposeCutscene?.();clearTimeout(autoTimer);if(autoVisualTimer!==null)clearTimeout(autoVisualTimer);store.close().catch(()=>{});root.removeEventListener('keydown',keyboard);win.removeEventListener?.('popstate',popstate);win.removeEventListener?.('muir:platform-pause',platformpause);win.removeEventListener?.('muir:platform-resume',platformresume);doc.removeEventListener('visibilitychange',visibilitychange);shell.remove();style.remove();};
   dispose.canLeave=canLeaveEntry;
   dispose.getRouteState=routeState;
   return dispose;
