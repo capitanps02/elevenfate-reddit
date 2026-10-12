@@ -24,7 +24,7 @@ try{
  function showCover(){
   disposeCareer?.();disposeCareer=null;disposeDaily?.();disposeDaily=null;disposeCover?.();
   host.hidden=true;dailyPanel.hidden=true;cover.hidden=false;
-  disposeCover=mountCover({root:cover,assets,authenticated:!!init.userId,readCareer:()=>store.read(),onContinue:()=>openCareer('home'),onNew:()=>openCareer('save'),onDaily:()=>openDaily('cover')});
+  disposeCover=mountCover({root:cover,assets,authenticated:!!init.userId,readCareer:()=>store.read(),onContinue:()=>openCareer('home'),onNew:()=>openCareer('new'),onDaily:()=>openDaily('cover')});
   const heading=cover.querySelector('h1');if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}
  }
  function openCareer(initialView){
@@ -50,3 +50,4 @@ try{
  disposeCareer?.();disposeDaily?.();disposeCover?.();cover.hidden=true;dailyPanel.hidden=true;
  const panel=document.querySelector('#load-error');panel.hidden=false;panel.querySelector('p').textContent=error.message;host.hidden=true;
 }
+

@@ -49,3 +49,16 @@
 
 /* Same quiet, right-aligned status as Daily, with a reserved line. */
 .reddit-save-context{display:grid;justify-items:end;min-width:0}.reddit-save-context .date-button{min-height:28px;padding-block:0}.reddit-save-context .reddit-save-indicator{font-size:10px;text-align:right}
+
+
+/* Dedicated entry form reuses the save creation transaction. */
+.reddit-shell.create-entry{grid-template-rows:48px minmax(0,1fr)}
+.reddit-shell.create-entry .navigation{display:none}
+.reddit-shell .new-story-entry{width:100%;max-width:520px;justify-self:center;padding:16px 8px}
+.new-story-entry h1{font-size:28px;margin:12px 0}
+.new-story-entry .save-new-story{padding:20px;border-radius:24px}
+.new-story-entry .save-new-fields{grid-template-columns:1fr;gap:16px}
+.new-story-entry input{width:100%;min-height:48px;font-size:16px}
+.new-story-entry button{min-height:48px;margin-top:12px}
+.new-story-advanced summary{min-height:48px;padding:12px 0;cursor:pointer}
+.new-story-advanced p{font-size:13px;line-height:1.5}

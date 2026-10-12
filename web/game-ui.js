@@ -4,10 +4,11 @@ import { createIndexedSaveStore } from './indexed-save-store.js';
 // UI reads PlayerView only. All career mutations go through GameSession commands.
 export function mountGame({root, GameSession, assets, css, storageKey='historia-jugador.preview.session.v1', events, saveStore, cutsceneFactory=createCutscenePlayer, saveDescription='local', compactHome=false, onDaily, careerSports, cutsceneUrl=clip=>'/web/assets/cutscenes/'+clip.file, initialView='home', autoCreateOnLoad=true, deferAutoResume=false, onMenu}) {
   const KEY=storageKey;
-  let session=null, busy=false, busyLabel='Guardando…', paused=false, platformSuspended=false, view=initialView==='save'?'save':'home', cinematic=false, message='', replacement=null, lastArt='stadium_bg', autoTimer=null, autoVisualTimer=null, lastAutoVisualAt=0;
+  let session=null, busy=false, busyLabel='Guardando…', paused=false, platformSuspended=false, view=['save','new'].includes(initialView)?initialView:'home', cinematic=false, message='', replacement=null, lastArt='stadium_bg', autoTimer=null, autoVisualTimer=null, lastAutoVisualAt=0;
   const AUTO_VISUAL_MIN_MS=280;
   let savedRaw=null, disposeCutscene=null;
   let autoResumeAllowed=!deferAutoResume;
+  let newStoryDraft={displayName:'',seed:'424242'};
   function resumeLoadedSimulation(){autoResumeAllowed=true;queueAutoStep();render();}
   const watchedKey=KEY+'.watched-cutscenes.v1';
   let watchedScenes=new Set();
@@ -155,7 +156,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     appendSemanticRows(p,rows);
     return p;
   }
-  const validViews=new Set(['home','career','world','relations','profile','save']);
+  const validViews=new Set(['home','career','world','relations','profile','save','new']);
   let historyReady=false;
   function routeState(){return {mhOwner:true,mhView:view,mhCinematic:cinematic};}
   function replaceRouteState(){if(win.history?.replaceState)win.history.replaceState(routeState(),'');}
@@ -188,7 +189,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   }
   async function load(){
     if(busy)return;busy=true;busyLabel='Cargando…';message='';render();
-    try{const raw=await store.read();savedRaw=raw;if(raw){session=await GameSession.migrateFromSave(raw,{...sessionOptions,commit});cinematic=!compactHome&&['decision','result','offer'].includes(session.getView().screen);}else{replacement=null;if(autoCreateOnLoad)session=await GameSession.create(424242,{...sessionOptions,commit});else{session=null;view='save';}}prepareHistory(); if(await store.legacyChanged())message='Otra pestaña ha cambiado la copia antigua. Puedes descargarla en Tu partida para revisarla antes de importar.'; }
+    try{const raw=await store.read();savedRaw=raw;if(raw){session=await GameSession.migrateFromSave(raw,{...sessionOptions,commit});cinematic=!compactHome&&['decision','result','offer'].includes(session.getView().screen);}else{replacement=null;if(autoCreateOnLoad)session=await GameSession.create(424242,{...sessionOptions,commit});else{session=null;if(view!=='new')view='save';}}prepareHistory(); if(await store.legacyChanged())message='Otra pestaña ha cambiado la copia antigua. Puedes descargarla en Tu partida para revisarla antes de importar.'; }
     catch(e){console.error('ELEVENFATE load failed',e);session=null;message='No se ha podido cargar el juego. Comprueba tu conexión o almacenamiento e inténtalo de nuevo. Tu copia guardada se conserva.';view='save';}
     finally{busy=false;render();queueAutoStep();}
   }
@@ -742,6 +743,33 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
       await store.write(candidate.exportSnapshot(),previous);savedRaw=JSON.stringify(candidate.exportSnapshot());session=candidate;view='home';cinematic=false;replaceRouteState();
     });}catch(e){message='No se pudo importar. '+e.message;busy=false;render();}}
   function confirmReplace(title,body,accept){const dialog=el('dialog',undefined,'dialog');dialog.append(el('h2',title),el('p',body));const actions=el('div',undefined,'dialog-actions');actions.append(button('Cancelar',()=>dialog.close()),button('Confirmar',async()=>{dialog.close();busy=true;busyLabel='Guardando tu historia…';message='';render();try{await accept();}catch(e){message=e.message;}finally{busy=false;render();}},'primary'));dialog.append(actions);shell.append(dialog);dialog.addEventListener('close',()=>dialog.remove());dialog.showModal();}
+  async function startNewStory(){
+    if(busy)return;
+    const displayName=newStoryDraft.displayName,seedText=newStoryDraft.seed.trim(),selected=Number(seedText);
+    if(!displayName.trim()){message='Introduce el nombre del jugador para empezar otra carrera.';render();return;}
+    if(!seedText||!Number.isSafeInteger(selected)||selected<0||selected>4294967295){message='Introduce un código de historia entre 0 y 4294967295.';render();return;}
+    busy=true;busyLabel='Comprobando tu partida…';message='';render();
+    let old;
+    try{old=await store.readRaw();}catch(e){message=e.message;busy=false;render();return;}
+    busy=false;render();
+    const accept=async()=>{replacement=old;session=await GameSession.create(selected,{...sessionOptions,commit,playerDisplayName:displayName});newStoryDraft={displayName:'',seed:'424242'};view='home';cinematic=false;replaceRouteState();};
+    if(old!==null){confirmReplace('Empezar otra carrera','La partida actual pasará a la copia anterior.',accept);return;}
+    busy=true;busyLabel='Creando tu carrera…';render();
+    try{await accept();}catch(e){message=e.message;}finally{busy=false;render();}
+  }
+  function newStoryPanel({compact=false}={}){
+    const n=panel(compact?'Tu jugador':'Otra historia');n.classList.add('save-new-story');
+    if(!compact)n.append(el('p','Empieza una carrera distinta usando un nombre y un código de historia. Conservaremos una copia si ya tienes una carrera.','muted'));
+    const fields=el('div',undefined,'save-new-fields');
+    const nameLabel=el('label','Nombre y apellido','file-label'),name=el('input');name.type='text';name.autocomplete='name';name.value=newStoryDraft.displayName;name.setAttribute('aria-label','Nombre y apellido de la nueva carrera');name.addEventListener('input',()=>{newStoryDraft.displayName=name.value;});nameLabel.append(name);fields.append(nameLabel);
+    const codeLabel=el('label','Código de historia','file-label'),seed=el('input');seed.type='number';seed.min='0';seed.max='4294967295';seed.value=newStoryDraft.seed;seed.setAttribute('aria-label','Código de historia de la nueva carrera');seed.addEventListener('input',()=>{newStoryDraft.seed=seed.value;});codeLabel.append(seed);
+    if(compact){const advanced=el('details',undefined,'new-story-advanced');advanced.append(el('summary','Opciones de historia'),el('p','El mismo código permite empezar la misma historia desde el inicio.','muted'),codeLabel);fields.append(advanced);}else fields.append(codeLabel);
+    n.append(fields,button(compact?'Empezar mi carrera':'Empezar otra carrera',startNewStory,'primary'));return n;
+  }
+  function newStory(v,main){
+    main.classList.add('new-story-entry');main.append(el('h1','Nueva partida'),el('p','Elige el nombre de tu futbolista.','muted'),newStoryPanel({compact:true}));
+    if(onMenu)main.append(button('Cancelar',()=>{if(!busy)onMenu();}));
+  }
   function saves(v,main){
     main.classList.add('p8-save');
     const intro=el('header',undefined,'save-intro');
@@ -774,12 +802,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     }
     recovery.append(support);main.append(recovery);
 
-    const n=panel('Otra historia');n.classList.add('save-new-story');n.append(el('p','Empieza una carrera distinta usando un nombre y un código de historia. El mismo código permite reproducir esta historia desde el inicio; tu identidad se guarda con la partida. Conservaremos una copia de tu carrera actual.','muted'));
-    const fields=el('div',undefined,'save-new-fields');
-    const nameLabel=el('label','Nombre y apellido','file-label'),newPlayerName=el('input');newPlayerName.type='text';newPlayerName.autocomplete='name';newPlayerName.setAttribute('aria-label','Nombre y apellido de la nueva carrera');nameLabel.append(newPlayerName);
-    const codeLabel=el('label','Código de historia','file-label');const seed=el('input');seed.type='number';seed.min='0';seed.max='4294967295';seed.value='424242';seed.setAttribute('aria-label','Código de historia de la nueva carrera');codeLabel.append(seed);
-    fields.append(nameLabel,codeLabel);n.append(fields,button('Empezar otra carrera',async()=>{const displayName=newPlayerName.value;if(!displayName.trim()){message='Introduce el nombre del jugador para empezar otra carrera.';render();return;}const selected=Number(seed.value);if(!Number.isSafeInteger(selected)||selected<0||selected>4294967295){message='Introduce un código de historia entre 0 y 4294967295.';render();return;}let old;try{old=await store.readRaw();}catch(e){message=e.message;render();return;}confirmReplace('Empezar otra carrera','La partida actual pasará a la copia anterior.',async()=>{replacement=old;session=await GameSession.create(selected,{...sessionOptions,commit,playerDisplayName:displayName});view='home';cinematic=false;replaceRouteState();});}));
-    main.append(n);
+    main.append(newStoryPanel());
     if(store.remove){
       const privacy=panel('Eliminar tu carrera');
       privacy.append(el('p','Elimina de esta comunidad tu carrera y su copia anterior. Descarga una copia antes si quieres conservarla.','muted'),button('Eliminar carrera de Reddit',()=>confirmReplace('Eliminar carrera de Reddit','Se eliminarán tu partida y su copia anterior. Esta acción no se puede deshacer sin una exportación.',async()=>{await store.remove();suspendAutoScheduler();session=null;savedRaw=null;replacement=null;message='Carrera eliminada. Puedes empezar otra cuando quieras.';view='save';})));
@@ -803,11 +826,11 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
       }
     }
   }
-  function render(focus=false){disposeCutscene?.();disposeCutscene=null;if(autoVisualTimer!==null){clearTimeout(autoVisualTimer);autoVisualTimer=null;}const v=session?.getView();shell.replaceChildren();const frame=doc.createDocumentFragment();shell.classList.toggle('immersive',cinematic&&!!v);const header=el('header',undefined,'topbar');const brand=el('div',undefined,'brand');brand.append(assets.brand_emblem?photo('brand_emblem','brand-emblem'):el('span','E','brand-mark'));const name=el('div');name.append(el('strong','ELEVENFATE'),el('small','Carrera de futbolista'));brand.append(name);const simMode=v?.simulation?.mode;const pause=v&&['auto_simulating','paused'].includes(simMode)?button(simMode==='paused'?'Reanudar':'Pausar',pauseToggle,'secondary',{ariaLabel:simMode==='paused'?'Reanudar la simulación':'Pausar la simulación',pressed:simMode==='paused'}):null;if(pause)pause.classList.add('pause-button');const dateControl=button(v?date(v.date)+' · Partida':'Tu partida',()=>navigate('save'),'date-button',{ariaLabel:v?'Abrir Tu partida y el contexto de guardado de '+date(v.date):'Abrir Tu partida'});let saveContext=dateControl;if(compactHome){saveContext=el('div',undefined,'reddit-save-context');const sync=el('span',busy?busyLabel:'','reddit-save-indicator');sync.setAttribute('role','status');sync.setAttribute('aria-live','polite');sync.dataset.pending=String(busy);saveContext.append(dateControl,sync);}if(onMenu){const menu=button('Portada',()=>{if(busy||shell.querySelector('dialog[open]'))return;suspendAutoScheduler();onMenu();},'secondary',{ariaLabel:'Volver a portada'});header.append(menu);}
+  function render(focus=false){disposeCutscene?.();disposeCutscene=null;if(autoVisualTimer!==null){clearTimeout(autoVisualTimer);autoVisualTimer=null;}const v=session?.getView();shell.replaceChildren();const frame=doc.createDocumentFragment();shell.classList.toggle('immersive',cinematic&&!!v);shell.classList.toggle('create-entry',view==='new');const header=el('header',undefined,'topbar');const brand=el('div',undefined,'brand');brand.append(assets.brand_emblem?photo('brand_emblem','brand-emblem'):el('span','E','brand-mark'));const name=el('div');name.append(el('strong','ELEVENFATE'),el('small','Carrera de futbolista'));brand.append(name);const simMode=v?.simulation?.mode;const pause=v&&['auto_simulating','paused'].includes(simMode)?button(simMode==='paused'?'Reanudar':'Pausar',pauseToggle,'secondary',{ariaLabel:simMode==='paused'?'Reanudar la simulación':'Pausar la simulación',pressed:simMode==='paused'}):null;if(pause)pause.classList.add('pause-button');const dateControl=button(v?date(v.date)+' · Partida':'Tu partida',()=>navigate('save'),'date-button',{ariaLabel:v?'Abrir Tu partida y el contexto de guardado de '+date(v.date):'Abrir Tu partida'});let saveContext=dateControl;if(compactHome){saveContext=el('div',undefined,'reddit-save-context');const sync=el('span',busy?busyLabel:'','reddit-save-indicator');sync.setAttribute('role','status');sync.setAttribute('aria-live','polite');sync.dataset.pending=String(busy);saveContext.append(dateControl,sync);}if(onMenu){const menu=button('Portada',()=>{if(busy||shell.querySelector('dialog[open]'))return;suspendAutoScheduler();onMenu();},'secondary',{ariaLabel:'Volver a portada'});header.append(menu);}
     header.append(brand,el('span',v?'Temporada '+v.season.replace('-',' / 20'):'Una vida. Mil decisiones.','chapter'),...(pause?[pause]:[]),saveContext);frame.append(header);
     const nav=el('nav',undefined,'navigation');nav.setAttribute('aria-label','Navegación principal');for(const [key,label]of[['home','Inicio'],['career','Carrera'],['world','Mundo'],['relations','Relaciones'],['profile','Perfil'],['save','Tu partida']]){const b=button(label,()=>navigate(key),'nav-button');b.prepend(icon(key));if(key===view){b.classList.add('active');b.setAttribute('aria-current','page');}nav.append(b);}const foot=el('div',undefined,'nav-foot');foot.append(el('span','Cada elección cuenta.'),el('small','De principio a fin.'));nav.append(foot);frame.append(nav);
     const main=el('main');main.tabIndex=0;main.setAttribute('aria-busy',String(busy));frame.append(main);
-    if(v){if(cinematic&&['decision','result','offer'].includes(v.screen))renderDecision(v,main);else({home,career,world,relations,profile,save:saves})[view](v,main);}else if(view==='save')saves(null,main);else{const cover=el('section',undefined,'brand-welcome');if(assets.brand_cover)cover.append(photo('brand_cover','brand-cover'));cover.append(el('h1','Tu historia está a punto de empezar'),el('p','Tu carrera. Tu destino.','muted'));main.append(cover);}
+    if(v){if(cinematic&&['decision','result','offer'].includes(v.screen))renderDecision(v,main);else({home,career,world,relations,profile,save:saves,new:newStory})[view](v,main);}else if(view==='save')saves(null,main);else if(view==='new')newStory(null,main);else{const cover=el('section',undefined,'brand-welcome');if(assets.brand_cover)cover.append(photo('brand_cover','brand-cover'));cover.append(el('h1','Tu historia está a punto de empezar'),el('p','Tu carrera. Tu destino.','muted'));main.append(cover);}
     if(message){const alert=el('div',undefined,'alert');alert.setAttribute('role','alert');alert.append(el('p',message),button('Tu partida',()=>navigate('save')));frame.append(alert);}
     if(busy){if(!compactHome){const status=el('div',busyLabel,'busy-status');status.setAttribute('role','status');frame.append(status);}}else if(paused||v?.simulation?.mode==='paused'){const status=el('div','Juego en pausa · reanuda cuando quieras.','pause-status');status.setAttribute('role','status');frame.append(status);}else if(v?.simulation?.mode==='auto_simulating'){const status=el('div','Simulando el siguiente tramo…','save-status');frame.append(status);}else{const status=el('div',session?'Guardado automático · '+decisionCount(v?.decisionsMade||0):'','save-status');frame.append(status);}
     if(v&&['auto_simulating','paused'].includes(v.simulation?.mode)){const live=el('span',v.simulation.mode==='paused'?'Simulación pausada.':'Simulación en curso.','p5-live-status');live.setAttribute('role','status');live.setAttribute('aria-live','polite');frame.append(live);}
@@ -821,3 +844,4 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   root.addEventListener('keydown',keyboard);win.addEventListener?.('popstate',popstate);win.addEventListener?.('muir:platform-pause',platformpause);win.addEventListener?.('muir:platform-resume',platformresume);doc.addEventListener('visibilitychange',visibilitychange);load();
   return ()=>{win.removeEventListener?.('elevenfate:ads-state',adsstate);disposeCutscene?.();clearTimeout(autoTimer);if(autoVisualTimer!==null)clearTimeout(autoVisualTimer);store.close().catch(()=>{});root.removeEventListener('keydown',keyboard);win.removeEventListener?.('popstate',popstate);win.removeEventListener?.('muir:platform-pause',platformpause);win.removeEventListener?.('muir:platform-resume',platformresume);doc.removeEventListener('visibilitychange',visibilitychange);shell.remove();style.remove();};
 }
+
