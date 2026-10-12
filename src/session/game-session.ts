@@ -198,6 +198,7 @@ export interface PublicPlayerActionHistoryView {
   date: string;
   actionId: string;
   actionLabel: string;
+  optionId: string;
   optionLabel: string;
   text: string;
 }
@@ -206,7 +207,7 @@ export interface PublicPlayerActionsView {
   unavailableReason: string | null;
   categories: PublicPlayerActionCategoryView[];
   history: PublicPlayerActionHistoryView[];
-  lastResult: { executionId: string; date: string; text: string } | null;
+  lastResult: { executionId: string; date: string; actionId: string; optionId: string; text: string } | null;
 }
 
 export interface PlayerView {
@@ -405,6 +406,7 @@ function publicPlayerActionsView(snapshot: SessionSnapshot): PublicPlayerActions
       date: entry.date,
       actionId: entry.actionId,
       actionLabel: definition?.label ?? entry.actionId,
+      optionId: entry.optionId,
       optionLabel: option?.label ?? entry.optionId,
       text: entry.visibleResult
     };
@@ -419,7 +421,7 @@ function publicPlayerActionsView(snapshot: SessionSnapshot): PublicPlayerActions
       actions
     })),
     history,
-    lastResult: last ? { executionId: last.executionId, date: last.date, text: last.text } : null
+    lastResult: last ? { executionId: last.executionId, date: last.date, actionId: last.actionId, optionId: last.optionId, text: last.text } : null
   };
 }
 

@@ -7,7 +7,9 @@ import {careerSaveCatalog} from '../i18n/career-save-catalog.mjs';
 import {careerHomeCatalog} from '../i18n/career-home-catalog.mjs';
 import {presentCareerSports} from './career-sports-locale.mjs';
 import {careerPanelsCatalog} from '../i18n/career-panels-catalog.mjs';
-export const presentationCatalog={es:{...esBase.ui,...coverCatalog.es,...dailyCatalog.es,...careerEntryCatalog.es,...careerSaveCatalog.es,...careerHomeCatalog.es,...careerPanelsCatalog.es},en:{...enBase.ui,...coverCatalog.en,...dailyCatalog.en,...careerEntryCatalog.en,...careerSaveCatalog.en,...careerHomeCatalog.en,...careerPanelsCatalog.en}};
+import {careerRecordCatalog} from '../i18n/career-record-catalog.mjs';
+import {presentPlayerActions,presentPlayerActionHistory} from './player-actions-locale.mjs';
+export const presentationCatalog={es:{...esBase.ui,...coverCatalog.es,...dailyCatalog.es,...careerEntryCatalog.es,...careerSaveCatalog.es,...careerHomeCatalog.es,...careerPanelsCatalog.es,...careerRecordCatalog.es},en:{...enBase.ui,...coverCatalog.en,...dailyCatalog.en,...careerEntryCatalog.en,...careerSaveCatalog.en,...careerHomeCatalog.en,...careerPanelsCatalog.en,...careerRecordCatalog.en}};
 const normalize=value=>typeof value==='string'?({es:'es',en:'en'})[value.trim().toLowerCase().split('-')[0]]??null:null;
 // Locale is presentation preference only. No engine, session, save or network imports.
 export function createPresentationLocale({storage=null,key='elevenfate.presentation.locale.v1',availableLocales=['es'],initialLocale=null}={}){
@@ -16,6 +18,8 @@ export function createPresentationLocale({storage=null,key='elevenfate.presentat
  try{remembered=storage?.getItem(key);}catch{}
  let locale=normalize(initialLocale??remembered);if(!available.has(locale))locale='es';
  return {
+  presentPlayerActions:actions=>presentPlayerActions(actions,locale),
+  presentPlayerActionHistory:row=>presentPlayerActionHistory(row,locale),
   presentCareerSports:sports=>presentCareerSports(sports,locale),
   getLocale:()=>locale,isAvailable:value=>available.has(normalize(value)),
   setLocale(value){const next=normalize(value);if(!available.has(next))return false;const changed=next!==locale;locale=next;try{storage?.setItem(key,locale);}catch{}if(changed)for(const listener of [...listeners])listener(locale);return true;},

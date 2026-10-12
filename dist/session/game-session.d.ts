@@ -153,6 +153,7 @@ export interface PublicPlayerActionHistoryView {
     date: string;
     actionId: string;
     actionLabel: string;
+    optionId: string;
     optionLabel: string;
     text: string;
 }
@@ -164,6 +165,8 @@ export interface PublicPlayerActionsView {
     lastResult: {
         executionId: string;
         date: string;
+        actionId: string;
+        optionId: string;
         text: string;
     } | null;
 }

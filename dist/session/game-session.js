@@ -203,6 +203,7 @@ function publicPlayerActionsView(snapshot) {
             date: entry.date,
             actionId: entry.actionId,
             actionLabel: definition?.label ?? entry.actionId,
+            optionId: entry.optionId,
             optionLabel: option?.label ?? entry.optionId,
             text: entry.visibleResult
         };
@@ -217,7 +218,7 @@ function publicPlayerActionsView(snapshot) {
             actions
         })),
         history,
-        lastResult: last ? { executionId: last.executionId, date: last.date, text: last.text } : null
+        lastResult: last ? { executionId: last.executionId, date: last.date, actionId: last.actionId, optionId: last.optionId, text: last.text } : null
     };
 }
 function requireEvidence(evidence, eventId, code = "INVALID_SAVE") {

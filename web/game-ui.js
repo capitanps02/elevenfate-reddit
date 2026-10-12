@@ -61,7 +61,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   const position=v=>{const labels={winger:'Extremo',midfielder:'Centrocampista',striker:'Delantero',defender:'Defensa',goalkeeper:'Portero'};return copy('career.position.'+(Object.hasOwn(labels,v.position)?v.position:'other'),labels[v.position]||'Futbolista');};
   const svgPaths={home:'M3 10 12 3l9 7v11h-6v-7H9v7H3z',career:'M5 3h14v18H5z M8 8h8M8 12h8M8 16h5',world:'M3 12h18M12 3c-5 5-5 13 0 18 5-5 5-13 0-18 M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18',relations:'M2 21c0-9 13-9 13 0M15 14c4-1 7 2 7 6 M8.5 3a4 4 0 1 0 0 8 4 4 0 1 0 0-8 M17 5a3 3 0 0 1 0 6',profile:'M4 21c0-10 16-10 16 0 M12 3a4 4 0 1 0 0 8 4 4 0 1 0 0-8',save:'M4 3h14l3 3v15H3V3h1 M7 3v7h10V3M7 21v-7h10v7',arrow:'M4 12h15M14 6l6 6-6 6','pa-training':'M7 8v8M17 8v8M4 10v4M20 10v4M7 12h10','pa-health':'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.6-7 10-7 10z','pa-representative':'M4 8h16v11H4z M9 8V5h6v3 M4 12h16 M10 12v2h4v-2','pa-image':'M4 7h4l2-2h4l2 2h4v12H4z M12 10a4 4 0 1 0 0 8 4 4 0 1 0 0-8','pa-life':'M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18 M12 7v5l3 2'};
   function icon(name){const key=svgPaths[name]?name:'arrow';const s=doc.createElementNS('http://www.w3.org/2000/svg','svg');s.classList.add('muir-icon');s.dataset.icon=key;s.setAttribute('viewBox','0 0 24 24');s.setAttribute('aria-hidden','true');s.setAttribute('focusable','false');const p=doc.createElementNS(s.namespaceURI,'path');p.setAttribute('d',svgPaths[key]);s.append(p);return s;}
-  function button(text,fn,cls='secondary',options={}){const b=el('button',undefined,cls);b.type='button';b.append(el('span',text));b.disabled=busy||options.disabled===true||(paused&&options.blockedWhenPaused===true);if(options.allowDuringRead&&!autoCreateOnLoad&&busyKind==='read'&&options.disabled!==true&&!(paused&&options.blockedWhenPaused===true))b.disabled=false;if(options.ariaLabel)b.setAttribute('aria-label',options.ariaLabel);if(options.pressed!==undefined)b.setAttribute('aria-pressed',String(options.pressed));b.addEventListener('click',fn);return b;}
+  function button(text,fn,cls='secondary',options={}){const b=el('button',undefined,cls);b.type='button';b.append(el('span',text));b.disabled=busy||options.disabled===true||(paused&&options.blockedWhenPaused===true);if(options.allowDuringRead&&!autoCreateOnLoad&&busyKind==='read'&&options.disabled!==true&&!(paused&&options.blockedWhenPaused===true))b.disabled=false;if(options.localeFocus)b.dataset.localeFocus=options.localeFocus;if(options.ariaLabel)b.setAttribute('aria-label',options.ariaLabel);if(options.pressed!==undefined)b.setAttribute('aria-pressed',String(options.pressed));b.addEventListener('click',fn);return b;}
   function photo(name,cls='photo'){const img=el('img',undefined,cls);img.src=assets[name]||assets.stadium_bg;img.alt='';img.draggable=false;return img;}
   function panel(title){const p=el('article',undefined,'panel');p.append(el('h2',title));return p;}
   function semanticRow(label,value,cls='data-row'){
@@ -81,26 +81,26 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   function latestMatchCard(m,{empty=false}={}){
     if(!m){
       if(!empty)return null;
-      const p=panel('Último partido oficial');p.classList.add('semantic-card','latest-match-card','semantic-empty');
-      p.append(el('p','Todavía no hay un último partido oficial registrado.','muted'));return p;
+      const p=panel(copy('career.record.latest','Último partido oficial'));p.classList.add('semantic-card','latest-match-card','semantic-empty');
+      p.append(el('p',copy('career.record.noLatest','Todavía no hay un último partido oficial registrado.'),'muted'));return p;
     }
-    const p=panel('Último partido oficial');p.classList.add('semantic-card','latest-match-card');p.append(el('time',date(m.date),'eyebrow'));
+    const p=panel(copy('career.record.latest','Último partido oficial'));p.classList.add('semantic-card','latest-match-card');p.append(el('time',date(m.date),'eyebrow'));
     const home=m.homeAway==='home'?clubName(m.club):clubName(m.opponent),away=m.homeAway==='home'?clubName(m.opponent):clubName(m.club);
     p.append(el('p',m.result?`${home} ${m.result.homeGoals} – ${m.result.awayGoals} ${away}`:`${home} · ${away}`,'season-club semantic-club-name'));
-    const participation=!m.available?'No disponible para este partido':!m.selected?'No convocado':m.minutes===0?'Suplente sin minutos':m.started?'Titular':'Entraste desde el banquillo';
+    const participation=!m.available?copy('career.record.notAvailable','No disponible para este partido'):!m.selected?copy('career.record.notSelected','No convocado'):m.minutes===0?copy('career.record.noMinutes','Suplente sin minutos'):m.started?copy('career.record.starter','Titular'):copy('career.record.substitute','Entraste desde el banquillo');
     p.append(el('p',participation,'muted'));
-    const rows=[['Competición',m.competition==='league'?'Liga':null],['Minutos',Number.isFinite(m.minutes)?m.minutes:null],['Goles',Number.isFinite(m.goals)?m.goals:null],['Asistencias',Number.isFinite(m.assists)?m.assists:null],['Valoración',typeof m.rating==='number'?decimal(m.rating):null]];
+    const rows=[[copy('career.record.competition','Competición'),m.competition==='league'?copy('career.record.league','Liga'):null],[copy('career.record.minutes','Minutos'),Number.isFinite(m.minutes)?m.minutes:null],[copy('career.record.goals','Goles'),Number.isFinite(m.goals)?m.goals:null],[copy('career.record.assists','Asistencias'),Number.isFinite(m.assists)?m.assists:null],[copy('career.record.rating','Valoración'),typeof m.rating==='number'?decimal(m.rating):null]];
     appendSemanticRows(p,rows);
-    const labels={first_call_up:'primera convocatoria',first_bench:'primera suplencia',debut:'debut',first_start:'primera titularidad',first_full_match:'primer partido completo',first_goal:'primer gol',first_assist:'primera asistencia'};
-    const milestones=(m.milestones??[]).map(x=>labels[x]||(/^appearance_\d+$/.test(x)?x.replace('appearance_','partido nº '):null)).filter(Boolean);
-    if(milestones.length)p.append(el('p','Hitos: '+milestones.join(' · '),'career-milestone'));
+    const labels={first_call_up:copy('career.record.first_call_up','primera convocatoria'),first_bench:copy('career.record.first_bench','primera suplencia'),debut:copy('career.record.matchDebut','debut'),first_start:copy('career.record.first_start','primera titularidad'),first_full_match:copy('career.record.first_full_match','primer partido completo'),first_goal:copy('career.record.first_goal','primer gol'),first_assist:copy('career.record.first_assist','primera asistencia')};
+    const milestones=(m.milestones??[]).map(x=>labels[x]||(/^appearance_\d+$/.test(x)?copy('career.record.matchNumber',x.replace('appearance_','partido nº '),{number:x.slice('appearance_'.length)}):null)).filter(Boolean);
+    if(milestones.length)p.append(el('p',copy('career.record.matchMilestones','Hitos: '+milestones.join(' · '),{items:milestones.join(' · ')}),'career-milestone'));
     return p;
   }
   function careerSeasonCard(s){
     if(!s||!s.season)return null;
-    const p=panel('Temporada '+seasonText(s.season));p.classList.add('semantic-card','career-season-card');
+    const p=panel(copy('career.record.season','Temporada '+seasonText(s.season),{season:seasonText(s.season)}));p.classList.add('semantic-card','career-season-card');
     const clubLabel=clubName(s.club);if(clubLabel)p.append(el('p',clubLabel,'season-club semantic-club-name'));
-    appendSemanticRows(p,[['Partidos',Number.isFinite(s.appearances)?s.appearances:null],['Titularidades',Number.isFinite(s.starts)?s.starts:null],['Minutos',Number.isFinite(s.minutes)?s.minutes:null],['Goles',Number.isFinite(s.goals)?s.goals:null],['Asistencias',Number.isFinite(s.assists)?s.assists:null],['Valoración media',typeof s.averageRating==='number'?decimal(s.averageRating):null]]);
+    appendSemanticRows(p,[[copy('career.record.matches','Partidos'),Number.isFinite(s.appearances)?s.appearances:null],[copy('career.record.starts','Titularidades'),Number.isFinite(s.starts)?s.starts:null],[copy('career.record.minutes','Minutos'),Number.isFinite(s.minutes)?s.minutes:null],[copy('career.record.goals','Goles'),Number.isFinite(s.goals)?s.goals:null],[copy('career.record.assists','Asistencias'),Number.isFinite(s.assists)?s.assists:null],[copy('career.record.average','Valoración media'),typeof s.averageRating==='number'?decimal(s.averageRating):null]]);
     return p;
   }
   function contractSummary(v,{compact=false}={}){
@@ -314,32 +314,32 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
       if(completed)queueAutoStep();
     }
   }
-  const PLAYER_ACTION_CATEGORY_COPY={
-    career:'Habla con entrenador, representante o club cuando el sistema lo permita.',
-    training:'Trabaja aspectos concretos de tu preparación.',
-    representative:'Consulta y gestiona tu relación con la representación.',
-    relationships:'Interactúa voluntariamente con personas de tu carrera.',
-    image:'Gestiona tu exposición pública cuando haya opciones disponibles.',
-    life:'Descanso y decisiones personales fuera del campo.',
-    health:'Recuperación y cuidado personal cuando estén disponibles.'
-  };
+  const PLAYER_ACTION_CATEGORY_COPY=()=>({
+    career:copy('actions.help.career','Habla con entrenador, representante o club cuando el sistema lo permita.'),
+    training:copy('actions.help.training','Trabaja aspectos concretos de tu preparación.'),
+    representative:copy('actions.help.representative','Consulta y gestiona tu relación con la representación.'),
+    relationships:copy('actions.help.relationships','Interactúa voluntariamente con personas de tu carrera.'),
+    image:copy('actions.help.image','Gestiona tu exposición pública cuando haya opciones disponibles.'),
+    life:copy('actions.help.life','Descanso y decisiones personales fuera del campo.'),
+    health:copy('actions.help.health','Recuperación y cuidado personal cuando estén disponibles.')
+  });
   const PLAYER_ACTION_CATEGORY_ICONS={career:'career',training:'pa-training',health:'pa-health',representative:'pa-representative',relationships:'relations',image:'pa-image',life:'pa-life'};
   function resetPlayerActions(){playerActionUi={screen:'career',categoryId:null,actionId:null,targetId:null,resultExecutionId:null};}
   function cooldownText(v,a){
     if(!a?.cooldownUntil)return '';
-    return 'Disponible de nuevo el '+date(a.cooldownUntil)+'.';
+    return copy('actions.ui.cooldown','Disponible de nuevo el '+date(a.cooldownUntil)+'.',{date:date(a.cooldownUntil)});
   }
   function playerActionStatus(source){
-    if(source?.available)return {label:'Disponible',state:'available'};
-    if(source?.cooldownUntil)return {label:'Cooldown activo',state:'cooldown'};
-    return {label:'No disponible',state:'unavailable'};
+    if(source?.available)return {label:copy('actions.ui.available','Disponible'),state:'available'};
+    if(source?.cooldownUntil)return {label:copy('actions.ui.cooldownState','Cooldown activo'),state:'cooldown'};
+    return {label:copy('actions.ui.unavailable','No disponible'),state:'unavailable'};
   }
   function playerActionStatusNode(source){
     const status=playerActionStatus(source),node=el('span',status.label,'player-action-status');
     node.dataset.state=status.state;
     return node;
   }
-  function appendPlayerActionAvailability(container,v,source,fallback='Ahora mismo no está disponible.'){
+  function appendPlayerActionAvailability(container,v,source,fallback=copy('actions.ui.notNow','Ahora mismo no está disponible.')){
     container.append(playerActionStatusNode(source));
     if(source?.available)return;
     const cooldown=cooldownText(v,source);
@@ -352,51 +352,52 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   function openPlayerActions(){const v=session?.getView();if(!v||v.screen!=='career'||v.simulation?.mode!=='idle'||!v.actions?.available)return;view='career';cinematic=false;playerActionUi={screen:'player_action_menu',categoryId:null,actionId:null,targetId:null,resultExecutionId:null};render(true);}
   function renderPlayerActions(v,main){
     if(v.screen!=='career'||v.simulation?.mode!=='idle'||!v.actions?.available){resetPlayerActions();return false;}
+    if(presentationLocale?.presentPlayerActions){try{v={...v,actions:presentationLocale.presentPlayerActions(v.actions)};}catch(error){if(error.code!=='MISSING_PLAYER_ACTION_TRANSLATION')throw error;const notice=el('p',copy('actions.ui.translationPending','Estas acciones están disponibles en Español. Cambia el idioma para verlas.'));notice.setAttribute('role','status');main.append(el('h1',copy('career.record.manage','Gestionar mi carrera')),notice,button(copy('actions.ui.backCareer','Volver a carrera'),()=>{resetPlayerActions();render(true);}));return true;}}
     if(playerActionUi.screen==='player_action_menu'){
-      main.append(el('span','GESTIONAR MI CARRERA','eyebrow'),el('h1','¿Qué quieres hacer?'),el('p','Opcional: entra sólo si quieres hacer algo antes de simular.','muted'));
+      main.append(el('span',copy('actions.ui.eyebrow','GESTIONAR MI CARRERA'),'eyebrow'),el('h1',copy('actions.ui.question','¿Qué quieres hacer?')),el('p',copy('actions.ui.intro','Opcional: entra sólo si quieres hacer algo antes de simular.'),'muted'));
       const grid=el('div',undefined,'player-action-grid');
       for(const c of v.actions.categories){
         const p=panel(c.label);p.classList.add('player-action-card','player-action-category-card');
         const heading=p.querySelector('h2');if(heading){heading.classList.add('player-action-category-title');heading.prepend(icon(PLAYER_ACTION_CATEGORY_ICONS[c.id]||'career'));}
-        p.append(el('p',PLAYER_ACTION_CATEGORY_COPY[c.id]||'Acciones voluntarias de tu carrera.','muted'),button('Ver acciones',()=>{playerActionUi={screen:'player_action_category',categoryId:c.id,actionId:null,targetId:null,resultExecutionId:null};render(true);},'secondary',{ariaLabel:'Ver acciones de '+c.label}));grid.append(p);
+        p.append(el('p',PLAYER_ACTION_CATEGORY_COPY()[c.id]||copy('actions.ui.genericHelp','Acciones voluntarias de tu carrera.'),'muted'),button(copy('actions.ui.view','Ver acciones'),()=>{playerActionUi={screen:'player_action_category',categoryId:c.id,actionId:null,targetId:null,resultExecutionId:null};render(true);},'secondary',{localeFocus:'category-'+c.id,ariaLabel:copy('actions.ui.viewA11y','Ver acciones de '+c.label,{category:c.label})}));grid.append(p);
       }
-      main.append(grid,button('Volver a carrera',()=>{resetPlayerActions();render(true);},'ghost player-action-back'));
+      main.append(grid,button(copy('actions.ui.backCareer','Volver a carrera'),()=>{resetPlayerActions();render(true);},'ghost player-action-back'));
       return true;
     }
     const category=v.actions.categories.find(c=>c.id===playerActionUi.categoryId);
     if(!category){playerActionUi={screen:'player_action_menu',categoryId:null,actionId:null,targetId:null,resultExecutionId:null};return renderPlayerActions(v,main);}
     if(playerActionUi.screen==='player_action_category'){
-      main.append(el('span','GESTIONAR MI CARRERA','eyebrow'),el('h1',category.label),el('p',PLAYER_ACTION_CATEGORY_COPY[category.id]||'Acciones voluntarias.','muted'));
+      main.append(el('span',copy('actions.ui.eyebrow','GESTIONAR MI CARRERA'),'eyebrow'),el('h1',category.label),el('p',PLAYER_ACTION_CATEGORY_COPY()[category.id]||copy('actions.ui.shortHelp','Acciones voluntarias.'),'muted'));
       const list=el('div',undefined,'player-action-list');
       for(const a of category.actions){
         const p=panel(a.label);p.classList.add('player-action-card');p.append(el('p',a.description,'muted'));
         const reasonSource=!a.available&&a.targetKind!=='none'?(a.targets?.find(target=>target.cooldownUntil)??a.targets?.find(target=>!target.available)??a):a;
-        appendPlayerActionAvailability(p,v,reasonSource,a.unavailableReason||'Ahora mismo no está disponible.');
-        p.append(button('Abrir',()=>{playerActionUi={screen:'player_action_detail',categoryId:category.id,actionId:a.id,targetId:null,resultExecutionId:null};render(true);},'secondary',{disabled:!a.available,ariaLabel:'Abrir '+a.label}));
+        appendPlayerActionAvailability(p,v,reasonSource,a.unavailableReason||copy('actions.ui.notNow','Ahora mismo no está disponible.'));
+        p.append(button(copy('actions.ui.open','Abrir'),()=>{playerActionUi={screen:'player_action_detail',categoryId:category.id,actionId:a.id,targetId:null,resultExecutionId:null};render(true);},'secondary',{localeFocus:'action-'+a.id,disabled:!a.available,ariaLabel:copy('actions.ui.openA11y','Abrir '+a.label,{action:a.label})}));
         list.append(p);
       }
-      main.append(list,button('Volver a categorías',()=>{playerActionUi={screen:'player_action_menu',categoryId:null,actionId:null,targetId:null,resultExecutionId:null};render(true);},'ghost player-action-back'),button('Volver a carrera',()=>{resetPlayerActions();render(true);},'ghost player-action-back'));
+      main.append(list,button(copy('actions.ui.backCategories','Volver a categorías'),()=>{playerActionUi={screen:'player_action_menu',categoryId:null,actionId:null,targetId:null,resultExecutionId:null};render(true);},'ghost player-action-back'),button(copy('actions.ui.backCareer','Volver a carrera'),()=>{resetPlayerActions();render(true);},'ghost player-action-back'));
       return true;
     }
     const a=selectedPlayerAction(v);
     if(!a){playerActionUi={screen:'player_action_category',categoryId:category.id,actionId:null,targetId:null,resultExecutionId:null};return renderPlayerActions(v,main);}
     if(playerActionUi.screen==='player_action_detail'){
-      main.append(el('span','ACCIÓN VOLUNTARIA','eyebrow'),el('h1',a.label),el('p',a.description,'muted'),playerActionStatusNode(a));
+      main.append(el('span',copy('actions.ui.voluntary','ACCIÓN VOLUNTARIA'),'eyebrow'),el('h1',a.label),el('p',a.description,'muted'),playerActionStatusNode(a));
       const requiresTarget=a.targetKind!=='none';
       const targets=a.targets??[];
       const selectedTarget=requiresTarget?(targets.find(target=>target.id===playerActionUi.targetId)??(targets.length===1?targets[0]:null)):null;
       if(requiresTarget){
-        main.append(el('h2','¿Con quién?'));
+        main.append(el('h2',copy('actions.ui.who','¿Con quién?')));
         const targetList=el('div',undefined,'player-action-targets');
         for(const target of targets){
           const p=el('div',undefined,'player-action-option player-action-target');
           const selected=selectedTarget?.id===target.id;if(selected)p.classList.add('selected');
           p.append(el('strong',target.label),el('p',target.role,'muted'));
-          appendPlayerActionAvailability(p,v,target,'Este objetivo no está disponible.');
-          p.append(button(selected?'Seleccionado':'Elegir',()=>{playerActionUi={...playerActionUi,targetId:target.id};render(true);},selected?'primary':'secondary',{disabled:!target.available,pressed:selected,ariaLabel:(selected?'Objetivo seleccionado: ':'Elegir objetivo: ')+target.label}));
+          appendPlayerActionAvailability(p,v,target,copy('actions.ui.targetUnavailable','Este objetivo no está disponible.'));
+          p.append(button(selected?copy('actions.ui.selected','Seleccionado'):copy('actions.ui.choose','Elegir'),()=>{playerActionUi={...playerActionUi,targetId:target.id};render(true);},selected?'primary':'secondary',{localeFocus:'target-'+target.id,disabled:!target.available,pressed:selected,ariaLabel:copy(selected?'actions.ui.selectedA11y':'actions.ui.chooseA11y',(selected?'Objetivo seleccionado: ':'Elegir objetivo: ')+target.label,{name:target.label})}));
           targetList.append(p);
         }
-        if(!targets.length)targetList.append(el('p',a.unavailableReason||'No hay un objetivo disponible.','player-action-reason'));
+        if(!targets.length)targetList.append(el('p',a.unavailableReason||copy('actions.ui.noTarget','No hay un objetivo disponible.'),'player-action-reason'));
         main.append(targetList);
       }
       const availabilitySource=selectedTarget??a;
@@ -404,7 +405,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
         const detailState=el('div',undefined,'player-action-detail-state');
         const cooldown=cooldownText(v,availabilitySource);if(cooldown)detailState.append(el('p',cooldown,'player-action-cooldown'));
         if(availabilitySource.unavailableReason)detailState.append(el('p',availabilitySource.unavailableReason,'player-action-reason'));
-        else if(!cooldown)detailState.append(el('p','Ahora mismo no está disponible.','player-action-reason'));
+        else if(!cooldown)detailState.append(el('p',copy('actions.ui.notNow','Ahora mismo no está disponible.'),'player-action-reason'));
         main.append(detailState);
       }
       const options=el('div',undefined,'player-action-options');
@@ -416,19 +417,19 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
         p.append(button(o.label,()=>run('player_action',{actionId:a.id,optionId:o.id,...(selectedTarget?{targetId:selectedTarget.id}:{})},()=>{
           const latest=session.getView().actions?.lastResult;
           playerActionUi={screen:'player_action_result',categoryId:category.id,actionId:a.id,targetId:selectedTarget?.id??null,resultExecutionId:latest?.executionId??null};
-        }),'secondary',{disabled:!enabled}));
+        }),'secondary',{localeFocus:'option-'+a.id+'-'+o.id,disabled:!enabled}));
         if(!enabled&&o.unavailableReason&&o.unavailableReason!==availabilitySource.unavailableReason)p.append(el('p',o.unavailableReason,'player-action-reason'));
         options.append(p);
       }
-      if(requiresTarget&&!selectedTarget)options.append(el('p','Elige primero una persona para ver las opciones disponibles.','player-action-reason'));
-      main.append(options,button('Volver',()=>{playerActionUi={screen:'player_action_category',categoryId:category.id,actionId:null,targetId:null,resultExecutionId:null};render(true);},'ghost player-action-back'));
+      if(requiresTarget&&!selectedTarget)options.append(el('p',copy('actions.ui.chooseFirst','Elige primero una persona para ver las opciones disponibles.'),'player-action-reason'));
+      main.append(options,button(copy('actions.ui.back','Volver'),()=>{playerActionUi={screen:'player_action_category',categoryId:category.id,actionId:null,targetId:null,resultExecutionId:null};render(true);},'ghost player-action-back'));
       return true;
     }
     if(playerActionUi.screen==='player_action_result'){
       const result=v.actions?.lastResult??null;
       if(!result||result.executionId!==playerActionUi.resultExecutionId){playerActionUi={screen:'player_action_menu',categoryId:null,actionId:null,targetId:null,resultExecutionId:null};return renderPlayerActions(v,main);}
-      const p=el('article',undefined,'panel player-action-result');p.append(el('span','ACCIÓN COMPLETADA','eyebrow'),el('h1',a.label),el('p',result.text,'story-text'));
-      const actions=el('div',undefined,'player-action-result-actions');actions.append(button('Realizar otra acción',()=>{playerActionUi={screen:'player_action_menu',categoryId:null,actionId:null,targetId:null,resultExecutionId:null};render(true);}),button('Volver a Inicio',()=>navigate('home'),'primary'));p.append(actions);main.append(p);return true;
+      const p=el('article',undefined,'panel player-action-result');p.append(el('span',copy('actions.ui.completed','ACCIÓN COMPLETADA'),'eyebrow'),el('h1',a.label),el('p',result.text,'story-text'));
+      const actions=el('div',undefined,'player-action-result-actions');actions.append(button(copy('actions.ui.another','Realizar otra acción'),()=>{playerActionUi={screen:'player_action_menu',categoryId:null,actionId:null,targetId:null,resultExecutionId:null};render(true);}),button(copy('actions.ui.backHome','Volver a Inicio'),()=>navigate('home'),'primary'));p.append(actions);main.append(p);return true;
     }
     resetPlayerActions();return false;
   }
@@ -500,21 +501,21 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   }
   function retirementPanel(v){
     if(v.retirementStatus==='playing')return null;
-    const copy={
-      decided:['Considerando el futuro','Has decidido encarar el final de tu carrera. El juego conservará este estado hasta que la historia avance.'],
-      announced:['Retirada anunciada','Tu decisión ya es pública. La carrera continúa hasta su cierre según el estado del juego.'],
-      closed:['Carrera finalizada','La etapa como futbolista ha terminado. Recorre tu carrera y el epílogo.']
+    const retirementCopy={
+      decided:[copy('career.record.futureTitle','Considerando el futuro'),copy('career.record.futureBody','Has decidido encarar el final de tu carrera. El juego conservará este estado hasta que la historia avance.')],
+      announced:[copy('career.record.announcedTitle','Retirada anunciada'),copy('career.record.announcedBody','Tu decisión ya es pública. La carrera continúa hasta su cierre según el estado del juego.')],
+      closed:[copy('career.record.closedTitle','Carrera finalizada'),copy('career.record.closedBody','La etapa como futbolista ha terminado. Recorre tu carrera y el epílogo.')]
     }[v.retirementStatus];
-    if(!copy)return null;
-    const p=panel(copy[0]);p.classList.add('retirement-panel');p.append(el('p',copy[1],'muted'));
+    if(!retirementCopy)return null;
+    const p=panel(retirementCopy[0]);p.classList.add('retirement-panel');p.append(el('p',retirementCopy[1],'muted'));
     if(v.retirementStatus==='closed'){
       const totals=v.careerSeasons.reduce((acc,row)=>{acc.matches+=row.appearances;acc.goals+=row.goals;acc.assists+=row.assists;return acc;},{matches:0,goals:0,assists:0});
       const summary=el('div',undefined,'retirement-summary');
-      for(const [label,value] of [['Partidos',totals.matches],['Goles',totals.goals],['Asistencias',totals.assists]]){const item=el('div');item.append(el('span',label),el('strong',String(value)));summary.append(item);}
+      for(const [label,value] of [[copy('career.record.matches','Partidos'),totals.matches],[copy('career.record.goals','Goles'),totals.goals],[copy('career.record.assists','Asistencias'),totals.assists]]){const item=el('div');item.append(el('span',label),el('strong',String(value)));summary.append(item);}
       p.append(summary);
       const actions=el('div',undefined,'dialog-actions');
-      if(view!=='career')actions.append(button('Ver carrera',()=>navigate('career'),'primary'));
-      actions.append(button('Empezar otra historia',()=>navigate('save')));
+      if(view!=='career')actions.append(button(copy('career.record.viewCareer','Ver carrera'),()=>navigate('career'),'primary'));
+      actions.append(button(copy('career.record.newStory','Empezar otra historia'),()=>navigate('save')));
       p.append(actions);
     }
     return p;
@@ -570,7 +571,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     );
     const autoState=autoSimulationState(v);if(autoState)content.append(autoState);
     const primary=mainAction(v);primary.dataset.localeFocus='primary';content.append(primary);
-    if(v.screen==='career'&&v.simulation?.mode==='idle'&&v.actions?.available)content.append(button('Gestionar mi carrera',openPlayerActions,'secondary'));
+    if(v.screen==='career'&&v.simulation?.mode==='idle'&&v.actions?.available)content.append(button(copy('career.record.manage','Gestionar mi carrera'),openPlayerActions,'secondary'));
     if(v.screen==='career'&&v.simulation?.mode==='paused')content.append(button('Terminar simulación',()=>run('auto',{action:'stop'}),'secondary'));
     next.append(content);
 
@@ -654,9 +655,9 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   function career(v,main){
     if(playerActionUi.screen!=='career'&&renderPlayerActions(v,main))return;
     main.classList.add('p8-career');
-    const intro=el('header',undefined,'career-intro');intro.append(el('span','HISTORIAL VIVO DE TU TRAYECTORIA','eyebrow'),el('h1','Tu carrera'),el('p','Partidos, temporadas, hitos y decisiones que ya forman parte de tu historia.','muted'));main.append(intro);
+    const intro=el('header',undefined,'career-intro');intro.append(el('span',copy('career.record.careerEyebrow','HISTORIAL VIVO DE TU TRAYECTORIA'),'eyebrow'),el('h1',copy('career.record.careerTitle','Tu carrera')),el('p',copy('career.record.careerIntro','Partidos, temporadas, hitos y decisiones que ya forman parte de tu historia.'),'muted'));main.append(intro);
     if(v.screen==='career'&&v.simulation?.mode==='idle'&&v.actions?.available){
-      const manage=panel('Gestionar mi carrera');manage.classList.add('player-actions-entry');manage.append(el('p','Opcional: puedes hacer algo antes de simular. Nada es obligatorio.','muted'),button('Gestionar mi carrera',openPlayerActions,'secondary'));main.append(manage);
+      const manage=panel(copy('career.record.manage','Gestionar mi carrera'));manage.classList.add('player-actions-entry');manage.append(el('p',copy('career.record.manageIntro','Opcional: puedes hacer algo antes de simular. Nada es obligatorio.'),'muted'),button(copy('career.record.manage','Gestionar mi carrera'),openPlayerActions,'secondary'));main.append(manage);
     }
     const retirement=retirementPanel(v);if(retirement)main.append(retirement);
     const recentPeriod=simulationSummary(v);if(recentPeriod)main.append(recentPeriod);
@@ -664,11 +665,11 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     const latest=latestMatchCard(v.latestMatch,{empty:true});if(latest){latest.classList.add('career-latest');main.append(latest);}
 
     const seasonsSection=el('section',undefined,'career-section career-seasons-section');seasonsSection.setAttribute('aria-labelledby','career-seasons-title');
-    const seasonsHead=el('div',undefined,'career-section-head'),seasonsTitle=el('h2','Temporadas');seasonsTitle.id='career-seasons-title';seasonsHead.append(seasonsTitle);seasonsSection.append(seasonsHead);
+    const seasonsHead=el('div',undefined,'career-section-head'),seasonsTitle=el('h2',copy('career.record.seasons','Temporadas'));seasonsTitle.id='career-seasons-title';seasonsHead.append(seasonsTitle);seasonsSection.append(seasonsHead);
     if(!v.careerSeasons.length){
-      const empty=panel('Tu carrera empieza aquí');empty.classList.add('career-empty','semantic-empty');
-      empty.append(el('p',v.age+' años · '+club(v)+' · Temporada '+v.season.replace('-',' / 20'),'career-start'));
-      empty.append(el('p',v.appearances===0?'Aún no has debutado. Los partidos, hitos y cambios importantes aparecerán aquí.':'Tu historial deportivo empezará a agruparse por temporada cuando existan registros oficiales.','muted'));
+      const empty=panel(copy('career.record.start','Tu carrera empieza aquí'));empty.classList.add('career-empty','semantic-empty');
+      empty.append(el('p',copy('career.record.startInfo',v.age+' años · '+club(v)+' · Temporada '+v.season.replace('-',' / 20'),{age:v.age,club:club(v),season:v.season.replace('-',' / 20')}),'career-start'));
+      empty.append(el('p',v.appearances===0?copy('career.record.noDebut','Aún no has debutado. Los partidos, hitos y cambios importantes aparecerán aquí.'):copy('career.record.noSeason','Tu historial deportivo empezará a agruparse por temporada cuando existan registros oficiales.'),'muted'));
       seasonsSection.append(empty);
     }else{
       const seasons=el('div',undefined,'season-grid');
@@ -679,37 +680,37 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
 
     const milestoneCards=[];
     if(v.careerMilestones?.historyComplete&&v.careerMilestones.appearances>0){
-      const m=v.careerMilestones,chips=['Debut oficial'];
-      for(const [flag,label] of [['appearance10','10 partidos'],['appearance50','50 partidos'],['appearance100','100 partidos'],['appearance500','500 partidos'],['appearance700','700 partidos']])if(m[flag]===true)chips.push(label);
-      milestoneCards.push(milestoneCard('Hitos deportivos',{chips,rows:[['Partidos',m.appearances],['Goles',m.goals],['Asistencias',m.assists]]}));
+      const m=v.careerMilestones,chips=[copy('career.record.debut','Debut oficial')];
+      for(const [flag,label] of [['appearance10',copy('career.record.matchCount','10 partidos',{count:10})],['appearance50',copy('career.record.matchCount','50 partidos',{count:50})],['appearance100',copy('career.record.matchCount','100 partidos',{count:100})],['appearance500',copy('career.record.matchCount','500 partidos',{count:500})],['appearance700',copy('career.record.matchCount','700 partidos',{count:700})]])if(m[flag]===true)chips.push(label);
+      milestoneCards.push(milestoneCard(copy('career.record.sportMilestones','Hitos deportivos'),{chips,rows:[[copy('career.record.matches','Partidos'),m.appearances],[copy('career.record.goals','Goles'),m.goals],[copy('career.record.assists','Asistencias'),m.assists]]}));
     }
-    for(const m of v.ageMilestones)milestoneCards.push(milestoneCard(m.age+' años',{dateValue:m.date,summary:clubName(m.club)}));
+    for(const m of v.ageMilestones)milestoneCards.push(milestoneCard(copy('career.profile.age',m.age+' años',{age:m.age}),{dateValue:m.date,summary:clubName(m.club)}));
     if(milestoneCards.length){
       const milestones=el('section',undefined,'career-section career-milestones-section');milestones.setAttribute('aria-labelledby','career-milestones-title');
-      const head=el('div',undefined,'career-section-head'),title=el('h2','Hitos');title.id='career-milestones-title';head.append(title);milestones.append(head);
+      const head=el('div',undefined,'career-section-head'),title=el('h2',copy('career.record.milestones','Hitos'));title.id='career-milestones-title';head.append(title);milestones.append(head);
       const grid=el('div',undefined,'career-milestone-grid');for(const card of milestoneCards)grid.append(card);milestones.append(grid);main.append(milestones);
     }
 
     if(v.offerHistory.length){
       const offers=el('section',undefined,'career-section career-offers-section');offers.setAttribute('aria-labelledby','career-offers-title');
-      const head=el('div',undefined,'career-section-head'),title=el('h2','Historial de ofertas');title.id='career-offers-title';head.append(title);offers.append(head);
+      const head=el('div',undefined,'career-section-head'),title=el('h2',copy('career.record.offers','Historial de ofertas'));title.id='career-offers-title';head.append(title);offers.append(head);
       const list=el('div',undefined,'career-offer-list');offerHistory(v,list);offers.append(list);main.append(offers);
     }
 
     const history=el('section',undefined,'career-section career-history-section');history.setAttribute('aria-labelledby','career-history-title');
-    const historyHead=el('div',undefined,'career-section-head'),historyTitle=el('h2','Decisiones y acciones');historyTitle.id='career-history-title';historyHead.append(historyTitle);history.append(historyHead);
+    const historyHead=el('div',undefined,'career-section-head'),historyTitle=el('h2',copy('career.record.decisions','Decisiones y acciones'));historyTitle.id='career-history-title';historyHead.append(historyTitle);history.append(historyHead);
     const list=el('div',undefined,'timeline');
-    const actionHistory=v.actions?.history??[];
+    const actionHistory=(v.actions?.history??[]).map(row=>presentationLocale?.presentPlayerActionHistory?.(row)??row);
     const timeline=[
       ...v.journal.map((row,index)=>({kind:'decision',date:row.date,index,row})),
       ...actionHistory.map((row,index)=>({kind:'action',date:row.date,index,row}))
     ].sort((a,b)=>a.date.localeCompare(b.date)||(a.kind===b.kind?a.index-b.index:(a.kind==='decision'?-1:1)));
-    if(!timeline.length)list.append(el('p','Aún no hay decisiones ni acciones voluntarias registradas.','muted semantic-empty'));
+    if(!timeline.length)list.append(el('p',copy('career.record.emptyHistory','Aún no hay decisiones ni acciones voluntarias registradas.'),'muted semantic-empty'));
     for(const entry of [...timeline].reverse()){
       if(entry.kind==='decision'){
         const row=entry.row,item=panel(row.title);item.dataset.journalIndex=String(entry.index);item.tabIndex=-1;item.prepend(el('time',date(row.date),'eyebrow'));item.append(el('p',row.choiceLabel,'chosen'));row.messages.forEach(m=>item.append(el('p',m,'muted')));list.append(item);
       }else{
-        const row=entry.row,item=panel(row.actionLabel);item.prepend(el('time',date(row.date),'eyebrow'));item.append(el('p','Acción voluntaria · '+row.optionLabel,'chosen'),el('p',row.text,'muted'));list.append(item);
+        const row=entry.row,item=panel(row.actionLabel);item.prepend(el('time',date(row.date),'eyebrow'));item.append(el('p',copy('career.record.actionChoice','Acción voluntaria · '+row.optionLabel,{option:row.optionLabel}),'chosen'),el('p',row.text,'muted'));list.append(item);
       }
     }
     history.append(list);main.append(history);

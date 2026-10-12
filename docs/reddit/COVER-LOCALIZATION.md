@@ -56,3 +56,10 @@ El deporte de carrera presenta divisionId y metadatos de copa por IDs a través 
 career-panels-catalog.mjs agrega 32 claves; con aviso deportivo se alcanzan 351 UI. Perfil incluye contrato y borrador de nombre por sessionId, con foco y texto conservados; identity se envía solo al guardar. Mundo/Relaciones traducen estructura y estados vacíos; noticias públicas y roles siguen originales. No se certifica su cobertura narrativa ni se habilita English.
 
 Doce tests nuevos, build/config y 139 pruebas Reddit PASS, más 28 contratos de interfaz finales PASS; QA local de Perfil a 390×844 sin guardado ni datos de cuenta. Quedan Carrera, acciones voluntarias, narrativas/news/roles/cinematics y gates finales de equivalencia, accesibilidad y Reddit.
+
+## Carrera y acciones voluntarias
+career-record-catalog.mjs añade 91 claves UI (442 combinadas). player-action-content.mjs cubre 20 acciones y 31 opciones/resultados ejecutables, verificadas contra el catálogo runtime por IDs. Carrera presenta temporadas, último partido, hitos y retirada en ES/EN; no traduce aún journal narrativo, ofertas ni todos los reportes.
+
+PlayerView añade optionId a historial y actionId/optionId a lastResult, proyectándolos desde el registro existente. La ejecución y persistencia no cambian; snapshots anteriores conservan sus bytes. Los campos añadidos son públicos y los contratos de privacidad se actualizan explícitamente. Sin IDs o con un publicResult desfasado, EN ofrece disponibilidad ES; no busca la opción por etiqueta ni inventa consecuencias. Motivos de bloqueo y roles aún requieren cobertura semántica; EN de producción permanece cerrado.
+
+12 tests nuevos PASS; build/config y 151 Reddit PASS; 55 sesión/UI PASS; comparación antes/después sobre 4 comandos con snapshots idénticos, 100 lecturas puras y recuperación de IDs desde el snapshot anterior sin writes. QA local de Carrera/acciones 390×844 y 320×480, sin ejecutar opciones ni guardar.

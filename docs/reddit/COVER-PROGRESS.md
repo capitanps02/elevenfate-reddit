@@ -2,7 +2,7 @@
 
 12 de octubre de 2026. PR #4; código en borrador, no publicado.
 
-## Avance estimado: 73 %; pendiente: 27 %
+## Avance estimado: 74 %; pendiente: 26 %
 
 Es una estimación de trabajo completado, no una certificación funcional ni visual. Los pesos se fijan para no tratar la traducción completa como un pequeño botón. Cada porcentaje de pasada incluye preparación y código; PASS final exige sus gates.
 
@@ -12,10 +12,10 @@ Es una estimación de trabajo completado, no una certificación funcional ni vis
 | P1 Contrato | 10 % | 90 % | 9 % | Especificado; revisión final contra versión publicada pendiente |
 | P2 Portada | 15 % | 80 % | 12 % | Menú implementado; validación gráfica pendiente |
 | P3 Flujos | 20 % | 95 % | 19 % | Navegación Atrás/Adelante implementada y probada en modelos; validación en Reddit pendiente |
-| P4 ES/EN | 20 % | 75 % | 15 % | Calendario deportivo por IDs, Perfil y estructura de Mundo/Relaciones conectados; Carrera, relatos, noticias/roles y acciones pendientes |
+| P4 ES/EN | 20 % | 80 % | 16 % | Carrera y 20 acciones/31 opciones/resultados/historial conectados; narrativas, noticias/roles, errores y resúmenes restantes pendientes |
 | P5 Simular | 5 % | 80 % | 4 % | Selector ausente en Inicio publicado 0.1.6; candidato pendiente de comparación |
 | P6 Arte/a11y | 10 % | 20 % | 2 % | Inicio ES/EN revisado en seis tamaños; foco y recorte Daily corregidos; arte final, zoom y resto de pantallas pendientes |
-| P7 Certificación | 8 % | 75 % | 6 % | CI de a011fad completa PASS; 205 regresiones anteriores PASS; nuevo bloque requiere CI propia |
+| P7 Certificación | 8 % | 75 % | 6 % | CI de 332256e completa PASS; bloque actual 55 pruebas sesión/UI y paridad snapshots PASS; CI propia pendiente |
 | P8 Reddit real | 4 % | 0 % | 0 % | Sin prueba ni publicación del candidato |
 
 Quedan seis pasadas principales de ejecución: cerrar P3, P4, P5, P6, P7 y P8. También siguen pendientes las comprobaciones de cierre de P0/P1/P2; no se consideran certificadas. No hacen falta nuevas pasadas inventadas para esos controles: se cierran dentro de las existentes.
@@ -140,3 +140,25 @@ QA visual local con fixture claramente marcado: Perfil EN a 390×844, nombre edi
 - Se reducirá el contador al cerrar el gate de una pasada, no por cada commit o grupo de traducciones. No se añaden pasadas nuevas para estos ajustes.
 
 73% ponderado exacto: P4 sube de 70% a 75%, de 14 a 15 puntos. El resto permanece igual. Pendientes inmediatos: Carrera y acciones voluntarias; textos narrativos de decisiones/resultados/ofertas/news/contact roles y cinematics; revisión artística final, determinismo completo y Reddit real. English continúa desactivado y el candidato en borrador, sin publicar.
+
+## Continuación: Carrera y acciones voluntarias
+
+CI oficial de 332256ef64fe4621cbd59ef5679ec633c0a66423 SUCCESS (run 38307485811). Este bloque requiere su propia CI; no certifica publicación.
+
+91 claves en career-record-catalog.mjs: total 442 UI. Carrera localiza estructura, temporadas, último partido, participación, hitos deportivos/edad, vacío e indicadores de retirada por enums públicos. Los registros narrativos y ofertas conservan su texto original; el resumen de simulación y Home no compacto todavía tienen campos pendientes. Los flags y cifras no se reconstruyen ni cambian.
+
+player-action-content.mjs contiene 20 acciones ejecutables y 31 opciones, con label/description/option/publicResult ES/EN. El test de cobertura exige que ES coincida exactamente con el catálogo runtime y que EN tenga los mismos IDs. No se traduce ni activa una acción bloqueada fuera del catálogo ejecutable. UI de acciones localiza ayuda, controles, estados y fechas públicas de cooldown; conserva categorías/acción/persona seleccionada, foco y el payload real del comando. Motivos de indisponibilidad sin código y roles de objetivos siguen originales y permanecen pendientes.
+
+Necesidad de proyección: el historial persistido ya guarda actionId/optionId, pero PlayerView no exponía optionId ni ambos IDs en lastResult. Se añaden solo esos identificadores a publicPlayerActionsView y sus tipos. No se cambia ejecución, efectos, recepción de comandos, commits, schema ni datos persistidos. Se actualizan dos contratos de privacidad para admitir optionId; siguen prohibidos causal facts/effectKey/RNG y demás datos privados. Los outputs dist ya versionados se regeneran desde esa fuente.
+
+Historial y último resultado se traducen por actionId/optionId, verificando que el texto ES coincide con la muestra canónica. Un registro ambiguo o desfasado muestra disponibilidad en Español sin deducir IDs ni fabricar un resultado; ES vuelve al mismo original. Acción nueva sin catálogo EN bloquea el menú de acciones con aviso accesible y vuelta a Carrera. No bloquea la carrera entera ni vuelve a ejecutar una elección.
+
+Verificación: doce tests nuevos runtime/catálogo/carrera/acciones PASS. 55 pruebas de sesión, proyección y contratos UI PASS. Build/config y 151/151 pruebas Reddit finales PASS; los doce tests nuevos también PASS tras el ajuste del aviso accesible. Comparación independiente contra la GameSession de 332256e: seed 424242, sessionId fijo, events=[]; snapshots byte a byte idénticos después de crear y de ejecutar entrenamiento técnico, publicación profesional, identidad y avance de 7 días; PlayerView idéntica al retirar únicamente los IDs añadidos. 100 lecturas no cambian snapshot/RNG. Cargar el snapshot anterior conserva los bytes y proyecta IDs sin escribir ni migrar datos. Esta evidencia está acotada a esos casos; CI y gates completos siguen pendientes.
+
+QA visual local sin writes: Carrera vacía, siete categorías y detalle de Entrenamiento en EN a 390×844; ES→EN conserva el mismo detalle. A 320×480 no hay overflow horizontal, main tiene scroll vertical, opciones miden 50 px de alto y Volver 48 px. No se ejecutan opciones en el navegador. Fixtures marcados y selector externo al juego; archivos QA retirados del bundle final. Arte final y revisión de todas las pantallas no se consideran cerrados.
+
+### Contador tras esta iteración
+
+9 pasadas previstas. Siguen 6 principales pendientes: P3, P4, P5, P6, P7 y P8; P0/P1/P2 tienen comprobaciones de cierre pendientes. P4 pasa a 80%, sin PASS todavía. Esta iteración cierra tareas de Carrera y acciones dentro de P4; no se descuenta una pasada sin superar su gate. Próximo bloque: mensajes semánticos/roles y resúmenes, seguido de narrativa de carrera por IDs y cinematics.
+
+74% ponderado exacto: P4=80%, aporte=16 puntos; resto sin cambios. English sigue desactivado en producción; candidato en borrador y sin publicación.

@@ -348,7 +348,7 @@ test("A2-026 PUBLIC HISTORY: sanitized history survives save/load without privat
   const history = session.getView().actions.history;
   assert.equal(history.length, 1);
   assert.deepEqual(Object.keys(history[0]).sort(), [
-    "actionId", "actionLabel", "date", "executionId", "optionLabel", "text"
+    "actionId", "actionLabel", "date", "executionId", "optionId", "optionLabel", "text"
   ]);
   assert.equal(history[0].actionLabel, "Entrenamiento extra");
   assert.equal(history[0].optionLabel, "Trabajo técnico");
