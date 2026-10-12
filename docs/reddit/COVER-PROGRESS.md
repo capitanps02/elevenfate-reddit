@@ -2,7 +2,7 @@
 
 12 de octubre de 2026. PR #4; código en borrador, no publicado.
 
-## Avance estimado: 72 %; pendiente: 28 %
+## Avance estimado: 73 %; pendiente: 27 %
 
 Es una estimación de trabajo completado, no una certificación funcional ni visual. Los pesos se fijan para no tratar la traducción completa como un pequeño botón. Cada porcentaje de pasada incluye preparación y código; PASS final exige sus gates.
 
@@ -12,10 +12,10 @@ Es una estimación de trabajo completado, no una certificación funcional ni vis
 | P1 Contrato | 10 % | 90 % | 9 % | Especificado; revisión final contra versión publicada pendiente |
 | P2 Portada | 15 % | 80 % | 12 % | Menú implementado; validación gráfica pendiente |
 | P3 Flujos | 20 % | 95 % | 19 % | Navegación Atrás/Adelante implementada y probada en modelos; validación en Reddit pendiente |
-| P4 ES/EN | 20 % | 70 % | 14 % | Daily, creación, arranque, Tu partida, Inicio compacto y controles de calendario conectados; relatos/paneles y datos deportivos dinámicos de carrera pendientes |
+| P4 ES/EN | 20 % | 75 % | 15 % | Calendario deportivo por IDs, Perfil y estructura de Mundo/Relaciones conectados; Carrera, relatos, noticias/roles y acciones pendientes |
 | P5 Simular | 5 % | 80 % | 4 % | Selector ausente en Inicio publicado 0.1.6; candidato pendiente de comparación |
 | P6 Arte/a11y | 10 % | 20 % | 2 % | Inicio ES/EN revisado en seis tamaños; foco y recorte Daily corregidos; arte final, zoom y resto de pantallas pendientes |
-| P7 Certificación | 8 % | 75 % | 6 % | CI de d243f10 completa PASS; 205 regresiones anteriores PASS; bloque actual build/127 Reddit y contratos PASS |
+| P7 Certificación | 8 % | 75 % | 6 % | CI de a011fad completa PASS; 205 regresiones anteriores PASS; nuevo bloque requiere CI propia |
 | P8 Reddit real | 4 % | 0 % | 0 % | Sin prueba ni publicación del candidato |
 
 Quedan seis pasadas principales de ejecución: cerrar P3, P4, P5, P6, P7 y P8. También siguen pendientes las comprobaciones de cierre de P0/P1/P2; no se consideran certificadas. No hacen falta nuevas pasadas inventadas para esos controles: se cierran dentro de las existentes.
@@ -118,3 +118,25 @@ QA visual local aislada con fixture marcado, sin escrituras de carrera: 320×480
 Decisión visual COVER-OVERFLOW-001: ACTUAL overflow:hidden en Inicio; PROPUESTO scroll vertical solo cuando falta altura; COMPONENTE main.reddit-home; MOTIVO acceso completo a Daily sin reducir texto; RIESGO aparición de scrollbar en plataformas que no lo superponen; ROLLBACK restaurar la regla anterior. CSS compartida Android intacta. Esto no cierra la dirección artística ni P6 entera.
 
 72% ponderado exacto: P4=70% (14 puntos) y P6=20% (2 puntos); los demás pesos/avances siguen iguales. Quedan seis pasadas principales y controles de cierre P0/P1/P2. Siguiente bloque: contenido/paneles de carrera y deporte dinámico por IDs; después arte final, equivalencia del candidato y webview Reddit. English sigue desactivado, PR en borrador y candidato sin publicar.
+
+## Continuación: deporte por IDs y paneles de carrera
+
+CI de a011fada758f1d622fd1ee2ef6c5ab71785876b0 SUCCESS (run 38306307786). Su bloque de Inicio/foco queda validado por la CI oficial; eso no cierra P7 completa.
+
+La proyección de carrera añade divisionId en rutas nuevas y legacy, y formatId/stageId en la copa. La transformación pública de Daily se mueve a shared/sports-presentation.mjs con reexport compatible; criterios, scores y enum values del simulador no cambian. El adaptador deportivo reutiliza 27 divisiones, formato de grupos/eliminatorias, ocho grupos y cuatro fases de la traducción Daily. Devuelve una copia de presentación, conserva tabla/equipos/fechas/score/penaltis/ganador y nunca invalida el cache de sesión ni cambia estado persistido. Una cobertura EN ausente muestra un aviso accesible dentro del diálogo; ES recupera el original sin otra lectura.
+
+Perfil traduce identidad, contrato, duración/moneda y ayuda. Un borrador de nombre por sessionId conserva texto y foco al cambiar locale; el comando identity solo se envía al guardar y es idéntico en ambos idiomas. Fallo de guardado conserva el borrador; guardar con éxito lo limpia. Mundo y Relaciones localizan la estructura y estados vacíos, manteniendo noticias, nombres y roles originales: sus datos narrativos todavía necesitan cobertura por IDs, no se deducen por texto.
+
+Catálogo: 33 claves nuevas (351 UI combinadas): una de cobertura deportiva y 32 de paneles, incluida duración singular. Doce pruebas nuevas cubren cinco casos de deporte/proyección, un caso de cobertura ausente en diálogo y seis de Perfil/Mundo/Relaciones. Runtime deportivo inicial 19/19 PASS; paneles/catálogos/contratos previos 40/40 PASS. Build/config y 139/139 pruebas Reddit finales PASS; 28 contratos de interfaz repetidos sobre el código final PASS.
+
+QA visual local con fixture claramente marcado: Perfil EN a 390×844, nombre editado sin guardar conservado al pasar ES→EN, controles accesibles y scroll. No se pulsa Guardar ni se modifica una carrera real. Se retiran los archivos QA de reddit/public; no se publica el selector usado por el harness. Motor/schema/servicios de guardado intactos.
+
+### Contador de pasadas actualizado
+
+- Previstas: 9, P0–P8.
+- Principales de ejecución pendientes: 6, P3/P4/P5/P6/P7/P8.
+- P0/P1/P2 conservan comprobaciones de cierre; no se anuncian como certificadas.
+- En este bloque se cierran tareas deportivas y de Perfil dentro de P4. P4 queda al 75%, no PASS; por eso el contador principal aún no baja.
+- Se reducirá el contador al cerrar el gate de una pasada, no por cada commit o grupo de traducciones. No se añaden pasadas nuevas para estos ajustes.
+
+73% ponderado exacto: P4 sube de 70% a 75%, de 14 a 15 puntos. El resto permanece igual. Pendientes inmediatos: Carrera y acciones voluntarias; textos narrativos de decisiones/resultados/ofertas/news/contact roles y cinematics; revisión artística final, determinismo completo y Reddit real. English continúa desactivado y el candidato en borrador, sin publicar.

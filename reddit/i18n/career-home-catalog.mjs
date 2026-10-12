@@ -75,7 +75,8 @@ export const careerHomeCatalog={
     "career.calendar.noRounds": "Todavía no hay jornadas disputadas.",
     "career.calendar.newCalendar": "Disponible con el nuevo calendario de competiciones.",
     "career.calendar.notQualified": "Tu equipo no está clasificado esta temporada.",
-    "career.calendar.champion": "Campeón: {team}"
+    "career.calendar.champion": "Campeón: {team}",
+    "career.calendar.translationPending": "Estos datos deportivos están disponibles en Español. Cambia el idioma para verlos."
   },
   "en": {
     "career.home.reviewOffer": "Review offer",
@@ -153,6 +154,7 @@ export const careerHomeCatalog={
     "career.calendar.noRounds": "No matchdays played yet.",
     "career.calendar.newCalendar": "Available with the new competition calendar.",
     "career.calendar.notQualified": "Your team is not qualified this season.",
-    "career.calendar.champion": "Champion: {team}"
+    "career.calendar.champion": "Champion: {team}",
+    "career.calendar.translationPending": "These sporting details are available in Español. Switch language to view them."
   }
 };

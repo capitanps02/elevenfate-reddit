@@ -8,6 +8,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   const AUTO_VISUAL_MIN_MS=280;
   let savedRaw=null, disposeCutscene=null, disposed=false;
   let autoResumeAllowed=!deferAutoResume;
+  let profileNameDraft=null;
   let newStoryDraft={displayName:'',seed:'424242'};
   let busyKind='write',newStoryAdvancedOpen=false,activeDialogLocale=null;
   const copy=(id,fallback,parameters={})=>presentationLocale?presentationLocale.t(id,parameters):fallback;
@@ -73,7 +74,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   function newsCard(item){
     if(!item||!item.date||!item.text)return null;
     const card=el('article',undefined,'panel semantic-card news-card');
-    card.setAttribute('aria-label','Noticia del '+date(item.date));
+    card.setAttribute('aria-label',copy('career.world.newsDate','Noticia del '+date(item.date),{date:date(item.date)}));
     card.append(el('time',date(item.date),'eyebrow'),el('p',item.text,'news-copy'));
     return card;
   }
@@ -103,14 +104,14 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     return p;
   }
   function contractSummary(v,{compact=false}={}){
-    const p=panel('Tu contrato');p.classList.add('semantic-card','contract-summary');
+    const p=panel(copy('career.contract.title','Tu contrato'));p.classList.add('semantic-card','contract-summary');
     if(!compact){
-      const clubLabel=clubName(v?.club);if(clubLabel)p.append(semanticRow('Club',clubLabel));
-      if(Number.isFinite(v?.salaryMonthly))p.append(semanticRow('Salario mensual',money(v.salaryMonthly)));
+      const clubLabel=clubName(v?.club);if(clubLabel)p.append(semanticRow(copy('career.contract.club','Club'),clubLabel));
+      if(Number.isFinite(v?.salaryMonthly))p.append(semanticRow(copy('career.contract.salary','Salario mensual'),money(v.salaryMonthly)));
     }
     const months=Number(v?.contractMonths);
-    if(Number.isFinite(months))p.append(semanticRow('Duración restante',months>0?Math.ceil(months)+' meses':'Sin meses de contrato restantes'));
-    if(months>0&&months<=6)p.append(el('p','El contrato está en su tramo final.','muted'));
+    if(Number.isFinite(months))p.append(semanticRow(copy('career.contract.remaining','Duración restante'),months>0?copy(Math.ceil(months)===1?'career.contract.monthOne':'career.contract.months',Math.ceil(months)+(Math.ceil(months)===1?' mes':' meses'),{months:Math.ceil(months)}):copy('career.contract.expired','Sin meses de contrato restantes')));
+    if(months>0&&months<=6)p.append(el('p',copy('career.contract.ending','El contrato está en su tramo final.'),'muted'));
     return p;
   }
   function offerTermValue(key,value){
@@ -282,7 +283,7 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
         cinematic=false;
         replaceRouteState();
       }else if(type==='identity'){
-        view='profile';
+        profileNameDraft=null;view='profile';
         cinematic=false;
         replaceRouteState();
       }else{
@@ -608,10 +609,10 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     const table=rows=>{const t=el('table',undefined,'reddit-league-table'),thead=el('thead'),tr=el('tr');for(const label of ['#',copy('career.calendar.teamColumn','Equipo'),copy('career.calendar.played','PJ'),copy('career.calendar.difference','DG'),copy('career.calendar.points','Pts')])tr.append(el('th',label));thead.append(tr);t.append(thead);const tbody=el('tbody');for(const row of rows){const line=el('tr',undefined,row.you?'your-team':'');for(const value of [row.position,row.name,row.played,row.gf-row.ga,row.points])line.append(el('td',String(value)));tbody.append(line);}t.append(tbody);return t;};
     const results=(competition)=>{const teams=competition.teams;let previous='';for(const m of competition.matches){const heading=m.stage?`${m.stage} · ${date(m.date)}`:copy('career.calendar.round',`Jornada ${m.round} · ${date(m.date)}`,{round:m.round,date:date(m.date)});if(heading!==previous){body.append(el('h3',heading));previous=heading;}const home=teams[m.home],away=teams[m.away],row=el('div',undefined,'reddit-calendar-row');row.append(el('span',home.name),el('strong',`${m.hg} – ${m.ag}`),el('span',away.name));if(m.penalties)row.append(el('small',copy('career.calendar.penalties',`Penaltis ${m.penalties.home}–${m.penalties.away}`,m.penalties)));body.append(row);}};
     let selectedTab='table';
-    function show(tab){selectedTab=tab;body.replaceChildren();for(const b of tabs.children)b.setAttribute('aria-pressed',String(b.dataset.tab===tab));body.append(el('p',copy('career.calendar.season','Temporada '+sports.season+' · '+sports.division,{season:sports.season,division:sports.division}),'muted'));
-      if(tab==='table')body.append(el('h3',copy('career.calendar.leagueTable','Clasificación de liga')),table(sports.rows));
-      else if(tab==='results'){if(sports.league?.matches.length)results(sports.league);else{const history=(sports.allRecent??sports.recent).filter(m=>m.result);body.append(el('p',history.length?copy('career.calendar.teamResults','Resultados de tu equipo'):copy('career.calendar.noRounds','Todavía no hay jornadas disputadas.'),'muted'));for(const m of history){const home=m.homeAway==='home',row=el('div',undefined,'reddit-calendar-row');row.append(el('span',`${date(m.date)} · ${home?sports.club:clubName(m.opponent)}`),el('strong',`${m.result.homeGoals} – ${m.result.awayGoals}`),el('span',home?clubName(m.opponent):sports.club));body.append(row);}}}
-      else {const c=sports.continental;if(!c)body.append(el('p',copy('career.calendar.newCalendar','Disponible con el nuevo calendario de competiciones.')));else{body.append(el('h3','Champions'),el('p',c.format,'muted'));if(!c.qualified)body.append(el('p',copy('career.calendar.notQualified','Tu equipo no está clasificado esta temporada.')));if(c.rows.length)body.append(table(c.rows));if(c.winner)body.append(el('p',copy('career.calendar.champion','Campeón: '+c.winner,{team:c.winner})));if(c.matches.length)results(c);}}
+    function show(tab){selectedTab=tab;body.replaceChildren();for(const b of tabs.children)b.setAttribute('aria-pressed',String(b.dataset.tab===tab));let displayed;try{displayed=presentationLocale?.presentCareerSports?.(sports)??sports;}catch(error){if(error.code!=='MISSING_CAREER_SPORTS_TRANSLATION')throw error;const warning=el('p',copy('career.calendar.translationPending','Estos datos deportivos están disponibles en Español. Cambia el idioma para verlos.'),'muted');warning.setAttribute('role','status');body.append(warning);return;}body.append(el('p',copy('career.calendar.season','Temporada '+displayed.season+' · '+displayed.division,{season:displayed.season,division:displayed.division}),'muted'));
+      if(tab==='table')body.append(el('h3',copy('career.calendar.leagueTable','Clasificación de liga')),table(displayed.rows));
+      else if(tab==='results'){if(displayed.league?.matches.length)results(displayed.league);else{const history=(displayed.allRecent??displayed.recent).filter(m=>m.result);body.append(el('p',history.length?copy('career.calendar.teamResults','Resultados de tu equipo'):copy('career.calendar.noRounds','Todavía no hay jornadas disputadas.'),'muted'));for(const m of history){const home=m.homeAway==='home',row=el('div',undefined,'reddit-calendar-row');row.append(el('span',`${date(m.date)} · ${home?displayed.club:clubName(m.opponent)}`),el('strong',`${m.result.homeGoals} – ${m.result.awayGoals}`),el('span',home?clubName(m.opponent):displayed.club));body.append(row);}}}
+      else {const c=displayed.continental;if(!c)body.append(el('p',copy('career.calendar.newCalendar','Disponible con el nuevo calendario de competiciones.')));else{body.append(el('h3','Champions'),el('p',c.format,'muted'));if(!c.qualified)body.append(el('p',copy('career.calendar.notQualified','Tu equipo no está clasificado esta temporada.')));if(c.rows.length)body.append(table(c.rows));if(c.winner)body.append(el('p',copy('career.calendar.champion','Campeón: '+c.winner,{team:c.winner})));if(c.matches.length)results(c);}}
       body.scrollTop=0;
     }
     for(const [id,label]of [['table',copy('career.calendar.table','Clasificación')],['results',copy('career.calendar.results','Resultados')],['continental','Champions']]){const b=button(label,()=>show(id));b.dataset.tab=id;tabs.append(b);}activeDialogLocale=()=>{dialog.lang=locale();close.firstChild.textContent=copy('career.calendar.close','Cerrar');for(const b of tabs.children)b.firstChild.textContent=b.dataset.tab==='table'?copy('career.calendar.table','Clasificación'):b.dataset.tab==='results'?copy('career.calendar.results','Resultados'):'Champions';show(selectedTab);};activeDialogLocale();shell.append(dialog);dialog.addEventListener('close',()=>{activeDialogLocale=null;dialog.remove();if(presentationLocale&&!disposed&&!busy)render();});dialog.showModal();
@@ -717,14 +718,14 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     main.classList.add('p8-world');
     const intro=el('header',undefined,'world-intro');
     const currentDate=el('time',date(v.date),'eyebrow world-current-date');currentDate.dateTime=v.date;
-    intro.append(el('span','ACTUALIDAD DE TU MUNDO','eyebrow'),el('h1','El mundo sigue'),currentDate,el('p','Noticias públicas que aparecen en tu carrera, ordenadas desde la más reciente.','muted'));
+    intro.append(el('span',copy('career.world.eyebrow','ACTUALIDAD DE TU MUNDO'),'eyebrow'),el('h1',copy('career.world.title','El mundo sigue')),currentDate,el('p',copy('career.world.intro','Noticias públicas que aparecen en tu carrera, ordenadas desde la más reciente.'),'muted'));
     main.append(intro);
     const feed=el('section',undefined,'world-feed');feed.setAttribute('aria-labelledby','world-news-title');
-    const heading=el('div',undefined,'world-feed-header'),title=el('h2','Noticias');title.id='world-news-title';heading.append(title,el('span','Más recientes primero','muted'));feed.append(heading);
+    const heading=el('div',undefined,'world-feed-header'),title=el('h2',copy('career.world.news','Noticias'));title.id='world-news-title';heading.append(title,el('span',copy('career.world.order','Más recientes primero'),'muted'));feed.append(heading);
     const news=el('div',undefined,'news-grid');
     if(!v.news.length){
       const empty=el('div',undefined,'world-empty semantic-empty');
-      empty.append(el('strong','No hay noticias destacadas esta semana.'),el('p','Sigue simulando para ver las noticias públicas que genere tu historia.','muted'));news.append(empty);
+      empty.append(el('strong',copy('career.world.empty','No hay noticias destacadas esta semana.')),el('p',copy('career.world.emptyHelp','Sigue simulando para ver las noticias públicas que genere tu historia.'),'muted'));news.append(empty);
     }
     for(const n of [...v.news].reverse()){const card=newsCard(n);if(card)news.append(card);}
     feed.append(news);main.append(feed);
@@ -732,24 +733,24 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   function relations(v,main){
     main.classList.add('p8-relations');
     const intro=el('header',undefined,'relations-intro');
-    intro.append(el('span','NADIE LLEGA SOLO','eyebrow'),el('h1','Las personas de tu historia'),el('p','Personas que ya forman parte de tu carrera y el papel que ocupan en ella.','muted'));main.append(intro);
+    intro.append(el('span',copy('career.relations.eyebrow','NADIE LLEGA SOLO'),'eyebrow'),el('h1',copy('career.relations.title','Las personas de tu historia')),el('p',copy('career.relations.intro','Personas que ya forman parte de tu carrera y el papel que ocupan en ella.'),'muted'));main.append(intro);
     const grid=el('div',undefined,'people-grid relations-grid');
-    if(!v.contacts.length)grid.append(el('p','Aún no hay personas registradas en esta etapa de tu historia.','muted semantic-empty relations-empty'));
+    if(!v.contacts.length)grid.append(el('p',copy('career.relations.empty','Aún no hay personas registradas en esta etapa de tu historia.'),'muted semantic-empty relations-empty'));
     for(const c of v.contacts){const card=personCard(c);if(card)grid.append(card);}
     main.append(grid);
   }
   function profile(v,main){
     main.classList.add('p8-profile');
     const intro=el('header',undefined,'profile-intro');
-    intro.append(el('span','EL PROTAGONISTA ERES TÚ','eyebrow'),el('h1','Tu perfil'),el('p','Tu identidad, tu situación actual y tu contrato, usando únicamente datos de tu carrera.','muted'));main.append(intro);
+    intro.append(el('span',copy('career.profile.eyebrow','EL PROTAGONISTA ERES TÚ'),'eyebrow'),el('h1',copy('career.profile.title','Tu perfil')),el('p',copy('career.profile.intro','Tu identidad, tu situación actual y tu contrato, usando únicamente datos de tu carrera.'),'muted'));main.append(intro);
     const grid=el('div',undefined,'profile-grid');grid.append(hero(v));
     const details=el('div',undefined,'profile-details');
-    const identity=panel('En este momento');identity.classList.add('profile-identity');
-    const identityLabel=el('label','Nombre y apellido','file-label'),identityInput=el('input');
-    identityInput.type='text';identityInput.value=v.player.displayName;identityInput.autocomplete='name';identityInput.setAttribute('aria-describedby','mh-player-name-help');
-    const identityHelp=el('small','Entre 2 y 32 caracteres visibles. Se admiten tildes, apóstrofos y guiones.','muted');identityHelp.id='mh-player-name-help';
-    identityLabel.append(identityInput,identityHelp);identity.append(identityLabel,button('Guardar nombre',()=>run('identity',{displayName:identityInput.value}),'secondary'));
-    for(const [label,value]of[['Edad',v.age+' años'],['Posición',position(v)],['Partidos',v.appearances]]){const r=semanticRow(label,value);if(r)identity.append(r);}
+    const identity=panel(copy('career.profile.now','En este momento'));identity.classList.add('profile-identity');
+    const identityLabel=el('label',copy('career.profile.name','Nombre y apellido'),'file-label'),identityInput=el('input');
+    identityInput.type='text';identityInput.value=profileNameDraft?.sessionId===v.sessionId?profileNameDraft.name:v.player.displayName;identityInput.dataset.entryField='profile-name';identityInput.setAttribute('aria-label',copy('career.profile.nameA11y','Nombre y apellido del jugador'));identityInput.addEventListener('input',()=>{profileNameDraft={sessionId:v.sessionId,name:identityInput.value};});identityInput.autocomplete='name';identityInput.setAttribute('aria-describedby','mh-player-name-help');
+    const identityHelp=el('small',copy('career.profile.nameHelp','Entre 2 y 32 caracteres visibles. Se admiten tildes, apóstrofos y guiones.'),'muted');identityHelp.id='mh-player-name-help';
+    identityLabel.append(identityInput,identityHelp);identity.append(identityLabel,button(copy('career.profile.saveName','Guardar nombre'),()=>run('identity',{displayName:identityInput.value}),'secondary'));
+    for(const [label,value]of[[copy('career.profile.ageLabel','Edad'),copy('career.profile.age',v.age+' años',{age:v.age})],[copy('career.profile.position','Posición'),position(v)],[copy('career.profile.matches','Partidos'),v.appearances]]){const r=semanticRow(label,value);if(r)identity.append(r);}
     const moment=stats(v,false,true),contract=contractSummary(v);
     details.append(identity,moment,contract);grid.append(details);main.append(grid);
   }

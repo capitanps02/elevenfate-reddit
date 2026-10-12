@@ -5,7 +5,9 @@ import {dailyCatalog} from '../i18n/daily-catalog.mjs';
 import {careerEntryCatalog} from '../i18n/career-entry-catalog.mjs';
 import {careerSaveCatalog} from '../i18n/career-save-catalog.mjs';
 import {careerHomeCatalog} from '../i18n/career-home-catalog.mjs';
-export const presentationCatalog={es:{...esBase.ui,...coverCatalog.es,...dailyCatalog.es,...careerEntryCatalog.es,...careerSaveCatalog.es,...careerHomeCatalog.es},en:{...enBase.ui,...coverCatalog.en,...dailyCatalog.en,...careerEntryCatalog.en,...careerSaveCatalog.en,...careerHomeCatalog.en}};
+import {presentCareerSports} from './career-sports-locale.mjs';
+import {careerPanelsCatalog} from '../i18n/career-panels-catalog.mjs';
+export const presentationCatalog={es:{...esBase.ui,...coverCatalog.es,...dailyCatalog.es,...careerEntryCatalog.es,...careerSaveCatalog.es,...careerHomeCatalog.es,...careerPanelsCatalog.es},en:{...enBase.ui,...coverCatalog.en,...dailyCatalog.en,...careerEntryCatalog.en,...careerSaveCatalog.en,...careerHomeCatalog.en,...careerPanelsCatalog.en}};
 const normalize=value=>typeof value==='string'?({es:'es',en:'en'})[value.trim().toLowerCase().split('-')[0]]??null:null;
 // Locale is presentation preference only. No engine, session, save or network imports.
 export function createPresentationLocale({storage=null,key='elevenfate.presentation.locale.v1',availableLocales=['es'],initialLocale=null}={}){
@@ -14,6 +16,7 @@ export function createPresentationLocale({storage=null,key='elevenfate.presentat
  try{remembered=storage?.getItem(key);}catch{}
  let locale=normalize(initialLocale??remembered);if(!available.has(locale))locale='es';
  return {
+  presentCareerSports:sports=>presentCareerSports(sports,locale),
   getLocale:()=>locale,isAvailable:value=>available.has(normalize(value)),
   setLocale(value){const next=normalize(value);if(!available.has(next))return false;const changed=next!==locale;locale=next;try{storage?.setItem(key,locale);}catch{}if(changed)for(const listener of [...listeners])listener(locale);return true;},
   subscribe(listener){listeners.add(listener);return ()=>listeners.delete(listener);},

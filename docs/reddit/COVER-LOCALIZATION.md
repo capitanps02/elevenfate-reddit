@@ -49,3 +49,10 @@ Ocho pruebas nuevas de recuperación PASS con DOM simulado, incluidas cancelaci�
 El diálogo deportivo conserva tab y objeto deportivo al cambiar locale. Sus controles/tablas/avisos están traducidos; división, formato y fases dinámicas siguen originales y requieren proyección de IDs en un próximo bloque. Textos de decisión/resultado/oferta, paneles Carrera/Mundo/Relaciones/Perfil, acciones de jugador y parte de Home no compacto permanecen pendientes. English de producción sigue deshabilitado.
 
 Diez pruebas runtime nuevas PASS; 127 tests Reddit con build oficial PASS; 53 checks combinados y 28 contratos UI posteriores al ajuste CSS PASS. QA local con fixture ES/EN en seis tamaños, sin escrituras ni evidencia de Redis/webview. Foco preservado en controles identificados; listener del diálogo se descarta al navegar.
+
+## Deporte de carrera y paneles
+El deporte de carrera presenta divisionId y metadatos de copa por IDs a través de shared/sports-presentation.mjs. Daily conserva las mismas exportaciones desde su módulo servidor. presentCareerSports devuelve ES intacto y una copia EN; no edita scores/tablas/nombres/penaltis/winners ni invalida la proyección cacheada. IDs desconocidos producen MISSING_CAREER_SPORTS_TRANSLATION y el diálogo ofrece recuperación cambiando a Español; no bloquea la carrera completa.
+
+career-panels-catalog.mjs agrega 32 claves; con aviso deportivo se alcanzan 351 UI. Perfil incluye contrato y borrador de nombre por sessionId, con foco y texto conservados; identity se envía solo al guardar. Mundo/Relaciones traducen estructura y estados vacíos; noticias públicas y roles siguen originales. No se certifica su cobertura narrativa ni se habilita English.
+
+Doce tests nuevos, build/config y 139 pruebas Reddit PASS, más 28 contratos de interfaz finales PASS; QA local de Perfil a 390×844 sin guardado ni datos de cuenta. Quedan Carrera, acciones voluntarias, narrativas/news/roles/cinematics y gates finales de equivalencia, accesibilidad y Reddit.
