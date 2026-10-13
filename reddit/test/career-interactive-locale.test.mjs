@@ -67,7 +67,7 @@ test('offer terms, loan policy and focus translate but offerId/action and facts 
  const x=setup('offer',{offer:o,decision:null,result:null,offerHistory:[]});
  try{await tick();/* full Home restores a pending cinematic during load */const beforeLocale=JSON.stringify(x.v);
   assert.match(text(x.root),/Parent club/);assert.match(text(x.root),/Registration club/);assert.match(text(x.root),/This offer is a loan/);
-  assert.match(text(x.root),/12 months/);assert.match(text(x.root),/Your agent will only accept/);assert.match(text(x.root),/Propuesta canónica/);
+  assert.match(text(x.root),/12 months/);assert.match(text(x.root),/your agent will only accept/);assert.match(text(x.root),/Propuesta canónica/);
   const b=findButton(x.root,'Delegate this offer');b.focus();x.i18n.setLocale('es');
   assert.equal(x.root.ownerDocument.activeElement.dataset.localeFocus,'offer-delegate');
   assert.ok(findButton(x.root,'Delegar esta oferta'));
