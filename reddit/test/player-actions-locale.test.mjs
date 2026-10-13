@@ -9,7 +9,7 @@ test('all 20 runtime actions and 31 options have exact ES sources and matching E
 });
 test('translation copies labels and preserves public IDs, target names, eligibility, cooldowns and source object',async()=>{
  const session=await GameSession.create(424242,{events:[]}),source=session.getView().actions,before=JSON.stringify(source),snapshot=JSON.stringify(session.exportSnapshot()),en=presentPlayerActions(source,'en');assert.equal(presentPlayerActions(source,'es'),source);assert.match(en.categories.find(c=>c.id==='training').actions[0].label,/Extra training/);
- for(const [i,c] of en.categories.entries())for(const [j,a] of c.actions.entries()){const {label,description,options,targets,...facts}=a,{label:esLabel,description:esDescription,options:esOptions,targets:esTargets,...original}=source.categories[i].actions[j];assert.deepEqual(facts,original);assert.deepEqual(options.map(({label,...o})=>o),esOptions.map(({label,...o})=>o));assert.deepEqual(targets.map(({options,...t})=>t),esTargets.map(({options,...t})=>t));}
+ for(const [i,c] of en.categories.entries())for(const [j,a] of c.actions.entries()){const facts=value=>Array.isArray(value)?value.map(facts):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).filter(([key])=>!['label','description','unavailableReason','role'].includes(key)).map(([key,item])=>[key,facts(item)])):value;assert.deepEqual(facts(a),facts(source.categories[i].actions[j]));}
  assert.equal(JSON.stringify(source),before);assert.equal(JSON.stringify(session.exportSnapshot()),snapshot);
 });
 test('executed action projects option IDs on old saves without writes, and result/history translate by those IDs',async()=>{
@@ -20,3 +20,4 @@ test('unknown actions fail closed and ambiguous history shows availability guida
  assert.throws(()=>presentPlayerActions({categories:[{id:'new',actions:[]}],history:[],lastResult:null},'en'),MissingPlayerActionTranslation);assert.throws(()=>presentPlayerActions({categories:[{id:'training',actions:[{id:'new',options:[]}]}],history:[],lastResult:null},'en'),MissingPlayerActionTranslation);
  for(const row of [{actionId:'PA_TRAIN_EXTRA',text:'Completas una sesión técnica adicional.'},{actionId:'PA_TRAIN_EXTRA',optionId:'TECHNIQUE',text:'Different old result'}]){const before=JSON.stringify(row),en=presentPlayerActionHistory(row,'en');assert.equal(en.translationUnavailable,true);assert.match(en.text,/available in Español/);assert.equal(en.optionId,row.optionId);assert.equal(JSON.stringify(row),before);assert.equal(presentPlayerActionHistory(row,'es'),row);}
 });
+

@@ -162,3 +162,17 @@ QA visual local sin writes: Carrera vacía, siete categorías y detalle de Entre
 9 pasadas previstas. Siguen 6 principales pendientes: P3, P4, P5, P6, P7 y P8; P0/P1/P2 tienen comprobaciones de cierre pendientes. P4 pasa a 80%, sin PASS todavía. Esta iteración cierra tareas de Carrera y acciones dentro de P4; no se descuenta una pasada sin superar su gate. Próximo bloque: mensajes semánticos/roles y resúmenes, seguido de narrativa de carrera por IDs y cinematics.
 
 74% ponderado exacto: P4=80%, aporte=16 puntos; resto sin cambios. English sigue desactivado en producción; candidato en borrador y sin publicación.
+
+
+
+## Continuación: bloqueos públicos, roles de objetivos y resumen del periodo
+
+Base revisada: a93c2d6df3560bcadb9eb5fa389814023113e2d1, CI SUCCESS (38309306163). Se conserva todo el trabajo posterior al antiguo 69%; no se reutilizan los borradores locales anteriores.
+
+player-action-availability.mjs cubre 13 mensajes públicos y 10 roles de objetivos del registro ejecutable. Son copias cerradas de presentación: se exige coincidencia exacta con el mensaje público ES y, para roles, con el par NPC id/rol público. No se añaden códigos al motor ni al save, no se inspeccionan perfiles/agendas y no se infiere elegibilidad. El cooldown exige mensaje completo y fecha pública coincidente. Un mensaje o rol nuevo/desfasado ofrece disponibilidad de los detalles en Español; mantiene las mismas opciones, booleans, IDs, nombres, fechas y comandos. Una prueba exige que las fuentes coincidan con eligibility/session y el registro público. Las razones se presentan en sesión, acción, opción, persona y opciones de persona.
+
+career-period-catalog.mjs agrega 28 claves: 470 UI combinadas ES/EN. El resumen del periodo presenta fechas UTC, singular/plural de días/semanas, estadísticas, cabecera de cambios de carrera, seis participaciones públicas exactas, notas, historial deportivo y diez tipos de interrupción por enum. Un tipo de interrupción nuevo usa el mensaje genérico; participación desconocida ofrece detalles en Español. Narrativas de worldHighlights/report.context y roles deportivos de carrera se conservan: no se certifica traducción de esos campos. Home no compacto aún requiere revisión de cobertura. No se añade selector de idioma a Simular.
+
+Verificación local: 9 pruebas nuevas y 12 previas, 21/21 PASS sobre los módulos dist exactos de la base revisada. Incluyen cobertura de fuentes, campos de disponibilidad en todos los niveles, desconocidos/cooldown, roles por ID, reporte singular/plural/participación/interrupciones, bloqueo de opciones, foco/selección y comandos ES/EN existentes, snapshots y objetos sin cambios, sin escrituras al cambiar locale. No sustituye la CI oficial ni una revisión visual real en Reddit; CI del nuevo commit pendiente al redactar. Motor, tipos, proyección, dist, persistencia, estilos y assets no se modifican en esta iteración.
+
+75% ponderado: P4 sube de 80% a 85% (17 puntos); resto sin cambios. De 9 pasadas previstas siguen 6 principales abiertas, P3/P4/P5/P6/P7/P8, más comprobaciones finales de P0/P1/P2. Próximo bloque: narrativa de carrera por IDs (decisiones/resultados/ofertas), news/roles generales y cinematics; luego revisión artística completa, equivalencia y Reddit real. English sigue desactivado en producción; candidato en borrador y sin publicar.

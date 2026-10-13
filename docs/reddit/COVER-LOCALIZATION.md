@@ -63,3 +63,12 @@ career-record-catalog.mjs añade 91 claves UI (442 combinadas). player-action-co
 PlayerView añade optionId a historial y actionId/optionId a lastResult, proyectándolos desde el registro existente. La ejecución y persistencia no cambian; snapshots anteriores conservan sus bytes. Los campos añadidos son públicos y los contratos de privacidad se actualizan explícitamente. Sin IDs o con un publicResult desfasado, EN ofrece disponibilidad ES; no busca la opción por etiqueta ni inventa consecuencias. Motivos de bloqueo y roles aún requieren cobertura semántica; EN de producción permanece cerrado.
 
 12 tests nuevos PASS; build/config y 151 Reddit PASS; 55 sesión/UI PASS; comparación antes/después sobre 4 comandos con snapshots idénticos, 100 lecturas puras y recuperación de IDs desde el snapshot anterior sin writes. QA local de Carrera/acciones 390×844 y 320×480, sin ejecutar opciones ni guardar.
+
+
+
+## Disponibilidad pública y periodo simulado
+13 razones y 10 roles de objetivos se localizan mediante copias cerradas verificadas contra fuente pública; razón por coincidencia completa, rol por NPC ID y fuente exacta. No se deriva un código causal ni se cambia elegibilidad. Cooldown requiere fecha pública y mensaje completo coincidente; desconocidos muestran disponibilidad de detalles en Español, sin bloquear opciones adicionales ni fabricar explicaciones.
+
+28 claves de periodo elevan la UI combinada a 470. Duración singular/plural, estadísticas, cabeceras, participación certificada, notas, historial y diez interrupciones públicas se localizan en Home/Carrera. worldHighlights, report.context, roles deportivos de carrera y contacto general siguen pendientes; los textos originales no se reescriben ni se deducen por fragmentos. No cambia ningún snapshot ni comando.
+
+9 pruebas nuevas y 12 previas: 21/21 locales PASS contra dist de a93c2d6. CI oficial del nuevo commit pendiente; English de producción sigue cerrado.
