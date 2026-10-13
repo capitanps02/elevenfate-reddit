@@ -1,6 +1,6 @@
 # ElevenFate Reddit — plan único de portada, recalculado
 
-13 de octubre de 2026 · Revisión 2.1 · **86 % estimado; R1 cerrada; 3 pasadas restantes**.
+13 de octubre de 2026 · Revisión 2.2 · **94 % estimado; R1 y R2 cerradas; 2 pasadas restantes**.
 
 Sustituye los porcentajes y colas anteriores de portada. La candidata sigue siendo [PR #4](https://github.com/capitanps02/elevenfate-reddit/pull/4); no se abre otra implementación. El porcentaje mide preparación y trabajo existente reutilizable, no certificación ni publicación. R1 ya concilia la fuente 0.1.7 y los deltas únicos de portada. La certificación y publicación de esta candidata siguen pendientes.
 
@@ -51,20 +51,23 @@ En la fuente bilingüe ya existen controles de idioma en acceso/juego y diálogo
 
 R1 retira físicamente 40 archivos del prototipo superado, incluidos adaptadores/catálogos parciales y pruebas específicas de ese pipeline. Se mantienen las pruebas de los flujos únicos y se conectan al runtime completo. No quedan imports del pipeline retirado. Los deltas del motor que solo servían a las traducciones parciales se sustituyen por el motor exacto de 0.1.7.
 
-## 4. Contador: R1 cerrada, tres pasadas pendientes
+## 4. Contador: R1/R2 cerradas, dos pasadas pendientes
 
 | Pasada | Trabajo concreto | Cierre verificable |
 |---|---|---|
 | **R1 — Conciliar fuente e integración — CERRADA** | Fijar la copia auditada de 0.1.7 como base; llevar los deltas únicos de portada y guardado; preservar SDK 0.14.7, idioma completo, Daily v7/legacy, ayuda, privacidad y analítica; consolidar pipelines y separar cambios ajenos | Una candidata coherente y versionada; inventario de diferencias cerrado; una sola localización; cero pérdida de prestaciones existentes |
-| **R2 — Terminar portada y tutorial** | Reutilizar menú y tutorial; mover idiomas a portada y retirar selector de Simular; pulir recorte, contraste, targets, textos nuevos y foco; probar 320×480, 360×800, 390×844, 412×915, 375×600, 900×650 | Seis controles claros; ningún menú duplicado; acciones y retorno correctos; estética, zoom/scroll y ES/EN sin recortes; tutorial sin escrituras |
-| **R3 — Validar candidata exacta** | Build/CI del SHA integrado; pruebas afectadas de idioma, guardado y navegación; reanudación en estados pendientes, conflictos, respuesta perdida, Daily existente, privacy/analytics preservadas; prueba privada Reddit y rendimiento proporcional | Evidencia del mismo SHA/fingerprint; partidas/RNG/score intactos en escenarios verificados; ambos idiomas completos y rutas reales correctas |
+| **R2 — Terminar portada y tutorial — CERRADA LOCALMENTE** | Reutilizar menú y tutorial; mover idiomas a portada y retirar selector de Simular; pulir recorte, contraste, targets, textos nuevos y foco; probar 320×480, 360×800, 390×844, 412×915, 375×600, 900×650 | Seis controles claros; ningún menú duplicado; acciones y retorno correctos; estética, reflow/scroll y ES/EN sin recortes; tutorial sin escrituras |
+| **R3 — Validar candidata exacta** | Build/CI del SHA integrado; pruebas afectadas de idioma, guardado y navegación; reanudación en estados pendientes, conflictos, respuesta perdida, Daily existente, privacy/analytics preservadas; prueba privada Reddit, zoom nativo y rendimiento proporcional | Evidencia del mismo SHA/fingerprint; partidas/RNG/score intactos en escenarios verificados; ambos idiomas completos y rutas reales correctas |
 | **R4 — Entrega y comprobación** | Coordinar el flujo de versiones ya existente; verificar revisión/instalación efectiva; entregar la portada validada y comprobar post, idioma, reanudación y Daily; registrar reversión | Versión servida y fuente coinciden, experiencia comprobada y registro único de entrega. Publicación se realizará en su fase autorizada, no en este recálculo |
 
-El contador sigue siendo R1–R4: **1/4 cerrada; 3 restantes**. R2 está iniciada: selector retirado de Simular y Daily; portada, creación y Daily comprobados en navegador local ES/EN; doce casos de portada (seis tamaños por idioma), controles ≥48 px, sin desbordamiento horizontal. Tutorial español comprobado a 320×480 con opciones accesibles por scroll. Restan a R2 la revisión de las otras pantallas, foco/teclado, zoom, contraste y ayudas; R3 conserva la certificación de una única candidata y la prueba privada real. Los ajustes se absorben dentro de su pasada, sin abrir otro contador.
+El contador sigue siendo R1–R4: **2/4 cerradas; 2 restantes**. R2 cierra el pulido y comprobaciones locales. Portada: seis tamaños por idioma; carrera: 72 casos (seis pantallas × seis tamaños × ES/EN), sin overflow horizontal, controles visibles ≥44 px y sin selector en Simular. Daily español: seis tamaños sin overflow ni targets pequeños. Teclado: formulario, desplegables, tabulación de portada, cambio de idioma con Enter, foco visible, Escape en clasificación y ayuda, con retorno de foco. Se conservan apertura y foco de la ayuda del tutorial en cambios de idioma/lecturas; foco de Reintentar al desaparecer el control; lang propio en Español/English; bordes de campos con contraste 4,02:1; acceso a clasificación ampliado de 32 a 44 px; safe areas conservadas también en ventanas bajas.
+
+**Límite de la revisión local:** el atajo de zoom nativo no altera viewport, DPR ni escala en el navegador integrado. No se declara zoom real aprobado. Esa comprobación se concentra en **R3**, en la superficie real de Reddit, junto con dispositivo/plataforma y candidata exacta; no abre otra pasada. Tampoco se heredan los gates de la entrega 0.1.7.
+
 
 Fuera de estas cuatro pasadas: cambiar puntuación, ampliar telemetría, monetización, featuring y promoción. Se preserva lo integrado, sin abrir nuevos frentes.
 
-## 5. Cálculo transparente del 86 %
+## 5. Cálculo transparente del 94 %
 
 Se mantienen los pesos de preparación históricos; P0–P8 no son otra cola.
 
@@ -72,16 +75,18 @@ Se mantienen los pesos de preparación históricos; P0–P8 no son otra cola.
 |---|---:|---:|---:|
 | Baseline/conciliación P0 | 8 % | 100 % | 8 % |
 | Contrato P1 | 10 % | 100 % | 10 % |
-| Portada P2 | 15 % | 90 % | 13,5 % |
+| Portada P2 | 15 % | 100 % | 15 % |
 | Flujos P3 | 20 % | 100 % | 20 % |
 | Traducción reutilizada P4 | 20 % | 100 % | 20 % |
-| Simular P5 | 5 % | 90 % | 4,5 % |
-| Arte/accesibilidad P6 | 10 % | 40 % | 4 % |
+| Simular P5 | 5 % | 100 % | 5 % |
+| Arte/accesibilidad local P6 | 10 % | 100 % | 10 % |
 | Certificación P7 | 8 % | 75 % | 6 % |
 | Entrega P8 | 4 % | 0 % | 0 % |
-| **Total** | **100 %** | | **86 %** |
+| **Total** | **100 %** | | **94 %** |
 
-78 % tras el recálculo → 86 % tras R1 y revisión inicial de R2. Los 8 puntos reconocen conciliación, contrato, conexiones y comprobaciones visuales ya realizadas. La preparación histórica de certificación no equivale al PASS final de R3. **14 % estimado restante; 3 pasadas de cierre**.
+78 % tras el recálculo → 86 % tras R1 → **94 % tras R2 local**. Los 8 puntos nuevos cierran preparación de portada (+1,5), Simular (+0,5) y revisión gráfica/accesibilidad local (+6). **6 % estimado restante; 2 pasadas de cierre**: R3 certificación exacta/Reddit/zoom nativo y R4 entrega. El porcentaje sigue midiendo preparación, no publicación ni aprobación final.
+
+R2 pasa **293/293 pruebas Reddit**, incluidas las dos nuevas de estado/foco. Build preview conserva 388 eventos y 4.241 textos narrativos, missing=0. CI de 2b4f5c6 terminó correctamente; no se atribuye ese PASS al SHA posterior de pulido. Registro de R2: [R2-LOCAL-REVIEW.json](R2-LOCAL-REVIEW.json).
 
 Validación local de integración: compilación de motor y preview bilingüe; configuración Devvit con SDK 0.14.7; **291/291 pruebas Reddit**, incluidas las 49 focalizadas (no se suman dos veces); **142/142 pruebas separadas de guardados y UI A19**. Los 81 casos de sesión, Player Actions y autosimulación del lote extendido también finalizaron correctamente, incluido el cierre de una carrera completa. Ese lote anterior contenía una expectativa obsoleta del formulario inglés; la expectativa corregida ya pasa en la suite vigente de 291 casos. No se presenta aquel lote como un PASS global ni se suman sus pruebas solapadas. No se han realizado prueba privada ni instalación en Reddit con esta candidata. Los flags de certificación de la copia 0.1.7 no se heredan: `completeRegression`, `visualAndLanguageReview` y `redditPlaytest` permanecen en false en la candidata modificada. English se comprueba con `--locale-preview` hasta certificar su propio fingerprint.
 

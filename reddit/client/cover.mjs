@@ -3,7 +3,7 @@ import {tutorialSample} from './tutorial-sample.mjs';
 import {createCoverState} from './cover-state.mjs';
 export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,authenticated=true,locale, onHelp}){
  const doc=root.ownerDocument,t=createCoverCopy(locale);
- let screen='menu',step=0,selection=null,disposed=false,state={status:'checking',hasCareer:null,error:''};
+ let screen='menu',step=0,selection=null,featuresOpen=false,disposed=false,state={status:'checking',hasCareer:null,error:''};
  const el=(tag,text,cls)=>{const n=doc.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;if(tag==='h1'){n.dataset.coverAction='heading';n.tabIndex=-1;}return n;};
  const button=(label,fn,key,primary=false)=>{const b=el('button',label,'cover-button'+(primary?' is-primary':''));b.type='button';b.dataset.coverAction=key;b.addEventListener('click',fn);return b;};
  function startPlaying(){if(!authenticated||state.status!=='ready'){show('menu');return;}if(state.hasCareer)onContinue();else onNew();}
@@ -25,11 +25,11 @@ export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,a
    resume.setAttribute('aria-describedby','cover-status');
    const fresh=button(t('cover.new'),onNew,'new',state.status==='ready'&&!state.hasCareer);fresh.disabled=!authenticated;
    const daily=button('Daily',onDaily,'daily');daily.append(el('span',t('cover.dailyNote'),'cover-button-note'));daily.disabled=!authenticated;
-   nav.append(resume,fresh,daily,button(t('cover.tutorial'),()=>{step=0;selection=null;show('tutorial');},'tutorial'));
+   nav.append(resume,fresh,daily,button(t('cover.tutorial'),()=>{step=0;selection=null;featuresOpen=false;show('tutorial');},'tutorial'));
    panel.append(nav);
    const languages=el('div',undefined,'cover-languages');languages.setAttribute('role','group');languages.setAttribute('aria-label',t('cover.language'));
-   const spanish=button('Español',()=>locale.set('es'),'es');spanish.setAttribute('aria-pressed',String(locale.language==='es'));
-   const english=button('English',()=>locale.set('en'),'en');english.disabled=!locale.enabled;english.setAttribute('aria-pressed',String(locale.language==='en'));english.setAttribute('aria-describedby','cover-language-note');
+   const spanish=button('Español',()=>locale.set('es'),'es');spanish.lang='es';spanish.setAttribute('aria-pressed',String(locale.language==='es'));
+   const english=button('English',()=>locale.set('en'),'en');english.lang='en';english.disabled=!locale.enabled;english.setAttribute('aria-pressed',String(locale.language==='en'));english.setAttribute('aria-describedby','cover-language-note');
    languages.append(spanish,english);panel.append(languages,el('p',t(locale.enabled?'cover.languageReady':'cover.languagePending'),'cover-caption'));
    panel.lastChild.id='cover-language-note';panel.lastChild.hidden=locale.enabled;
    const status=el('p',!authenticated?t('cover.login'):state.status==='checking'?t('cover.checking'):state.status==='error'?(locale.language==='es'?state.error:t('cover.readError')):state.hasCareer?t('cover.available'):t('cover.empty'),'cover-status');status.id='cover-status';status.setAttribute('role',state.status==='error'?'alert':'status');panel.append(status);
@@ -49,7 +49,7 @@ export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,a
    page.append(panel);
    if(screen==='finish'){
     panel.replaceChildren(el('p',t('tutorial.ready'),'cover-brand'),el('h1',t('tutorial.finishTitle')),el('p',t('tutorial.finishBody')));
-    const details=el('details',undefined,'cover-features');details.append(el('summary',t('tutorial.featuresTitle')));
+    const details=el('details',undefined,'cover-features');details.open=featuresOpen;details.addEventListener('toggle',()=>{featuresOpen=details.open;});const summary=el('summary',t('tutorial.featuresTitle'));summary.dataset.coverAction='features';details.append(summary);
     for(const id of ['tutorial.featuresCareer','tutorial.featuresWorld','tutorial.featuresActions','tutorial.featuresRelations','tutorial.featuresProfile','tutorial.featuresSave','tutorial.featuresDaily'])details.append(el('p',t(id)));
     panel.append(details);
     const play=button(state.hasCareer?t('tutorial.resumeCareer'):t('tutorial.startCareer'),startPlaying,'play',true);play.disabled=!authenticated||state.status!=='ready';panel.append(play);
@@ -57,7 +57,7 @@ export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,a
    }
   }
   root.append(page);
-  if(focused)root.querySelector('[data-cover-action="'+focused+'"]')?.focus({preventScroll:true});
+  if(focused){const next=root.querySelector('[data-cover-action="'+focused+'"]');(next&&!next.disabled?next:root.querySelector('h1'))?.focus({preventScroll:true});}
  }
  function keyboard(event){if(event.key==='Escape'&&screen!=='menu'){event.preventDefault();show('menu');}}
  root.addEventListener('keydown',keyboard);

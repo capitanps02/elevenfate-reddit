@@ -1,7 +1,9 @@
 # Portada — estado vigente
 
-13-Oct-2026. **86 % estimado; R1 cerrada; 3 pasadas pendientes: R2–R4.**
+13-Oct-2026. **94 % estimado; R1/R2 local cerradas; 2 pasadas pendientes: R3–R4.**
 
-Integración de la fuente auditada 0.1.7 completada en la rama candidata. Idioma completo reutilizado, 40 archivos redundantes retirados, motor/servidor/analítica preservados. R2 iniciada; doce casos de portada sin overflow horizontal y controles ≥48 px. No está certificada ni publicada esta candidata.
+R1 integra la fuente auditada 0.1.7 y retira duplicidades. R2 corrige foco/estado del tutorial y recuperación, contraste de campos, target de clasificación y safe areas; verifica teclado, 72 casos de carrera ES/EN, seis tamaños de Daily y la portada. 293/293 pruebas Reddit y build preview correctos.
 
-291/291 pruebas Reddit (las 49 focalizadas son un subconjunto), 142/142 de guardados/UI A19 y compilación local correctas. Los 81 casos de sesión/acciones/autosimulación del lote extendido finalizaron correctamente; la única expectativa obsoleta de idioma de ese lote queda corregida y verificada en la suite vigente de 291 casos. La única cola y el cálculo están en [ROADMAP.md](ROADMAP.md); evidencia de conciliación en [INTEGRATION-017.json](INTEGRATION-017.json).
+CI del SHA anterior 2b4f5c6 en verde; no certifica el SHA nuevo. Zoom nativo no operable mediante el atajo del navegador integrado: queda en la comprobación real de R3 en Reddit. No hay certificación privada, publicación ni instalación de esta candidata.
+
+Cola y cálculo únicos: [ROADMAP.md](ROADMAP.md). Evidencia local: [R2-LOCAL-REVIEW.json](R2-LOCAL-REVIEW.json).

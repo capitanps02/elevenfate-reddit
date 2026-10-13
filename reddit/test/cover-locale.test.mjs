@@ -28,3 +28,17 @@ test('English errors use localized recovery text in the preview',async()=>{
  const dispose=mountCover({root,locale,readCareer:async()=>{throw Error('Texto de error del servidor en español');},onContinue(){},onNew(){},onDaily(){}});await settle();
  assert.ok(text(root).includes('Could not check your saved career'));assert.ok(!text(root).includes('Texto de error'));assert.equal(action(root,'continue').disabled,true);dispose();
 });
+test('language updates preserve expanded tutorial help and its focused summary without another read',async()=>{
+ const root=makeRoot(),locale=releaseLocale({});let reads=0;
+ const dispose=mountCover({root,locale,readCareer:async()=>{reads++;return null;},onContinue(){},onNew(){},onDaily(){}});await settle();
+ action(root,'tutorial').click();action(root,'simulate').click();action(root,'a').click();action(root,'acknowledge').click();
+ let details=root.querySelector('details');details.open=true;details.listeners.toggle();action(root,'features').focus();
+ locale.set('en');details=root.querySelector('details');assert.equal(details.open,true);assert.equal(root.ownerDocument.activeElement,action(root,'features'));assert.equal(reads,1);
+ locale.set('es');assert.equal(root.querySelector('details').open,true);assert.equal(reads,1);dispose();
+});
+test('retry availability updates keep keyboard focus inside the cover when the retry button disappears',async()=>{
+ const root=makeRoot(),locale=releaseLocale({});let reads=0,complete;
+ const dispose=mountCover({root,locale,readCareer:async()=>{if(++reads===1)throw Error('Offline');return await new Promise(resolve=>{complete=resolve;});},onContinue(){},onNew(){},onDaily(){}});await settle();
+ action(root,'retry').focus();action(root,'retry').click();assert.equal(root.ownerDocument.activeElement,root.querySelector('h1'));
+ complete('saved');await settle();assert.equal(root.contains(root.ownerDocument.activeElement),true);assert.equal(action(root,'continue').disabled,false);dispose();
+});

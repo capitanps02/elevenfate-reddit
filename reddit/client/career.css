@@ -68,3 +68,8 @@
 @media(max-height:480px){.reddit-shell main.reddit-home{display:flex;flex-direction:column;overflow:auto}.reddit-shell .reddit-player{flex-shrink:0;min-height:160px}.reddit-shell .reddit-advance,.reddit-shell .reddit-daily{flex-shrink:0}.reddit-shell .reddit-scene{overflow:auto;height:auto;max-height:100%}.reddit-shell .reddit-scene-copy{overflow:visible;flex-shrink:0}.reddit-shell .reddit-scene>.choices{overflow:visible;max-height:none}.reddit-shell.immersive{grid-template-rows:auto minmax(0,1fr)}}
 .reddit-shell .language-toggle{flex:0 0 98px;min-height:44px;width:98px;padding:8px 12px;border:1px solid #5cbb8b;border-radius:6px;background:#102d23;color:#d2ffe8;font:600 13px system-ui;letter-spacing:0}.reddit-shell .language-toggle:focus-visible{outline:3px solid #fff;outline-offset:2px}
 .reddit-shell .language-toggle[hidden]{display:none!important}
+
+/* Visible field boundaries on the dedicated entry form. */
+.reddit-shell .new-story-entry input{border-color:#767680}
+
+.reddit-shell .reddit-league-link{min-height:44px}
