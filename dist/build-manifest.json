@@ -313,6 +313,7 @@
     "dist/epilogue/career-summary.js": "de956789c48422064b702a620747e0b9adec6b92da71999cc23e5f029640b6ab",
     "dist/epilogue/generator.js": "e3d104a0cdf85189706904b4c81d46243b48135113a51da7f286fa7f95de44b1",
     "dist/media/media-manager.js": "e40324da5104f464c4c0da44d161eccdfa9f9afafbd44bd729439cf43a4575e2",
+    "dist/multihistoria-engine-bundle.js": "df3454ee4e832572a24aecfabb7b374f89a692f1402f487ba7572ae1d44ea2bb",
     "dist/narrative/a8-runtime-eligibility.js": "061ba50dc3cb73b89073f49523bd290e0d405a1ebac704d9af6792417bf9e0a4",
     "dist/narrative/choice-eligibility.js": "cbebf50b73772b9da1962e9740b00e958850bbc22e8b7adaec179be0b73900d4",
     "dist/narrative/consequences.js": "01a965c2c06134cf987d5f4ba390eb769df427826754f3ae58044b77b70e28fb",
