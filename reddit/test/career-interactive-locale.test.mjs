@@ -33,7 +33,7 @@ test('cinematic/offer copy is paired by ID and never enables English in producti
 test('decision copy, accessible choice group and focus translate, with identical canonical choice command',async()=>{
  const d={instanceId:'decision-instance',family:'team',title:'Título canónico',body:'Narrativa canónica sin traducir',choices:[{id:'choice-one',label:'Elección canónica'},{id:'choice-two',label:'Otra elección'}],visible:['Información canónica'],uncertain:['Duda canónica'],memories:[]};
  const x=setup('decision',{decision:d,result:null,offer:null});
- try{await tick();findButton(x.root,'A decision awaits').click();
+ try{await tick();all(x.root).find(n=>n.tagName==='BUTTON'&&n.dataset.localeFocus==='primary').click();
   assert.match(text(x.root),/A MOMENT THAT MATTERS/);assert.match(text(x.root),/What you know · what remains to be discovered/);
   const group=all(x.root).find(n=>n.attributes.role==='group'&&n.attributes['aria-label']==='Decision options');
   assert.ok(group);const choice=all(x.root).find(n=>n.dataset.localeFocus==='choice-choice-one');assert.ok(choice);
@@ -50,7 +50,7 @@ test('decision copy, accessible choice group and focus translate, with identical
 test('result copy and match summary translate without changing outcomes, deltas or acknowledgement',async()=>{
  const r={title:'Resultado canónico',choiceLabel:'Opción original',visibleEffects:[{label:'Forma',delta:2,favorable:true}],narrativeEffects:['Mensaje canónico'],hiddenEffects:[],messages:['Mensaje canónico']};
  const x=setup('result',{result:r,decision:null,offer:null,resultCategory:'match'});
- try{await tick();findButton(x.root,'Return to your decision').click();
+ try{await tick();all(x.root).find(n=>n.tagName==='BUTTON'&&n.dataset.localeFocus==='primary').click();
   assert.match(text(x.root),/AFTER YOUR DECISION/);assert.match(text(x.root),/YOUR DECISION/);
   assert.match(text(x.root),/Consequences/);assert.match(text(x.root),/Match summary/);
   assert.match(text(x.root),/Mensaje canónico/);
@@ -65,7 +65,7 @@ test('result copy and match summary translate without changing outcomes, deltas 
 test('offer terms, loan policy and focus translate but offerId/action and facts remain stable',async()=>{
  const o={id:'offer-1',reason:'Propuesta canónica',date:'2026-07-08',before:{club:'Team A',ownerClub:'Team A',registrationClub:'Team A',leagueTier:2,salary:1000,months:6,releaseClause:null,loan:false},terms:{club:'Team B',ownerClub:'Team B',registrationClub:'Team B',leagueTier:1,salary:1200,months:12,releaseClause:2000,loan:true}};
  const x=setup('offer',{offer:o,decision:null,result:null,offerHistory:[]});
- try{await tick();findButton(x.root,'Review offer').click();const beforeLocale=JSON.stringify(x.v);
+ try{await tick();all(x.root).find(n=>n.tagName==='BUTTON'&&n.dataset.localeFocus==='primary').click();const beforeLocale=JSON.stringify(x.v);
   assert.match(text(x.root),/Parent club/);assert.match(text(x.root),/Registration club/);assert.match(text(x.root),/This offer is a loan/);
   assert.match(text(x.root),/12 months/);assert.match(text(x.root),/Your agent will only accept/);assert.match(text(x.root),/Propuesta canónica/);
   const b=findButton(x.root,'Delegate this offer');b.focus();x.i18n.setLocale('es');
