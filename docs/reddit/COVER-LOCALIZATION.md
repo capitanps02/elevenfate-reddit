@@ -1,3 +1,5 @@
+> Dirección vigente (13-Oct-2026): [ROADMAP.md](ROADMAP.md). Este archivo conserva evidencia histórica; sus porcentajes y siguientes pasos no reabren tareas. El proyecto independiente de inglés debe localizarse y reutilizarse antes de declarar trabajo pendiente.
+
 # Localización de portada y tutorial — integración inicial
 
 Origen reutilizado: PR #3, feat/english-localization-seed-20261011, SHA 74d60cf0224bcd59b06f03f98176741006905406. es.json/en.json conservan los bytes originales; no se fusiona el resto de la PR ni se afirma que el juego esté traducido.

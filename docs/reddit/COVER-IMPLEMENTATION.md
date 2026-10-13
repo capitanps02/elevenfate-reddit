@@ -1,3 +1,5 @@
+> Dirección vigente (13-Oct-2026): [ROADMAP.md](ROADMAP.md). Este archivo conserva evidencia histórica; sus porcentajes y siguientes pasos no reabren tareas. El proyecto independiente de inglés debe localizarse y reutilizarse antes de declarar trabajo pendiente.
+
 # Reddit portada — primera implementación
 Base: 91b6449b6e9dc4226f0b36b35384bc3558a425dc. Rama: feat/reddit-cover-entry-20261012.
 
@@ -32,3 +34,4 @@ La CI existente verifica build y regresión adicional de UI/guardado. Revisar re
 Primera ejecución CI: build y verify:reddit PASS sobre f9b3294a226c9da2cec0e81384eb5885285b36bf. Regresión ampliada de sesión/guardado/UI todavía en ejecución al registrar este estado; no es certificación del HEAD posterior.
 Añadidas cuatro pruebas de interacción sobre DOM simulado, además de seis de disponibilidad. Las diez comprobaciones se ejecutaron con V8 durante desarrollo; deben pasar también en Node/CI del candidato final.
 Corregida interacción con el overflow global del Reddit existente: cover-host tiene scroll propio y altura de webview, sin alterar layout de carrera o Daily. Layout visual/dispositivo todavía pendiente.
+

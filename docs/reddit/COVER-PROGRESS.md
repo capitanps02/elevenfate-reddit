@@ -1,3 +1,5 @@
+> Dirección vigente (13-Oct-2026): [ROADMAP.md](ROADMAP.md). Este archivo conserva evidencia histórica; sus porcentajes y siguientes pasos no reabren tareas. El proyecto independiente de inglés debe localizarse y reutilizarse antes de declarar trabajo pendiente.
+
 # Portada Reddit — avance de implementación
 
 13 de octubre de 2026. PR #4; código en borrador, no publicado.
