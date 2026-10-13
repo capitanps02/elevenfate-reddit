@@ -1,8 +1,8 @@
 # Portada Reddit — avance de implementación
 
-12 de octubre de 2026. PR #4; código en borrador, no publicado.
+13 de octubre de 2026. PR #4; código en borrador, no publicado.
 
-## Avance estimado: 74 %; pendiente: 26 %
+## Avance estimado: 75 %; pendiente: 25 %
 
 Es una estimación de trabajo completado, no una certificación funcional ni visual. Los pesos se fijan para no tratar la traducción completa como un pequeño botón. Cada porcentaje de pasada incluye preparación y código; PASS final exige sus gates.
 
@@ -12,7 +12,7 @@ Es una estimación de trabajo completado, no una certificación funcional ni vis
 | P1 Contrato | 10 % | 90 % | 9 % | Especificado; revisión final contra versión publicada pendiente |
 | P2 Portada | 15 % | 80 % | 12 % | Menú implementado; validación gráfica pendiente |
 | P3 Flujos | 20 % | 95 % | 19 % | Navegación Atrás/Adelante implementada y probada en modelos; validación en Reddit pendiente |
-| P4 ES/EN | 20 % | 80 % | 16 % | Carrera y 20 acciones/31 opciones/resultados/historial conectados; narrativas, noticias/roles, errores y resúmenes restantes pendientes |
+| P4 ES/EN | 20 % | 85 % | 17 % | Carrera y acciones conectadas; bloqueos/objetivos y estructura del periodo localizados; narrativas, noticias/roles generales y cinematics pendientes |
 | P5 Simular | 5 % | 80 % | 4 % | Selector ausente en Inicio publicado 0.1.6; candidato pendiente de comparación |
 | P6 Arte/a11y | 10 % | 20 % | 2 % | Inicio ES/EN revisado en seis tamaños; foco y recorte Daily corregidos; arte final, zoom y resto de pantallas pendientes |
 | P7 Certificación | 8 % | 75 % | 6 % | CI de 332256e completa PASS; bloque actual 55 pruebas sesión/UI y paridad snapshots PASS; CI propia pendiente |
