@@ -82,8 +82,13 @@
     "redditPassed": 291,
     "saveAndA19Tests": 142,
     "saveAndA19Passed": 142,
-    "focusedTestsIncludedInRedditTests": true
+    "focusedTestsIncludedInRedditTests": true,
+    "extendedEngineTests": 81,
+    "extendedEnginePassed": 81,
+    "extendedCombinedBatchPassed": false,
+    "obsoleteLocaleExpectationFixedAndVerified": true
   },
   "releaseCertificationInherited": false,
-  "candidateFingerprint": "80e2f3e2d6d5d452990da34c054149e025693a1513a858239d4e5d9a5bcd284e"
+  "candidateFingerprint": "80e2f3e2d6d5d452990da34c054149e025693a1513a858239d4e5d9a5bcd284e",
+  "candidateCommit": "8bd6ff1272ea281d64ea30b03a99f01c6b917b1a"
 }
