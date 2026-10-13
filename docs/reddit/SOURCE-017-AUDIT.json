@@ -1,0 +1,79 @@
+{
+  "release": {
+    "root": "/Users/capitanps/Documents/Codex/2026-10-12/ne/work/elevenfate-reddit",
+    "fingerprint": "924fdc3e3baeb5ac65116430c48f5edcbcfba55226b9cd1ff8d6167572d5fa32",
+    "certifiedFingerprint": "924fdc3e3baeb5ac65116430c48f5edcbcfba55226b9cd1ff8d6167572d5fa32",
+    "fingerprintMatches": true,
+    "releaseStatus": {
+      "englishReady": true,
+      "legacyCoverage": true,
+      "completeRegression": true,
+      "visualAndLanguageReview": true,
+      "implementationHash": "924fdc3e3baeb5ac65116430c48f5edcbcfba55226b9cd1ff8d6167572d5fa32",
+      "redditPlaytest": true
+    },
+    "coverage": {
+      "events": 388,
+      "translatedEvents": 388,
+      "activeStrings": 3646,
+      "translatedActiveStrings": 3646,
+      "totalStrings": 4241,
+      "translatedStrings": 4241,
+      "missing": 0
+    },
+    "sdk": "0.14.7"
+  },
+  "main": {
+    "root": "/Users/capitanps/Documents/ChatGPT/Reddit/elevenfate-reddit",
+    "fingerprint": "f242b20b9d23a7a48247ec975e9ace4f6e923d863b64d4082275402901017c2e",
+    "certifiedFingerprint": "f242b20b9d23a7a48247ec975e9ace4f6e923d863b64d4082275402901017c2e",
+    "fingerprintMatches": true,
+    "releaseStatus": {
+      "englishReady": true,
+      "legacyCoverage": true,
+      "completeRegression": true,
+      "visualAndLanguageReview": true,
+      "implementationHash": "f242b20b9d23a7a48247ec975e9ace4f6e923d863b64d4082275402901017c2e",
+      "redditPlaytest": false
+    },
+    "coverage": {
+      "events": 388,
+      "translatedEvents": 388,
+      "activeStrings": 3646,
+      "translatedActiveStrings": 3646,
+      "totalStrings": 4241,
+      "translatedStrings": 4241,
+      "missing": 0
+    },
+    "sdk": "0.14.7"
+  },
+  "english": {
+    "root": "/Users/capitanps/Documents/Codex/2026-10-11/vamos-a-coger-la-app-actual/work/elevenfate-reddit",
+    "fingerprint": "6536eb1c6860193785adb67ce0d7e20629db8d3f7b5f1c737c01233d8e7689de",
+    "certifiedFingerprint": "f1fc2d3f89acb13b7cd3c5db363eb3d432392d9fe21794c239f43a9fa7bdb28c",
+    "fingerprintMatches": false,
+    "releaseStatus": {
+      "englishReady": true,
+      "legacyCoverage": true,
+      "completeRegression": true,
+      "visualAndLanguageReview": true,
+      "implementationHash": "f1fc2d3f89acb13b7cd3c5db363eb3d432392d9fe21794c239f43a9fa7bdb28c",
+      "redditPlaytest": false
+    },
+    "coverage": {
+      "events": 388,
+      "translatedEvents": 388,
+      "activeStrings": 3646,
+      "translatedActiveStrings": 3646,
+      "totalStrings": 4241,
+      "translatedStrings": 4241,
+      "missing": 0
+    },
+    "sdk": "0.14.7"
+  },
+  "integrationManifest": {
+    "entries": 44,
+    "verified": 44,
+    "mismatches": []
+  }
+}
