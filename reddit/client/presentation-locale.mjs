@@ -9,8 +9,9 @@ import {presentCareerSports} from './career-sports-locale.mjs';
 import {careerPanelsCatalog} from '../i18n/career-panels-catalog.mjs';
 import {careerRecordCatalog} from '../i18n/career-record-catalog.mjs';
 import {careerPeriodCatalog} from '../i18n/career-period-catalog.mjs';
+import {careerInteractiveCatalog} from '../i18n/career-interactive-catalog.mjs';
 import {presentPlayerActions,presentPlayerActionHistory} from './player-actions-locale.mjs';
-export const presentationCatalog={es:{...esBase.ui,...coverCatalog.es,...dailyCatalog.es,...careerEntryCatalog.es,...careerSaveCatalog.es,...careerHomeCatalog.es,...careerPanelsCatalog.es,...careerRecordCatalog.es,...careerPeriodCatalog.es},en:{...enBase.ui,...coverCatalog.en,...dailyCatalog.en,...careerEntryCatalog.en,...careerSaveCatalog.en,...careerHomeCatalog.en,...careerPanelsCatalog.en,...careerRecordCatalog.en,...careerPeriodCatalog.en}};
+export const presentationCatalog={es:{...esBase.ui,...coverCatalog.es,...dailyCatalog.es,...careerEntryCatalog.es,...careerSaveCatalog.es,...careerHomeCatalog.es,...careerPanelsCatalog.es,...careerRecordCatalog.es,...careerPeriodCatalog.es,...careerInteractiveCatalog.es},en:{...enBase.ui,...coverCatalog.en,...dailyCatalog.en,...careerEntryCatalog.en,...careerSaveCatalog.en,...careerHomeCatalog.en,...careerPanelsCatalog.en,...careerRecordCatalog.en,...careerPeriodCatalog.en,...careerInteractiveCatalog.en}};
 const normalize=value=>typeof value==='string'?({es:'es',en:'en'})[value.trim().toLowerCase().split('-')[0]]??null:null;
 // Locale is presentation preference only. No engine, session, save or network imports.
 export function createPresentationLocale({storage=null,key='elevenfate.presentation.locale.v1',availableLocales=['es'],initialLocale=null}={}){
