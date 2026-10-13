@@ -386,7 +386,7 @@ export class GameSession {
             fatigue: Number(s.body.fatigue), form: Number(s.sport.form), contractMonths: Number(s.contract.monthsRemaining),
             news: s.microfeeds.map(n => ({ date: n.date, text: n.text })),
             contacts: knownPlayerContacts(s, this.#snapshot.decisionProvenance),
-            decision: p ? { memories: decisionMemories(s, p.event, this.#snapshot.journal), instanceId: p.instanceId, family: p.event.family, title: p.event.text.title, body: p.event.text.body,
+            decision: p ? { eventId: p.event.id, memories: decisionMemories(s, p.event, this.#snapshot.journal), instanceId: p.instanceId, family: p.event.family, title: p.event.text.title, body: p.event.text.body,
                 visible: p.event.intel.visible, uncertain: p.event.intel.uncertain,
                 choices: eligibleChoices(s, p.event).map(c => ({ id: c.id, label: c.label })) } : null,
             cutscene: eventCutscene(s, result ? "result" : p ? "decision" : s.retirement.status === "closed" ? "epilogue" : this.#snapshot.revision === 0 ? "prologue" : "other", p?.event.id),

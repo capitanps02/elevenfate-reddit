@@ -206,7 +206,9 @@ export interface PlayerView {
         name: string;
         role: string;
     }>;
+    /** Canonical public event ID for presentation lookup; never an outcome or RNG hint. */
     decision: {
+        eventId: string;
         memories: DecisionMemory[];
         instanceId: string;
         family: string;
