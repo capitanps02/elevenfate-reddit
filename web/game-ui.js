@@ -116,17 +116,17 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   }
   function offerTermValue(key,value){
     if(key==='club'||key==='ownerClub'||key==='registrationClub')return value?clubName(value):null;
-    if(key==='leagueTier')return Number.isFinite(value)?'Categoría '+value:null;
+    if(key==='leagueTier')return Number.isFinite(value)?copy('career.offer.tierValue','Categoría '+value,{tier:value}):null;
     if(key==='salary')return Number.isFinite(value)?money(value):null;
-    if(key==='months')return Number.isFinite(value)?value+' meses':null;
-    if(key==='releaseClause')return value===null?'Sin cláusula':Number.isFinite(value)?money(value):null;
+    if(key==='months')return Number.isFinite(value)?copy(value===1?'career.offer.month':'career.offer.months',value+(value===1?' mes':' meses'),{count:value}):null;
+    if(key==='releaseClause')return value===null?copy('career.offer.noClause','Sin cláusula'):Number.isFinite(value)?money(value):null;
     return null;
   }
   function offerCard(o,{actions=null,explanation=null,delegateHelp=false}={}){
     if(!o?.reason)return null;
     const p=panel(o.reason);p.classList.add('semantic-card','offer-card');
     if(o.date)p.prepend(el('time',date(o.date),'eyebrow'));
-    const specs=[['Club','club'],['Club propietario','ownerClub'],['Categoría','leagueTier'],['Salario mensual','salary'],['Duración','months'],['Cláusula','releaseClause']];
+    const specs=[[copy('career.offer.club','Club'),'club'],[copy('career.offer.ownerClub','Club propietario'),'ownerClub'],[copy('career.offer.tier','Categoría'),'leagueTier'],[copy('career.offer.salary','Salario mensual'),'salary'],[copy('career.offer.duration','Duración'),'months'],[copy('career.offer.releaseClause','Cláusula'),'releaseClause']];
     if(o.before&&o.terms){
       for(const [label,key] of specs){
         const before=offerTermValue(key,o.before[key]),after=offerTermValue(key,o.terms[key]);
@@ -135,15 +135,15 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
       }
       if(o.before.loan||o.terms.loan){
         const before=offerTermValue('registrationClub',o.before.registrationClub),after=offerTermValue('registrationClub',o.terms.registrationClub);
-        const row=semanticRow('Club de inscripción',(before??'')+' → '+(after??''),'data-row offer-comparison');if(row)p.append(row);
+        const row=semanticRow(copy('career.offer.registrationClub','Club de inscripción'),(before??'')+' → '+(after??''),'data-row offer-comparison');if(row)p.append(row);
       }
-      p.append(el('p',o.terms.loan?'La propuesta es una cesión.':'La propuesta no es una cesión.','muted offer-loan-state'));
+      p.append(el('p',o.terms.loan?copy('career.offer.loanYes','La propuesta es una cesión.'):copy('career.offer.loanNo','La propuesta no es una cesión.'),'muted offer-loan-state'));
     }
     if(explanation)p.append(el('p',explanation,'story-text'));
-    if(delegateHelp)p.append(el('p','Si delegas esta oferta, tu representante solo aceptará si no baja el salario ni la categoría y asegura al menos 12 meses. La delegación termina con esta respuesta.','story-text'));
+    if(delegateHelp)p.append(el('p',copy('career.offer.delegateHelp','Si delegas esta oferta, tu representante solo aceptará si no baja el salario ni la categoría y asegura al menos 12 meses. La delegación termina con esta respuesta.'),'story-text'));
     if(actions){
       const choices=el('div',undefined,'choices');
-      for(const [action,label] of actions)choices.append(button(label,()=>run('offer',{offerId:o.id,action}),'choice',{blockedWhenPaused:true}));
+      for(const [action,label] of actions)choices.append(button(label,()=>run('offer',{offerId:o.id,action}),'choice',{blockedWhenPaused:true,localeFocus:'offer-'+action}));
       p.append(choices);
     }
     return p;
@@ -621,24 +621,24 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
   }
   function portrait(id){return ({NPC_CCH_01:'portrait_coach',NPC_MED_01:'portrait_doctor',NPC_FAM_01:'portrait_mother',NPC_FAM_02:'portrait_father',NPC_AGT_01:'portrait_agent',NPC_AGT_02:'portrait_agent'})[id]||null;}
   function renderDecision(v,main){if(v.screen==='offer'){renderOffer(v,main);return;}const d=v.decision, result=v.screen==='result';if(d)lastArt=['preseason','sport','team','captaincy','tactical'].includes(d.family)?'prematch_scene':'stadium_bg';
-    main.classList.add('cinema',result?'cinema-result':'cinema-decision');main.append(photo(lastArt,'cinema-bg'));const top=el('div',undefined,'cinema-top');top.append(button('Volver a Inicio',closeCinematic,'glass'),el('span',date(v.date)+' · '+club(v),'eyebrow'));main.append(top);
-    const sheet=el('section',undefined,'decision-sheet '+(result?'result-sheet':'decision-choice-sheet'));sheet.dataset.immersiveState=result?'result':'decision';const heading=el('h1',result?v.result.title:d.title);heading.id='immersive-title';sheet.setAttribute('aria-labelledby',heading.id);sheet.append(el('span',result?'DESPUÉS DE TU DECISIÓN':'UN MOMENTO QUE CUENTA','eyebrow'),heading);
+    main.classList.add('cinema',result?'cinema-result':'cinema-decision');main.append(photo(lastArt,'cinema-bg'));const top=el('div',undefined,'cinema-top');top.append(button(copy('career.scene.back','Volver a Inicio'),closeCinematic,'glass',{localeFocus:'scene-back'}),el('span',date(v.date)+' · '+club(v),'eyebrow'));main.append(top);
+    const sheet=el('section',undefined,'decision-sheet '+(result?'result-sheet':'decision-choice-sheet'));sheet.dataset.immersiveState=result?'result':'decision';const heading=el('h1',result?v.result.title:d.title);heading.id='immersive-title';sheet.setAttribute('aria-labelledby',heading.id);sheet.append(el('span',result?copy('career.scene.afterDecision','DESPUÉS DE TU DECISIÓN'):copy('career.scene.moment','UN MOMENTO QUE CUENTA'),'eyebrow'),heading);
     appendCutscene(v,sheet);
     if(result){
-      const choiceSummary=el('div',undefined,'result-choice');choiceSummary.append(el('span','TU DECISIÓN','eyebrow'),el('p',v.result.choiceLabel,'chosen'));sheet.append(choiceSummary);
+      const choiceSummary=el('div',undefined,'result-choice');choiceSummary.append(el('span',copy('career.scene.yourDecision','TU DECISIÓN'),'eyebrow'),el('p',v.result.choiceLabel,'chosen'));sheet.append(choiceSummary);
       const visible=v.result.visibleEffects??[], narrative=v.result.narrativeEffects??[], deferred=v.result.hiddenEffects??[];
       if(visible.length||narrative.length||deferred.length){
-        const consequences=el('section',undefined,'consequence-summary result-consequences');const consequenceHeading=el('h2','Consecuencias');consequenceHeading.id='result-consequences-title';consequences.setAttribute('aria-labelledby',consequenceHeading.id);consequences.append(consequenceHeading);
+        const consequences=el('section',undefined,'consequence-summary result-consequences');const consequenceHeading=el('h2',copy('career.scene.consequences','Consecuencias'));consequenceHeading.id='result-consequences-title';consequences.setAttribute('aria-labelledby',consequenceHeading.id);consequences.append(consequenceHeading);
         for(const effect of visible){const row=el('div',undefined,'consequence-row '+(effect.favorable===true?'favorable':effect.favorable===false?'unfavorable':'neutral'));row.append(el('span',effect.label),el('strong',deltaText(effect.delta)));consequences.append(row);}
         narrative.forEach(message=>consequences.append(el('p',message,'story-text')));
         const narrated=new Set(narrative);(v.result.messages??[]).filter(message=>!narrated.has(message)).forEach(message=>consequences.append(el('p',message,'story-text')));
         deferred.forEach(message=>consequences.append(el('p',message,'muted result-deferred')));
         sheet.append(consequences);
       }else{const messages=el('section',undefined,'result-messages');(v.result.messages??[]).forEach(m=>messages.append(el('p',m,'story-text')));sheet.append(messages);}
-      if(v.resultCategory==='match'){const summary=el('section',undefined,'match-summary result-match-summary');const matchHeading=el('h2','Resumen del partido');matchHeading.id='result-match-title';summary.setAttribute('aria-labelledby',matchHeading.id);summary.append(matchHeading,el('p','Tu decisión queda registrada en el recorrido.','muted'));const rows=[['Fecha',date(v.date)],['Partidos disputados',String(v.appearances)],['Forma',`${Math.round(v.form)} / 100`],['Estado físico',`${Math.round(v.fitness)} / 100`]];for(const [label,value]of rows){const row=el('div',undefined,'data-row');row.append(el('span',label),el('strong',value));summary.append(row);}sheet.append(summary);}const next=button('Continuar',()=>run('acknowledge'),'primary result-continue',{blockedWhenPaused:true});next.setAttribute('data-result-continue','');sheet.append(next);}
+      if(v.resultCategory==='match'){const summary=el('section',undefined,'match-summary result-match-summary');const matchHeading=el('h2',copy('career.scene.matchSummary','Resumen del partido'));matchHeading.id='result-match-title';summary.setAttribute('aria-labelledby',matchHeading.id);summary.append(matchHeading,el('p',copy('career.scene.matchRecorded','Tu decisión queda registrada en el recorrido.'),'muted'));const rows=[[copy('career.scene.date','Fecha'),date(v.date)],[copy('career.scene.matches','Partidos disputados'),String(v.appearances)],[copy('career.scene.form','Forma'),`${Math.round(v.form)} / 100`],[copy('career.scene.fitness','Estado físico'),`${Math.round(v.fitness)} / 100`]];for(const [label,value]of rows){const row=el('div',undefined,'data-row');row.append(el('span',label),el('strong',value));summary.append(row);}sheet.append(summary);}const next=button(copy('career.scene.continue','Continuar'),()=>run('acknowledge'),'primary result-continue',{blockedWhenPaused:true,localeFocus:'result-continue'});next.setAttribute('data-result-continue','');sheet.append(next);}
     else{sheet.append(el('p',d.body,'story-text'));
-      if(d.memories?.length){const memories=el('details',undefined,'intel decision-memories');memories.append(el('summary','De tu historia · '+d.memories.length));memories.append(el('p','Decisiones anteriores relacionadas con este capítulo.','muted'));for(const memory of d.memories){const row=el('div',undefined,'decision-memory');row.append(el('time',date(memory.date),'eyebrow'),el('h3',memory.title),el('p',memory.choiceLabel),button('Ver este capítulo',()=>{navigate('career');const target=root.querySelector('[data-journal-index="'+memory.journalIndex+'"]');if(target){target.scrollIntoView({block:'start'});target.focus({preventScroll:true});}}));memories.append(row);}sheet.append(memories);}
-      const hasIntel=(d.visible??[]).some(t=>t.trim())||(d.uncertain??[]).some(t=>t.trim());if(hasIntel){const intel=el('details',undefined,'intel');intel.open=!compactHome;intel.append(el('summary',d.visible?.length&&d.uncertain?.length?'Lo que sabes · lo que queda por descubrir':d.visible?.length?'Lo que sabes':'Lo que no está claro'));for(const [title,lines]of[['Lo que sabes',d.visible],['Lo que no está claro',d.uncertain]]){if(lines.length){intel.append(el('h3',title));lines.forEach(t=>intel.append(el('p',t)));}}sheet.append(intel);}const choices=el('div',undefined,'choices decision-choices');choices.setAttribute('role','group');choices.setAttribute('aria-label','Opciones de decisión');d.choices.forEach((c,i)=>{const b=button('',()=>run('choose',{pendingInstanceId:d.instanceId,choiceId:c.id}),'choice',{blockedWhenPaused:true});b.replaceChildren(el('span',String.fromCharCode(65+i),'choice-key'),el('span',c.label));choices.append(b);});sheet.append(choices);}
+      if(d.memories?.length){const memories=el('details',undefined,'intel decision-memories');memories.append(el('summary',copy('career.scene.memories','De tu historia · '+d.memories.length,{count:d.memories.length})));memories.append(el('p',copy('career.scene.related','Decisiones anteriores relacionadas con este capítulo.'),'muted'));for(const memory of d.memories){const row=el('div',undefined,'decision-memory');row.append(el('time',date(memory.date),'eyebrow'),el('h3',memory.title),el('p',memory.choiceLabel),button(copy('career.scene.viewChapter','Ver este capítulo'),()=>{navigate('career');const target=root.querySelector('[data-journal-index="'+memory.journalIndex+'"]');if(target){target.scrollIntoView({block:'start'});target.focus({preventScroll:true});}}));memories.append(row);}sheet.append(memories);}
+      const hasIntel=(d.visible??[]).some(t=>t.trim())||(d.uncertain??[]).some(t=>t.trim());if(hasIntel){const intel=el('details',undefined,'intel');intel.open=!compactHome;intel.append(el('summary',d.visible?.length&&d.uncertain?.length?copy('career.scene.intelBoth','Lo que sabes · lo que queda por descubrir'):d.visible?.length?copy('career.scene.intelKnown','Lo que sabes'):copy('career.scene.intelUnknown','Lo que no está claro')));for(const [title,lines]of[[copy('career.scene.intelKnown','Lo que sabes'),d.visible],[copy('career.scene.intelUnknown','Lo que no está claro'),d.uncertain]]){if(lines.length){intel.append(el('h3',title));lines.forEach(t=>intel.append(el('p',t)));}}sheet.append(intel);}const choices=el('div',undefined,'choices decision-choices');choices.setAttribute('role','group');choices.setAttribute('aria-label',copy('career.scene.choicesA11y','Opciones de decisión'));d.choices.forEach((c,i)=>{const b=button('',()=>run('choose',{pendingInstanceId:d.instanceId,choiceId:c.id}),'choice',{blockedWhenPaused:true,localeFocus:'choice-'+c.id});b.replaceChildren(el('span',String.fromCharCode(65+i),'choice-key'),el('span',c.label));choices.append(b);});sheet.append(choices);}
     if(compactHome)compactSheet(sheet,sheet.querySelector(result?'.result-continue':'.decision-choices'));
     main.append(sheet);}
   function compactSheet(sheet,actions){
@@ -648,9 +648,9 @@ export function mountGame({root, GameSession, assets, css, storageKey='historia-
     sheet.replaceChildren(copy,actions);sheet.classList.add('reddit-scene');
   }
   function renderOffer(v,main){
-    const o=v.offer,p=offerCard(o,{actions:[['accept','Aceptar oferta'],['reject','Rechazar oferta'],['delegate','Delegar esta oferta']],explanation:'Una propuesta para tu carrera. Revisa las condiciones antes de decidir.',delegateHelp:true});
-    main.classList.add('cinema','cinema-offer');main.append(photo('stadium_bg','cinema-bg'));const top=el('div',undefined,'cinema-top');top.append(button('Volver a Inicio',closeCinematic,'glass'),el('span',date(v.date)+' · '+club(v),'eyebrow'));main.append(top);
-    p.classList.add('offer-sheet');p.dataset.immersiveState='offer';const heading=p.querySelector('h2');if(heading){heading.id='immersive-offer-title';p.setAttribute('aria-labelledby',heading.id);}const actions=p.querySelector('.choices');if(actions){actions.classList.add('offer-actions');actions.setAttribute('role','group');actions.setAttribute('aria-label','Respuesta a la oferta');}if(compactHome)compactSheet(p,actions);main.append(p);
+    const o=v.offer,p=offerCard(o,{actions:[['accept',copy('career.offer.accept','Aceptar oferta')],['reject',copy('career.offer.reject','Rechazar oferta')],['delegate',copy('career.offer.delegate','Delegar esta oferta')]],explanation:copy('career.offer.intro','Una propuesta para tu carrera. Revisa las condiciones antes de decidir.'),delegateHelp:true});
+    main.classList.add('cinema','cinema-offer');main.append(photo('stadium_bg','cinema-bg'));const top=el('div',undefined,'cinema-top');top.append(button(copy('career.scene.back','Volver a Inicio'),closeCinematic,'glass',{localeFocus:'scene-back'}),el('span',date(v.date)+' · '+club(v),'eyebrow'));main.append(top);
+    p.classList.add('offer-sheet');p.dataset.immersiveState='offer';const heading=p.querySelector('h2');if(heading){heading.id='immersive-offer-title';p.setAttribute('aria-labelledby',heading.id);}const actions=p.querySelector('.choices');if(actions){actions.classList.add('offer-actions');actions.setAttribute('role','group');actions.setAttribute('aria-label',copy('career.offer.responseA11y','Respuesta a la oferta'));}if(compactHome)compactSheet(p,actions);main.append(p);
   }
   function offerHistory(v,main){for(const h of [...v.offerHistory].reverse()){const p=offerCard(h.offer,{explanation:h.explanation});if(p)main.append(p);}}
   function career(v,main){
