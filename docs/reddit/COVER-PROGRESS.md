@@ -2,7 +2,7 @@
 
 13 de octubre de 2026. PR #4; código en borrador, no publicado.
 
-## Avance estimado: 75 %; pendiente: 25 %
+## Avance estimado: 76 % (75,6 % ponderado); pendiente: 24 %
 
 Es una estimación de trabajo completado, no una certificación funcional ni visual. Los pesos se fijan para no tratar la traducción completa como un pequeño botón. Cada porcentaje de pasada incluye preparación y código; PASS final exige sus gates.
 
@@ -12,10 +12,10 @@ Es una estimación de trabajo completado, no una certificación funcional ni vis
 | P1 Contrato | 10 % | 90 % | 9 % | Especificado; revisión final contra versión publicada pendiente |
 | P2 Portada | 15 % | 80 % | 12 % | Menú implementado; validación gráfica pendiente |
 | P3 Flujos | 20 % | 95 % | 19 % | Navegación Atrás/Adelante implementada y probada en modelos; validación en Reddit pendiente |
-| P4 ES/EN | 20 % | 85 % | 17 % | Carrera y acciones conectadas; bloqueos/objetivos y estructura del periodo localizados; narrativas, noticias/roles generales y cinematics pendientes |
+| P4 ES/EN | 20 % | 88 % | 17,6 % | Controles de decisiones, resultados y ofertas localizados; historias, noticias, roles generales y cobertura narrativa/cinemáticas pendientes |
 | P5 Simular | 5 % | 80 % | 4 % | Selector ausente en Inicio publicado 0.1.6; candidato pendiente de comparación |
 | P6 Arte/a11y | 10 % | 20 % | 2 % | Inicio ES/EN revisado en seis tamaños; foco y recorte Daily corregidos; arte final, zoom y resto de pantallas pendientes |
-| P7 Certificación | 8 % | 75 % | 6 % | CI de 332256e completa PASS; bloque actual 55 pruebas sesión/UI y paridad snapshots PASS; CI propia pendiente |
+| P7 Certificación | 8 % | 75 % | 6 % | CI oficial de 75f8875 SUCCESS (365 pruebas); nueva integración de escenas en validación, gates visuales/Reddit todavía pendientes |
 | P8 Reddit real | 4 % | 0 % | 0 % | Sin prueba ni publicación del candidato |
 
 Quedan seis pasadas principales de ejecución: cerrar P3, P4, P5, P6, P7 y P8. También siguen pendientes las comprobaciones de cierre de P0/P1/P2; no se consideran certificadas. No hacen falta nuevas pasadas inventadas para esos controles: se cierran dentro de las existentes.
@@ -176,3 +176,32 @@ career-period-catalog.mjs agrega 28 claves: 470 UI combinadas ES/EN. El resumen 
 Verificación local: 9 pruebas nuevas y 12 previas, 21/21 PASS sobre los módulos dist exactos de la base revisada. Incluyen cobertura de fuentes, campos de disponibilidad en todos los niveles, desconocidos/cooldown, roles por ID, reporte singular/plural/participación/interrupciones, bloqueo de opciones, foco/selección y comandos ES/EN existentes, snapshots y objetos sin cambios, sin escrituras al cambiar locale. No sustituye la CI oficial ni una revisión visual real en Reddit; CI del nuevo commit pendiente al redactar. Motor, tipos, proyección, dist, persistencia, estilos y assets no se modifican en esta iteración.
 
 75% ponderado: P4 sube de 80% a 85% (17 puntos); resto sin cambios. De 9 pasadas previstas siguen 6 principales abiertas, P3/P4/P5/P6/P7/P8, más comprobaciones finales de P0/P1/P2. Próximo bloque: narrativa de carrera por IDs (decisiones/resultados/ofertas), news/roles generales y cinematics; luego revisión artística completa, equivalencia y Reddit real. English sigue desactivado en producción; candidato en borrador y sin publicar.
+
+
+## Continuación 13-Oct: interfaz de decisiones, resultados y ofertas (P4)
+
+Base verificada: 75f887511b (CI completa SUCCESS, 365 pruebas, cero fallos). Los cambios de esta continuación se incorporan en PR #4, rama feat/reddit-cover-entry-20261012; versión aún no fusionada ni desplegada.
+
+career-interactive-catalog.mjs añade 38 claves UI con paridad de parámetros ES/EN: 508 claves UI combinadas. En la capa de presentación se localizan etiquetas de la escena de decisión, encabezados y resúmenes del resultado, términos visibles de contratos, condición de cesión, explicación de delegación, controles y nombres accesibles de grupos de opciones. Todos los IDs narrativos, títulos, cuerpos, resultado de la decisión, efectos, razonamientos de ofertas y contratos de historial permanecen originales. English no se habilita hasta traducción completa y certificación.
+
+Se añaden identificadores de foco exclusivamente DOM (choices por choiceId, resultado y respuesta oferta por action) para recuperar el mismo control al cambiar de idioma; el comando sigue usando los ID originales. La capa no altera GameSession, persistencia, RNG, scoring, servidor, API ni paquetes Android. El test career-interactive-locale.test.mjs cubre catálogos, traducción y preservación de foco, y comprueba igualdad de las órdenes choose/acknowledge/offer después de cambiar locale. Requiere CI oficial del HEAD y QA de cinematic en Reddit real: las pruebas DOM son simuladas y no prueban composición visual.
+
+Avance ponderado estimado: 75,6% (redondeado 76%). El aumento P4=85→88% reconoce traducción del marco interactivo, no el contenido narrativo pendiente. Permanecen **seis pasadas principales abiertas**, P3–P8. P0–P2 todavía tienen gates de cierre cruzados. El porcentaje no constituye PASS de publicación.
+
+### Tareas recuperadas y criterios de cierre
+
+| Prioridad | Pasada | Tarea concreta | Gate de aceptación |
+|---|---|---|---|
+| Alta | P4 | Traducir decisiones de carrera y opciones por IDs públicos; cubrir el historial, memorias y resultados sin emparejar por texto | Catálogo exhaustivo y prueba de comando/resultados invariantes en ES y EN |
+| Alta | P4 | Proyectar identificadores públicos estables para ofertas/noticias sin filtrar datos privados ni cambiar saves; localizar contrato, razones, desenlaces y feed | Fixture de oferta nueva/renovación/cesión, historial antiguo y noticias con fallback verificable |
+| Alta | P4 | Localizar roles generales/deportivos, contexto y worldHighlights del periodo, cinematics y Home no compacto | Inventario completo, sin textos españoles inesperados al activar EN; fallback con acceso a ES |
+| Alta | P4 | Recuperación semántica y compatibilidad con partidas antiguas/errores de red y Redis | Mismos saves, versiones, revisiones y UI usable tras conflictos/cortes |
+| Alta | P3 | Probar Atrás/Adelante/Escape/salida mientras hay GET/POST y diálogos en webview Reddit | Sin montajes tardíos, doble escritura ni pérdida de foco/carrera |
+| Alta | P5 | Comparar pantalla Simular con la build Reddit 0.1.6: sin selector de idioma, métricas y CTA sin regresión | Revisión visual y equivalencia de comandos, estados y navegación |
+| Alta | P6 | Acabar arte deportivo de portada: futbolista/estadio, azul-dorado, legibilidad, contraste y loading/empty/error | QA visual 320/360/390/412 px, zoom 200%, orientación y teclado/lector |
+| Alta | P6 | Verificar tutorial interactivo breve, saltable y sin escribir/correr Daily | Historia canónica, duración medida y comienzo inmediato sin crear carrera automática |
+| Alta | P7 | Ejecutar build candidato, regresión completa, paridad determinista ES/EN, sesgo RNG, tamaño, latencia y memory leaks | CI verde HEAD exacto, snapshots/scores/comandos iguales y budgets documentados |
+| Alta | P8 | Probar candidato en Devvit playtest con sesión Reddit, guardado Redis real, Daily, iPhone/Android/web y rollback | Aprobación de release y publicación después de pasar gates anteriores |
+| Media | P0–P2 | Vincular SHA, bundle y versión publicada; confirmar contrato UX, foco y recortes de portada | Evidencia sobre el mismo build final, no solo fixtures locales |
+
+Orden inmediato recomendado: P4 narrativa por identificadores → P4 recuperación/roles → P3/P5 y P6 visual → P7 certificación → P8 publicación. No se añade una décima pasada ni se descontarán pasadas hasta superar sus gates.
