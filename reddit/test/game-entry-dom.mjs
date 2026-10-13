@@ -11,6 +11,7 @@ export function makeGameRoot(){
   n.querySelectorAll=selector=>all(n).filter(child=>selector.split(',').some(tag=>tag==='[data-choice]'?Object.hasOwn(child.dataset,'choice'):child.tagName===tag.toUpperCase()));
   return n;
  }
+ doc.createTreeWalker=(root)=>{const nodes=all(root).map(n=>n.firstChild).filter(n=>n?.nodeType===3);let i=0;return {nextNode:()=>nodes[i++]??null};};
  doc.createElement=make;doc.createElementNS=(ns,tag)=>{const n=make(tag);n.namespaceURI=ns;return n;};doc.createDocumentFragment=()=>make('fragment');
  return make('section');
 }

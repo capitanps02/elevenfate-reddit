@@ -33,3 +33,5 @@ html,body{margin:0;background:#09090b;color:#f5f5f7;font-family:system-ui,sans-s
 .cover-demo h2{font-size:20px;line-height:1.2;margin:0}
 .cover-demo .tutorial-story{font-size:14px;line-height:1.5;margin:0}
 .cover-demo [data-choice-id]{text-align:left;font-size:14px;font-weight:500}
+
+.cover-button.cover-help{min-height:44px;padding:10px 12px;font-size:13px;font-weight:400;background:transparent;border-color:transparent;text-decoration:underline;text-underline-offset:3px;color:#c7c7ce}

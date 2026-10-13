@@ -1,8 +1,8 @@
-import {createPresentationLocale} from './presentation-locale.mjs';
+import {createCoverCopy} from '../i18n/cover-copy.mjs';
 import {tutorialSample} from './tutorial-sample.mjs';
 import {createCoverState} from './cover-state.mjs';
-export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,authenticated=true,i18n=createPresentationLocale()}){
- const doc=root.ownerDocument,t=(id,parameters)=>i18n.t(id,parameters);
+export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,authenticated=true,locale, onHelp}){
+ const doc=root.ownerDocument,t=createCoverCopy(locale);
  let screen='menu',step=0,selection=null,disposed=false,state={status:'checking',hasCareer:null,error:''};
  const el=(tag,text,cls)=>{const n=doc.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;if(tag==='h1'){n.dataset.coverAction='heading';n.tabIndex=-1;}return n;};
  const button=(label,fn,key,primary=false)=>{const b=el('button',label,'cover-button'+(primary?' is-primary':''));b.type='button';b.dataset.coverAction=key;b.addEventListener('click',fn);return b;};
@@ -11,12 +11,12 @@ export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,a
  function show(next){screen=next;render();focusHeading();}
  function render(){
   if(disposed)return;
-  root.lang=i18n.getLocale();if(doc.documentElement)doc.documentElement.lang=i18n.getLocale();
+  root.lang=locale.language;if(doc.documentElement)doc.documentElement.lang=locale.language;
   const focused=root.contains(doc.activeElement)?doc.activeElement?.dataset.coverAction:null;
   root.replaceChildren();
   const page=el('main',undefined,'cover-page');
   if(screen==='menu'){
-   const image=el('img',undefined,'cover-art');image.src=assets.brand_cover||assets.hero_player||'./cover.png';image.alt='';image.addEventListener('error',()=>image.remove());page.append(image);
+   const image=el('img',undefined,'cover-art');image.src=(locale.language==='en'?assets.brand_cover_en:assets.brand_cover)||assets.hero_player||'./cover.png';image.alt='';image.addEventListener('error',()=>image.remove());page.append(image);
    const panel=el('section',undefined,'cover-content');
    panel.append(el('p','ELEVENFATE','cover-brand'),el('h1',t('cover.title')),el('p',t('cover.tagline'),'cover-tagline'));
    const nav=el('nav',undefined,'cover-actions');nav.setAttribute('aria-label',t('cover.modes'));
@@ -28,11 +28,12 @@ export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,a
    nav.append(resume,fresh,daily,button(t('cover.tutorial'),()=>{step=0;selection=null;show('tutorial');},'tutorial'));
    panel.append(nav);
    const languages=el('div',undefined,'cover-languages');languages.setAttribute('role','group');languages.setAttribute('aria-label',t('cover.language'));
-   const spanish=button('Español',()=>i18n.setLocale('es'),'es');spanish.setAttribute('aria-pressed',String(i18n.getLocale()==='es'));
-   const english=button('English',()=>i18n.setLocale('en'),'en');english.disabled=!i18n.isAvailable('en');english.setAttribute('aria-pressed',String(i18n.getLocale()==='en'));english.setAttribute('aria-describedby','cover-language-note');
-   languages.append(spanish,english);panel.append(languages,el('p',t(i18n.isAvailable('en')?'cover.languageReady':'cover.languagePending'),'cover-caption'));
-   panel.lastChild.id='cover-language-note';
-   const status=el('p',!authenticated?t('cover.login'):state.status==='checking'?t('cover.checking'):state.status==='error'?(i18n.getLocale()==='es'?state.error:t('cover.readError')):state.hasCareer?t('cover.available'):t('cover.empty'),'cover-status');status.id='cover-status';status.setAttribute('role',state.status==='error'?'alert':'status');panel.append(status);
+   const spanish=button('Español',()=>locale.set('es'),'es');spanish.setAttribute('aria-pressed',String(locale.language==='es'));
+   const english=button('English',()=>locale.set('en'),'en');english.disabled=!locale.enabled;english.setAttribute('aria-pressed',String(locale.language==='en'));english.setAttribute('aria-describedby','cover-language-note');
+   languages.append(spanish,english);panel.append(languages,el('p',t(locale.enabled?'cover.languageReady':'cover.languagePending'),'cover-caption'));
+   panel.lastChild.id='cover-language-note';panel.lastChild.hidden=locale.enabled;
+   const status=el('p',!authenticated?t('cover.login'):state.status==='checking'?t('cover.checking'):state.status==='error'?(locale.language==='es'?state.error:t('cover.readError')):state.hasCareer?t('cover.available'):t('cover.empty'),'cover-status');status.id='cover-status';status.setAttribute('role',state.status==='error'?'alert':'status');panel.append(status);
+   if(onHelp){const help=button(locale.text('Ayuda y datos'),onHelp,'help');help.className+=' cover-help';panel.append(help);}
    if(authenticated&&state.status==='error')panel.append(button(t('cover.retry'),()=>model.refresh(),'retry'));
    page.append(panel);
   }else{
@@ -60,7 +61,7 @@ export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,a
  }
  function keyboard(event){if(event.key==='Escape'&&screen!=='menu'){event.preventDefault();show('menu');}}
  root.addEventListener('keydown',keyboard);
- const unsubscribe=i18n.subscribe(()=>render());
+ const unsubscribe=locale.subscribe(()=>render());
  const model=createCoverState({readCareer,onChange(next){state=next;if(screen==='menu'||screen==='finish')render();}});
  render();if(authenticated)model.refresh();else{state={status:'ready',hasCareer:false,error:''};render();}
  return ()=>{disposed=true;unsubscribe();model.dispose();root.removeEventListener('keydown',keyboard);root.replaceChildren();};

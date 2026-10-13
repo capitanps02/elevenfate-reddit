@@ -1,8 +1,8 @@
 # ElevenFate Reddit — plan único de portada, recalculado
 
-13 de octubre de 2026 · Revisión 2.0 · **78 % estimado; 4 pasadas restantes**.
+13 de octubre de 2026 · Revisión 2.1 · **86 % estimado; R1 cerrada; 3 pasadas restantes**.
 
-Sustituye los porcentajes y colas anteriores de portada. La candidata sigue siendo [PR #4](https://github.com/capitanps02/elevenfate-reddit/pull/4); no se abre otra implementación. El porcentaje mide preparación y trabajo existente reutilizable, no certificación ni publicación. La integración con la fuente 0.1.7 no se ha ejecutado todavía.
+Sustituye los porcentajes y colas anteriores de portada. La candidata sigue siendo [PR #4](https://github.com/capitanps02/elevenfate-reddit/pull/4); no se abre otra implementación. El porcentaje mide preparación y trabajo existente reutilizable, no certificación ni publicación. R1 ya concilia la fuente 0.1.7 y los deltas únicos de portada. La certificación y publicación de esta candidata siguen pendientes.
 
 ## 1. Corrección de la base
 
@@ -23,7 +23,7 @@ Evidencia leída y contrastada en esta revisión:
 
 No se han reejecutado las 265/43 pruebas históricas de analítica ni las 177 de traducción: se reconocen como evidencia de la entrega existente, no como pruebas nuevas de la portada. La coincidencia de fingerprint no sustituye la validación de una candidata modificada.
 
-**El bloqueo de localizar la fuente queda resuelto.** Resta conciliarla con el HEAD de portada 3c2b6cdc, que además incorpora recuperación de guardados inciertos y otras mejoras posteriores.
+**R1 cerrada el 13-Oct.** Fuente conciliada con portada y recuperación de guardados de 3c2b6cdc. Los 197 archivos del motor y los 32 archivos de servidor, componentes compartidos, analítica y telemetría coinciden byte a byte con la fuente auditada. Se conserva Daily v7/legacy, SDK 0.14.7, privacidad, ayuda y observadores. Una única preferencia `elevenfate.language.v1` y el runtime completo traducen también los nuevos textos de portada/formulario/tutorial. Véase [INTEGRATION-017.json](INTEGRATION-017.json).
 
 Última comprobación de portal registrada en el otro trabajo el 13-Oct: 0.1.7 aprobada y sin instalaciones; comunidad pública 0.1.6 y privada 0.1.6.7. Este estado no se ha consultado en vivo de nuevo en esta revisión. Antes de entrega se confirmará el estado efectivo; versión subida, aprobada e instalada son estados diferentes.
 
@@ -49,41 +49,41 @@ En la fuente bilingüe ya existen controles de idioma en acceso/juego y diálogo
 | Ejecutar auditorías completas por cada texto | Un pase proporcional por cambio y una validación final del SHA integrado; conservar pruebas previas sin sumar suites solapadas |
 | Publicar/instalar otra 0.1.7 o duplicar el seguimiento de la entrega | Conciliar con el flujo existente. La portada modificada requerirá su candidata/version propia cuando esté validada; no sobrescribir la fuente aprobada |
 
-La limpieza actual elimina tareas duplicadas y documentos contradictorios. La retirada física de módulos redundantes está dentro de R1, después de conectar la fuente correcta; no se presenta como una integración de código ya realizada.
+R1 retira físicamente 40 archivos del prototipo superado, incluidos adaptadores/catálogos parciales y pruebas específicas de ese pipeline. Se mantienen las pruebas de los flujos únicos y se conectan al runtime completo. No quedan imports del pipeline retirado. Los deltas del motor que solo servían a las traducciones parciales se sustituyen por el motor exacto de 0.1.7.
 
-## 4. Cuatro pasadas restantes, sin duplicados
+## 4. Contador: R1 cerrada, tres pasadas pendientes
 
 | Pasada | Trabajo concreto | Cierre verificable |
 |---|---|---|
-| **R1 — Conciliar fuente e integración** | Fijar la copia auditada de 0.1.7 como base; llevar los deltas únicos de portada y guardado; preservar SDK 0.14.7, idioma completo, Daily v7/legacy, ayuda, privacidad y analítica; consolidar pipelines y separar cambios ajenos | Una candidata coherente y versionada; inventario de diferencias cerrado; una sola localización; cero pérdida de prestaciones existentes |
+| **R1 — Conciliar fuente e integración — CERRADA** | Fijar la copia auditada de 0.1.7 como base; llevar los deltas únicos de portada y guardado; preservar SDK 0.14.7, idioma completo, Daily v7/legacy, ayuda, privacidad y analítica; consolidar pipelines y separar cambios ajenos | Una candidata coherente y versionada; inventario de diferencias cerrado; una sola localización; cero pérdida de prestaciones existentes |
 | **R2 — Terminar portada y tutorial** | Reutilizar menú y tutorial; mover idiomas a portada y retirar selector de Simular; pulir recorte, contraste, targets, textos nuevos y foco; probar 320×480, 360×800, 390×844, 412×915, 375×600, 900×650 | Seis controles claros; ningún menú duplicado; acciones y retorno correctos; estética, zoom/scroll y ES/EN sin recortes; tutorial sin escrituras |
 | **R3 — Validar candidata exacta** | Build/CI del SHA integrado; pruebas afectadas de idioma, guardado y navegación; reanudación en estados pendientes, conflictos, respuesta perdida, Daily existente, privacy/analytics preservadas; prueba privada Reddit y rendimiento proporcional | Evidencia del mismo SHA/fingerprint; partidas/RNG/score intactos en escenarios verificados; ambos idiomas completos y rutas reales correctas |
 | **R4 — Entrega y comprobación** | Coordinar el flujo de versiones ya existente; verificar revisión/instalación efectiva; entregar la portada validada y comprobar post, idioma, reanudación y Daily; registrar reversión | Versión servida y fuente coinciden, experiencia comprobada y registro único de entrega. Publicación se realizará en su fase autorizada, no en este recálculo |
 
-No son cuatro nuevas implementaciones: son cuatro cierres consolidados. R1 es la siguiente acción; localizar la carpeta ya no es tarea pendiente. Si una validación falla, se corrige dentro de su pasada; no se crea otro contador.
+El contador sigue siendo R1–R4: **1/4 cerrada; 3 restantes**. R2 está iniciada: selector retirado de Simular y Daily; portada, creación y Daily comprobados en navegador local ES/EN; doce casos de portada (seis tamaños por idioma), controles ≥48 px, sin desbordamiento horizontal. Tutorial español comprobado a 320×480 con opciones accesibles por scroll. Restan a R2 la revisión de las otras pantallas, foco/teclado, zoom, contraste y ayudas; R3 conserva la certificación de una única candidata y la prueba privada real. Los ajustes se absorben dentro de su pasada, sin abrir otro contador.
 
 Fuera de estas cuatro pasadas: cambiar puntuación, ampliar telemetría, monetización, featuring y promoción. Se preserva lo integrado, sin abrir nuevos frentes.
 
-## 5. Cálculo transparente del 78 %
+## 5. Cálculo transparente del 86 %
 
-Se mantienen los pesos históricos para comparar con la cifra anterior; solo se reconoce el inglés completo existente y los avances de HEAD remoto. Los nombres P0–P8 son contabilidad histórica, **no otra cola de nueve pasadas**.
+Se mantienen los pesos de preparación históricos; P0–P8 no son otra cola.
 
-| Componente histórico | Peso | Preparación estimada reconocida | Aporte |
+| Componente | Peso | Preparación estimada | Aporte |
 |---|---:|---:|---:|
-| Baseline/conciliación P0 | 8 % | 75 % | 6 % |
-| Contrato P1 | 10 % | 90 % | 9 % |
-| Portada P2 | 15 % | 80 % | 12 % |
-| Flujos P3 | 20 % | 95 % | 19 % |
-| Traducción existente reutilizable P4 | 20 % | 100 % | 20 % |
-| Simular P5 | 5 % | 80 % | 4 % |
-| Arte/accesibilidad P6 | 10 % | 20 % | 2 % |
+| Baseline/conciliación P0 | 8 % | 100 % | 8 % |
+| Contrato P1 | 10 % | 100 % | 10 % |
+| Portada P2 | 15 % | 90 % | 13,5 % |
+| Flujos P3 | 20 % | 100 % | 20 % |
+| Traducción reutilizada P4 | 20 % | 100 % | 20 % |
+| Simular P5 | 5 % | 90 % | 4,5 % |
+| Arte/accesibilidad P6 | 10 % | 40 % | 4 % |
 | Certificación P7 | 8 % | 75 % | 6 % |
 | Entrega P8 | 4 % | 0 % | 0 % |
-| **Total** | **100 %** | | **78 %** |
+| **Total** | **100 %** | | **86 %** |
 
-La candidata histórica pasó de 74% en este chat a 75,6% por commits posteriores ya recuperados. Reconocer la traducción reutilizable al 100% añade 2,4 puntos: **78%**. No se concede crédito adicional por integrar 0.1.7, borrar módulos ni publicar: eso está pendiente. La traducción terminada no convierte la portada en una entrega terminada, ni este porcentaje expresa proporción de textos traducidos.
+78 % tras el recálculo → 86 % tras R1 y revisión inicial de R2. Los 8 puntos reconocen conciliación, contrato, conexiones y comprobaciones visuales ya realizadas. La preparación histórica de certificación no equivale al PASS final de R3. **14 % estimado restante; 3 pasadas de cierre**.
 
-Por tanto: **78 % estimado; 22 % restante; 4 pasadas de cierre**. Las cifras se actualizarán por tareas y evidencia de R1–R4; no por sumar pruebas repetidas o commits.
+Validación local de integración: compilación de motor y preview bilingüe; configuración Devvit con SDK 0.14.7; **291/291 pruebas Reddit**, incluidas las 49 focalizadas (no se suman dos veces); **142/142 pruebas separadas de guardados y UI A19**. Se conserva aparte una ejecución larga de sesión/carrera completa; no se declara cerrada ni se suma su salida parcial. No se han realizado prueba privada ni instalación en Reddit con esta candidata. Los flags de certificación de la copia 0.1.7 no se heredan: `completeRegression`, `visualAndLanguageReview` y `redditPlaytest` permanecen en false en la candidata modificada. English se comprueba con `--locale-preview` hasta certificar su propio fingerprint.
 
 ## 6. Única autoridad y registro
 
@@ -91,4 +91,4 @@ ROADMAP.md es la cola vigente. COVER-PROGRESS.md y COVER-LOCALIZATION.md apuntan
 
 Registro de entrega futuro: commit/base/fingerprint, CI, versión Devvit y comunidad/post, idioma, recuperación/continuidad, Daily/analítica preservados, incidencias y reversión. Hasta R4, la portada es candidata sin publicar.
 
-Referencias: fuente local de 0.1.7 indicada arriba; informe DESPLIEGUE-REAL-PENDIENTE y RESULTADO-TESTEO del trabajo de analítica; RESULTADO-IMPLEMENTACION-ES-EN del trabajo de traducción; manifiesto de integración 44/44; [PR #4](https://github.com/capitanps02/elevenfate-reddit/pull/4). Auditoría reproducible de fuentes: [SOURCE-017-AUDIT.json](SOURCE-017-AUDIT.json), con tres fingerprints y diferencias de certificación. No se ha cambiado ninguna instalación ni fuente de entrega con este recálculo.
+Referencias: fuente local de 0.1.7 indicada arriba; informe DESPLIEGUE-REAL-PENDIENTE y RESULTADO-TESTEO del trabajo de analítica; RESULTADO-IMPLEMENTACION-ES-EN del trabajo de traducción; manifiesto de integración 44/44; [PR #4](https://github.com/capitanps02/elevenfate-reddit/pull/4). Auditoría reproducible de fuentes: [SOURCE-017-AUDIT.json](SOURCE-017-AUDIT.json), con tres fingerprints y diferencias de certificación. La integración se realiza únicamente en la rama candidata; la fuente auditada y las instalaciones existentes no se modifican.

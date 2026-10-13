@@ -253,3 +253,5 @@ export declare function inspectSportMatchModelStore(value: unknown, maxDate?: st
 /** Reddit's accelerated league supplies its own coherent fixture/result calendar.
  * Reuse the canonical player-stat producer without changing the long-career loop. */
 export declare function playerStatsForFixture(state: GameState, fixture: ScheduledFixture, player: MatchPlayerFact, result: MatchResultFact, performance: MatchPerformanceContext): MatchPlayerStats;
+/** Position/minute-sensitive producer used only by new Daily v6 attempts. */
+export declare function balancedPlayerStatsForFixture(state: GameState, fixture: ScheduledFixture, player: MatchPlayerFact, result: MatchResultFact, performance: MatchPerformanceContext): MatchPlayerStats;

@@ -1,0 +1,25 @@
+export const HELP_VERSION='2026-10-12';
+export const REPORT_URL='https://www.reddit.com/message/compose/?to=%2Fr%2FElevenFate&subject=ElevenFate%20-%20problema';
+export function reportUrlForLanguage(language='es'){
+  if(language!=='en')return REPORT_URL;
+  const url=new URL(REPORT_URL);url.searchParams.set('subject','ElevenFate - issue');return url.href;
+}
+export const HELP_PAGES={
+  privacy:{title:'Privacidad de ElevenFate para Reddit',paragraphs:[
+    'Edición del 12 de octubre de 2026. El creador de ElevenFate, u/Accomplished-Race114, atiende las consultas de esta edición mediante el modmail de r/ElevenFate. Reddit opera la plataforma y el almacenamiento Devvit según sus propias políticas.',
+    'Tratamos el identificador autenticado de Reddit, el nombre que eliges para tu personaje, decisiones, progreso y puntuaciones. Guardamos una carrera y su copia anterior, intentos Daily, prácticas y un índice de registros con una sesión aleatoria para recuperar datos y evitar conflictos. No pedimos tu contraseña ni tu correo electrónico.',
+    'Los datos se almacenan en Redis de Devvit, separados por comunidad. El navegador puede conservar una caché de la carrera confirmada y preferencias de escenas e idioma. La preferencia de idioma se guarda solo en este navegador, no en tu partida ni en la clasificación. No enviamos partidas a servidores externos. Esta edición no incorpora anuncios ni compras. Las estadísticas de uso son voluntarias y están desactivadas hasta que las aceptas en Ayuda y datos. Registran tiempo, pantallas, progreso y contadores de errores, sin nombres, decisiones narrativas ni partidas. Se vinculan a tu cuenta en esta instalación para medir el regreso y permitir exportación y borrado. El creador consulta únicamente informes agregados. Los registros caducan como máximo 90 días después de tu última actividad; desactivar la participación elimina las mediciones y conserva una preferencia de desactivación temporal para rechazar envíos pendientes.',
+    'La carrera y su índice se conservan mientras quieras mantenerlos. Daily caduca siete días después del cambio de día; prácticas v5 o posteriores, un día después, y las anteriores, siete días después. El ranking caduca ocho días después de su último registro. Los índices descartan referencias Daily antiguas al escribir.',
+    'Al terminar el Daily se registra automáticamente el resultado en la clasificación de esta comunidad. El servidor conserva tu identificador y puntuación; los demás jugadores ven posiciones y puntos, sin tu nombre ni identificador. La práctica no entra en la clasificación.',
+    'En Ayuda y datos puedes exportar los registros y eliminar todos los datos de juego de esta instalación, incluidos carrera, copia, Daily, prácticas, clasificación y estadísticas de uso. El borrado invalida las sesiones anteriores. Conservamos únicamente un marcador asociado a tu cuenta hasta las siguientes 00:00 UTC para impedir otro intento competitivo ese día. Después caduca automáticamente. Eliminar solo la carrera mantiene el resto de modos y un contador de revisión.',
+    'Las exportaciones descargadas quedan bajo tu control. No podemos borrar copias de otros dispositivos desde esta pantalla. Para acceso, corrección, eliminación de cuenta o dudas, contacta por modmail; no adjuntes partidas ni identificadores si no son necesarios. Cada instalación debe tramitar su borrado por separado. La recuperación depende de los datos confirmados y de la disponibilidad de Reddit.',
+  ]},
+  terms:{title:'Condiciones de ElevenFate para Reddit',paragraphs:[
+    'Edición del 12 de octubre de 2026. ElevenFate es un juego narrativo de fútbol disponible en español e inglés del creador u/Accomplished-Race114. Contacto: modmail de r/ElevenFate. El uso está sujeto también a las condiciones de Reddit y las reglas de la comunidad donde juegas.',
+    'Carrera libre conserva tu historia. Daily ofrece 30 decisiones y un intento competitivo por cuenta y día UTC; reinicia a las 00:00 UTC. Práctica se puede repetir y queda fuera de la clasificación. No hay premios económicos, compras ni promesas de resultados.',
+    'No manipules peticiones ni utilices varias cuentas o el borrado de datos para obtener ventajas competitivas. Después de un borrado integral el Daily queda bloqueado hasta el siguiente reinicio UTC. Puedes jugar carrera libre y práctica al volver a abrir el juego.',
+    'Las reglas pueden evolucionar; los intentos iniciados mantienen su versión. Las puntuaciones y títulos son elementos del juego, no valoraciones de futbolistas reales. Personajes y clubes son ficticios.',
+    'El juego está en desarrollo. Podemos corregir errores y cambiar contenido; no garantizamos disponibilidad continua ni recuperación de datos eliminados. Exporta una copia si necesitas conservar tu carrera. Estas condiciones no limitan derechos que te reconozca la normativa aplicable.',
+    'Reportar un problema es voluntario. Abrir el formulario de modmail no envía un mensaje: tú decides qué escribir y si enviarlo. Puedes seguir jugando sin publicar comentarios ni proporcionar datos adicionales.',
+  ]},
+};

@@ -52,7 +52,7 @@
 
 
 /* Dedicated entry form reuses the save creation transaction. */
-.reddit-shell.create-entry{grid-template-rows:48px minmax(0,1fr)}
+.reddit-shell.create-entry{grid-template-rows:auto minmax(0,1fr)}
 .reddit-shell.create-entry .navigation{display:none}
 .reddit-shell .new-story-entry{width:100%;max-width:520px;justify-self:center;padding:16px 8px}
 .new-story-entry h1{font-size:28px;margin:12px 0}
@@ -62,3 +62,9 @@
 .new-story-entry button{min-height:48px;margin-top:12px}
 .new-story-advanced summary{min-height:48px;padding:12px 0;cursor:pointer}
 .new-story-advanced p{font-size:13px;line-height:1.5}
+/* Text growth and small viewports may scroll in expanded mode; actions stay reachable. */
+.reddit-shell .topbar{flex-wrap:wrap;gap:4px;min-height:44px}.reddit-shell{padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(8px,env(safe-area-inset-bottom));grid-template-rows:auto minmax(0,1fr) auto}.reddit-shell .topbar>.date-button{min-height:44px;font-size:12px}.reddit-shell .reddit-home{overflow:auto;grid-template-rows:minmax(180px,auto) auto auto}.reddit-shell .reddit-player{overflow:visible}.reddit-shell .reddit-daily{min-width:0;overflow-wrap:anywhere}.reddit-shell .reddit-daily strong{white-space:normal}.reddit-shell .reddit-scene .choice{min-height:44px}.reddit-shell .reddit-save-context .date-button{min-height:44px}.reddit-shell .reddit-scene>.choices{overflow:auto;min-height:0}.reddit-shell .topbar button:focus-visible{outline:3px solid #409cff;outline-offset:2px}
+@media(max-width:360px){.reddit-shell .brand strong{font-size:13px}.reddit-shell .brand-emblem{width:20px;height:20px}.reddit-shell .topbar{padding:0}.reddit-shell .date-button{max-width:140px}.reddit-advance{grid-template-columns:minmax(0,1fr)}.reddit-calendar{border-left:0}.reddit-home h1{font-size:28px}}
+@media(max-height:480px){.reddit-shell main.reddit-home{display:flex;flex-direction:column;overflow:auto}.reddit-shell .reddit-player{flex-shrink:0;min-height:160px}.reddit-shell .reddit-advance,.reddit-shell .reddit-daily{flex-shrink:0}.reddit-shell .reddit-scene{overflow:auto;height:auto;max-height:100%}.reddit-shell .reddit-scene-copy{overflow:visible;flex-shrink:0}.reddit-shell .reddit-scene>.choices{overflow:visible;max-height:none}.reddit-shell.immersive{grid-template-rows:auto minmax(0,1fr)}}
+.reddit-shell .language-toggle{flex:0 0 98px;min-height:44px;width:98px;padding:8px 12px;border:1px solid #5cbb8b;border-radius:6px;background:#102d23;color:#d2ffe8;font:600 13px system-ui;letter-spacing:0}.reddit-shell .language-toggle:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.reddit-shell .language-toggle[hidden]{display:none!important}

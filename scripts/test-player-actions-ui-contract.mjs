@@ -40,8 +40,8 @@ test('A4-001 CAREER MENU: career UI exposes optional Player Actions entry',async
 
 test('A4-002 SIMULATE PRIMARY: SIMULAR remains the primary career CTA',()=>{
   assert.match(preview,/action\('Simular','auto'.*action:'start'/s);
-  assert.match(web,/button\((?:'Simular'|copy\('career\.home\.simulate','Simular'\)).*run\('auto'.*action:'start'.*'primary'/s);
-  assert.match(web,/(?:'Gestionar mi carrera'|copy\('career\.record\.manage','Gestionar mi carrera'\)).*'secondary'/s);
+  assert.match(web,/button\('Simular'.*run\('auto'.*action:'start'.*'primary'/s);
+  assert.match(web,/Gestionar mi carrera'.*'secondary'/s);
 });
 
 test('A4-003 DECISION LOCK: Player Actions are not executable during narrative decision',async()=>{
@@ -210,7 +210,7 @@ test('A4-017 HISTORY: Player Actions are projected into Tu recorrido without rea
   assert.equal(history[0].actionLabel,'Entrenamiento extra');
   assert.equal(history[0].optionLabel,'Trabajo técnico');
   assert.equal(history[0].text,'Completas una sesión técnica adicional.');
-  assert.deepEqual(Object.keys(history[0]).sort(),['actionId','actionLabel','date','executionId','optionId','optionLabel','text']);
+  assert.deepEqual(Object.keys(history[0]).sort(),['actionId','actionLabel','date','executionId','optionLabel','text']);
   assert.match(preview,/v\.actions\?\.history/);
   assert.match(web,/v\.actions\?\.history/);
   assert.match(web,/Decisiones y acciones/);

@@ -1,5 +1,5 @@
-import {tutorialSample} from '../client/tutorial-sample.mjs';
-const es = {
+// Source copy only; translations live in the complete release runtime.
+export const coverCopy={
   "cover.title": "Tu carrera. Tu legado.",
   "cover.tagline": "Tus decisiones construyen tu carrera.",
   "cover.modes": "Modos de juego",
@@ -44,65 +44,13 @@ const es = {
   "tutorial.featuresDaily": "Daily: juega el reto diario o practica por separado.",
   "tutorial.resumeCareer": "Continuar mi carrera",
   "tutorial.startCareer": "Empezar mi carrera",
-  "tutorial.playDaily": "Jugar Daily"
+  "tutorial.playDaily": "Jugar Daily",
+  "tutorial.EVT_18_PRE_001.title": "La lista de 26",
+  "tutorial.EVT_18_PRE_001.body": "El móvil vibra mientras desayunas. El delegado del primer equipo te cita para la pretemporada. Nano no ha recibido la llamada.",
+  "tutorial.EVT_18_PRE_001.CALL_NANO.label": "Llamar a Nano y contarle exactamente lo que sabes",
+  "tutorial.EVT_18_PRE_001.CALL_NANO.result": "Nano agradece que se lo cuentes directamente.",
+  "tutorial.EVT_18_PRE_001.CALL_RIVAS.label": "Llamar a Rivas para saber qué espera realmente el primer equipo",
+  "tutorial.EVT_18_PRE_001.CALL_RIVAS.result": "Rivas te da contexto útil sin venderte certezas.",
+  "tutorial.EVT_18_PRE_001.CALL_NO_ONE.label": "No llamar a nadie y tratarlo como una convocatoria más",
+  "tutorial.EVT_18_PRE_001.CALL_NO_ONE.result": "La discreción se lee como autonomía y concentración."
 };
-es['tutorial.'+tutorialSample.eventId+'.title']=tutorialSample.title;
-es['tutorial.'+tutorialSample.eventId+'.body']=tutorialSample.body;
-for(const choice of tutorialSample.choices){es['tutorial.'+tutorialSample.eventId+'.'+choice.id+'.label']=choice.label;es['tutorial.'+tutorialSample.eventId+'.'+choice.id+'.result']=choice.exampleResult;}
-const en = {
-  "cover.title": "Your career. Your legacy.",
-  "cover.tagline": "Your choices shape your career.",
-  "cover.modes": "Game modes",
-  "cover.continue": "Continue career",
-  "cover.new": "New career",
-  "cover.dailyNote": "Daily challenge",
-  "cover.tutorial": "Tutorial",
-  "cover.language": "Language",
-  "cover.languagePending": "English translation is being prepared.",
-  "cover.languageReady": "Selected language.",
-  "cover.login": "Sign in to Reddit to save and play.",
-  "cover.checking": "Checking your saved career…",
-  "cover.available": "Your saved career is available.",
-  "cover.empty": "No saved career.",
-  "cover.readError": "Could not check your saved career. Try again.",
-  "cover.retry": "Try again",
-  "tutorial.progress": "DEMO · {step}/3",
-  "tutorial.advanceTitle": "Move your career forward",
-  "tutorial.choiceTitle": "Choose your response",
-  "tutorial.resultTitle": "Read and continue",
-  "tutorial.advanceBody": "Simulate advances to a match or an important moment.",
-  "tutorial.choiceBody": "When a decision appears, tap one of its options.",
-  "tutorial.resultBody": "Read what happened and tap Continue to move on.",
-  "tutorial.demoA11y": "Example controls; your saved career is unchanged",
-  "tutorial.simulate": "Simulate",
-  "tutorial.exampleLabel": "EXAMPLE OUTCOME",
-  "tutorial.contextNote": "In your career, the context can change the outcome.",
-  "tutorial.continue": "Continue",
-  "tutorial.disclaimer": "Demo of a real scene. It does not change your career or use your Daily attempt.",
-  "tutorial.skip": "Skip tutorial",
-  "tutorial.back": "Back to cover",
-  "tutorial.ready": "READY TO PLAY",
-  "tutorial.finishTitle": "Your story awaits",
-  "tutorial.finishBody": "Simulate, choose and continue.",
-  "tutorial.featuresTitle": "What can you do in ElevenFate?",
-  "tutorial.featuresCareer": "Career: matches, contracts, transfers and your journey.",
-  "tutorial.featuresWorld": "World: discover news from your career.",
-  "tutorial.featuresActions": "Manage career: training, health and other optional actions.",
-  "tutorial.featuresRelations": "Relationships: explore the people in your story.",
-  "tutorial.featuresProfile": "Profile: view your player.",
-  "tutorial.featuresSave": "Your save: recover, export or import a copy.",
-  "tutorial.featuresDaily": "Daily: play the daily challenge or practise separately.",
-  "tutorial.resumeCareer": "Continue my career",
-  "tutorial.startCareer": "Start my career",
-  "tutorial.playDaily": "Play Daily",
-  "tutorial.EVT_18_PRE_001.title": "The 26-player list",
-  "tutorial.EVT_18_PRE_001.body": "Your phone buzzes over breakfast. The first-team coordinator calls you up for pre-season. Nano has not received the call.",
-  "tutorial.EVT_18_PRE_001.CALL_NANO.label": "Call Nano and tell him exactly what you know",
-  "tutorial.EVT_18_PRE_001.CALL_NANO.result": "Nano appreciates hearing it directly from you.",
-  "tutorial.EVT_18_PRE_001.CALL_RIVAS.label": "Call Rivas to find out what the first team really expects",
-  "tutorial.EVT_18_PRE_001.CALL_RIVAS.result": "Rivas gives you useful context without promising anything.",
-  "tutorial.EVT_18_PRE_001.CALL_NO_ONE.label": "Call nobody and treat it like any other call-up",
-  "tutorial.EVT_18_PRE_001.CALL_NO_ONE.result": "Your discretion is seen as independence and focus."
-};
-export const coverCatalog={es,en};
-

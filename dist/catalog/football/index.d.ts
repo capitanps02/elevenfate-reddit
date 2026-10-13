@@ -1,7 +1,7 @@
 export type { ClubArchetype, FootballCatalogIssue, FootballClubReferenceClassification, FootballClubReferenceContext, FootballClubReferenceKind, FootballConfederation, FootballCountryCode, FootballClub, FootballDivision } from "./types.js";
 export type { FootballBalanceAttribute, FootballClubBand, FootballLeagueGroup, FootballSelectorProfile } from "./balance.js";
 export { FOOTBALL_CLUB_BANDS, FOOTBALL_SELECTOR_PROFILES, FOOTBALL_SELECTOR_PROFILE_CONTRACT, footballBandAttributeModifier, footballClubBalanceMetadata, footballClubBandFor, footballClubSelectorProfile, footballLeagueGroupForStrength, footballStructuralCoefficient } from "./balance.js";
-export { FOOTBALL_CLUBS, FOOTBALL_DIVISIONS, FOOTBALL_CATALOG_VERSION } from "./world.js";
+export { FOOTBALL_CLUBS, FOOTBALL_DIVISIONS, FOOTBALL_CATALOG_VERSION, FOOTBALL_ARCHETYPE_VERSION } from "./world.js";
 export { FOOTBALL_CATALOG_CLUB_ID_PATTERN, catalogMultiClubIdentityKey, defaultCatalogClubId, stableCatalogClubId } from "./identity.js";
 export { FOOTBALL_CLEARANCE_STATUSES, FOOTBALL_CLUB_ARCHETYPES, FOOTBALL_CONFEDERATIONS, FOOTBALL_COUNTRY_CODES, assertFootballCatalogData, footballCatalogStructuralFingerprint, inspectFootballCatalogData } from "./integrity.js";
 import type { FootballCatalogIssue, FootballClubReferenceClassification, FootballClubReferenceContext, FootballCountryCode, FootballClub, FootballDivision } from "./types.js";

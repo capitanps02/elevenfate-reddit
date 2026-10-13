@@ -1,9 +1,10 @@
 export class FakeNode {
  constructor(tag,document){this.tagName=tag.toUpperCase();this.ownerDocument=document;this.children=[];this.dataset={};this.attributes={};this.listeners={};this.parentNode=null;this.disabled=false;this.textContent='';}
- get firstChild(){return this.children[0]||null;}
+ get firstChild(){if(this.children[0])return this.children[0];if(!this.textContent)return null;if(!this.textNode){const parent=this;this.textNode={nodeType:3,get data(){return parent.textContent;},set data(value){parent.textContent=value;}};}return this.textNode;}
  get lastChild(){return this.children.at(-1)||null;}
  append(...nodes){for(const n of nodes){n.parentNode=this;this.children.push(n);}}
  replaceChildren(...nodes){for(const n of this.children)n.parentNode=null;this.children=[];this.append(...nodes);}
+ hasAttribute(key){return Object.hasOwn(this.attributes,key);}
  setAttribute(key,value){this.attributes[key]=String(value);}
  addEventListener(type,fn){this.listeners[type]=fn;}
  removeEventListener(type,fn){if(this.listeners[type]===fn)delete this.listeners[type];}

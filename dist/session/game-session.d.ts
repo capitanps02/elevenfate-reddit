@@ -153,7 +153,6 @@ export interface PublicPlayerActionHistoryView {
     date: string;
     actionId: string;
     actionLabel: string;
-    optionId: string;
     optionLabel: string;
     text: string;
 }
@@ -165,8 +164,6 @@ export interface PublicPlayerActionsView {
     lastResult: {
         executionId: string;
         date: string;
-        actionId: string;
-        optionId: string;
         text: string;
     } | null;
 }
@@ -206,9 +203,7 @@ export interface PlayerView {
         name: string;
         role: string;
     }>;
-    /** Canonical public event ID for presentation lookup; never an outcome or RNG hint. */
     decision: {
-        eventId: string;
         memories: DecisionMemory[];
         instanceId: string;
         family: string;

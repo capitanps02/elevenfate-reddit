@@ -203,7 +203,6 @@ function publicPlayerActionsView(snapshot) {
             date: entry.date,
             actionId: entry.actionId,
             actionLabel: definition?.label ?? entry.actionId,
-            optionId: entry.optionId,
             optionLabel: option?.label ?? entry.optionId,
             text: entry.visibleResult
         };
@@ -218,7 +217,7 @@ function publicPlayerActionsView(snapshot) {
             actions
         })),
         history,
-        lastResult: last ? { executionId: last.executionId, date: last.date, actionId: last.actionId, optionId: last.optionId, text: last.text } : null
+        lastResult: last ? { executionId: last.executionId, date: last.date, text: last.text } : null
     };
 }
 function requireEvidence(evidence, eventId, code = "INVALID_SAVE") {
@@ -287,8 +286,11 @@ export class GameSession {
             pendingDecision: null, pendingResult: null, receipts: [], journal: [], decisionProvenance: [], needsWorldAdvance: false,
             autoSimulation: idleAutoSimulationState()
         };
-        if (options.redditCompetitions)
+        if (options.redditCompetitions) {
             snapshot.state.world.redditCompetitionFrom = snapshot.state.date;
+            snapshot.state.world.redditCalendarFrom = snapshot.state.date;
+            snapshot.state.world.redditMatchInfluenceFrom = snapshot.state.date;
+        }
         marketState(snapshot.state);
         const session = new GameSession(snapshot, events, activeEvidence, options.commit, options.migrationRoutes ?? CONTENT_MIGRATION_ROUTES, options.contentSources ?? LEGACY_CONTENT_SOURCES);
         await session.#commit(structuredClone(snapshot), null);
@@ -316,6 +318,12 @@ export class GameSession {
         if (options.redditCompetitions && typeof next.state.world.redditCompetitionFrom !== "string") {
             const fixtures = next.state.world.sportMatchModel;
             next.state.world.redditCompetitionFrom = fixtures?.fixtures?.length ? `${Number(next.state.season.slice(0, 4)) + 1}-07-01` : next.state.date;
+        }
+        if (options.redditCompetitions) {
+            // Upgrade at the next season boundary; recorded dates and scores stay valid.
+            const boundary = `${Number(next.state.season.slice(0, 4)) + 1}-07-01`;
+            next.state.world.redditCalendarFrom ??= boundary;
+            next.state.world.redditMatchInfluenceFrom ??= boundary;
         }
         next.build = SESSION_BUILD; // Existing narrative and RNG are preserved; new offers require explicit consent.
         await assertSessionSnapshot(next, { events, activeContentIdentity, activeEvidence, contentSources });
@@ -386,7 +394,7 @@ export class GameSession {
             fatigue: Number(s.body.fatigue), form: Number(s.sport.form), contractMonths: Number(s.contract.monthsRemaining),
             news: s.microfeeds.map(n => ({ date: n.date, text: n.text })),
             contacts: knownPlayerContacts(s, this.#snapshot.decisionProvenance),
-            decision: p ? { eventId: p.event.id, memories: decisionMemories(s, p.event, this.#snapshot.journal), instanceId: p.instanceId, family: p.event.family, title: p.event.text.title, body: p.event.text.body,
+            decision: p ? { memories: decisionMemories(s, p.event, this.#snapshot.journal), instanceId: p.instanceId, family: p.event.family, title: p.event.text.title, body: p.event.text.body,
                 visible: p.event.intel.visible, uncertain: p.event.intel.uncertain,
                 choices: eligibleChoices(s, p.event).map(c => ({ id: c.id, label: c.label })) } : null,
             cutscene: eventCutscene(s, result ? "result" : p ? "decision" : s.retirement.status === "closed" ? "epilogue" : this.#snapshot.revision === 0 ? "prologue" : "other", p?.event.id),

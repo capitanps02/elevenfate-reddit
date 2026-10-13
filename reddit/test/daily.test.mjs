@@ -3,43 +3,10 @@ import assert from 'node:assert/strict';
 import {dailyConfig,createDailyService} from '../server/daily-service.mjs';
 import {createMemoryRedis} from './memory-redis.mjs';
 import {createCareerService} from '../server/career-service.mjs';
-import {EVENTS} from '../../dist/content/events/index.js';
-import {eligibleDailyStories} from '../server/daily-story-policy.mjs';
-import {translateDailyDecision,translateDailyStage,translateDailyResult,translateDailyHistory,translateDailyPlayer} from '../client/daily-story-locale.mjs';
-import {FOOTBALL_DIVISIONS} from '../../dist/catalog/football/index.js';
-import {dailySportsEnglish} from '../i18n/daily-sports-catalog.mjs';
-import {translateDailyDivision,translateDailyHonour,translateDailyFormat,translateDailyFixtureStage} from '../client/daily-sports-locale.mjs';
 
 const date=new Date('2026-10-03T15:00:00Z');
 // Ranking can change when another player finishes; career progress cannot.
 const progress=({leaderboard,...state})=>state;
-test('the active Daily policy currently selects no canonical stories requiring missing translations',()=>{
- const eligible=eligibleDailyStories(EVENTS);
- assert.equal(eligible.length,0,'Daily canonical coverage changed: translate eligible originals before enabling English');
- console.log(JSON.stringify({dailyNarrativeInventory:{canonicalEvents:EVENTS.length,eligibleOriginals:eligible.length,fallbackEvents:24}}));
- assert.deepEqual(Object.keys(dailySportsEnglish.divisions).sort(),FOOTBALL_DIVISIONS.map(division=>division.id).sort());
-});
-test('a complete Daily translates narrative, results and old history without changing the engine run',async()=>{
- const {newDailyRun,applyDailyCommand,dailyRunView}=await import('../server/daily-run.mjs');
- for(const strategy of [0,1,2]){
-  const run=newDailyRun({seed:207});
-  for(let index=0;index<40&&!run.finished;index++){
-   const saved=JSON.stringify(run),view=dailyRunView(JSON.parse(saved));
-   translateDailyStage(view.stage,'en');assert.ok(translateDailyPlayer(view,'en').club);
-   if(view.decision)assert.deepEqual(translateDailyDecision(view.decision,'en').choices.map(c=>c.id),view.decision.choices.map(c=>c.id));
-   if(view.lastMessage)assert.ok(translateDailyResult(view.lastMessage,view.lastMessagePresentation,'en'));
-   if(view.league)assert.ok(translateDailyDivision(view.league,'en'));
-   if(view.continental){assert.ok(translateDailyFormat(view.continental,'en'));for(const match of view.continental.matches)assert.ok(translateDailyFixtureStage(match,'en'));}
-   for(const item of [...view.titles,...view.awards])assert.ok(translateDailyHonour(item,'en'));
-   assert.equal(JSON.stringify(run),saved);
-   const pending=run.pending,choiceId=pending?.kind==='club'?pending.clubs[strategy].id:pending?.choices[strategy%pending.choices.length].id;
-   applyDailyCommand(run,{type:run.summaryPending?'acknowledge':'choose',choiceId,commandId:'localized-'+index,expectedRevision:run.revision});
-  }
-  assert.equal(run.finished,true);const saved=JSON.stringify(run),restored=JSON.parse(saved),view=dailyRunView(restored),history=translateDailyHistory(view.history,'en');
-  assert.equal(history.length,30);assert.equal(history.filter(entry=>entry.presentation.kind==='story').length,24);
-  assert.ok(view.history.every(entry=>entry.presentation));assert.equal(JSON.stringify(restored),saved);assert.equal(JSON.stringify(run),saved);
- }
-});
 test('Daily configuration uses UTC and changes at the next UTC day',()=>{
   const a=dailyConfig(new Date('2026-10-03T00:00:00Z')),b=dailyConfig(new Date('2026-10-03T23:59:59Z'));
   assert.deepEqual(progress(a),progress(b));assert.notEqual(a.seed,dailyConfig(new Date('2026-10-04T00:00:00Z')).seed);
@@ -167,24 +134,4 @@ test('ranking failure after a confirmed finish preserves the Daily and is repair
  for(let i=0;i<40&&!state.finished;i++){try{state=await step(daily,'t2_recovery',state);}catch(error){assert.match(error.message,/ranking temporarily/);failed=true;break;}}
  assert.ok(failed);const restored=await daily.read('t2_recovery');assert.equal(restored.finished,true);assert.equal(restored.resolved,30);assert.equal(restored.leaderboard.total,1);assert.equal(restored.leaderboard.score,restored.score.total);
  const second=await daily.read('t2_recovery');assert.deepEqual(second,restored);assert.equal(second.leaderboard.total,1);
-});
-
-test('presentation metadata never enters a persisted Daily run and old runs still project',async()=>{
- const {newDailyRun,applyDailyCommand,dailyRunView}=await import('../server/daily-run.mjs');
- const run=newDailyRun({seed:207});
- applyDailyCommand(run,{type:'choose',choiceId:run.pending.clubs[0].id,commandId:'metadata-first',expectedRevision:run.revision});
- const before=JSON.stringify(run),view=dailyRunView(run);
- assert.equal(JSON.stringify(run),before);assert.equal(view.decision.eventId,run.pending.event.id);
- assert.equal(view.stage.stageId,0);assert.equal(Object.hasOwn(run,'stageId'),false);assert.equal(Object.hasOwn(run.pending,'eventId'),false);
- view.decision.choices[0].label='external presentation change';assert.equal(JSON.stringify(run),before);
- // Stored runs and history from before this feature have no presentation IDs.
- assert.equal(Object.hasOwn(run.history[0],'eventId'),false);
- assert.equal(dailyRunView(JSON.parse(before)).decision.eventId,run.pending.event.id);
- for(let i=0;i<5&&!run.summaryPending;i++){
-  applyDailyCommand(run,{type:'choose',choiceId:run.pending.choices[0].id,commandId:'metadata-'+i,expectedRevision:run.revision});
- }
- assert.equal(run.summaryPending,true);const saved=JSON.stringify(run),hydrated=JSON.parse(saved),summaryView=dailyRunView(hydrated);
- assert.equal(JSON.stringify(hydrated),saved);
- assert.equal(summaryView.summary.stageId,0);assert.equal(summaryView.summaries[0].stageId,0);assert.equal(summaryView.nextStage.stageId,1);
- assert.equal(Object.hasOwn(run.summaries[0],'stageId'),false);assert.equal(JSON.stringify(run),saved);
 });

@@ -1,5 +1,4 @@
-import {publicSportsContinental} from '../shared/sports-presentation.mjs';
-import {competitionForCareer,publicContinentalSeason,leagueStandings,careerCompetitionFixture} from '../shared/league-simulator.mjs';
+import {competitionForCareer,reconciledCareerLeague,publicContinentalSeason,leagueStandings,careerCompetitionFixture} from '../shared/league-simulator.mjs';
 import {scheduledLeagueFixtures,recordOfficialMatchInPlace} from '../../dist/simulation/match-model.js';
 import {resolveFixtureDivision} from '../../dist/catalog/football/fixture-opponent.js';
 import {FOOTBALL_CLUBS,clubsForDivision} from '../../dist/catalog/football/index.js';
@@ -12,7 +11,7 @@ function legacyCareerSports(state){
  const club=state.professional.registrationClub,division=resolveFixtureDivision(club,state.professional.leagueTier,state.professional.route,state.flags.ABROAD_ROUTE===true);
  const actual=(state.world.sportMatchModel?.fixtures??[]).filter(m=>m.season===state.season&&m.club===club);
  const upcoming=scheduledLeagueFixtures(state,60);
- if(!division)return {divisionId:null,club:formatClubName(club),recent:actual.slice(-1),allRecent:actual,upcoming:upcoming.slice(0,3),rows:[],position:null,played:0};
+ if(!division)return {club:formatClubName(club),recent:actual.slice(-1),allRecent:actual,upcoming:upcoming.slice(0,3),rows:[],position:null,played:0};
  const members=[...clubsForDivision(division.id)],cohort=new Map(members.map(c=>[c.id,{id:c.id,name:c.name,prestige:c.prestige}]));
  if(!cohort.has(club))cohort.set(club,{id:club,name:formatClubName(club),prestige:state.professional.clubPrestigeScore??40});
  // Synthetic/canonical clubs occupy an additional league slot. Add a stable
@@ -36,17 +35,17 @@ function legacyCareerSports(state){
  }
  const sorted=[...rows.values()].sort((a,b)=>b.points-a.points||(b.gf-b.ga)-(a.gf-a.ga)||b.gf-a.gf||a.name.localeCompare(b.name)).map((r,i)=>({...r,position:i+1}));
  const own=sorted.find(r=>r.you);
- return {club:formatClubName(club),division:division.name,divisionId:division.id,season:state.season,recent:actual.filter(m=>m.result).slice(-1),allRecent:actual.filter(m=>m.result),upcoming:upcoming.slice(0,1),rows:sorted,position:own?.played?own.position:null,played:own?.played??0,points:own?.points??0,simulated:true};
+ return {club:formatClubName(club),division:division.name,season:state.season,recent:actual.filter(m=>m.result).slice(-1),allRecent:actual.filter(m=>m.result),upcoming:upcoming.slice(0,1),rows:sorted,position:own?.played?own.position:null,played:own?.played??0,points:own?.points??0,simulated:true};
 }
-export function createCareerSportsView(){let key='',cached=null;return session=>{const view=session.getView(),next=`${view.sessionId}:${view.revision}`;if(next!==key){cached=projectCareerSports(session.exportSnapshot().state);key=next;}return cached;};}
+export function createCareerSportsView(){let key='',source=null,cached=null;return session=>{const view=session.getView(),next=`${view.sessionId}:${view.revision}`;if(source!==session||next!==key){cached=projectCareerSports(session.exportSnapshot().state);key=next;source=session;}return cached;};}
 
 export function projectCareerSports(state){
  if(typeof state.world.redditCompetitionFrom!=='string'||state.date<state.world.redditCompetitionFrom)return legacyCareerSports(state);
- const {league,continental}=competitionForCareer(state),rows=league.teams.map(t=>({...t,played:0,won:0,drawn:0,lost:0,gf:0,ga:0,points:0}));
+ const {continental}=competitionForCareer(state),league=reconciledCareerLeague(state),rows=league.teams.map(t=>({...t,played:0,won:0,drawn:0,lost:0,gf:0,ga:0,points:0}));
  const matches=league.matches.filter(m=>m.date<=state.date);
  for(const m of matches){for(const [index,gf,ga]of [[m.home,m.hg,m.ag],[m.away,m.ag,m.hg]]){const r=rows[index];r.played++;r.gf+=gf;r.ga+=ga;if(gf>ga){r.won++;r.points+=3;}else if(gf===ga){r.drawn++;r.points++;}else r.lost++;}}
  const table=leagueStandings({...league,teams:rows}),own=table.find(r=>r.you),club=state.professional.registrationClub;
  const facts=(state.world.sportMatchModel?.fixtures??[]).filter(m=>m.season===state.season&&m.club===club);
  const upcoming=[];for(let d=0;d<370;d++){const date=new Date(Date.parse(state.date+'T00:00:00Z')+d*86400000).toISOString().slice(0,10);if(date>`${league.year+1}-05-31`)break;const match=careerCompetitionFixture(state,date);if(match&&!facts.some(m=>m.date===date))upcoming.push(match.fixture);}
- return {club:formatClubName(club),season:state.season,division:league.division,divisionId:league.divisionId,rows:table,position:own.played?own.position:null,points:own.points,played:own.played,recent:facts.slice(-1),allRecent:facts,upcoming:upcoming.slice(0,1),league:{teams:league.teams.map(t=>({id:t.id,name:t.name})),matches},continental:publicSportsContinental(publicContinentalSeason(continental,state.date))};
+ return {club:formatClubName(club),season:state.season,division:league.division,rows:table,position:own.played?own.position:null,points:own.points,played:own.played,recent:facts.slice(-1),allRecent:facts,upcoming:upcoming.slice(0,1),league:{teams:league.teams.map(t=>({id:t.id,name:t.name})),matches},continental:publicContinentalSeason(continental,state.date)};
 }

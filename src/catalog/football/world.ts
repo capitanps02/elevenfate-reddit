@@ -1209,7 +1209,11 @@ function shortName(city: string, modifier: string): string {
   return explicit;
 }
 
-function archetypesFor(seed: number, band: FootballClubBand): readonly ClubArchetype[] {
+function archetypesFor(
+  seed: number,
+  band: FootballClubBand,
+  club: Pick<FootballClub, "tier" | "prestige" | "internationalAttraction" | "pressure" | "financialPower">
+): readonly ClubArchetype[] {
   const pool: ClubArchetype[] = ["development","selling","historic","high_pressure","community","technical","physical"];
   const first: ClubArchetype =
     band === "elite" || band === "continental"
@@ -1218,7 +1222,19 @@ function archetypesFor(seed: number, band: FootballClubBand): readonly ClubArche
         ? "development"
         : pool[seed % pool.length]!;
   const second = pool[(seed + 3) % pool.length]!;
-  return Object.freeze(first === second ? [first] : [first, second]);
+  // Descriptive labels must reflect the generated resources. Competitive bands
+  // are relative to the league; continental recognition is an absolute profile.
+  const eligible = (archetype: ClubArchetype): boolean => {
+    if (archetype === "continental") {
+      return club.tier === 1 && club.prestige >= 80 && club.internationalAttraction >= 76;
+    }
+    if (archetype === "community") return club.pressure <= 70 && club.financialPower <= 70;
+    if (archetype === "high_pressure") return club.pressure >= 78;
+    return true;
+  };
+  const selected = [...new Set([first, second])].filter(eligible);
+  if (selected.length === 0) selected.push((["historic", "technical", "physical"] as const)[seed % 3]!);
+  return Object.freeze(selected);
 }
 
 const divisions: FootballDivision[] = [];
@@ -1269,7 +1285,7 @@ for (const [rawCode, config] of Object.entries(COUNTRY_CONFIGS)) {
       const nameValue = `${city} ${modifier}`;
       const balanceBand = footballClubBandFor(id, tier, divisionStrength);
       const prestige = balancedAttribute(id, balanceBand, "prestige", divisionStrength, "prestige");
-      clubs.push(Object.freeze({
+      const club = {
         id,
         name: nameValue,
         shortName: shortName(city, modifier),
@@ -1315,9 +1331,9 @@ for (const [rawCode, config] of Object.entries(COUNTRY_CONFIGS)) {
           tierAdjusted(config.international, tier),
           "international"
         ),
-        archetypes: archetypesFor(identitySeed, balanceBand),
-        clearanceStatus: "working_name_unchecked"
-      }));
+        clearanceStatus: "working_name_unchecked" as const
+      };
+      clubs.push(Object.freeze({ ...club, archetypes: archetypesFor(identitySeed, balanceBand, club) }));
     }
     cityOffset += clubCount;
   });
@@ -1331,3 +1347,6 @@ assertFootballCatalogData(frozenClubs, frozenDivisions, "Football Database V2 ca
 export const FOOTBALL_DIVISIONS = frozenDivisions;
 export const FOOTBALL_CLUBS = frozenClubs;
 export const FOOTBALL_CATALOG_VERSION = "world-v2-a2-2026-09-28";
+// Resource/identity version above remains stable: descriptive labels are not
+// consumed by match simulation, market selection or save validation.
+export const FOOTBALL_ARCHETYPE_VERSION = "profiles-2026-10-04";

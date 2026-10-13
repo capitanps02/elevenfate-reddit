@@ -1,9 +1,9 @@
-# Localización — reutilización, sin retraducción
+# Localización — runtime único de 0.1.7
 
-13-Oct-2026. Fuente de entrega 0.1.7: `/Users/capitanps/Documents/Codex/2026-10-12/ne/work/elevenfate-reddit`.
+13-Oct-2026. Fuente auditada: `/Users/capitanps/Documents/Codex/2026-10-12/ne/work/elevenfate-reddit`, fingerprint 924fdc3e; 388 eventos, 3.646 textos activos y 4.241 textos narrativos totales traducidos, missing=0.
 
-388 eventos, 3.646 textos activos y 4.241 textos totales traducidos; missing=0. Fingerprint 924fdc3e coincide con release-status, incluyendo redditPlaytest=true. La candidata de portada anterior no representa el estado del inglés del producto.
+R1 cerrada: runtime y catálogos completos reutilizados. Los textos nuevos de portada/tutorial/formulario se añaden al mismo catálogo de interfaz. La portada utiliza `locale.text` y la preferencia existente `elevenfate.language.v1`. No hay traductor parcial paralelo ni otra preferencia. El selector se sitúa en la portada; se retira del recorrido de Simular y Daily manteniendo ayuda/privacidad.
 
-R1 de [ROADMAP.md](ROADMAP.md) reutiliza ese runtime/catálogos, conserva sus prestaciones y consolida los adaptadores duplicados cuando la sustitución esté conectada. Solo se adaptan los textos nuevos de portada/tutorial y su selector. Hasta esa conciliación no se declara el código de portada bilingüe publicado ni se fuerza la habilitación del adaptador antiguo.
+La candidata modificada no hereda certificaciones de la entrega original. Se prueba English mediante `--locale-preview`; flags y fingerprint propios se cerrarán en R3. No se ha cambiado la instalación pública ni la fuente auditada.
 
-Las decisiones y pruebas del prototipo por IDs están archivadas en [history](history/COVER-LOCALIZATION-before-reconciliation-20261013.md), fuera de la cola vigente.
+Cola vigente: [ROADMAP.md](ROADMAP.md). Los prototipos antiguos quedan en la historia Git y en [history](history/COVER-LOCALIZATION-before-reconciliation-20261013.md).

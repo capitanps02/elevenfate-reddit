@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {tutorialSample as sample} from '../client/tutorial-sample.mjs';
+import {createLocale} from '../i18n/runtime.mjs';
 import {mountCover} from '../client/cover.mjs';
 import {makeRoot} from './cover-dom.mjs';
 const source=fs.readFileSync(sample.sourcePath,'utf8');
@@ -24,7 +25,7 @@ test('each displayed choice and illustrative result belong to the same canonical
 });
 for(const [i,choice] of sample.choices.entries())test('tutorial renders '+choice.id+' result without entering game',async()=>{
  const root=makeRoot();let opened=0;
- const dispose=mountCover({root,readCareer:async()=>null,onContinue:()=>opened++,onNew:()=>opened++,onDaily:()=>opened++});
+ const dispose=mountCover({root,locale:createLocale(),readCareer:async()=>null,onContinue:()=>opened++,onNew:()=>opened++,onDaily:()=>opened++});
  await Promise.resolve();action(root,'tutorial').click();action(root,'simulate').click();
  assert.ok(text(root).includes(sample.body));const option=action(root,String.fromCharCode(97+i));assert.equal(option.dataset.choiceId,choice.id);option.click();
  assert.ok(text(root).includes(choice.exampleResult));assert.ok(text(root).includes('EJEMPLO DE RESULTADO'));assert.ok(text(root).includes('el contexto puede cambiar el resultado'));assert.equal(opened,0);
@@ -32,7 +33,7 @@ for(const [i,choice] of sample.choices.entries())test('tutorial renders '+choice
 });
 test('Escape exits tutorial without starting a mode and disposal removes listener',()=>{
  const root=makeRoot();let opened=0,prevented=0;
- const dispose=mountCover({root,authenticated:false,readCareer:async()=>null,onContinue:()=>opened++,onNew:()=>opened++,onDaily:()=>opened++});
+ const dispose=mountCover({root,locale:createLocale(),authenticated:false,readCareer:async()=>null,onContinue:()=>opened++,onNew:()=>opened++,onDaily:()=>opened++});
  action(root,'tutorial').click();root.listeners.keydown({key:'Escape',preventDefault(){prevented++;}});
  assert.ok(action(root,'tutorial'));assert.equal(prevented,1);assert.equal(opened,0);dispose();assert.equal(root.listeners.keydown,undefined);
 });
@@ -40,7 +41,7 @@ test('Escape exits tutorial without starting a mode and disposal removes listene
 test('skip enters the appropriate mode only after availability is confirmed',async()=>{
  for(const saved of [false,true]){
   const root=makeRoot();let starts=0,resumes=0;
-  const dispose=mountCover({root,readCareer:async()=>saved?'saved':null,onContinue:()=>resumes++,onNew:()=>starts++,onDaily(){}});
+  const dispose=mountCover({root,locale:createLocale(),readCareer:async()=>saved?'saved':null,onContinue:()=>resumes++,onNew:()=>starts++,onDaily(){}});
   await Promise.resolve();await Promise.resolve();action(root,'tutorial').click();action(root,'skip').click();
   assert.deepEqual([starts,resumes],saved?[0,1]:[1,0]);dispose();
  }

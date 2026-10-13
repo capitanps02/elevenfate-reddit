@@ -14,7 +14,7 @@ test('A19 onboarding explains the simulated career loop and player variables',()
   assert.match(ui,/Rendimiento actual: refleja cómo estás compitiendo ahora/);
   assert.match(ui,/Condición corporal y disponibilidad física/);
   assert.match(ui,/Desgaste acumulado: cuanto más alta, peor/);
-  assert.match(ui,/meter\.setAttribute\('aria-label',label\+'\. '\+help\)/);
+  assert.match(ui,/meter\.setAttribute\('aria-label',.*label\+'\. '\+help/);
   assert.match(ui,/Qué significan estos datos/);
 });
 
