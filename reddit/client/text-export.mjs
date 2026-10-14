@@ -2,10 +2,10 @@
 export function createTextExport({document:doc,locale,clipboard=globalThis.navigator?.clipboard}){
  let current=null;
  const t=source=>locale.text(source);
- return (raw,filename)=>{
+ return (raw,filename,origin)=>{
   if(typeof raw!=='string')throw TypeError('Export text must be a string.');
   current?.close();
-  let previous=doc.activeElement;while(previous?.shadowRoot?.activeElement)previous=previous.shadowRoot.activeElement;
+  let previous=origin??doc.activeElement;while(previous?.shadowRoot?.activeElement)previous=previous.shadowRoot.activeElement;
   const dialog=doc.createElement('dialog');dialog.className='help-dialog text-export-dialog';current=dialog;
   const heading=doc.createElement('h1'),instructions=doc.createElement('p'),area=doc.createElement('textarea'),actions=doc.createElement('div'),status=doc.createElement('p');
   heading.id='text-export-title';heading.tabIndex=-1;dialog.setAttribute('aria-labelledby',heading.id);

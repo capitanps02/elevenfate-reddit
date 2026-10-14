@@ -19,3 +19,7 @@ test('copying is single-flight and a late clipboard response cannot repaint a cl
 test('closing export restores the actual originating control inside a ShadowRoot',()=>{
  const x=setup(null),button=x.doc.createElement('button');button.isConnected=true;const host={shadowRoot:{activeElement:button}};x.doc.activeElement=host;x.exportText('exact','copy.json');x.body.querySelector('dialog[open]').close();assert.equal(x.doc.activeElement,button);
 });
+test('an asynchronous export restores its explicit origin after disabling it has moved focus',()=>{
+ const x=setup(null),button=x.doc.createElement('button');button.isConnected=true;x.doc.activeElement=x.body;
+ x.exportText('exact','account.json',button);const dialog=x.body.querySelector('dialog[open]');button.disabled=false;dialog.close();assert.equal(x.doc.activeElement,button);
+});
