@@ -1,8 +1,8 @@
 {
   "englishReady": true,
   "legacyCoverage": true,
-  "completeRegression": false,
-  "visualAndLanguageReview": false,
+  "completeRegression": true,
+  "visualAndLanguageReview": true,
   "implementationHash": "919b0619b17b8a6769b04120548cbc96c5b676745f786602fccc703c32a93db7",
-  "redditPlaytest": false
+  "redditPlaytest": true
 }
