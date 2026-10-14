@@ -1,6 +1,6 @@
 # ElevenFate Reddit — plan único de portada, recalculado
 
-13 de octubre de 2026 · Revisión 2.2 · **94 % estimado; R1 y R2 cerradas; 2 pasadas restantes**.
+14 de octubre de 2026 · Revisión 2.3 · **96 % estimado; R1 y R2 cerradas; 2 pasadas restantes**.
 
 Sustituye los porcentajes y colas anteriores de portada. La candidata sigue siendo [PR #4](https://github.com/capitanps02/elevenfate-reddit/pull/4); no se abre otra implementación. El porcentaje mide preparación y trabajo existente reutilizable, no certificación ni publicación. R1 ya concilia la fuente 0.1.7 y los deltas únicos de portada. La certificación y publicación de esta candidata siguen pendientes.
 
@@ -25,7 +25,7 @@ No se han reejecutado las 265/43 pruebas históricas de analítica ni las 177 de
 
 **R1 cerrada el 13-Oct.** Fuente conciliada con portada y recuperación de guardados de 3c2b6cdc. Los 197 archivos del motor y los 32 archivos de servidor, componentes compartidos, analítica y telemetría coinciden byte a byte con la fuente auditada. Se conserva Daily v7/legacy, SDK 0.14.7, privacidad, ayuda y observadores. Una única preferencia `elevenfate.language.v1` y el runtime completo traducen también los nuevos textos de portada/formulario/tutorial. Véase [INTEGRATION-017.json](INTEGRATION-017.json).
 
-Última comprobación de portal registrada en el otro trabajo el 13-Oct: 0.1.7 aprobada y sin instalaciones; comunidad pública 0.1.6 y privada 0.1.6.7. Este estado no se ha consultado en vivo de nuevo en esta revisión. Antes de entrega se confirmará el estado efectivo; versión subida, aprobada e instalada son estados diferentes.
+Estado consultado el 14-Oct: comunidad pública r/ElevenFate instalada en 0.1.7; candidata de portada 0.1.7.2 instalada solo en r/elevenfate_dev2. Se verifica también la URL de la versión servida en el post privado. No se duplica la publicación de 0.1.7. Versión subida, aprobada e instalada son estados diferentes.
 
 ## 2. Alcance que se conserva
 
@@ -67,7 +67,7 @@ El contador sigue siendo R1–R4: **2/4 cerradas; 2 restantes**. R2 cierra el pu
 
 Fuera de estas cuatro pasadas: cambiar puntuación, ampliar telemetría, monetización, featuring y promoción. Se preserva lo integrado, sin abrir nuevos frentes.
 
-## 5. Cálculo transparente del 94 %
+## 5. Cálculo transparente del 96 %
 
 Se mantienen los pesos de preparación históricos; P0–P8 no son otra cola.
 
@@ -80,15 +80,15 @@ Se mantienen los pesos de preparación históricos; P0–P8 no son otra cola.
 | Traducción reutilizada P4 | 20 % | 100 % | 20 % |
 | Simular P5 | 5 % | 100 % | 5 % |
 | Arte/accesibilidad local P6 | 10 % | 100 % | 10 % |
-| Certificación P7 | 8 % | 75 % | 6 % |
-| Entrega P8 | 4 % | 0 % | 0 % |
-| **Total** | **100 %** | | **94 %** |
+| Certificación P7 | 8 % | 87,5 % | 7 % |
+| Entrega P8 | 4 % | 25 % | 1 % |
+| **Total** | **100 %** | | **96 %** |
 
-78 % tras el recálculo → 86 % tras R1 → **94 % tras R2 local**. Los 8 puntos nuevos cierran preparación de portada (+1,5), Simular (+0,5) y revisión gráfica/accesibilidad local (+6). **6 % estimado restante; 2 pasadas de cierre**: R3 certificación exacta/Reddit/zoom nativo y R4 entrega. El porcentaje sigue midiendo preparación, no publicación ni aprobación final.
+78 % tras el recálculo → 86 % tras R1 → **94 % tras R2 local**. Los 8 puntos nuevos cierran preparación de portada (+1,5), Simular (+0,5) y revisión gráfica/accesibilidad local (+6). **4 % estimado restante; 2 pasadas de cierre**: R3 certificación exacta/Reddit/zoom nativo y R4 entrega. El porcentaje sigue midiendo preparación, no publicación ni aprobación final.
 
 R2 pasa **293/293 pruebas Reddit**, incluidas las dos nuevas de estado/foco. Build preview conserva 388 eventos y 4.241 textos narrativos, missing=0. CI de 2b4f5c6 terminó correctamente; no se atribuye ese PASS al SHA posterior de pulido. Registro de R2: [R2-LOCAL-REVIEW.json](R2-LOCAL-REVIEW.json).
 
-Validación local de integración: compilación de motor y preview bilingüe; configuración Devvit con SDK 0.14.7; **291/291 pruebas Reddit**, incluidas las 49 focalizadas (no se suman dos veces); **142/142 pruebas separadas de guardados y UI A19**. Los 81 casos de sesión, Player Actions y autosimulación del lote extendido también finalizaron correctamente, incluido el cierre de una carrera completa. Ese lote anterior contenía una expectativa obsoleta del formulario inglés; la expectativa corregida ya pasa en la suite vigente de 291 casos. No se presenta aquel lote como un PASS global ni se suman sus pruebas solapadas. No se han realizado prueba privada ni instalación en Reddit con esta candidata. Los flags de certificación de la copia 0.1.7 no se heredan: `completeRegression`, `visualAndLanguageReview` y `redditPlaytest` permanecen en false en la candidata modificada. English se comprueba con `--locale-preview` hasta certificar su propio fingerprint.
+Validación local de integración: compilación de motor y preview bilingüe; configuración Devvit con SDK 0.14.7; **291/291 pruebas Reddit**, incluidas las 49 focalizadas (no se suman dos veces); **142/142 pruebas separadas de guardados y UI A19**. Los 81 casos de sesión, Player Actions y autosimulación del lote extendido también finalizaron correctamente, incluido el cierre de una carrera completa. Ese lote anterior contenía una expectativa obsoleta del formulario inglés; la expectativa corregida ya pasa en la suite vigente de 291 casos. No se presenta aquel lote como un PASS global ni se suman sus pruebas solapadas. La revisión R3 instala y comprueba 0.1.7.2 en Reddit privado; véase R3-PRIVATE-CANDIDATE.json. Los flags de certificación de la copia 0.1.7 no se heredan: `completeRegression`, `visualAndLanguageReview` y `redditPlaytest` permanecen en false en la candidata modificada. English se comprueba con `--locale-preview` hasta certificar su propio fingerprint.
 
 ## 6. Única autoridad y registro
 
@@ -96,4 +96,8 @@ ROADMAP.md es la cola vigente. COVER-PROGRESS.md y COVER-LOCALIZATION.md apuntan
 
 Registro de entrega futuro: commit/base/fingerprint, CI, versión Devvit y comunidad/post, idioma, recuperación/continuidad, Daily/analítica preservados, incidencias y reversión. Hasta R4, la portada es candidata sin publicar.
 
-Referencias: fuente local de 0.1.7 indicada arriba; informe DESPLIEGUE-REAL-PENDIENTE y RESULTADO-TESTEO del trabajo de analítica; RESULTADO-IMPLEMENTACION-ES-EN del trabajo de traducción; manifiesto de integración 44/44; [PR #4](https://github.com/capitanps02/elevenfate-reddit/pull/4). Auditoría reproducible de fuentes: [SOURCE-017-AUDIT.json](SOURCE-017-AUDIT.json), con tres fingerprints y diferencias de certificación. La integración se realiza únicamente en la rama candidata; la fuente auditada y las instalaciones existentes no se modifican.
+Referencias: fuente local de 0.1.7 indicada arriba; informe DESPLIEGUE-REAL-PENDIENTE y RESULTADO-TESTEO del trabajo de analítica; RESULTADO-IMPLEMENTACION-ES-EN del trabajo de traducción; manifiesto de integración 44/44; [PR #4](https://github.com/capitanps02/elevenfate-reddit/pull/4). Auditoría reproducible de fuentes: [SOURCE-017-AUDIT.json](SOURCE-017-AUDIT.json), con tres fingerprints y diferencias de certificación. La integración se realiza únicamente en la rama candidata; la fuente auditada y la instalación pública se conservan. Solo se actualiza la comunidad privada de pruebas.
+
+### Preparación de publicación, 14-Oct
+
+**96 % estimado; 2/4 cerradas, 2 pendientes.** R3 avanza con build, 317/317 pruebas locales limpias y prueba privada de 0.1.7.2: ES/EN, reanudación, tutorial completo, cancelación, entrada/retorno Daily y exportación; la copia de la carrera es idéntica byte a byte tras la navegación. El sandbox no permite descargar mediante Blob: la candidata usa exportación de texto y copia, sin ampliar permisos. CI verify:reddit pasa; el lote extendido sigue pendiente al registrar esta revisión. Zoom nativo y aceptación/performance restantes mantienen R3 abierta. R4 ya tiene paquete, manifiesto, notas de versión y guía de reversión; entrega pública sigue pendiente. Los dos puntos nuevos son +1 de validación privada y +1 de preparación de entrega, sin cerrar otra pasada ni abrir duplicidades. Véanse [PUBLICATION-PREP.md](PUBLICATION-PREP.md) y [R3-PRIVATE-CANDIDATE.json](R3-PRIVATE-CANDIDATE.json).

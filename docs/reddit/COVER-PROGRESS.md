@@ -1,9 +1,9 @@
 # Portada — estado vigente
 
-13-Oct-2026. **94 % estimado; R1/R2 local cerradas; 2 pasadas pendientes: R3–R4.**
+14-Oct-2026. **96 % estimado; R1/R2 local cerradas; 2 pasadas pendientes: R3–R4.**
 
-R1 integra la fuente auditada 0.1.7 y retira duplicidades. R2 corrige foco/estado del tutorial y recuperación, contraste de campos, target de clasificación y safe areas; verifica teclado, 72 casos de carrera ES/EN, seis tamaños de Daily y la portada. 293/293 pruebas Reddit y build preview correctos.
+R1 integra la fuente auditada 0.1.7 y retira duplicidades. R2 verifica interfaz y teclado. R3 verifica build, 317/317 pruebas locales, versión 0.1.7.2 servida en Reddit privado, portada ES/EN, tutorial completo, cancelación, entrada/retorno Daily y reanudación. La carrera exportada conserva exactamente sus bytes tras las pruebas de navegación. Exportación adaptada al sandbox sin ampliar permisos.
 
-CI del SHA anterior 2b4f5c6 en verde; no certifica el SHA nuevo. Zoom nativo no operable mediante el atajo del navegador integrado: queda en la comprobación real de R3 en Reddit. No hay certificación privada, publicación ni instalación de esta candidata.
+CI verify:reddit del código 0451318 pasa; lote extendido pendiente al registrar. Zoom nativo y aceptación/performance restantes mantienen R3 abierta. Publicación preparada con paquete y reversión; r/ElevenFate sigue instalada en 0.1.7.
 
-Cola y cálculo únicos: [ROADMAP.md](ROADMAP.md). Evidencia local: [R2-LOCAL-REVIEW.json](R2-LOCAL-REVIEW.json).
+Cola y cálculo únicos: [ROADMAP.md](ROADMAP.md). Evidencias: [R3-PRIVATE-CANDIDATE.json](R3-PRIVATE-CANDIDATE.json), [PUBLICATION-PREP.md](PUBLICATION-PREP.md) y [R2-LOCAL-REVIEW.json](R2-LOCAL-REVIEW.json).
