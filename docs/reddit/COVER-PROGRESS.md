@@ -1,9 +1,7 @@
-# Portada — estado vigente
+# Estado vigente de portada
 
-14-Oct-2026. **96 % estimado; R1/R2 local cerradas; 2 pasadas pendientes: R3–R4.**
+14-Oct-2026. **99 %; 3/4 pasadas cerradas; R4 pendiente solo de aprobación definitiva de Reddit.**
 
-Candidata privada instalada y servida: 0.1.7.4, código 9377ffd. Cabecera sin pausa ni ayuda, fecha/Partida a la derecha; ayuda abajo a la derecha de portada; retrato alargado; nombre obligatorio y cancelación al crear carrera. 318/318 pruebas locales y doce layouts ES/EN correctos. Carrera privada de 18-09-2027/18 decisiones idéntica a sus bytes de 0.1.7.3. Foco de exportación de cuenta corregido y verificado en 0.1.7.3. Usuario informa zoom correcto en esa iteración anterior.
+0.1.8 instalada y servida en r/ElevenFate. Daily retirado de Simular, alineación revisada, retrato alargado, nombre obligatorio en Nueva partida y ayuda al pie derecho de portada. 326/326 pruebas Reddit/UI y 177/177 de sesión/guardados pasan; CI de la fuente enviada en verde. Carrera pública idéntica antes/después de navegación. Directorio: Private · In Review, sin aprobación final aún.
 
-CI del SHA nuevo en curso; aceptación/performance y certificación finales mantienen R3 abierta. R4 tiene paquete y reversión preparados. Comunidad pública sin cambios, en 0.1.7.
-
-Cola y cálculo únicos: [ROADMAP.md](ROADMAP.md). Evidencias: [R3-PRIVATE-CANDIDATE.json](R3-PRIVATE-CANDIDATE.json) y [PUBLICATION-PREP.md](PUBLICATION-PREP.md).
+Cola única: [ROADMAP.md](ROADMAP.md). Registro: [RELEASE-018.json](RELEASE-018.json). Certificación: [FINAL-CERTIFICATE.json](FINAL-CERTIFICATE.json).

@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-14",
+  "version": "0.1.8",
+  "codeCommit": "b39c98214911a9c536d11842f9caace5801de498",
+  "publishedSourceCommit": "1acf52c4fb64a0c44aaeb9a831d7e432ee3f759d",
+  "fingerprint": "919b0619b17b8a6769b04120548cbc96c5b676745f786602fccc703c32a93db7",
+  "sdk": "0.14.7",
+  "buildConfiguration": "devvit.json normal; no --locale-preview",
+  "releaseGate": "PASS",
+  "releaseFlags": {
+    "englishReady": true,
+    "legacyCoverage": true,
+    "completeRegression": true,
+    "visualAndLanguageReview": true,
+    "implementationHash": "919b0619b17b8a6769b04120548cbc96c5b676745f786602fccc703c32a93db7",
+    "redditPlaytest": true
+  },
+  "publication": {
+    "submittedForPublicReview": true,
+    "directoryVisibility": "Private",
+    "directoryStatus": "In Review",
+    "directoryApproval": false,
+    "observedFrom": "https://developers.reddit.com/apps/elevenfate/app-versions",
+    "createsCustomPostsReviewRequired": true,
+    "privatePlaytestVersion": "0.1.7.5",
+    "publicCommunityInstalledVersion": "0.1.8",
+    "publicPostServedVersion": "0.1.8",
+    "publicPost": "https://www.reddit.com/r/ElevenFate/comments/1wzy2cl/elevenfate_tu_carrera_tus_decisiones_tu_legado/",
+    "verifiedContext": "Signed-in owner on the existing public post; no independent normal-user account claimed"
+  },
+  "publicChecks": {
+    "coverSpanishEnglish": true,
+    "existingCareerResumed": true,
+    "saveDate": "2026-07-01",
+    "saveChoices": 1,
+    "careerUnchangedDuringNavigation": true,
+    "careerSha256": "0f56d0db563bc4763ee697977d269665cba56412ebd4b6b4be11fb5dbea97203",
+    "dailyEntryAndReturnEnglishWithoutAttempt": true,
+    "dailyRemovedFromSimulation": true,
+    "headerPauseRemoved": true,
+    "pauseOverlayRemoved": true,
+    "portraitLoaded": true,
+    "portraitAndNextLeftAligned": true
+  },
+  "verification": {
+    "redditAndUI": 326,
+    "sessionsSavesPlayerActions": 177,
+    "failed": 0,
+    "layoutCases": 24,
+    "releaseCI": {
+      "run": 38606135163,
+      "conclusion": "success",
+      "commit": "1acf52c4fb64a0c44aaeb9a831d7e432ee3f759d"
+    }
+  },
+  "progress": {
+    "percent": 99,
+    "closed": 3,
+    "total": 4,
+    "remainingPass": "R4: definitive Reddit directory approval; installation and public post checks already done"
+  },
+  "rollback": {
+    "version": "0.1.7",
+    "community": "ElevenFate",
+    "notes": "Reinstall only if a regression is confirmed; do not erase Redis or replace saves. Reinstallation does not undo player progress."
+  },
+  "screenshots": [
+    "portada-publica-018.png",
+    "simulacion-publica-018.png",
+    "revision-reddit-018.png"
+  ]
+}

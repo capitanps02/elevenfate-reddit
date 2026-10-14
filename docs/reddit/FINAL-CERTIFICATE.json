@@ -250,7 +250,6 @@
   ],
   "privateChecks": {
     "served0175": true,
-    "dailyOnlyOnCover": true,
     "noHeaderPauseOrOverlay": true,
     "portraitLoaded1024x1536": true,
     "portraitAndNextLeftAligned": true,
@@ -260,7 +259,8 @@
     "saveSha256": "e6fee64f05a199118a2689d5499f9d2840a195ee233d2821baf0ebfce04da35d",
     "saveDate": "2026-07-01",
     "saveChoices": 0,
-    "languageRestoredSpanish": true
+    "languageRestoredSpanish": true,
+    "dailyRemovedFromSimulation": true
   },
   "nativeZoom": {
     "evidence": "User reported success at 200% on prior private iteration",
@@ -279,10 +279,11 @@
     "performanceScope": "Static payload review and successful private navigation; no new mobile hardware or FPS certification claimed."
   },
   "ci": {
-    "run": 38604762962,
-    "verifyReddit": "success",
-    "extended": "in_progress_at_certificate",
-    "localEquivalentCommands": "all passed; hosted duplicate remains tracked separately"
+    "codeRun": 38604762962,
+    "releaseRun": 38606135163,
+    "codeConclusion": "success",
+    "releaseConclusion": "success",
+    "releaseCommit": "1acf52c4fb64a0c44aaeb9a831d7e432ee3f759d"
   },
   "progress": {
     "preparationPercent": 98,
