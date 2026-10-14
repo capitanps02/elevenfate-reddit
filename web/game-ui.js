@@ -2,7 +2,7 @@ import { createCutscenePlayer } from './cutscene-player.js';
 import { formatClubName } from './club-names.js';
 import { createIndexedSaveStore } from './indexed-save-store.js';
 // UI reads PlayerView only. All career mutations go through GameSession commands.
-export function mountGame({observe:observer,root, GameSession, assets, css, storageKey='historia-jugador.preview.session.v1', events, saveStore, cutsceneFactory=createCutscenePlayer, saveDescription='local', compactHome=false, onDaily, onHelp, careerSports, initialView='home', autoCreateOnLoad=true, deferAutoResume=false, onMenu, showLanguageControl=true, locale, preservePresentation=(target,render)=>render(), cutsceneUrl=clip=>'/web/assets/cutscenes/'+clip.file}) {
+export function mountGame({observe:observer,root, GameSession, assets, css, storageKey='historia-jugador.preview.session.v1', events, saveStore, cutsceneFactory=createCutscenePlayer, saveDescription='local', compactHome=false, onDaily, onHelp, exportText, careerSports, initialView='home', autoCreateOnLoad=true, deferAutoResume=false, onMenu, showLanguageControl=true, locale, preservePresentation=(target,render)=>render(), cutsceneUrl=clip=>'/web/assets/cutscenes/'+clip.file}) {
   const KEY=storageKey;
   let session=null, busy=false, busyLabel='Guardando…', paused=false, platformSuspended=false, view=['home','career','world','relations','profile','save','new'].includes(initialView)?initialView:'home', cinematic=false, message='', replacement=null, lastArt='stadium_bg', autoTimer=null, autoVisualTimer=null, lastAutoVisualAt=0;
   const AUTO_VISUAL_MIN_MS=280;
@@ -750,7 +750,7 @@ export function mountGame({observe:observer,root, GameSession, assets, css, stor
     details.append(identity,moment,contract);grid.append(details);main.append(grid);
   }
   async function download(){try{const raw=await store.readRaw();if(!raw)throw Error('No hay una partida guardada.');downloadText(raw,'elevenfate-partida.json');}catch(e){message=e.message;render();}}
-  function downloadText(raw,filename){if(win.AndroidBridge?.saveTextFile){win.AndroidBridge.saveTextFile(filename,raw);return;}const url=URL.createObjectURL(new Blob([raw],{type:'application/json'}));const a=el('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);}
+  function downloadText(raw,filename){if(exportText)return exportText(raw,filename);if(win.AndroidBridge?.saveTextFile){win.AndroidBridge.saveTextFile(filename,raw);return;}const url=URL.createObjectURL(new Blob([raw],{type:'application/json'}));const a=el('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);}
   async function importFile(file){if(!file||busy)return;busy=true;busyKind='write';busyLabel='Comprobando la copia…';message='';render();try{if(file.size>8*1024*1024)throw Error('La copia supera 8 MiB.');const raw=await file.text();const candidate=await GameSession.migrateFromSave(raw,{...sessionOptions,commit});const previous=await store.readRaw();busy=false;render();confirmReplace('Recuperar esta copia',`Partida del ${date(candidate.getView().date)}, con ${decisionCount(candidate.getView().decisionsMade)}. Se conservará una copia de la partida actual.`,async()=>{
       await store.write(candidate.exportSnapshot(),previous,{recover:false});savedRaw=JSON.stringify(candidate.exportSnapshot());session=candidate;view='home';cinematic=false;replaceRouteState();
     });}catch(e){message='No se pudo importar. '+e.message;busy=false;render();}}
@@ -792,7 +792,7 @@ export function mountGame({observe:observer,root, GameSession, assets, css, stor
     const current=panel('Partida actual');current.classList.add('save-current');
     current.append(el('p',v?`${date(v.date)} · ${decisionCount(v.decisionsMade)}`:'Partida sin abrir','save-current-meta'),el('p','Es el último estado guardado de esta carrera.','muted'));
     const currentActions=el('div',undefined,'save-actions save-current-actions');
-    currentActions.append(button('Descargar copia',download,'primary'),button(v?'Recuperar partida actual':'Reintentar carga',load));
+    currentActions.append(button(exportText?'Exportar copia':'Descargar copia',download,'primary'),button(v?'Recuperar partida actual':'Reintentar carga',load));
     current.append(currentActions,el('p','Guardado automático activo','save-auto-status'));main.append(current);
 
     const recovery=panel('Copias y recuperación');recovery.classList.add('save-recovery');

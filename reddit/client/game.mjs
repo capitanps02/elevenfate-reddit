@@ -1,3 +1,4 @@
+import {createTextExport} from './text-export.mjs';
 import {mountCover} from './cover.mjs';
 import {createEntryNavigation} from './entry-navigation.mjs';
 import {createAnalytics} from './analytics.mjs';
@@ -17,6 +18,7 @@ import {preservePresentation} from '../i18n/presentation.mjs';
 import narrativeCatalog from '../i18n/narrative.generated.json' with {type:'json'};
 const locale=createBrowserLocale();
 locale.addCatalog(narrativeCatalog);
+const exportText=createTextExport({document,locale});
 let pageError=null,invalidated=false;
 const pageCopy=[...document.querySelectorAll('.notice h1,.notice p,#retry,#help-data')].map(node=>[node,node.textContent]);
 const renderPage=()=>{for(const [node,source] of pageCopy)node.textContent=locale.text(source);if(pageError)document.querySelector('#load-error p').textContent=locale.text(pageError);if(invalidated)document.querySelector('#load-error h1').textContent=locale.text('Vuelve a abrir ElevenFate');};
@@ -28,7 +30,7 @@ cover.className='cover-host';dailyPanel.className='daily-panel';dailyPanel.hidde
 let disposeCareer=null,disposeDaily=null,disposeCover=null;
 let sessionValid=true,channel,analytics;
 const invalidate=()=>{analytics?.stop();sessionValid=false;disposeCareer?.();disposeDaily?.();disposeCover?.();cover.hidden=true;invalidated=true;pageError='Tus datos se han eliminado o la sesión ha caducado. Vuelve a abrir el juego para continuar.';host.hidden=true;accessLanguage.element.hidden=!locale.enabled;document.querySelector('.daily-panel')?.setAttribute('hidden','');document.querySelector('#load-error').hidden=false;document.querySelector('#help-data').hidden=false;renderPage();};
-const help=createHelp({locale,request:(...args)=>fetch(...args),onDeleted:()=>{channel?.postMessage('deleted');invalidate();}});
+const help=createHelp({locale,exportText,request:(...args)=>fetch(...args),onDeleted:()=>{channel?.postMessage('deleted');invalidate();}});
 document.querySelector('#help-data').addEventListener('click',()=>help.open());
 document.querySelector('#retry').addEventListener('click',()=>location.reload());
 try{
@@ -66,7 +68,7 @@ try{
   navigation.enter('career',{push,context:{mhOwner:true,mhView:initialView,mhCinematic:false}});shown='career';
   clearCover();disposeDaily?.();disposeDaily=null;dailyPanel.hidden=true;host.hidden=false;
   disposeCareer?.();shadow.replaceChildren();
-  disposeCareer=mountGame({observe:(...args)=>{if(!host.hidden&&!document.querySelector('dialog[open]'))analytics?.observe(...args);},root:shadow,GameSession,assets,locale,preservePresentation,showLanguageControl:false,onHelp:()=>help.open(),css:css+'\n'+careerCss,compactHome:true,initialView,autoCreateOnLoad:false,deferAutoResume:true,onMenu:showCover,onDaily:()=>openDaily('career'),careerSports:createCareerSportsView(),saveStore:store,saveDescription:'reddit',cutsceneFactory:options=>createStoryScene({...options,locale}),storageKey:`elevenfate.reddit.${init.subredditId}.${init.userId}`});
+  disposeCareer=mountGame({observe:(...args)=>{if(!host.hidden&&!document.querySelector('dialog[open]'))analytics?.observe(...args);},root:shadow,GameSession,assets,locale,exportText,preservePresentation,showLanguageControl:false,onHelp:()=>help.open(),css:css+'\n'+careerCss,compactHome:true,initialView,autoCreateOnLoad:false,deferAutoResume:true,onMenu:showCover,onDaily:()=>openDaily('career'),careerSports:createCareerSportsView(),saveStore:store,saveDescription:'reddit',cutsceneFactory:options=>createStoryScene({...options,locale}),storageKey:`elevenfate.reddit.${init.subredditId}.${init.userId}`});
  }
  function openDaily(origin,{push=true}={}){
   if(!store||!sessionValid)return;analytics?.observe('screen','daily');

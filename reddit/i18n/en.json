@@ -648,5 +648,14 @@
   "Tu partida: recupera, exporta o importa una copia.": "Your save: recover, export or import a copy.",
   "Daily: juega el reto diario o practica por separado.": "Daily: play the daily challenge or practise separately.",
   "Continuar mi carrera": "Continue my career",
-  "Jugar Daily": "Play Daily"
+  "Jugar Daily": "Play Daily",
+  "Exportar una copia": "Export a copy",
+  "Guarda este texto como {0}. La copia no cambia tus datos.": "Save this text as {0}. The copy does not change your data.",
+  "Contenido de la copia": "Copy contents",
+  "Seleccionar todo": "Select all",
+  "Copiar texto": "Copy text",
+  "Texto copiado.": "Text copied.",
+  "Copia el texto seleccionado y guárdalo como {0}.": "Copy the selected text and save it as {0}.",
+  "Exportación preparada.": "Export prepared.",
+  "Exportar copia": "Export copy"
 }
