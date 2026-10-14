@@ -84,3 +84,10 @@
 .reddit-shell .reddit-player{min-height:clamp(240px,42dvh,420px);overflow:hidden}
 @media(max-width:360px){.reddit-shell .brand-emblem{display:none}.reddit-shell .brand strong{font-size:11px}.reddit-shell .reddit-save-context .date-button{max-width:118px}.reddit-shell .topbar>button{padding-inline:8px}}
 @media(max-height:480px){.reddit-shell .reddit-player{min-height:220px}}
+
+/* Simulation keeps one aligned portrait/action/calendar layout; Daily lives on the cover. */
+.reddit-shell main.reddit-home{grid-template-rows:auto auto;padding:0}
+.reddit-home .reddit-next{padding:4px 0}
+.reddit-home .reddit-calendar{padding:4px 0 4px 12px}
+.reddit-home .reddit-advance{gap:16px}
+@media(max-width:360px){.reddit-home .reddit-calendar{padding:4px 0}}
