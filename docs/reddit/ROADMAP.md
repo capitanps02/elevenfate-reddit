@@ -25,7 +25,7 @@ No se han reejecutado las 265/43 pruebas históricas de analítica ni las 177 de
 
 **R1 cerrada el 13-Oct.** Fuente conciliada con portada y recuperación de guardados de 3c2b6cdc. Los 197 archivos del motor y los 32 archivos de servidor, componentes compartidos, analítica y telemetría coinciden byte a byte con la fuente auditada. Se conserva Daily v7/legacy, SDK 0.14.7, privacidad, ayuda y observadores. Una única preferencia `elevenfate.language.v1` y el runtime completo traducen también los nuevos textos de portada/formulario/tutorial. Véase [INTEGRATION-017.json](INTEGRATION-017.json).
 
-Estado consultado el 14-Oct: comunidad pública r/ElevenFate instalada en 0.1.7; candidata de portada 0.1.7.2 instalada solo en r/elevenfate_dev2. Se verifica también la URL de la versión servida en el post privado. No se duplica la publicación de 0.1.7. Versión subida, aprobada e instalada son estados diferentes.
+Estado consultado el 14-Oct: comunidad pública r/ElevenFate instalada en 0.1.7; candidata de portada 0.1.7.4 instalada solo en r/elevenfate_dev2. Se verifica también la URL de la versión servida en el post privado. No se duplica la publicación de 0.1.7. Versión subida, aprobada e instalada son estados diferentes.
 
 ## 2. Alcance que se conserva
 
@@ -101,3 +101,7 @@ Referencias: fuente local de 0.1.7 indicada arriba; informe DESPLIEGUE-REAL-PEND
 ### Preparación de publicación, 14-Oct
 
 **96 % estimado; 2/4 cerradas, 2 pendientes.** R3 avanza con build, 317/317 pruebas locales limpias y prueba privada de 0.1.7.2: ES/EN, reanudación, tutorial completo, cancelación, entrada/retorno Daily y exportación; la copia de la carrera es idéntica byte a byte tras la navegación. El sandbox no permite descargar mediante Blob: la candidata usa exportación de texto y copia, sin ampliar permisos. CI verify:reddit pasa; el lote extendido sigue pendiente al registrar esta revisión. Zoom nativo y aceptación/performance restantes mantienen R3 abierta. R4 ya tiene paquete, manifiesto, notas de versión y guía de reversión; entrega pública sigue pendiente. Los dos puntos nuevos son +1 de validación privada y +1 de preparación de entrega, sin cerrar otra pasada ni abrir duplicidades. Véanse [PUBLICATION-PREP.md](PUBLICATION-PREP.md) y [R3-PRIVATE-CANDIDATE.json](R3-PRIVATE-CANDIDATE.json).
+
+### Ajustes pedidos y verificados, 14-Oct
+
+El usuario informa que el zoom está bien en 0.1.7.3. Se retira la pausa superior y Ayuda de la cabecera Reddit, se sitúa fecha/Partida a la derecha y Ayuda abajo a la derecha de portada. Retrato alargado; Nueva partida pide nombre vacío obligatorio y se comprueba una creación local con nombre elegido. Doce layouts de carrera ES/EN pasan sin overflow horizontal ni botones visibles <44 px. 0.1.7.4 instalada y servida en el post privado; carrera de 18-09-2027/18 decisiones idéntica byte a byte respecto de 0.1.7.3. 318/318 tests locales pasan. CI del código 9377ffd está en curso; no se heredan sus resultados del SHA previo. La revisión histórica de 0.1.7.2 queda archivada para no confundir fechas ni pruebas. **96 % estimado; 2/4 cerradas; R3/R4 restantes**. El zoom reportado por el usuario es evidencia manual de la iteración anterior; la candidata ajustada aún debe cerrar aceptación y certificación.

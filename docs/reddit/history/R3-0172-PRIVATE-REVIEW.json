@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-14",
+  "codeCommit": "04513189ca38170974f2e6d2888f7e299183007b",
+  "fingerprint": "c5bec7300fa138f999f501fc63dd698fd349c6be3bf61df27b1c59341955bada",
+  "privateVersion": "0.1.7.2",
+  "privateSubreddit": "elevenfate_dev2",
+  "publicInstalledVersion": "0.1.7",
+  "post": "https://www.reddit.com/r/elevenfate_dev2/comments/1wwq9n4/elevenfate_tu_carrera_tus_decisiones_tu_legado/",
+  "checks": {
+    "actualServedVersion": true,
+    "continueExistingCareer": true,
+    "saveDate": "2027-08-12",
+    "saveChoices": 17,
+    "tutorialThreeStepsEnglish": true,
+    "newCareerCancel": true,
+    "dailyEntryReturnEnglish": true,
+    "dailyAttemptStarted": false,
+    "exportDialogSpanishEnglish": true,
+    "clipboardCopyReportedSuccess": true,
+    "exportCloseFocusRestored": true,
+    "saveBytesUnchangedAfterNavigation": true,
+    "saveSha256": "d575886f4f0f50feb3b24ab60369ba8c7905a4b21cbf46a833fc0f82b81d64f6",
+    "saveBytes": 83917,
+    "languageRestoredToSpanish": true
+  },
+  "localTests": {
+    "cases": 317,
+    "passed": 317,
+    "failed": 0,
+    "command": "node --test reddit/test/*.test.mjs scripts/test-player-actions-ui-contract.mjs"
+  },
+  "ci": {
+    "run": 38599999860,
+    "verifyReddit": "success",
+    "extendedSession": "in_progress",
+    "overall": "in_progress"
+  },
+  "pending": [
+    "CI extended session and UI completion for code SHA",
+    "Native browser zoom at 200% on Reddit",
+    "Proportional performance review and completion of private acceptance matrix",
+    "Candidate certification flags and final normal release build",
+    "Public delivery and installed post check"
+  ],
+  "progress": {
+    "estimatedPreparationPercent": 96,
+    "passesClosed": 2,
+    "passesTotal": 4,
+    "passesRemaining": 2
+  },
+  "screenshot": "r3-portada-reddit-0172.png"
+}
