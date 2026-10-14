@@ -35,3 +35,8 @@ html,body{margin:0;background:#09090b;color:#f5f5f7;font-family:system-ui,sans-s
 .cover-demo [data-choice-id]{text-align:left;font-size:14px;font-weight:500}
 
 .cover-button.cover-help{min-height:44px;padding:10px 12px;font-size:13px;font-weight:400;background:transparent;border-color:transparent;text-decoration:underline;text-underline-offset:3px;color:#c7c7ce}
+
+/* Keep help in the bottom-right flow, including short viewports and zoom. */
+.cover-page:has(.cover-footer){grid-template-rows:1fr auto;gap:12px}
+.cover-footer{display:flex;justify-content:flex-end;align-self:end;width:100%}
+.cover-footer .cover-help{width:auto}

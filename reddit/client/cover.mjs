@@ -33,9 +33,9 @@ export function mountCover({root,assets={},readCareer,onContinue,onNew,onDaily,a
    languages.append(spanish,english);panel.append(languages,el('p',t(locale.enabled?'cover.languageReady':'cover.languagePending'),'cover-caption'));
    panel.lastChild.id='cover-language-note';panel.lastChild.hidden=locale.enabled;
    const status=el('p',!authenticated?t('cover.login'):state.status==='checking'?t('cover.checking'):state.status==='error'?(locale.language==='es'?state.error:t('cover.readError')):state.hasCareer?t('cover.available'):t('cover.empty'),'cover-status');status.id='cover-status';status.setAttribute('role',state.status==='error'?'alert':'status');panel.append(status);
-   if(onHelp){const help=button(locale.text('Ayuda y datos'),onHelp,'help');help.className+=' cover-help';panel.append(help);}
-   if(authenticated&&state.status==='error')panel.append(button(t('cover.retry'),()=>model.refresh(),'retry'));
    page.append(panel);
+   if(onHelp){const help=button(locale.text('Ayuda y datos'),onHelp,'help');help.className+=' cover-help';const footer=el('footer',undefined,'cover-footer');footer.append(help);page.append(footer);}
+   if(authenticated&&state.status==='error')panel.append(button(t('cover.retry'),()=>model.refresh(),'retry'));
   }else{
    const panel=el('section',undefined,'cover-tutorial');
    panel.append(el('p',t('tutorial.progress',{step:step+1}),'cover-brand'),el('h1',t(['tutorial.advanceTitle','tutorial.choiceTitle','tutorial.resultTitle'][step])));

@@ -68,7 +68,7 @@ try{
   navigation.enter('career',{push,context:{mhOwner:true,mhView:initialView,mhCinematic:false}});shown='career';
   clearCover();disposeDaily?.();disposeDaily=null;dailyPanel.hidden=true;host.hidden=false;
   disposeCareer?.();shadow.replaceChildren();
-  disposeCareer=mountGame({observe:(...args)=>{if(!host.hidden&&!document.querySelector('dialog[open]'))analytics?.observe(...args);},root:shadow,GameSession,assets,locale,exportText,preservePresentation,showLanguageControl:false,onHelp:()=>help.open(),css:css+'\n'+careerCss,compactHome:true,initialView,autoCreateOnLoad:false,deferAutoResume:true,onMenu:showCover,onDaily:()=>openDaily('career'),careerSports:createCareerSportsView(),saveStore:store,saveDescription:'reddit',cutsceneFactory:options=>createStoryScene({...options,locale}),storageKey:`elevenfate.reddit.${init.subredditId}.${init.userId}`});
+  disposeCareer=mountGame({observe:(...args)=>{if(!host.hidden&&!document.querySelector('dialog[open]'))analytics?.observe(...args);},root:shadow,GameSession,assets,locale,exportText,preservePresentation,showLanguageControl:false,showPauseControl:false,css:css+'\n'+careerCss,compactHome:true,initialView,autoCreateOnLoad:false,deferAutoResume:true,onMenu:showCover,onDaily:()=>openDaily('career'),careerSports:createCareerSportsView(),saveStore:store,saveDescription:'reddit',cutsceneFactory:options=>createStoryScene({...options,locale}),storageKey:`elevenfate.reddit.${init.subredditId}.${init.userId}`});
  }
  function openDaily(origin,{push=true}={}){
   if(!store||!sessionValid)return;analytics?.observe('screen','daily');

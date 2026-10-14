@@ -73,3 +73,14 @@
 .reddit-shell .new-story-entry input{border-color:#767680}
 
 .reddit-shell .reddit-league-link{min-height:44px}
+
+/* Cover owns help; the career header reserves its right corner for the save. */
+.reddit-shell .topbar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;padding:0;gap:6px}
+.reddit-shell .brand{min-width:0;gap:4px;justify-content:center}
+.reddit-shell .brand strong{font-size:13px}
+.reddit-shell .reddit-save-context{justify-self:end}
+.reddit-shell .reddit-save-context .date-button{max-width:128px;text-align:right;padding:4px;font-size:11px}
+.reddit-shell main.reddit-home{grid-template-rows:auto auto auto;align-content:start}
+.reddit-shell .reddit-player{min-height:clamp(240px,42dvh,420px);overflow:hidden}
+@media(max-width:360px){.reddit-shell .brand-emblem{display:none}.reddit-shell .brand strong{font-size:11px}.reddit-shell .reddit-save-context .date-button{max-width:118px}.reddit-shell .topbar>button{padding-inline:8px}}
+@media(max-height:480px){.reddit-shell .reddit-player{min-height:220px}}
