@@ -4,6 +4,8 @@ import {
   FOOTBALL_CLUBS,
   FOOTBALL_DIVISIONS,
   FOOTBALL_CATALOG_VERSION,
+  FOOTBALL_ARCHETYPE_VERSION,
+  footballClubBalanceMetadata,
   clubsForCountry,
   clubsForDivision,
   divisionsForCountry
@@ -25,6 +27,7 @@ const range = (rows, key) => [
 
 test("A2 catalog version identifies selector-affecting balance", () => {
   assert.equal(FOOTBALL_CATALOG_VERSION, "world-v2-a2-2026-09-28");
+  assert.equal(FOOTBALL_ARCHETYPE_VERSION, "profiles-2026-10-04");
 });
 
 test("adjacent divisions in the same country do not invert football hierarchy", () => {
@@ -41,12 +44,21 @@ test("adjacent divisions in the same country do not invert football hierarchy", 
       assert.ok(upper.strength > lower.strength, `${countryCode} strength tier ${upper.tier}/${lower.tier}`);
 
       for (const metric of METRICS) {
-        const [upperMin] = range(upperClubs, metric);
-        const [, lowerMax] = range(lowerClubs, metric);
+        // Bands explicitly allow a development club to outperform a lower-band
+        // club in resources. Compare whole divisions, then like-for-like bands.
+        const mean = rows => rows.reduce((sum, club) => sum + club[metric], 0) / rows.length;
         assert.ok(
-          upperMin > lowerMax,
-          `${countryCode} ${metric}: tier ${upper.tier} min=${upperMin} must exceed tier ${lower.tier} max=${lowerMax}`
+          mean(upperClubs) > mean(lowerClubs),
+          `${countryCode} ${metric}: division means must follow tier hierarchy`
         );
+        for (const band of ["elite", "continental", "upper", "mid", "lower", "development"]) {
+          const above = upperClubs.filter(club => footballClubBalanceMetadata(club, upper).band === band);
+          const below = lowerClubs.filter(club => footballClubBalanceMetadata(club, lower).band === band);
+          if (!above.length || !below.length) continue;
+          const [upperMin] = range(above, metric);
+          const [, lowerMax] = range(below, metric);
+          assert.ok(upperMin >= lowerMax, `${countryCode} ${band} ${metric}: ${upperMin} < ${lowerMax}`);
+        }
       }
     }
   }
@@ -105,6 +117,10 @@ test("selling and community profiles correspond to plausible resource contexts",
   assert.ok(avg(selling, "youthQuality") >= 65);
   assert.ok(avg(community, "pressure") < avg(FOOTBALL_CLUBS, "pressure"));
   assert.ok(avg(community, "financialPower") < avg(FOOTBALL_CLUBS, "financialPower"));
+  for (const club of community) {
+    assert.ok(club.pressure <= 70, `${club.id} community pressure=${club.pressure}`);
+    assert.ok(club.financialPower <= 70, `${club.id} community finances=${club.financialPower}`);
+  }
 });
 
 test("country indexes still cover every club exactly once after calibration", () => {
@@ -112,4 +128,13 @@ test("country indexes still cover every club exactly once after calibration", ()
   const indexed = countries.flatMap(countryCode => [...clubsForCountry(countryCode)]);
   assert.equal(indexed.length, FOOTBALL_CLUBS.length);
   assert.equal(new Set(indexed.map(club => club.id)).size, FOOTBALL_CLUBS.length);
+});
+
+test("high-pressure labels represent demanding environments and cannot also be community", () => {
+  const demanding = FOOTBALL_CLUBS.filter(club => club.archetypes.includes("high_pressure"));
+  assert.ok(demanding.length >= 20);
+  for (const club of demanding) {
+    assert.ok(club.pressure >= 78, `${club.id} pressure=${club.pressure}`);
+    assert.ok(!club.archetypes.includes("community"), club.id);
+  }
 });

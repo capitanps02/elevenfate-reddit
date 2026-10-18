@@ -34,7 +34,7 @@
     ]
   },
   "scripts": {
-    "build": "node scripts/build.mjs && node scripts/build-reddit.mjs",
+    "build": "node scripts/build.mjs && node scripts/build-reddit.mjs && node scripts/check-reddit-production.mjs --candidate",
     "dev": "node scripts/build.mjs && node scripts/build-reddit.mjs --watch"
   },
   "sourceIgnores": [
@@ -51,7 +51,12 @@
     "docs/reddit/source-copy.json",
     "marketing/",
     ".env",
-    ".env.*"
+    ".env.*",
+    "visual/",
+    "visual-build.json",
+    "scripts/build-visual.mjs",
+    "scripts/serve-visual.mjs",
+    "scripts/generate-visual-fixtures.mjs"
   ],
   "dev": {
     "subreddit": "elevenfate_dev2"

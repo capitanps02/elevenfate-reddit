@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createInitialState} from '../../dist/content/initial-state.js';
 import {recordOfficialMatchInPlace} from '../../dist/simulation/match-model.js';
-import {projectCareerSports} from '../client/career-sports.mjs';
+import {projectCareerSports,createCareerSportsView} from '../client/career-sports.mjs';
 test('calendar and simulated table are deterministic and never change career or RNG',()=>{
  const state=createInitialState(71),before=structuredClone(state);
  const a=projectCareerSports(state),b=projectCareerSports(state);
@@ -28,4 +28,12 @@ test('legacy careers show only the last result on home without losing detailed h
  const before=structuredClone(state),sports=projectCareerSports(state);
  assert.deepEqual(sports.recent,[matches.at(-1)]);assert.deepEqual(sports.allRecent,matches);
  assert.equal(sports.upcoming.length,1);assert.deepEqual(state,before);
+});
+test('sports cache reuses one revision but invalidates when a different session has the same identity',()=>{
+ const state=createInitialState(71),project=createCareerSportsView();let exports=0,revision=0;
+ const session={getView:()=>({sessionId:'restored-career',revision}),exportSnapshot:()=>{exports++;return {state};}};
+ const first=project(session);assert.strictEqual(project(session),first);assert.equal(exports,1);
+ const replacement={getView:session.getView,exportSnapshot:session.exportSnapshot};
+ assert.notStrictEqual(project(replacement),first);assert.equal(exports,2);
+ revision++;project(replacement);assert.equal(exports,3);
 });

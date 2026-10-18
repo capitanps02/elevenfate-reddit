@@ -1,0 +1,82 @@
+{
+  "seed": 907,
+  "steps": [
+    "3c9ea92a954ebea4c5987dea6172eb0302f0162e784a66d8a1f5c5fd2f170817",
+    "7226452e9ce13166173d8e68274cb41760bdf252ff36cd71ffada4ba3a6b598d",
+    "cab6c05797ad0c5a73481f4b0fc42b7e1b72139cbf0468364dc14a52339c1536",
+    "579b0e499f2cfd964749109c6f82e8996d331094cb4fd0d9fe6467dd37488cb0",
+    "eea7444f6d8cc9d85880df967bee2af7a6550d844e522f35b16a20599479ec2e",
+    "ae12c1d0e9e2c9c492801ee7b662deb8fb6bb108f79c1a1a61eb042e510b5888",
+    "a69491fbabc0ff0e1a4099b32bec5d51b6dbc69b5f0dc49981315a4880800362",
+    "39766857bcb0b9b256caba285370d075e1fe6def2c12d68192bece0eb299d666",
+    "371e75bb57954c6c3d3bb8a16a6c6879f54fd51b661970d6013bf750e40dfc4e",
+    "af57ddca3371bd37f5a84c0f4d2bf8c3bf5f92a8ebd6836c4f51769c416c710f",
+    "2906144457ab24e7144a06ec954b944f2519c0bfb0f13ec6952e0ed56b1362a8",
+    "2e76d8b5d2fcd1f66db53e63b5bc6ecb75a5699f9a5d903cd303c16a94af1152",
+    "e5d14e942a1a6711f7761e109f542772d63a2a2cb693b104a376ec0ec88a20b3",
+    "5a4938842f9c0e0464db774feb85089c6315c083d400d6565f5b7b9e859dea3c",
+    "93be6ed27713fbdce5598229aba0eadc85fe25a3fe3ab6b9555e35ee90240498",
+    "72c2116241e24ae483b8713c3e8eec7a9af1c62056b49fb3d764fc2c65608d2b",
+    "dca5d48ad5f4e925cde9f92451510256180721c8de9b861d3cac369c7ada0a55",
+    "d0152e6b8a3ab4b806826996fbe41af9446dd423a25ddf46c5302cb54c4744b8",
+    "0e8a3461b4e55bd004dc84a06115fdeac27213917ae10c75bcd8f1cc0dccd913",
+    "2c57c78cf0868f9643614033490540470677c827f9fea2d9d7ac51a51a7c38b4",
+    "61252f867b770728f40982417af081a285a25ae831cc850af507ab540048fad7",
+    "14fe218b7f81f4fb8b753817c54523362642efb1d55ee4bdbedf9d95d1e98876",
+    "bc5b5de1d126890dbd8777f97defa21619b2e06240835ee9fba2c62f10ef810d",
+    "918d8a7eb7a968c2160e55234ce68e847e4763a35b3e7a4135ca5b04801956ba",
+    "20d5d320e56a4e82834b12d671db656acfaa2a749d09bd80261edf034d0a77d4",
+    "ca662bc13877d73bec5982cf8d727ea664e7a3320598a9e648c10be154ee7d3a",
+    "9aecb87f3541a1e1dbef9b1837137c431fe034f097baff947b2e71c35e808132",
+    "84d0b65d211f8d3eb468addc002a2c22afbe1d5f5a72a5d29c13856bcbb0c0ea",
+    "16128e9ab05924eb66341cc4dd09b995f2dff93c394487cbcaf5257dca617634",
+    "2a25f9296a0eca7ab2fcf74ddc295affa539a074810e1cca8184d3e8e5b7b5f2",
+    "d4367e88d3d52b34a8bf7f197b445d6422dc3d6eefec6c1181aca2df2c32c142",
+    "0310d57f0a7b1afed4f4b844ef6f865f2592a4ae410dc04e89abcbfe6e8acb2b",
+    "cd7fa86f03ac402ab7e6fea88b45cb7e2acaf81c3ad3f4dd988268edd4eb0963",
+    "176eda6179b4deef148af6df38af99cef46c1f0d729321a1b93bbd0b769c08c9",
+    "39f8ea817815e248f3a1b3f7bae8c1a19a1c32e9237ff622bd40ad58a74dd578",
+    "9c4f7f104048cc766792b0086c528e05946beb40a3f4ad39f17f100833660a42"
+  ],
+  "score": {
+    "total": 545,
+    "breakdown": [
+      {
+        "label": "Rendimiento en partidos",
+        "value": 56.80216802168021,
+        "weight": 30,
+        "points": 170
+      },
+      {
+        "label": "Participación deportiva",
+        "value": 43.918128654970765,
+        "weight": 20,
+        "points": 88
+      },
+      {
+        "label": "Estado físico",
+        "value": 47.91552516904582,
+        "weight": 10,
+        "points": 48
+      },
+      {
+        "label": "Técnica",
+        "value": 83.25632572216242,
+        "weight": 15,
+        "points": 125
+      },
+      {
+        "label": "Profesionalidad",
+        "value": 74,
+        "weight": 15,
+        "points": 111
+      },
+      {
+        "label": "Control de carrera",
+        "value": 3,
+        "weight": 10,
+        "points": 3
+      }
+    ]
+  }
+}

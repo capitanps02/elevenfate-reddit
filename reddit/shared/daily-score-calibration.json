@@ -1,0 +1,330 @@
+{
+  "version": 1,
+  "id": "daily-achievements-2026-10-06",
+  "status": "candidate-not-activated",
+  "producerVersion": 7,
+  "producerFingerprint": "2466cbbabe077bcec2b4bdcbb935c6bb76635826e63ec66968887b57cdec893b",
+  "scoreImplementationFingerprint": "d08d78fe8009b0124abecaf67a61053e6c298838ecfe5170fa5951650210665e",
+  "trainSeeds": [
+    1,
+    907,
+    29,
+    71,
+    424242
+  ],
+  "validationSeeds": [
+    104729,
+    8675309,
+    20261006
+  ],
+  "parameters": {
+    "titleTarget": 100,
+    "titleCurve": 8,
+    "individualTarget": 20,
+    "participationTarget": 0.65,
+    "titleParticipation": 0.5,
+    "minimumLeagueMinutes": 450,
+    "minimumCupMinutes": 180,
+    "qualityShrinkMinutes": 450,
+    "qualityExposureMinutes": 900,
+    "outstandingGrade": 0.75,
+    "exceptionalGrade": 0.9
+  },
+  "references": {
+    "goalkeeper:0": {
+      "centre": 6.164643697506014,
+      "strengthCentre": 0.7033333333333329,
+      "strengthSlope": 1.6821550848264641,
+      "deviation": 0.22432507026965123,
+      "count": 36
+    },
+    "goalkeeper:1": {
+      "centre": 6.359999211511438,
+      "strengthCentre": 0.6775862068965524,
+      "strengthSlope": 1.4321155309309601,
+      "deviation": 0.18316909074390386,
+      "count": 87
+    },
+    "goalkeeper:2": {
+      "centre": 6.391673546945998,
+      "strengthCentre": 0.6887692307692302,
+      "strengthSlope": -0.28000110686760876,
+      "deviation": 0.24878087383701017,
+      "count": 130
+    },
+    "goalkeeper:3": {
+      "centre": 6.508020452030267,
+      "strengthCentre": 0.7010638297872333,
+      "strengthSlope": -0.6781026655448009,
+      "deviation": 0.22115779102894484,
+      "count": 188
+    },
+    "goalkeeper:4": {
+      "centre": 6.445730452866461,
+      "strengthCentre": 0.7062765957446798,
+      "strengthSlope": 0.03532888943726907,
+      "deviation": 0.24271941541344969,
+      "count": 188
+    },
+    "goalkeeper:5": {
+      "centre": 6.384458158912607,
+      "strengthCentre": 0.6965425531914881,
+      "strengthSlope": -0.18234554223067911,
+      "deviation": 0.22720054092347308,
+      "count": 188
+    },
+    "centre_back:0": {
+      "centre": 6.202311318274849,
+      "strengthCentre": 0.7033333333333329,
+      "strengthSlope": 1.3465171985861273,
+      "deviation": 0.22771619461493572,
+      "count": 36
+    },
+    "centre_back:1": {
+      "centre": 6.398851542709528,
+      "strengthCentre": 0.6775862068965524,
+      "strengthSlope": 1.2358236702954604,
+      "deviation": 0.17143104090409858,
+      "count": 87
+    },
+    "centre_back:2": {
+      "centre": 6.446067537638771,
+      "strengthCentre": 0.6887692307692302,
+      "strengthSlope": -0.053907162825280464,
+      "deviation": 0.23119113937532848,
+      "count": 130
+    },
+    "centre_back:3": {
+      "centre": 6.553604099105852,
+      "strengthCentre": 0.7010638297872333,
+      "strengthSlope": -0.8139005492750829,
+      "deviation": 0.21768319240805223,
+      "count": 188
+    },
+    "centre_back:4": {
+      "centre": 6.49860748611004,
+      "strengthCentre": 0.7062765957446798,
+      "strengthSlope": -0.08691651523921902,
+      "deviation": 0.237896898256046,
+      "count": 188
+    },
+    "centre_back:5": {
+      "centre": 6.429768038550415,
+      "strengthCentre": 0.6965425531914881,
+      "strengthSlope": -0.28908511143627613,
+      "deviation": 0.22115780417221167,
+      "count": 188
+    },
+    "full_back:0": {
+      "centre": 6.30368340063253,
+      "strengthCentre": 0.7033333333333329,
+      "strengthSlope": 1.7891770316016868,
+      "deviation": 0.25422173526434516,
+      "count": 36
+    },
+    "full_back:1": {
+      "centre": 6.466455385394555,
+      "strengthCentre": 0.6784444444444452,
+      "strengthSlope": 1.5815631407304525,
+      "deviation": 0.18684331442531066,
+      "count": 90
+    },
+    "full_back:2": {
+      "centre": 6.511023925306949,
+      "strengthCentre": 0.6887692307692302,
+      "strengthSlope": -0.1976024228662149,
+      "deviation": 0.23730250280939721,
+      "count": 130
+    },
+    "full_back:3": {
+      "centre": 6.624380804213511,
+      "strengthCentre": 0.7010638297872333,
+      "strengthSlope": -0.8726965063003359,
+      "deviation": 0.22330791108904333,
+      "count": 188
+    },
+    "full_back:4": {
+      "centre": 6.549132729200467,
+      "strengthCentre": 0.7064550264550254,
+      "strengthSlope": -0.10050388487612238,
+      "deviation": 0.24513549858473585,
+      "count": 189
+    },
+    "full_back:5": {
+      "centre": 6.486940553124176,
+      "strengthCentre": 0.6965425531914881,
+      "strengthSlope": -0.3373334481581599,
+      "deviation": 0.22715607278464695,
+      "count": 188
+    },
+    "defensive_midfielder:0": {
+      "centre": 6.268189799390391,
+      "strengthCentre": 0.7033333333333329,
+      "strengthSlope": 1.3969365169957568,
+      "deviation": 0.21141740254527083,
+      "count": 36
+    },
+    "defensive_midfielder:1": {
+      "centre": 6.401435532826419,
+      "strengthCentre": 0.676516853932585,
+      "strengthSlope": 1.2663927780721773,
+      "deviation": 0.16230354138626432,
+      "count": 89
+    },
+    "defensive_midfielder:2": {
+      "centre": 6.451978561678893,
+      "strengthCentre": 0.6887692307692302,
+      "strengthSlope": -0.18163272538875458,
+      "deviation": 0.19240356924754784,
+      "count": 130
+    },
+    "defensive_midfielder:3": {
+      "centre": 6.549714357062306,
+      "strengthCentre": 0.7010638297872333,
+      "strengthSlope": -0.8187501908262647,
+      "deviation": 0.18726449075254395,
+      "count": 188
+    },
+    "defensive_midfielder:4": {
+      "centre": 6.488984175716323,
+      "strengthCentre": 0.7064550264550254,
+      "strengthSlope": -0.24708167960002544,
+      "deviation": 0.2006461602335668,
+      "count": 189
+    },
+    "defensive_midfielder:5": {
+      "centre": 6.428881283763149,
+      "strengthCentre": 0.6965425531914881,
+      "strengthSlope": -0.40751520123225055,
+      "deviation": 0.18808459691479354,
+      "count": 188
+    },
+    "central_midfielder:0": {
+      "centre": 6.383262673098952,
+      "strengthCentre": 0.7033333333333329,
+      "strengthSlope": 1.2976404862355442,
+      "deviation": 0.23067539375487617,
+      "count": 36
+    },
+    "central_midfielder:1": {
+      "centre": 6.503749675167393,
+      "strengthCentre": 0.6779120879120887,
+      "strengthSlope": 1.2213049836206715,
+      "deviation": 0.17684940445968397,
+      "count": 91
+    },
+    "central_midfielder:2": {
+      "centre": 6.56003646176364,
+      "strengthCentre": 0.6887692307692302,
+      "strengthSlope": -0.3297776760926993,
+      "deviation": 0.21999979282543594,
+      "count": 130
+    },
+    "central_midfielder:3": {
+      "centre": 6.646292041343706,
+      "strengthCentre": 0.7010638297872333,
+      "strengthSlope": -0.9018877289102785,
+      "deviation": 0.2087178613176465,
+      "count": 188
+    },
+    "central_midfielder:4": {
+      "centre": 6.582988108454821,
+      "strengthCentre": 0.7064550264550254,
+      "strengthSlope": -0.36317538515150855,
+      "deviation": 0.19977146799949316,
+      "count": 189
+    },
+    "central_midfielder:5": {
+      "centre": 6.517978842402465,
+      "strengthCentre": 0.6965425531914881,
+      "strengthSlope": -0.44118590857334417,
+      "deviation": 0.19612607837445123,
+      "count": 188
+    },
+    "winger:0": {
+      "centre": 6.51310801282116,
+      "strengthCentre": 0.7033333333333329,
+      "strengthSlope": 1.6218183068481036,
+      "deviation": 0.28664846536171146,
+      "count": 36
+    },
+    "winger:1": {
+      "centre": 6.666683036960268,
+      "strengthCentre": 0.6779120879120887,
+      "strengthSlope": 1.640449291693524,
+      "deviation": 0.23794698826731264,
+      "count": 91
+    },
+    "winger:2": {
+      "centre": 6.702972376032531,
+      "strengthCentre": 0.6887692307692302,
+      "strengthSlope": -0.3043036984652286,
+      "deviation": 0.2554452916197143,
+      "count": 130
+    },
+    "winger:3": {
+      "centre": 6.817924409333931,
+      "strengthCentre": 0.7010638297872333,
+      "strengthSlope": -0.9333526910188986,
+      "deviation": 0.25999156729527245,
+      "count": 188
+    },
+    "winger:4": {
+      "centre": 6.7299847337432634,
+      "strengthCentre": 0.7064550264550254,
+      "strengthSlope": -0.19119887731099158,
+      "deviation": 0.2605748554170047,
+      "count": 189
+    },
+    "winger:5": {
+      "centre": 6.670518060812501,
+      "strengthCentre": 0.6957671957671946,
+      "strengthSlope": -0.42030884066678265,
+      "deviation": 0.24978543153932795,
+      "count": 189
+    },
+    "striker:0": {
+      "centre": 6.587388483097288,
+      "strengthCentre": 0.701351351351351,
+      "strengthSlope": 1.5464412277796944,
+      "deviation": 0.2976366746533566,
+      "count": 37
+    },
+    "striker:1": {
+      "centre": 6.708928892485301,
+      "strengthCentre": 0.6779120879120887,
+      "strengthSlope": 2,
+      "deviation": 0.2571655358802388,
+      "count": 91
+    },
+    "striker:2": {
+      "centre": 6.749913000310966,
+      "strengthCentre": 0.6887692307692302,
+      "strengthSlope": -0.5010538435778245,
+      "deviation": 0.2653579575212789,
+      "count": 130
+    },
+    "striker:3": {
+      "centre": 6.875083536013338,
+      "strengthCentre": 0.7010638297872333,
+      "strengthSlope": -0.9131011261145939,
+      "deviation": 0.276324995118279,
+      "count": 188
+    },
+    "striker:4": {
+      "centre": 6.781964022780487,
+      "strengthCentre": 0.7064550264550254,
+      "strengthSlope": -0.29361595534904944,
+      "deviation": 0.28155470104415903,
+      "count": 189
+    },
+    "striker:5": {
+      "centre": 6.716242787592781,
+      "strengthCentre": 0.6966315789473673,
+      "strengthSlope": -0.4083489599358094,
+      "deviation": 0.2618066974707199,
+      "count": 190
+    }
+  },
+  "sha256": "63fa686020a9779ceb8d32f30c63087911bbd608929668c21fa76bc6fc062ffd"
+}

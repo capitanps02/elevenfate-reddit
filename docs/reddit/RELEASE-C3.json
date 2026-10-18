@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-18",
+  "candidateVersion": "0.1.8.1",
+  "buildId": "EF-C3-c79a8987e58ab7c4",
+  "sourceFingerprint": "af255f7571563f681985aa75def7ebaa7e146ba1163c4326e499ec2edc4c19b2",
+  "implementationCommit": "98d5ebc08655b61c70c787483aa53b03b83225b3",
+  "interfaceImplementedPercent": 100,
+  "overallPercent": 95,
+  "closedPasses": 5,
+  "remainingPasses": 1,
+  "tests": {
+    "redditAndUI": 335,
+    "sessionAndSave": 177,
+    "totalPassed": 512
+  },
+  "visual": {
+    "spanishLayoutsReused": 224,
+    "englishViews": 56,
+    "additionalEnglishLayouts": 24,
+    "unchangedPresentationSourceFiles": 63,
+    "unchangedRuntimeFilesVersusC2": 27,
+    "htmlDifference": "Only ef-build identity metadata"
+  },
+  "privateTest": {
+    "date": "2026-10-18",
+    "version": "0.1.8.1",
+    "buildId": "EF-C3-c79a8987e58ab7c4",
+    "subreddit": "elevenfate_dev2",
+    "url": "https://www.reddit.com/r/elevenfate_dev2/comments/1wwq9n4/elevenfate_tu_carrera_tus_decisiones_tu_legado/",
+    "checks": {
+      "splash": true,
+      "careerResume": true,
+      "profile": true,
+      "saveExport": true,
+      "spanishAndEnglish": true,
+      "help": true,
+      "dailyEntry": true,
+      "dailyRules": true,
+      "dailyLeaderboard": true,
+      "mobileBrowserPresentation": true,
+      "desktopBrowserPresentation": true
+    },
+    "save": {
+      "bytes": 12447,
+      "beforeSha256": "e6fee64f05a199118a2689d5499f9d2840a195ee233d2821baf0ebfce04da35d",
+      "afterSha256": "e6fee64f05a199118a2689d5499f9d2840a195ee233d2821baf0ebfce04da35d",
+      "identical": true
+    },
+    "competitiveAttemptConsumed": false,
+    "physicalDeviceTest": false
+  },
+  "publicInstallationVersion": "0.1.8",
+  "publiclyPublishedThisRelease": false,
+  "pending": [
+    "T17: revisión en móvil físico, teclado y ampliación de texto; no sustituida por emulación de navegador"
+  ],
+  "publicationGate": "Passed for this exact implementation; physical acceptance still pending",
+  "referenceReport": "Referencia_visual_C2.pdf",
+  "packageVerificationCommand": "python3 verificar.py"
+}

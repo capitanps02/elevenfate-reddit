@@ -1,0 +1,42 @@
+/* Reddit entry layer: no selectors inside the career ShadowRoot. */
+html,body{margin:0;background:#09090b;color:#f5f5f7;font-family:system-ui,sans-serif}
+[hidden]{display:none!important}
+.cover-host{height:100dvh;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;color-scheme:dark}
+.cover-page,.cover-page *{box-sizing:border-box}
+.cover-page{position:relative;isolation:isolate;min-height:100dvh;display:grid;align-items:center;--cover-inline:20px;--cover-block:24px;padding-top:max(var(--cover-block),env(safe-area-inset-top));padding-right:max(var(--cover-inline),env(safe-area-inset-right));padding-bottom:max(var(--cover-block),env(safe-area-inset-bottom));padding-left:max(var(--cover-inline),env(safe-area-inset-left));background:radial-gradient(ellipse at 20% 15%,#123a61,transparent 65%),#09090b;overflow:hidden}
+.cover-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 30%;z-index:-2;opacity:.45}
+.cover-page::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#09090bf2,#09090b66),linear-gradient(0deg,#09090b,transparent 80%)}
+.cover-content{width:min(100%,440px);margin:auto}
+.cover-brand{color:#d6b86a;font-size:12px;font-weight:700;letter-spacing:.16em;margin:0 0 12px}
+.cover-content h1,.cover-tutorial h1{font-size:clamp(28px,7vw,42px);line-height:1.08;margin:0 0 12px;letter-spacing:-.035em}
+.cover-tagline{font-size:14px;line-height:1.5;color:#d9d9dd;margin:0 0 24px}
+.cover-actions{display:grid;grid-template-columns:1fr;gap:10px}
+.cover-button{width:100%;min-height:48px;padding:12px 16px;border-radius:14px;background:#17171be8;color:#f5f5f7;border:1px solid #ffffff30;font:600 16px/1.35 system-ui;cursor:pointer;text-align:center}
+.cover-button.is-primary{background:#0a6dcc;border-color:#2984d6}
+.cover-button:not(:disabled):active{background:#123a61}
+.cover-button:focus-visible,.cover-features summary:focus-visible{outline:3px solid #409cff;outline-offset:4px}
+.cover-button:disabled{color:#b9b9c0;background:#161618;cursor:default;border-style:dashed}
+.cover-button-note{display:block;font-size:12px;font-weight:400;color:#d6b86a;margin-top:2px}
+.cover-languages{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.cover-languages [aria-pressed="true"]{border:2px solid #409cff}
+.cover-caption,.cover-status{font-size:12px;line-height:1.5;color:#b9b9c0;margin:10px 0}
+.cover-status{min-height:36px;overflow-wrap:anywhere}
+.cover-tutorial{width:min(100%,520px);margin:auto;padding:24px;background:#161618;border:1px solid #ffffff20;border-radius:24px}
+.cover-tutorial>p{line-height:1.5}.cover-tutorial>.cover-button{margin-top:10px}
+.cover-demo{display:grid;gap:10px;margin:20px 0;padding:16px;border:1px solid #ffffff20;border-radius:18px}
+.cover-features{margin:16px 0;font-size:14px;line-height:1.5}.cover-features summary{padding:12px 0;min-height:48px;cursor:pointer}.cover-features p{margin:10px 0}
+@media(min-width:800px){.cover-content{margin-left:8vw}.cover-art{object-position:70% 25%;opacity:.6}.cover-page::before{background:linear-gradient(90deg,#09090b,transparent),linear-gradient(0deg,#09090b,transparent)}}
+@media(max-height:600px){.cover-page{--cover-inline:16px;--cover-block:16px}.cover-tagline{margin-bottom:12px}.cover-languages{margin-top:12px}.cover-brand{margin-bottom:8px}.cover-tutorial{padding:16px}}
+@media(prefers-reduced-motion:no-preference){.cover-button{transition:background-color 120ms,border-color 120ms}}
+
+
+.cover-demo h2{font-size:20px;line-height:1.2;margin:0}
+.cover-demo .tutorial-story{font-size:14px;line-height:1.5;margin:0}
+.cover-demo [data-choice-id]{text-align:left;font-size:14px;font-weight:500}
+
+.cover-button.cover-help{min-height:44px;padding:10px 12px;font-size:13px;font-weight:400;background:transparent;border-color:transparent;text-decoration:underline;text-underline-offset:3px;color:#c7c7ce}
+
+/* Keep help in the bottom-right flow, including short viewports and zoom. */
+.cover-page:has(.cover-footer){grid-template-rows:1fr auto;gap:12px}
+.cover-footer{display:flex;justify-content:flex-end;align-self:end;width:100%}
+.cover-footer .cover-help{width:auto}

@@ -1,5 +1,6 @@
 import { careerCompetitionFixture } from '../../reddit/shared/league-simulator.mjs';
 import { selectFixtureOpponent } from "../catalog/football/fixture-opponent.js";
+import { clubById } from "../catalog/football/index.js";
 const STORE_KEY = "sportMatchModel";
 const OFFICIAL_MONTHS = new Set([8, 9, 10, 11, 12, 1, 2, 3, 4, 5]);
 const TRAINING_MONTHS = new Set([7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5]);
@@ -116,10 +117,14 @@ function goalCount(roll) {
     return goals[roll % goals.length];
 }
 function deterministicMatchResult(state, fixture, context) {
-    const historical = fixture.club !== state.professional.registrationClub || fixture.season !== state.season || context?.leagueTier !== undefined && context.leagueTier !== state.professional.leagueTier
-        ? { ...state, season: fixture.season, professional: { ...state.professional, registrationClub: fixture.club, leagueTier: context?.leagueTier ?? state.professional.leagueTier } }
-        : state;
-    const competition = careerCompetitionFixture(historical, fixture.date);
+    // A later foreign contract must never reinterpret a synthetic historical club
+    // (e.g. UDV) as a foreign league. The recorded opponent anchors its country.
+    const country = clubById(fixture.club)?.countryCode ?? (fixture.opponentClubId ? clubById(fixture.opponentClubId)?.countryCode : undefined);
+    const historical = { ...state, season: fixture.season, professional: { ...state.professional,
+            registrationClub: fixture.club, leagueTier: context?.leagueTier ?? state.professional.leagueTier,
+            route: country ? (country === "ESP" ? "domestic" : "abroad") : state.professional.route
+        } };
+    const competition = careerCompetitionFixture(historical, fixture.date, { performance: context, useRecorded: false });
     if (competition && competition.fixture.club === fixture.club)
         return competition.result;
     const clubGoals = goalCount(footballProducerRoll(state, fixture, "club-goals"));
@@ -138,7 +143,7 @@ function deterministicMatchResult(state, fixture, context) {
 function clubGoalsFromResult(fixture, result) {
     return fixture.homeAway === "home" ? result.homeGoals : result.awayGoals;
 }
-function deterministicPlayerStats(state, fixture, player, result, context) {
+function deterministicPlayerStats(state, fixture, player, result, context, scoringVersion = 1) {
     if (!player.appeared)
         return { goals: 0, assists: 0, yellowCards: 0, redCards: 0 };
     const clubGoals = clubGoalsFromResult(fixture, result);
@@ -154,14 +159,28 @@ function deterministicPlayerStats(state, fixture, player, result, context) {
             + context.fitness * 0.14
             + (100 - context.fatigue) * 0.10
             + (100 - context.opponentLevel) * 0.18, 0, 100) / 100;
-        const scorerShare = bounded(0.04 + minutesShare * 0.17 + sportingQuality * 0.16 + attackingPosition, 0.04, 0.48);
+        // Version 2 is opt-in for new Daily rules; historical producers retain v1.
+        const positionShares = /goal|portero/.test(position) ? [0, 0, 0, 0]
+            : /(?:full|wing)[_ -]?back|lateral/.test(position) ? [0.055, 0.035, 0.10, 0.07]
+                : /striker|forward|delanter/.test(position) ? [0.30, 0.22, 0.12, 0.08]
+                    : /wing|extremo/.test(position) ? [0.24, 0.18, 0.16, 0.10]
+                        : /attack|playmaker|mediapunta|\b10\b/.test(position) ? [0.15, 0.10, 0.18, 0.12]
+                            : /defensive_mid|pivote/.test(position) ? [0.055, 0.035, 0.10, 0.07]
+                                : /mid|medio/.test(position) ? [0.10, 0.07, 0.18, 0.12]
+                                    : /back|defen|central/.test(position) ? [0.035, 0.025, 0.04, 0.03]
+                                        : [0.12, 0.08, 0.12, 0.08];
+        const scorerShare = scoringVersion >= 2
+            ? bounded(minutesShare * (positionShares[0] + sportingQuality * positionShares[1]), 0, 0.48)
+            : bounded(0.04 + minutesShare * 0.17 + sportingQuality * 0.16 + attackingPosition, 0.04, 0.48);
         for (let goal = 0; goal < clubGoals; goal += 1) {
             if ((footballProducerRoll(state, fixture, `player-goal-${goal}`) % 1000) < scorerShare * 1000)
                 goals += 1;
         }
         goals = Math.min(3, goals);
         const assistableGoals = Math.max(0, clubGoals - goals);
-        const assistShare = bounded(0.04 + minutesShare * 0.15 + sportingQuality * 0.12 + attackingPosition * 0.55, 0.03, 0.38);
+        const assistShare = scoringVersion >= 2
+            ? bounded(minutesShare * (positionShares[2] + sportingQuality * positionShares[3]), 0, 0.38)
+            : bounded(0.04 + minutesShare * 0.15 + sportingQuality * 0.12 + attackingPosition * 0.55, 0.03, 0.38);
         for (let goal = 0; goal < assistableGoals; goal += 1) {
             if ((footballProducerRoll(state, fixture, `player-assist-${goal}`) % 1000) < assistShare * 1000)
                 assists += 1;
@@ -345,7 +364,7 @@ export function recordOfficialMatchInPlace(state, input) {
     // Preserve the historical row shape unless suspension is an actual factual blocker.
     if (suspensionUnavailable)
         player.suspensionUnavailable = true;
-    const result = deterministicMatchResult(state, fixture);
+    const result = deterministicMatchResult(state, fixture, performance);
     const firstGoalKnowable = store.fixtures.every(row => !row.player.appeared || row.stats !== undefined);
     const stats = deterministicPlayerStats(state, fixture, player, result, performance);
     const record = {
@@ -1138,4 +1157,8 @@ export function inspectSportMatchModelStore(value, maxDate, state) {
  * Reuse the canonical player-stat producer without changing the long-career loop. */
 export function playerStatsForFixture(state, fixture, player, result, performance) {
     return deterministicPlayerStats(state, fixture, player, result, performance);
+}
+/** Position/minute-sensitive producer used only by new Daily v6 attempts. */
+export function balancedPlayerStatsForFixture(state, fixture, player, result, performance) {
+    return deterministicPlayerStats(state, fixture, player, result, performance, 2);
 }

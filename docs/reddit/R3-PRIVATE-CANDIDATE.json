@@ -1,0 +1,200 @@
+{
+  "date": "2026-10-14",
+  "codeCommit": "9377ffd816741d3d6bc3784eb28d3a49b182a3d0",
+  "fingerprint": "58646e75f49e27ec996d2cf4a7f2751b896da9f03c15b0dbf5f5c1d7db440c3c",
+  "privateVersion": "0.1.7.4",
+  "privateSubreddit": "elevenfate_dev2",
+  "publicInstalledVersion": "0.1.7",
+  "post": "https://www.reddit.com/r/elevenfate_dev2/comments/1wwq9n4/elevenfate_tu_carrera_tus_decisiones_tu_legado/",
+  "checks": {
+    "actualServedVersion": true,
+    "continueExistingCareer": true,
+    "saveDate": "2027-09-18",
+    "saveChoices": 18,
+    "saveBytesUnchangedFrom0173": true,
+    "saveSha256": "935d8db159f5a42401ba24c2812f72d3234eb46d1872724ffcc5cf5d0ba4c955",
+    "headerPauseRemoved": true,
+    "headerHelpMovedToCover": true,
+    "dateSaveRightCorner": true,
+    "portraitTallRestored": true,
+    "coverHelpBottomRight": true,
+    "newCareerNameEmptyRequired": true,
+    "newCareerCancel": true,
+    "localNamedCareerCreated": "Álex Prueba"
+  },
+  "priorEvidence": {
+    "0172": "history/R3-0172-PRIVATE-REVIEW.json",
+    "0173AccountExportFocus": {
+      "format": "elevenfate-account-v1",
+      "readonly": true,
+      "originFocusedAfterClose": true
+    },
+    "zoom200": {
+      "result": "user reported success",
+      "versionReviewed": "0.1.7.3",
+      "browserDetails": "not supplied",
+      "newLayout": "12 local responsive cases after subsequent changes; not a new native zoom measurement"
+    }
+  },
+  "layout": [
+    {
+      "headerOverflow": false,
+      "height": 480,
+      "helpInHeader": false,
+      "horizontalOverflow": false,
+      "lang": "es",
+      "pauseInHeader": false,
+      "portraitHeight": 220,
+      "smallButtons": [],
+      "width": 320
+    },
+    {
+      "headerOverflow": false,
+      "height": 800,
+      "helpInHeader": false,
+      "horizontalOverflow": false,
+      "lang": "es",
+      "pauseInHeader": false,
+      "portraitHeight": 336,
+      "smallButtons": [],
+      "width": 360
+    },
+    {
+      "headerOverflow": false,
+      "height": 844,
+      "helpInHeader": false,
+      "horizontalOverflow": false,
+      "lang": "es",
+      "pauseInHeader": false,
+      "portraitHeight": 354.4765625,
+      "smallButtons": [],
+      "width": 390
+    },
+    {
+      "headerOverflow": false,
+      "height": 915,
+      "helpInHeader": false,
+      "horizontalOverflow": false,
+      "lang": "es",
+      "pauseInHeader": false,
+      "portraitHeight": 384.296875,
+      "smallButtons": [],
+      "width": 412
+    },
+    {
+      "headerOverflow": false,
+      "height": 600,
+      "helpInHeader": false,
+      "horizontalOverflow": false,
+      "lang": "es",
+      "pauseInHeader": false,
+      "portraitHeight": 252,
+      "smallButtons": [],
+      "width": 375
+    },
+    {
+      "headerOverflow": false,
+      "height": 650,
+      "helpInHeader": false,
+      "horizontalOverflow": false,
+      "lang": "es",
+      "pauseInHeader": false,
+      "portraitHeight": 273,
+      "smallButtons": [],
+      "width": 900
+    },
+    {
+      "headerOverflow": false,
+      "height": 480,
+      "helpInHeader": false,
+      "horizontalOverflow": false,
+      "lang": "en",
+      "pauseInHeader": false,
+      "portraitHeight": 220,
+      "smallButtons": [],
+      "width": 320
+    },
+    {
+      "headerOverflow": false,
+      "height": 800,
+      "helpInHeader": false,
+      "horizontalOverflow": false,
+      "lang": "en",
+      "pauseInHeader": false,
+      "portraitHeight": 336,
+      "smallButtons": [],
+      "width": 360
+    },
+    {
+      "headerOverflow": false,
+      "height": 844,
+      "helpInHeader": false,
+      "horizontalOverflow": false,
+      "lang": "en",
+      "pauseInHeader": false,
+      "portraitHeight": 354.4765625,
+      "smallButtons": [],
+      "width": 390
+    },
+    {
+      "headerOverflow": false,
+      "height": 915,
+      "helpInHeader": false,
+      "horizontalOverflow": false,
+      "lang": "en",
+      "pauseInHeader": false,
+      "portraitHeight": 384.296875,
+      "smallButtons": [],
+      "width": 412
+    },
+    {
+      "headerOverflow": false,
+      "height": 600,
+      "helpInHeader": false,
+      "horizontalOverflow": false,
+      "lang": "en",
+      "pauseInHeader": false,
+      "portraitHeight": 252,
+      "smallButtons": [],
+      "width": 375
+    },
+    {
+      "headerOverflow": false,
+      "height": 650,
+      "helpInHeader": false,
+      "horizontalOverflow": false,
+      "lang": "en",
+      "pauseInHeader": false,
+      "portraitHeight": 273,
+      "smallButtons": [],
+      "width": 900
+    }
+  ],
+  "localTests": {
+    "cases": 318,
+    "passed": 318,
+    "failed": 0,
+    "command": "node --test reddit/test/*.test.mjs scripts/test-player-actions-ui-contract.mjs"
+  },
+  "ci": {
+    "run": 38603129027,
+    "overall": "in_progress",
+    "codeCommit": "9377ffd816741d3d6bc3784eb28d3a49b182a3d0"
+  },
+  "pending": [
+    "CI completion for current code SHA",
+    "Final acceptance/performance of adjusted candidate and certification flags",
+    "Normal public release build and R4 public delivery/installed post check"
+  ],
+  "progress": {
+    "estimatedPreparationPercent": 96,
+    "passesClosed": 2,
+    "passesTotal": 4,
+    "passesRemaining": 2
+  },
+  "screenshots": [
+    "r3-portada-reddit-0174.png",
+    "r3-carrera-reddit-0174.png",
+    "nueva-partida-pide-nombre-es.png"
+  ]
+}

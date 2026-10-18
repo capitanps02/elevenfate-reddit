@@ -26,7 +26,7 @@ export {
   footballLeagueGroupForStrength,
   footballStructuralCoefficient
 } from "./balance.js";
-export { FOOTBALL_CLUBS, FOOTBALL_DIVISIONS, FOOTBALL_CATALOG_VERSION } from "./world.js";
+export { FOOTBALL_CLUBS, FOOTBALL_DIVISIONS, FOOTBALL_CATALOG_VERSION, FOOTBALL_ARCHETYPE_VERSION } from "./world.js";
 export {
   FOOTBALL_CATALOG_CLUB_ID_PATTERN,
   catalogMultiClubIdentityKey,

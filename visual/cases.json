@@ -1,0 +1,594 @@
+[
+  {
+    "id": "01-portada",
+    "title": "Portada",
+    "family": "Entrada",
+    "kind": "cover",
+    "fixture": "base"
+  },
+  {
+    "id": "02-tutorial-avance",
+    "title": "Tutorial: avanzar",
+    "family": "Entrada",
+    "kind": "cover",
+    "fixture": "base",
+    "steps": [
+      "Tutorial"
+    ]
+  },
+  {
+    "id": "03-tutorial-eleccion",
+    "title": "Tutorial: elegir",
+    "family": "Entrada",
+    "kind": "cover",
+    "fixture": "base",
+    "steps": [
+      "Tutorial",
+      "Simular"
+    ]
+  },
+  {
+    "id": "04-tutorial-resultado",
+    "title": "Tutorial: consecuencia",
+    "family": "Entrada",
+    "kind": "cover",
+    "fixture": "base",
+    "steps": [
+      "Tutorial",
+      "Simular",
+      "Llamar a Nano y contarle exactamente lo que sabes"
+    ]
+  },
+  {
+    "id": "05-nueva",
+    "title": "Nueva partida",
+    "family": "Carrera",
+    "kind": "career",
+    "fixture": "base",
+    "view": "new"
+  },
+  {
+    "id": "06-inicio",
+    "title": "Inicio de carrera",
+    "family": "Carrera",
+    "kind": "career",
+    "fixture": "base",
+    "view": "home"
+  },
+  {
+    "id": "07-decision",
+    "title": "Decisión narrativa",
+    "family": "Historia",
+    "kind": "career",
+    "fixture": "decision",
+    "view": "home",
+    "steps": [
+      "Una decisión te espera"
+    ]
+  },
+  {
+    "id": "08-consecuencia",
+    "title": "Consecuencia sin cuadro ni banda vertical",
+    "family": "Historia",
+    "kind": "career",
+    "fixture": "result",
+    "view": "home",
+    "steps": [
+      "Ver resultado"
+    ]
+  },
+  {
+    "id": "09-carrera",
+    "title": "Historial de carrera",
+    "family": "Carrera",
+    "kind": "career",
+    "fixture": "advanced",
+    "view": "career"
+  },
+  {
+    "id": "10-mundo",
+    "title": "Noticias del mundo",
+    "family": "Carrera",
+    "kind": "career",
+    "fixture": "advanced",
+    "view": "world"
+  },
+  {
+    "id": "11-relaciones",
+    "title": "Personas y relaciones",
+    "family": "Carrera",
+    "kind": "career",
+    "fixture": "advanced",
+    "view": "relations"
+  },
+  {
+    "id": "12-perfil",
+    "title": "Perfil y atributos",
+    "family": "Carrera",
+    "kind": "career",
+    "fixture": "base",
+    "view": "profile"
+  },
+  {
+    "id": "13-partida",
+    "title": "Partida y recuperación",
+    "family": "Carrera",
+    "kind": "career",
+    "fixture": "advanced",
+    "view": "save"
+  },
+  {
+    "id": "14-calendario",
+    "title": "Calendario y competiciones",
+    "family": "Deporte",
+    "kind": "career",
+    "fixture": "advanced",
+    "view": "home",
+    "steps": [
+      "Ver calendario y clasificación de la liga",
+      "Resultados"
+    ]
+  },
+  {
+    "id": "15-liga",
+    "title": "Clasificación de liga",
+    "family": "Deporte",
+    "kind": "career",
+    "fixture": "advanced",
+    "view": "home",
+    "steps": [
+      "Ver calendario y clasificación de la liga",
+      "Clasificación"
+    ]
+  },
+  {
+    "id": "16-champions",
+    "title": "Competición continental",
+    "family": "Deporte",
+    "kind": "career",
+    "fixture": "advanced",
+    "view": "home",
+    "steps": [
+      "Ver calendario y clasificación de la liga",
+      "Champions"
+    ]
+  },
+  {
+    "id": "17-acciones",
+    "title": "Acciones voluntarias",
+    "family": "Acciones",
+    "kind": "career",
+    "fixture": "base",
+    "view": "career",
+    "steps": [
+      "Gestionar mi carrera"
+    ]
+  },
+  {
+    "id": "18-entrenamiento",
+    "title": "Categoría de acciones",
+    "family": "Acciones",
+    "kind": "career",
+    "fixture": "base",
+    "view": "career",
+    "steps": [
+      "Gestionar mi carrera",
+      "Ver acciones de Entrenamiento"
+    ]
+  },
+  {
+    "id": "19-daily-inicio",
+    "title": "Entrada al Daily",
+    "family": "Daily",
+    "kind": "daily",
+    "fixture": "base",
+    "daily": "intro"
+  },
+  {
+    "id": "20-daily-club",
+    "title": "Elegir el primer club",
+    "family": "Daily",
+    "kind": "daily",
+    "fixture": "base",
+    "daily": "club"
+  },
+  {
+    "id": "21-daily-decision",
+    "title": "Decisiones del Daily",
+    "family": "Daily",
+    "kind": "daily",
+    "fixture": "base",
+    "daily": "decision"
+  },
+  {
+    "id": "22-daily-etapa",
+    "title": "Resumen de etapa",
+    "family": "Daily",
+    "kind": "daily",
+    "fixture": "base",
+    "daily": "summary"
+  },
+  {
+    "id": "23-daily-mercado",
+    "title": "Cambio de club entre etapas",
+    "family": "Daily",
+    "kind": "daily",
+    "fixture": "base",
+    "daily": "market"
+  },
+  {
+    "id": "24-daily-final",
+    "title": "Legado y puntuación final",
+    "family": "Daily",
+    "kind": "daily",
+    "fixture": "base",
+    "daily": "final"
+  },
+  {
+    "id": "25-ranking",
+    "title": "Clasificación del Daily",
+    "family": "Daily",
+    "kind": "daily",
+    "fixture": "base",
+    "daily": "final",
+    "steps": [
+      "Ver clasificación Daily de hoy"
+    ]
+  },
+  {
+    "id": "26-daily-reglas",
+    "title": "Cómo jugar al Daily",
+    "family": "Daily",
+    "kind": "daily",
+    "fixture": "base",
+    "daily": "intro",
+    "steps": [
+      "Cómo jugar Daily"
+    ]
+  },
+  {
+    "id": "27-daily-liga",
+    "title": "Temporadas y liga del Daily",
+    "family": "Daily",
+    "kind": "daily",
+    "fixture": "base",
+    "daily": "final",
+    "steps": [
+      "Temporadas · resultados y clasificación"
+    ]
+  },
+  {
+    "id": "28-daily-resultados",
+    "title": "Resultados del Daily",
+    "family": "Daily",
+    "kind": "daily",
+    "fixture": "base",
+    "daily": "final",
+    "steps": [
+      "Temporadas · resultados y clasificación",
+      "Resultados"
+    ]
+  },
+  {
+    "id": "29-daily-champions",
+    "title": "Champions del Daily",
+    "family": "Daily",
+    "kind": "daily",
+    "fixture": "base",
+    "daily": "final",
+    "steps": [
+      "Temporadas · resultados y clasificación",
+      "Champions"
+    ]
+  },
+  {
+    "id": "30-ayuda",
+    "title": "Ayuda y gestión de datos",
+    "family": "Soporte",
+    "kind": "help",
+    "fixture": "base"
+  },
+  {
+    "id": "31-privacidad",
+    "title": "Privacidad",
+    "family": "Soporte",
+    "kind": "help",
+    "fixture": "base",
+    "steps": [
+      "Privacidad"
+    ]
+  },
+  {
+    "id": "32-condiciones",
+    "title": "Condiciones",
+    "family": "Soporte",
+    "kind": "help",
+    "fixture": "base",
+    "steps": [
+      "Condiciones"
+    ]
+  },
+  {
+    "id": "33-carga-error",
+    "title": "Fallo recuperable al cargar",
+    "family": "Estados",
+    "kind": "career",
+    "fixture": "base",
+    "view": "home",
+    "failure": true
+  },
+  {
+    "id": "34-sin-partida",
+    "title": "Portada sin partida guardada",
+    "family": "Estados",
+    "kind": "cover",
+    "fixture": "none"
+  },
+  {
+    "id": "35-oferta",
+    "title": "Oferta y condiciones de contrato",
+    "family": "Historia",
+    "kind": "career",
+    "fixture": "offer",
+    "view": "home",
+    "steps": [
+      "Revisar oferta"
+    ]
+  },
+  {
+    "id": "36-accion-detalle",
+    "title": "Elegir una acción concreta",
+    "family": "Acciones",
+    "kind": "career",
+    "fixture": "base",
+    "view": "career",
+    "steps": [
+      "Gestionar mi carrera",
+      "Ver acciones de Entrenamiento",
+      "Abrir Entrenamiento extra"
+    ]
+  },
+  {
+    "id": "37-accion-resultado",
+    "title": "Resultado de una acción voluntaria",
+    "family": "Acciones",
+    "kind": "career",
+    "fixture": "base",
+    "view": "career",
+    "steps": [
+      "Gestionar mi carrera",
+      "Ver acciones de Entrenamiento",
+      "Abrir Entrenamiento extra",
+      "Trabajo técnico"
+    ]
+  },
+  {
+    "id": "38-elegir-persona",
+    "title": "Seleccionar una persona",
+    "family": "Acciones",
+    "kind": "career",
+    "fixture": "base",
+    "view": "career",
+    "steps": [
+      "Gestionar mi carrera",
+      "Ver acciones de Relaciones",
+      "Abrir Hablar con un compañero"
+    ]
+  },
+  {
+    "id": "39-practica",
+    "title": "Modo práctica",
+    "family": "Daily",
+    "kind": "daily",
+    "fixture": "base",
+    "daily": "intro",
+    "steps": [
+      "Practicar primero",
+      "Empezar práctica"
+    ]
+  },
+  {
+    "id": "40-exportar",
+    "title": "Exportación de una copia",
+    "family": "Soporte",
+    "kind": "career",
+    "fixture": "base",
+    "view": "save",
+    "steps": [
+      "Exportar copia"
+    ]
+  },
+  {
+    "id": "41-confirmacion",
+    "title": "Confirmación antes de sustituir una partida",
+    "family": "Soporte",
+    "kind": "career",
+    "fixture": "base",
+    "view": "save",
+    "steps": [
+      "Empezar otra carrera"
+    ],
+    "fields": [
+      {
+        "label": "Nombre y apellido de la nueva carrera",
+        "value": "Alex Dos"
+      }
+    ]
+  },
+  {
+    "id": "42-tutorial-final",
+    "title": "Tutorial: listo para jugar",
+    "family": "Entrada",
+    "kind": "cover",
+    "fixture": "base",
+    "steps": [
+      "Tutorial",
+      "Simular",
+      "Llamar a Nano y contarle exactamente lo que sabes",
+      "Continuar"
+    ]
+  },
+  {
+    "id": "43-acciones-carrera",
+    "title": "Acciones de Carrera",
+    "family": "Acciones",
+    "kind": "career",
+    "fixture": "base",
+    "view": "career",
+    "steps": [
+      "Gestionar mi carrera",
+      "Ver acciones de Carrera"
+    ]
+  },
+  {
+    "id": "44-acciones-salud",
+    "title": "Acciones de Salud",
+    "family": "Acciones",
+    "kind": "career",
+    "fixture": "base",
+    "view": "career",
+    "steps": [
+      "Gestionar mi carrera",
+      "Ver acciones de Salud"
+    ]
+  },
+  {
+    "id": "45-acciones-representante",
+    "title": "Acciones de Representante",
+    "family": "Acciones",
+    "kind": "career",
+    "fixture": "base",
+    "view": "career",
+    "steps": [
+      "Gestionar mi carrera",
+      "Ver acciones de Representante"
+    ]
+  },
+  {
+    "id": "46-acciones-relaciones",
+    "title": "Acciones de Relaciones",
+    "family": "Acciones",
+    "kind": "career",
+    "fixture": "base",
+    "view": "career",
+    "steps": [
+      "Gestionar mi carrera",
+      "Ver acciones de Relaciones"
+    ]
+  },
+  {
+    "id": "47-acciones-imagen",
+    "title": "Acciones de Imagen",
+    "family": "Acciones",
+    "kind": "career",
+    "fixture": "base",
+    "view": "career",
+    "steps": [
+      "Gestionar mi carrera",
+      "Ver acciones de Imagen"
+    ]
+  },
+  {
+    "id": "48-acciones-vida",
+    "title": "Acciones de Vida",
+    "family": "Acciones",
+    "kind": "career",
+    "fixture": "base",
+    "view": "career",
+    "steps": [
+      "Gestionar mi carrera",
+      "Ver acciones de Vida"
+    ]
+  },
+  {
+    "id": "49-perfil-contrato",
+    "title": "Contrato y datos del perfil",
+    "family": "Carrera",
+    "kind": "career",
+    "fixture": "base",
+    "view": "profile",
+    "steps": [
+      {
+        "role": "heading",
+        "name": "Tu contrato"
+      }
+    ]
+  },
+  {
+    "id": "50-partida-copias",
+    "title": "Copias y recuperación",
+    "family": "Soporte",
+    "kind": "career",
+    "fixture": "advanced",
+    "view": "save",
+    "steps": [
+      {
+        "role": "heading",
+        "name": "Copias y recuperación"
+      }
+    ]
+  },
+  {
+    "id": "51-carrera-historia",
+    "title": "Decisiones registradas en la carrera",
+    "family": "Carrera",
+    "kind": "career",
+    "fixture": "advanced",
+    "view": "career",
+    "steps": [
+      {
+        "role": "heading",
+        "name": "Decisiones y acciones"
+      }
+    ]
+  },
+  {
+    "id": "52-simulacion",
+    "title": "Simulación en curso recuperada",
+    "family": "Estados",
+    "kind": "career",
+    "fixture": "auto",
+    "view": "home",
+    "eventsEmpty": true,
+    "synthetic": true
+  },
+  {
+    "id": "53-pausa",
+    "title": "Simulación pausada",
+    "family": "Estados",
+    "kind": "career",
+    "fixture": "paused",
+    "view": "home",
+    "eventsEmpty": true,
+    "synthetic": true
+  },
+  {
+    "id": "54-epilogo",
+    "title": "Entrada al epílogo",
+    "family": "Historia",
+    "kind": "career",
+    "fixture": "closed",
+    "view": "home",
+    "eventsEmpty": true,
+    "synthetic": true
+  },
+  {
+    "id": "55-retirada",
+    "title": "Carrera finalizada y legado",
+    "family": "Historia",
+    "kind": "career",
+    "fixture": "closed",
+    "view": "career",
+    "eventsEmpty": true,
+    "synthetic": true
+  },
+  {
+    "id": "56-mundo-noticias",
+    "title": "Noticias publicadas en el mundo",
+    "family": "Carrera",
+    "kind": "career",
+    "fixture": "news",
+    "view": "world",
+    "synthetic": true
+  }
+]

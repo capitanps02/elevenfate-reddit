@@ -1,15 +1,34 @@
+import {requestJSON} from './request-timeout.mjs';
 // Implements the existing UI's save-store contract. Local cache is never auto-uploaded.
-export function createRedditSaveStore({request=fetch,validate,storage=null,cacheKey='elevenfate.reddit.confirmed.v1'}) {
+export function createRedditSaveStore({observe:observer,request=fetch,validate,storage=null,cacheKey='elevenfate.reddit.confirmed.v1',timeoutMs=8000,retryDelay=()=>new Promise(resolve=>setTimeout(resolve,200+Math.floor(Math.random()*200)))}) {
+  const observe=(...args)=>{try{observer?.(...args);}catch{}};
   let record=null;
+  const uncertain=()=>Object.assign(Error('No se pudo confirmar el guardado en Reddit. Comprueba la conexión y recupera la partida actual.'),{transient:true});
   const conflict=()=>Error('La carrera cambió en otro dispositivo. Recupera la partida actual antes de continuar.');
   async function api(method,body){
-    let response;
-    try{response=await request('/api/career',{method,headers:{'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});}
-    catch{throw Error('No se pudo confirmar el guardado en Reddit. Comprueba la conexión y recupera la partida actual.');}
-    const data=await response.json();
-    if(response.status===409)throw conflict();
-    if(!response.ok)throw Error(data.error||'No se pudo acceder a tu carrera en Reddit.');
-    return data;
+    const started=performance.now();let httpStatus;
+    if(method==='PUT')observe('event','save_attempt');
+    try{
+      const {data}=await requestJSON('/api/career',{method,headers:{'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})},{fetcher:request,timeoutMs,decode:async response=>{
+        httpStatus=response.status;
+        if(response.status===409)throw conflict();
+        if(!response.ok){
+          let data;try{data=await response.json();}catch{}
+          throw Object.assign(Error(data?.error||'No se pudo acceder a tu carrera en Reddit.'),{transient:[408,429,500,502,503,504].includes(response.status),status:response.status});
+        }
+        let data;try{data=await response.json();}catch{throw uncertain();}
+        if(data?.version!==1||!Number.isSafeInteger(data.generation)||data.generation<0||!(data.active===null||typeof data.active==='string')||!(data.previous===null||typeof data.previous==='string'))throw uncertain();
+        return data;
+      }});
+      if(method==='PUT'||method==='GET')observe('event',method==='PUT'?'save_ok':'load_ok',performance.now()-started);
+      return data;
+    }catch(error){
+      observe('event',method==='PUT'?'save_error':'load_error');
+      if(error.transient!==undefined||httpStatus===409)throw error;
+      const failure=uncertain();
+      if(httpStatus>=400&&![408,429,500,502,503,504].includes(httpStatus)){failure.transient=false;failure.status=httpStatus;}
+      throw failure;
+    }
   }
   function remember(next){record=next;try{storage?.setItem(cacheKey,JSON.stringify(next));}catch{}}
   async function refresh(){remember(await api('GET'));return record;}
@@ -18,11 +37,26 @@ export function createRedditSaveStore({request=fetch,validate,storage=null,cache
     async read(){return checked((await refresh()).active);},
     async readRaw(){return (await refresh()).active;},
     async previous(){return checked((await refresh()).previous);},
-    async write(snapshot,expected){
+    async write(snapshot,expected,{recover=true}={}){
       const raw=JSON.stringify(snapshot);await validate(raw);
       if(!record)await refresh();
       if(record.active!==expected)throw conflict();
-      remember(await api('PUT',{raw,expectedGeneration:record.generation}));
+      const before=record,body={raw,expectedGeneration:before.generation};
+      // Reuse the frozen candidate; never dispatch a decision or recalculate RNG.
+      for(let attempt=0;attempt<2;attempt++){
+        try{
+          const next=await api('PUT',body);
+          if(next.active!==raw||next.generation<before.generation)throw uncertain();
+          remember(next);return;
+        }catch(error){
+          if(!recover||!error.transient)throw error;
+          const current=await api('GET');
+          if(current.active===raw&&current.generation>=before.generation){remember(current);return;}
+          if(current.generation!==before.generation||current.active!==before.active)throw conflict();
+          if(attempt===1)throw error;
+          await retryDelay();
+        }
+      }
     },
     async remove(){
       if(!record)await refresh();

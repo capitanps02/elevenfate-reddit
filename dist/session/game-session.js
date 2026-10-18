@@ -286,8 +286,11 @@ export class GameSession {
             pendingDecision: null, pendingResult: null, receipts: [], journal: [], decisionProvenance: [], needsWorldAdvance: false,
             autoSimulation: idleAutoSimulationState()
         };
-        if (options.redditCompetitions)
+        if (options.redditCompetitions) {
             snapshot.state.world.redditCompetitionFrom = snapshot.state.date;
+            snapshot.state.world.redditCalendarFrom = snapshot.state.date;
+            snapshot.state.world.redditMatchInfluenceFrom = snapshot.state.date;
+        }
         marketState(snapshot.state);
         const session = new GameSession(snapshot, events, activeEvidence, options.commit, options.migrationRoutes ?? CONTENT_MIGRATION_ROUTES, options.contentSources ?? LEGACY_CONTENT_SOURCES);
         await session.#commit(structuredClone(snapshot), null);
@@ -315,6 +318,12 @@ export class GameSession {
         if (options.redditCompetitions && typeof next.state.world.redditCompetitionFrom !== "string") {
             const fixtures = next.state.world.sportMatchModel;
             next.state.world.redditCompetitionFrom = fixtures?.fixtures?.length ? `${Number(next.state.season.slice(0, 4)) + 1}-07-01` : next.state.date;
+        }
+        if (options.redditCompetitions) {
+            // Upgrade at the next season boundary; recorded dates and scores stay valid.
+            const boundary = `${Number(next.state.season.slice(0, 4)) + 1}-07-01`;
+            next.state.world.redditCalendarFrom ??= boundary;
+            next.state.world.redditMatchInfluenceFrom ??= boundary;
         }
         next.build = SESSION_BUILD; // Existing narrative and RNG are preserved; new offers require explicit consent.
         await assertSessionSnapshot(next, { events, activeContentIdentity, activeEvidence, contentSources });

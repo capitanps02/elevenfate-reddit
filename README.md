@@ -1,6 +1,6 @@
 # ElevenFate · beta para Reddit
 
-Vive una carrera de futbolista en español: decisiones, partidos, contratos, fichajes, relaciones, lesiones y retirada. El motor y el contenido proceden del juego validado para Android; esta edición adapta la interfaz y la persistencia a Reddit.
+Vive una carrera de futbolista en español o inglés: decisiones, partidos, contratos, fichajes, relaciones, lesiones y retirada. El motor y el contenido proceden del juego validado para Android; esta edición adapta la interfaz y la persistencia a Reddit.
 
 ## Cómo jugar
 
@@ -32,7 +32,7 @@ Auditoría local de una carrera completa: 447 acciones hasta retirada, máximo 8
 
 ## Desarrollo
 
-Node 24+, pnpm 11.19.0, Devvit 0.14.6.
+Node 24+, pnpm 11.19.0, Devvit 0.14.7.
 
 ```sh
 pnpm install --frozen-lockfile
@@ -45,9 +45,15 @@ La vista local usa cuenta simulada y memoria. `src/` reutiliza el motor original
 ```sh
 pnpm exec devvit upload
 pnpm exec devvit install elevenfate_dev2 elevenfate@VERSION
-pnpm exec devvit publish --version 0.1.4
+pnpm run publish:reddit
 ```
 
 El repositorio es una copia independiente. No se modifica el juego original. Plan del Daily (`docs/reddit/DAILY.md` en el repositorio), verificación visual (`docs/reddit/UI-REDESIGN.md` en el repositorio).
 
 Competiciones y estado de la nueva beta: COMPETITIONS.md (`docs/reddit/COMPETITIONS.md` en el repositorio).
+
+## Candidata de interfaz C3 · 18 de octubre de 2026
+
+56 vistas implementadas con fuentes locales y componentes compartidos. Interfaz creada e integrada al 100 %; plan de aceptación al 95 %, con revisión en móvil físico pendiente. 512 pruebas automáticas aprobadas (335 Reddit/UI y 177 sesiones/guardados), 224 layouts españoles y 80 revisiones inglesas. Candidata 0.1.8.1 comprobada en Reddit privado; instalación pública 0.1.8 conservada. La sección de verificación anterior describe la beta original. Estado actual y proceso de lanzamiento: [PUBLICATION-C3.md](docs/reddit/PUBLICATION-C3.md).
+
+`pnpm run prepare:reddit` prepara la compilación normal. `pnpm run upload:reddit` sube una candidata privada. `pnpm run publish:reddit` exige los certificados y las huellas de esa implementación. El gate rechaza builds de vista previa, recursos alterados y archivos de QA en producción.

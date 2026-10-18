@@ -1,4 +1,4 @@
-import {competitionForCareer,publicContinentalSeason,leagueStandings,careerCompetitionFixture} from '../shared/league-simulator.mjs';
+import {competitionForCareer,reconciledCareerLeague,publicContinentalSeason,leagueStandings,careerCompetitionFixture} from '../shared/league-simulator.mjs';
 import {scheduledLeagueFixtures,recordOfficialMatchInPlace} from '../../dist/simulation/match-model.js';
 import {resolveFixtureDivision} from '../../dist/catalog/football/fixture-opponent.js';
 import {FOOTBALL_CLUBS,clubsForDivision} from '../../dist/catalog/football/index.js';
@@ -37,11 +37,11 @@ function legacyCareerSports(state){
  const own=sorted.find(r=>r.you);
  return {club:formatClubName(club),division:division.name,season:state.season,recent:actual.filter(m=>m.result).slice(-1),allRecent:actual.filter(m=>m.result),upcoming:upcoming.slice(0,1),rows:sorted,position:own?.played?own.position:null,played:own?.played??0,points:own?.points??0,simulated:true};
 }
-export function createCareerSportsView(){let key='',cached=null;return session=>{const view=session.getView(),next=`${view.sessionId}:${view.revision}`;if(next!==key){cached=projectCareerSports(session.exportSnapshot().state);key=next;}return cached;};}
+export function createCareerSportsView(){let key='',source=null,cached=null;return session=>{const view=session.getView(),next=`${view.sessionId}:${view.revision}`;if(source!==session||next!==key){cached=projectCareerSports(session.exportSnapshot().state);key=next;source=session;}return cached;};}
 
 export function projectCareerSports(state){
  if(typeof state.world.redditCompetitionFrom!=='string'||state.date<state.world.redditCompetitionFrom)return legacyCareerSports(state);
- const {league,continental}=competitionForCareer(state),rows=league.teams.map(t=>({...t,played:0,won:0,drawn:0,lost:0,gf:0,ga:0,points:0}));
+ const {continental}=competitionForCareer(state),league=reconciledCareerLeague(state),rows=league.teams.map(t=>({...t,played:0,won:0,drawn:0,lost:0,gf:0,ga:0,points:0}));
  const matches=league.matches.filter(m=>m.date<=state.date);
  for(const m of matches){for(const [index,gf,ga]of [[m.home,m.hg,m.ag],[m.away,m.ag,m.hg]]){const r=rows[index];r.played++;r.gf+=gf;r.ga+=ga;if(gf>ga){r.won++;r.points+=3;}else if(gf===ga){r.drawn++;r.points++;}else r.lost++;}}
  const table=leagueStandings({...league,teams:rows}),own=table.find(r=>r.you),club=state.professional.registrationClub;

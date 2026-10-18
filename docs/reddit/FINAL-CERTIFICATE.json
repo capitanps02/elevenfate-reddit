@@ -1,0 +1,303 @@
+{
+  "date": "2026-10-14",
+  "codeCommit": "b39c98214911a9c536d11842f9caace5801de498",
+  "fingerprint": "919b0619b17b8a6769b04120548cbc96c5b676745f786602fccc703c32a93db7",
+  "privateVersion": "0.1.7.5",
+  "regression": {
+    "redditAndUI": {
+      "passed": 326,
+      "failed": 0,
+      "command": "node --test reddit/test/*.test.mjs scripts/test-player-actions-ui-contract.mjs scripts/test-t55-a19-ui.mjs"
+    },
+    "sessionSavesPlayerActions": {
+      "passed": 177,
+      "failed": 0,
+      "command": "node --test scripts/test-session.mjs scripts/test-saves.mjs scripts/test-player-actions-session.mjs",
+      "fullCareerAndHeadlessReproducibility": true
+    }
+  },
+  "layout": [
+    {
+      "daily": false,
+      "headerOverflow": false,
+      "height": 480,
+      "lang": "es",
+      "leftAligned": true,
+      "overflow": false,
+      "pauseToast": false,
+      "smallButtons": [],
+      "width": 320
+    },
+    {
+      "daily": false,
+      "headerOverflow": false,
+      "height": 800,
+      "lang": "es",
+      "leftAligned": true,
+      "overflow": false,
+      "pauseToast": false,
+      "smallButtons": [],
+      "width": 360
+    },
+    {
+      "daily": false,
+      "headerOverflow": false,
+      "height": 844,
+      "lang": "es",
+      "leftAligned": true,
+      "overflow": false,
+      "pauseToast": false,
+      "smallButtons": [],
+      "width": 390
+    },
+    {
+      "daily": false,
+      "headerOverflow": false,
+      "height": 915,
+      "lang": "es",
+      "leftAligned": true,
+      "overflow": false,
+      "pauseToast": false,
+      "smallButtons": [],
+      "width": 412
+    },
+    {
+      "daily": false,
+      "headerOverflow": false,
+      "height": 600,
+      "lang": "es",
+      "leftAligned": true,
+      "overflow": false,
+      "pauseToast": false,
+      "smallButtons": [],
+      "width": 375
+    },
+    {
+      "daily": false,
+      "headerOverflow": false,
+      "height": 650,
+      "lang": "es",
+      "leftAligned": true,
+      "overflow": false,
+      "pauseToast": false,
+      "smallButtons": [],
+      "width": 900
+    },
+    {
+      "daily": false,
+      "headerOverflow": false,
+      "height": 480,
+      "lang": "en",
+      "leftAligned": true,
+      "overflow": false,
+      "pauseToast": false,
+      "smallButtons": [],
+      "width": 320
+    },
+    {
+      "daily": false,
+      "headerOverflow": false,
+      "height": 800,
+      "lang": "en",
+      "leftAligned": true,
+      "overflow": false,
+      "pauseToast": false,
+      "smallButtons": [],
+      "width": 360
+    },
+    {
+      "daily": false,
+      "headerOverflow": false,
+      "height": 844,
+      "lang": "en",
+      "leftAligned": true,
+      "overflow": false,
+      "pauseToast": false,
+      "smallButtons": [],
+      "width": 390
+    },
+    {
+      "daily": false,
+      "headerOverflow": false,
+      "height": 915,
+      "lang": "en",
+      "leftAligned": true,
+      "overflow": false,
+      "pauseToast": false,
+      "smallButtons": [],
+      "width": 412
+    },
+    {
+      "daily": false,
+      "headerOverflow": false,
+      "height": 600,
+      "lang": "en",
+      "leftAligned": true,
+      "overflow": false,
+      "pauseToast": false,
+      "smallButtons": [],
+      "width": 375
+    },
+    {
+      "daily": false,
+      "headerOverflow": false,
+      "height": 650,
+      "lang": "en",
+      "leftAligned": true,
+      "overflow": false,
+      "pauseToast": false,
+      "smallButtons": [],
+      "width": 900
+    }
+  ],
+  "coverLayout": [
+    {
+      "footerAfterContent": true,
+      "height": 480,
+      "lang": "es",
+      "overflow": false,
+      "smallButtons": [],
+      "width": 320
+    },
+    {
+      "footerAfterContent": true,
+      "height": 800,
+      "lang": "es",
+      "overflow": false,
+      "smallButtons": [],
+      "width": 360
+    },
+    {
+      "footerAfterContent": true,
+      "height": 844,
+      "lang": "es",
+      "overflow": false,
+      "smallButtons": [],
+      "width": 390
+    },
+    {
+      "footerAfterContent": true,
+      "height": 915,
+      "lang": "es",
+      "overflow": false,
+      "smallButtons": [],
+      "width": 412
+    },
+    {
+      "footerAfterContent": true,
+      "height": 600,
+      "lang": "es",
+      "overflow": false,
+      "smallButtons": [],
+      "width": 375
+    },
+    {
+      "footerAfterContent": true,
+      "height": 650,
+      "lang": "es",
+      "overflow": false,
+      "smallButtons": [],
+      "width": 900
+    },
+    {
+      "footerAfterContent": true,
+      "height": 480,
+      "lang": "en",
+      "overflow": false,
+      "smallButtons": [],
+      "width": 320
+    },
+    {
+      "footerAfterContent": true,
+      "height": 800,
+      "lang": "en",
+      "overflow": false,
+      "smallButtons": [],
+      "width": 360
+    },
+    {
+      "footerAfterContent": true,
+      "height": 844,
+      "lang": "en",
+      "overflow": false,
+      "smallButtons": [],
+      "width": 390
+    },
+    {
+      "footerAfterContent": true,
+      "height": 915,
+      "lang": "en",
+      "overflow": false,
+      "smallButtons": [],
+      "width": 412
+    },
+    {
+      "footerAfterContent": true,
+      "height": 600,
+      "lang": "en",
+      "overflow": false,
+      "smallButtons": [],
+      "width": 375
+    },
+    {
+      "footerAfterContent": true,
+      "height": 650,
+      "lang": "en",
+      "overflow": false,
+      "smallButtons": [],
+      "width": 900
+    }
+  ],
+  "privateChecks": {
+    "served0175": true,
+    "noHeaderPauseOrOverlay": true,
+    "portraitLoaded1024x1536": true,
+    "portraitAndNextLeftAligned": true,
+    "englishTutorialThreeStepsCompleted": true,
+    "englishDailyEntryAndReturnWithoutAttempt": true,
+    "exportReadonlyAndSaveUnchangedAfterNavigation": true,
+    "saveSha256": "e6fee64f05a199118a2689d5499f9d2840a195ee233d2821baf0ebfce04da35d",
+    "saveDate": "2026-07-01",
+    "saveChoices": 0,
+    "languageRestoredSpanish": true,
+    "dailyRemovedFromSimulation": true
+  },
+  "nativeZoom": {
+    "evidence": "User reported success at 200% on prior private iteration",
+    "detailsNotProvided": "browser/platform",
+    "subsequentChangesReviewed": "24 local layouts and installed 0.1.7.5 review; no new automated native zoom measurement claimed"
+  },
+  "provenanceAndPayload": {
+    "sourceEngineFiles": 197,
+    "engineByteIdenticalToAudited017": true,
+    "payload": {
+      "candidateBytes": 17671229,
+      "audited017Bytes": 17641793,
+      "candidateGzipBytes": 12843113,
+      "baselineGzipBytes": 12833977
+    },
+    "performanceScope": "Static payload review and successful private navigation; no new mobile hardware or FPS certification claimed."
+  },
+  "ci": {
+    "codeRun": 38604762962,
+    "releaseRun": 38606135163,
+    "codeConclusion": "success",
+    "releaseConclusion": "success",
+    "releaseCommit": "1acf52c4fb64a0c44aaeb9a831d7e432ee3f759d"
+  },
+  "progress": {
+    "preparationPercent": 98,
+    "passesClosed": 3,
+    "passesTotal": 4,
+    "remaining": "R4 public delivery and installed verification"
+  },
+  "releaseFlags": {
+    "englishReady": true,
+    "legacyCoverage": true,
+    "completeRegression": true,
+    "visualAndLanguageReview": true,
+    "implementationHash": "919b0619b17b8a6769b04120548cbc96c5b676745f786602fccc703c32a93db7",
+    "redditPlaytest": true
+  },
+  "userPublicationAuthorization": "User requested final polish and publication on 2026-10-14"
+}

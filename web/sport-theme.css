@@ -1,0 +1,221 @@
+/* C1: shared by the production renderer and the captured visual catalogue. */
+@font-face{font-family:EFTitle;src:url('./fonts/Rubik-BoldItalic.ttf');font-style:italic;font-weight:800;font-display:swap}
+@font-face{font-family:EFTitle;src:url('./fonts/Rubik-Bold.ttf');font-style:normal;font-weight:700;font-display:swap}
+@font-face{font-family:EFText;src:url('./fonts/NotoSans-Regular.ttf');font-weight:400;font-display:swap}
+@font-face{font-family:EFText;src:url('./fonts/NotoSans-Bold.ttf');font-weight:700;font-display:swap}
+:root,:host{--ef-bg:#081322;--ef-panel:#14263c;--ef-line:#455c76;--ef-gold:#e6c77b;--ef-cyan:#7fd7f2;--ef-white:#f6f8ff;--ef-muted:#bdcadb;--muir-primary-start:#3a88f4;--muir-primary-end:#2468ce;--muir-text-small-muted:#bdcadb;--muir-focus-outline:3px solid #7fd7f2;--muir-motion-control:120ms;font-family:EFText,Arial,sans-serif;color:#f6f8ff;color-scheme:dark}
+html,body{background:var(--ef-bg);font-family:EFText,Arial,sans-serif;color:var(--ef-white)}
+button,input,select,textarea{font-family:EFText,Arial,sans-serif}
+button{transition:transform 100ms,background-color 120ms,border-color 120ms;touch-action:manipulation}
+button:active:not(:disabled){transform:translateY(2px)}
+button:focus-visible,summary:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--ef-cyan);outline-offset:3px}
+h1,h2,h3,.big-number{font-family:EFTitle,Arial,sans-serif;font-weight:800;font-style:italic;letter-spacing:-.025em}
+h1{line-height:1.1}.muted{color:var(--ef-muted)}.eyebrow{color:var(--ef-gold);font-size:10px;font-weight:700;letter-spacing:.13em}
+.reddit-shell{padding:10px 12px 8px;gap:12px;background:radial-gradient(ellipse at 95% 5%,#213d59 0,transparent 65%),var(--ef-bg);--muir-primary-start:#3a88f4;--muir-primary-end:#2468ce}
+.reddit-shell .topbar{min-height:50px;gap:8px;padding:0 2px;background:transparent}
+.reddit-shell .brand{gap:6px}.reddit-shell .brand strong{font-family:EFTitle,Arial,sans-serif;font-style:normal;font-weight:700;font-size:14px}
+.reddit-shell .brand-emblem{width:25px;height:29px;object-fit:contain}.reddit-shell .topbar>.secondary{min-height:44px;min-width:44px;padding:10px;border-radius:11px;font-size:12px}
+.reddit-shell .reddit-save-context .date-button{font-size:10px;max-width:117px;color:#dce6f2}.reddit-shell .reddit-save-indicator{color:#bdcadb}
+.reddit-shell .navigation{min-height:58px;padding-top:5px;border-top:1px solid #52647b;background:#091625}
+.reddit-shell .nav-button{font-size:10px;min-height:50px;color:#ced8e6;border-radius:10px;gap:4px}
+.reddit-shell .nav-button svg{width:20px;height:20px;stroke-width:1.8}.reddit-shell .nav-button.active{color:#fff;background:#24496e;border-color:#7394b7;box-shadow:inset 0 2px 0 var(--ef-cyan)}
+.reddit-shell .primary,.daily-primary,.cover-button.is-primary{background:linear-gradient(180deg,#3a88f4,#2468ce);color:white;border:1px solid #91bdff;box-shadow:inset 0 1px 0 #ffffff42,0 3px 0 #11386e,0 7px 16px #0003;font-weight:700;border-radius:12px}
+.reddit-shell .primary{min-height:50px;font-size:14px}
+.reddit-shell .secondary,.reddit-shell .glass,.cover-button:not(.is-primary),.daily-choice,.help-dialog button{background:linear-gradient(150deg,#223b55,#162a41);color:#f6f8ff;border:1px solid #526b85;box-shadow:inset 0 1px 0 #ffffff0a,0 2px 0 #040d18;border-radius:11px}
+.reddit-shell .secondary{font-size:13px;min-height:46px}.reddit-shell .panel,.reddit-shell .semantic-card{border:1px solid #42566e;background:linear-gradient(145deg,#182d44,#102137);border-radius:16px;padding:19px}
+.reddit-shell .panel h2{font-size:23px;margin-bottom:18px}.reddit-shell p{line-height:1.6}.reddit-shell main{padding:0 2px 14px}
+.reddit-shell main.reddit-home{grid-template-rows:auto auto;gap:16px;max-width:760px}
+.reddit-shell .reddit-player{min-height:clamp(340px,48dvh,450px);padding:20px 18px 17px;border:1px solid #7089a1;border-radius:18px;background:#142536}
+.reddit-shell .reddit-player:after{background:linear-gradient(180deg,#07112000 20%,#07142022 40%,#071622f5 100%)}
+.reddit-shell .reddit-portrait{object-position:center 20%;filter:saturate(.9) brightness(1.06)}
+.reddit-shell .reddit-identity h1{font-size:36px;margin:6px 0 9px;color:#fff;text-shadow:0 2px 0 #0005}
+.reddit-shell .reddit-identity p{color:#ecf2fa;font-size:13px}.reddit-shell .reddit-identity .muted{color:#c6d3e1}
+.reddit-shell .reddit-metrics{gap:16px;margin-top:18px}.reddit-shell .reddit-metrics span{font-size:11px;color:#cfdaea}.reddit-shell .reddit-metrics strong{font-family:EFTitle;font-size:21px;font-style:italic}
+.reddit-shell .reddit-metrics progress{height:5px;border-radius:3px;border:0;overflow:hidden;accent-color:var(--ef-cyan);background:#ffffff25}
+.reddit-shell .reddit-metrics progress::-webkit-progress-bar{background:#ffffff25}.reddit-shell .reddit-metrics progress::-webkit-progress-value{background:var(--ef-cyan)}
+.reddit-shell .reddit-metrics>div:last-child progress::-webkit-progress-value{background:var(--ef-gold)}
+.reddit-shell .reddit-advance{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:16px;align-items:stretch}
+.reddit-shell .reddit-next{padding:3px 0}.reddit-shell .reddit-next h2{font-size:24px;margin:7px 0 9px}.reddit-shell .reddit-next p{color:#bdcadb;font-size:12px}
+.reddit-shell .reddit-next .primary{width:100%;margin-top:13px;min-height:60px;line-height:1.35;padding:12px 13px}
+.reddit-shell .reddit-calendar{border-left:1px solid #4a6078;padding:3px 0 3px 14px}.reddit-shell .reddit-calendar .eyebrow{color:var(--ef-gold)}
+.reddit-shell .reddit-league-link{font-size:12px;min-height:44px;color:var(--ef-gold)}.reddit-shell .reddit-fixture small{color:#c7d4e4;font-size:10px}.reddit-shell .reddit-fixture{font-size:12px}
+.reddit-shell .reddit-daily{border:1px solid #a18c5f;border-radius:12px;background:#233344;box-shadow:none}
+.reddit-shell .hero{border:1px solid #6c839a;border-radius:18px}.reddit-shell .hero>.photo{filter:saturate(.9) brightness(1.06)}
+.reddit-shell .hero:after{background:linear-gradient(180deg,transparent 30%,#071622ee 100%)}.reddit-shell .hero-copy h1{font-size:36px}.reddit-shell .hero-copy{bottom:20px}
+.reddit-shell .profile-intro h1,.reddit-shell .world-intro h1,.reddit-shell .relations-intro h1,.reddit-shell .career-intro h1,.reddit-shell .save-intro h1{font-size:31px;margin:8px 0 14px}
+.reddit-shell .profile-intro p,.reddit-shell .world-intro p,.reddit-shell .relations-intro p,.reddit-shell .career-intro p,.reddit-shell .save-intro p{font-size:13px;color:var(--ef-muted)}
+.reddit-shell .data-row{border-color:#3a4e66}.reddit-shell .data-row span{color:var(--ef-muted)}
+.reddit-shell .meter{color:var(--ef-muted)}.reddit-shell .meter progress{accent-color:var(--ef-cyan)}.reddit-shell .meter progress::-webkit-progress-value{background:var(--ef-cyan)}
+.reddit-shell input,.reddit-shell select,.reddit-shell textarea{border:1px solid #8195ac;background:#091727;color:#fff;border-radius:9px;min-height:48px;font-size:16px}
+.reddit-shell input[type=file]{padding:10px;width:100%;max-width:100%}.reddit-shell .file-label{font-size:13px}.reddit-shell .file-label small{color:#bdcadb}
+.reddit-shell .new-story-entry .save-new-story{border-radius:16px;padding:22px;background:linear-gradient(150deg,#1e354f,#102238)}
+.reddit-shell .new-story-entry h1{font-size:33px}.reddit-shell .new-story-entry .primary{width:100%;margin-top:18px}
+.reddit-shell .new-story-entry>.secondary{margin-top:15px}.reddit-shell .new-story-entry .new-story-advanced{margin-top:10px}
+.reddit-shell .people-grid,.reddit-shell .season-grid{gap:14px}.reddit-shell .person-card .avatar,.reddit-shell .avatar{border:1px solid #8da1b7}
+.reddit-shell .contact-row{border-color:#39516b}.reddit-shell .timeline .panel{border-left:1px solid #42566e;padding-left:19px}
+.reddit-shell .milestone-chip,.reddit-shell .player-action-status{border-radius:7px;border-color:#a59468;background:#303a43;color:#f3dfa9}
+.reddit-shell .player-action-option.selected{background:#214e70;border-color:var(--ef-cyan)}.reddit-shell .player-action-option{background:#142a41;border-color:#526b85;border-radius:12px}
+.reddit-shell .semantic-empty,.reddit-shell .world-empty{color:var(--ef-muted);background:#112338;border-radius:14px;padding:18px}
+.reddit-shell.immersive{grid-template-rows:auto minmax(0,1fr);gap:10px}
+.reddit-shell main.cinema{gap:12px;grid-template-rows:44px minmax(0,1fr);border-radius:16px;background:#0a1729}
+.reddit-shell .cinema-bg{opacity:.2;filter:saturate(.7)}.reddit-shell .cinema-top{padding:0 7px}.reddit-shell .cinema-top .eyebrow{font-size:10px;max-width:57%;text-align:right;color:#e6c77b}
+.reddit-shell .cinema-top .glass{min-height:44px;border-radius:10px;font-size:12px}
+.reddit-shell .reddit-scene{padding:20px 17px 17px;border:1px solid #4b6179;border-radius:16px;background:linear-gradient(150deg,#14283fe8,#0c1d31ee);gap:19px}
+.reddit-shell .reddit-scene-copy h1{font-size:33px;line-height:1.1;margin:9px 0 19px}.reddit-shell .reddit-scene-copy .story-text{font-size:15px;line-height:1.65;color:#e3ecf8}
+.reddit-shell .reddit-scene-copy .intel{border-block:1px solid #40536b;background:none;border-radius:0;margin:18px 0 0;padding:0}
+.reddit-shell .reddit-scene-copy .intel summary{font-size:12px;min-height:48px;padding:12px 0;color:#d2dfef}
+.reddit-shell .reddit-scene .choices{gap:11px;padding:0 0 3px}.reddit-shell .reddit-scene .choice{min-height:70px;padding:13px 12px;line-height:1.45;font-size:14px;border:1px solid #526d89;border-radius:12px;background:linear-gradient(145deg,#203c56,#142a42);box-shadow:0 3px 0 #030d18}
+.reddit-shell .reddit-scene .choice-key{width:32px;min-width:32px;height:36px;font-family:EFTitle;font-style:italic;font-size:16px;border:1px solid #67829c;border-radius:7px;background:#0a1c2d;color:var(--ef-gold)}
+.reddit-shell .reddit-scene .choice:focus-visible{outline:3px solid var(--ef-cyan);outline-offset:0}.reddit-shell .reddit-scene .choice:hover:not(:disabled){background:#254965;border-color:#8fc4dc}
+/* Approved correction: an integrated text line, never a quote card or vertical stripe. */
+.reddit-shell .result-choice{margin:18px 0 22px;padding:0 0 18px;background:transparent;border:0;border-bottom:1px solid #3d526c;border-radius:0;box-shadow:none}
+.reddit-shell .result-choice .eyebrow{color:#c4d1e2;margin-bottom:8px;font-size:10px}
+.reddit-shell .chosen,.reddit-shell .result-choice .chosen,.reddit-shell .timeline .chosen{padding:0;margin:0;background:transparent;border:0;border-radius:0;box-shadow:none;color:#f0f5ff;font-size:14px;line-height:1.6}
+.reddit-shell .result-consequences{padding:19px 16px;margin:0;border:1px solid #517b73;border-radius:14px;background:linear-gradient(145deg,#1b3b40,#142b35)}
+.reddit-shell .result-consequences h2{font-size:20px;margin-bottom:15px}.reddit-shell .consequence-row{gap:15px;align-items:center;border-color:#4c696b}.reddit-shell .consequence-row strong{font-family:EFTitle;font-size:31px;font-weight:800;font-style:italic;white-space:nowrap}
+.reddit-shell .consequence-row.favorable strong{color:#99e2b1}.reddit-shell .consequence-row.unfavorable strong{color:#ffb8ae}.reddit-shell .result-consequences .story-text{font-size:14px}.reddit-shell .result-consequences .result-deferred{font-size:12px;color:#c4d5dc}
+.reddit-shell .reddit-scene .result-continue{min-height:52px;background:linear-gradient(180deg,#3a88f4,#2468ce);color:#fff;border:1px solid #91bdff;box-shadow:inset 0 1px 0 #ffffff42,0 3px 0 #11386e}
+.reddit-shell .offer-sheet .choice{min-height:48px}.reddit-shell .offer-sheet .data-row{font-size:13px}
+.reddit-sports-dialog,.reddit-shell .dialog{border:1px solid #7290aa;border-radius:16px;background:linear-gradient(145deg,#182f47,#0d2036);color:#f6f8ff;font-family:EFText}
+.reddit-sports-dialog h2,.reddit-shell .dialog h2{font-family:EFTitle;font-style:italic;font-size:25px}
+.reddit-sports-tabs button[aria-pressed=true],.daily-sports-tabs [aria-pressed=true]{background:#24527a;color:white;border-color:#8bc6e5}
+.reddit-league-table .your-team,.daily-league-table .your-team{background:#234d6c;color:#fff}.reddit-calendar-row,.reddit-fixture,.reddit-league-table td,.reddit-league-table th{border-color:#3d526c}
+.cover-page{background:#081322}.cover-page::before{background:linear-gradient(180deg,#06122188,#071424d9 40%,#06101cf5 100%)}
+.cover-art{opacity:.78;object-position:60% 30%;filter:saturate(.75)}.cover-content{max-width:400px}.cover-brand{font-family:EFTitle;font-style:normal;font-size:23px;font-weight:700;letter-spacing:-.02em;color:#f6f8ff;display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.cover-brand::before{content:'';width:32px;height:38px;display:inline-block;background:url('./images/00acab604a7efb12683576b22fc5987c7d703be193e57d86f20c209cb0772341.png') center/contain no-repeat;flex-shrink:0}
+.cover-content h1,.cover-tutorial h1{font-size:42px;font-family:EFTitle;font-style:italic;font-weight:800;line-height:1.06;color:#f6f8ff;letter-spacing:-.03em}
+.cover-tagline{color:#d4e0ef;margin-bottom:26px}.cover-actions{gap:12px}.cover-button{min-height:55px;border-radius:12px;font-size:15px;text-align:left;padding:14px 17px}
+.cover-button.is-primary{min-height:59px;font-size:17px}.cover-button-note{color:var(--ef-gold);font-size:11px}.cover-languages{gap:12px;margin-top:23px}
+.cover-languages .cover-button{min-height:46px;text-align:center;background:#13283e;border:1px solid #657d96;box-shadow:none}
+.cover-languages .cover-button[aria-pressed=true]{background:#214875;border-color:#98c5ff;box-shadow:inset 0 -3px 0 #8fc4ff}
+.cover-status,.cover-caption{color:#c0cede;font-size:12px}.cover-help{color:#bdcadb!important;background:transparent!important;box-shadow:none!important;text-align:center}
+.cover-tutorial{max-width:620px;color:#dbe5f2}.cover-tutorial p{line-height:1.65}.cover-demo{background:#142b43;border:1px solid #59738e;border-radius:16px;padding:20px}.cover-demo h2{font-size:25px}.cover-demo>.cover-button{margin-top:12px}
+.daily-panel{font-family:EFText,Arial,sans-serif;background:radial-gradient(ellipse at 95% 5%,#213d59,transparent 65%),#081322;color:#f6f8ff;gap:12px;padding:12px 16px 8px;max-width:800px;grid-template-rows:48px auto auto minmax(0,1fr) 18px}
+.daily-header{gap:7px}.daily-header>strong{font-family:EFTitle;font-size:13px;font-style:normal;letter-spacing:-.01em;color:#f6f8ff}.daily-icon{background:#1b3048;border:1px solid #536b84;border-radius:11px;color:#e3edfa}.daily-ranking-button{color:var(--ef-gold)}
+.daily-timeline{color:#d0dcec;font-size:11px;gap:9px}.daily-progress span{height:5px;border-radius:2px;background:linear-gradient(90deg,#e6c77b var(--completion),#ffffff26 var(--completion))}
+.daily-player{gap:5px;padding-bottom:6px}.daily-player strong{font-size:13px}.daily-player>span{font-size:11px;color:#bdcadb;line-height:1.55}
+.daily-match{border:1px solid #4b627b;border-radius:16px;background:linear-gradient(145deg,#182f47,#0e2036);box-shadow:inset 0 1px 0 #ffffff08}
+.daily-card{padding:21px 18px 15px}.daily-card h1{font-family:EFTitle;font-weight:800;font-style:italic;font-size:31px;line-height:1.12;margin:9px 0 17px}.daily-card h2{font-size:20px;font-style:italic;margin-top:21px}
+.daily-card p{font-size:15px;line-height:1.6;color:#d8e4f2}.daily-kicker{font-size:10px;font-weight:700;letter-spacing:.13em;color:var(--ef-gold)}
+.daily-portrait{height:clamp(145px,27dvh,240px);object-position:center 19%;border-radius:12px;margin-bottom:20px;border:1px solid #657e97}
+.daily-actions{padding:0 13px 15px;gap:11px;max-height:66%}.daily-primary{min-height:52px;font-size:15px!important;padding:14px}.daily-link{color:#c6d5e6;min-height:44px}
+.daily-choice{min-height:72px;padding:13px 12px;font-size:14px!important;line-height:1.45}.daily-choice small{font-size:11px;color:#c8d7e7;line-height:1.45}
+.daily-letter{width:32px;height:36px;font-family:EFTitle;font-style:italic;font-weight:800;font-size:16px;border:1px solid #67829c;background:#0a1c2d;color:var(--ef-gold);border-radius:7px}
+.daily-choice.selected{border-color:var(--ef-cyan);background:#254e70}.daily-consequence{border-color:#405872}.daily-consequence p{font-size:12px;color:#bdcadb}.daily-consequence>span{color:#e6c77b}
+.daily-numbers{gap:7px;border-color:#455c76;padding:16px 0}.daily-numbers strong{font-family:EFTitle;font-size:27px;font-style:italic;color:#f2f6ff}.daily-numbers span{color:#bdcadb;font-size:10px}
+.daily-details{border-color:#405872}.daily-details summary{color:#e6c77b;line-height:1.45}.daily-honours p{font-size:13px}.daily-rank{border-color:#405872;min-height:48px;align-items:center}.daily-own-rank{background:#244e72;border-color:#91b8dc}
+.daily-fixture,.daily-league-table td,.daily-league-table th{border-color:#405872}.daily-season-select{background:#0d2035;border-color:#8299b1;color:#eef5ff;min-height:44px}
+.help-dialog{font-family:EFText;background:linear-gradient(150deg,#182e46,#102137);border:1px solid #7f99b4;border-radius:16px;color:#f1f6ff;padding:20px}
+.help-dialog h1{font-family:EFTitle;font-style:italic;font-size:28px}.help-dialog h2{font-family:EFTitle;font-style:italic;font-size:22px}.help-dialog p{color:#d0dced;font-size:14px;line-height:1.6}
+.help-dialog button{min-height:46px;padding:11px 14px}.help-dialog textarea{width:100%;min-height:230px;background:#081727;border:1px solid #8195ac;color:#e2edf8;padding:12px;border-radius:9px}
+.help-dialog::backdrop,.dialog::backdrop,.reddit-sports-dialog::backdrop{background:#020813cd}.notice{border:1px solid #718aa5;border-radius:16px;background:#14283f}
+@media(max-width:360px){.reddit-shell{padding-inline:8px;gap:9px}.reddit-shell .topbar{gap:4px}.reddit-shell .brand strong{font-size:11px}.reddit-shell .reddit-save-context .date-button{max-width:106px}.reddit-shell .reddit-identity h1{font-size:32px}.reddit-shell .reddit-player{min-height:310px}.reddit-shell .reddit-advance{grid-template-columns:minmax(0,1fr);gap:12px}.reddit-shell .reddit-calendar{border-left:0;border-top:1px solid #455c76;padding:8px 0}.reddit-shell .reddit-next h2{font-size:23px}.reddit-shell .reddit-scene{padding:16px 12px;gap:13px}.reddit-shell .reddit-scene-copy h1{font-size:29px}.reddit-shell .reddit-scene .choice{font-size:13px;min-height:64px}.reddit-shell .nav-button{font-size:9px}.daily-panel{padding-inline:10px;gap:8px}.daily-header>strong{font-size:10px}.daily-card{padding:16px 13px}.daily-card h1{font-size:28px}.daily-choice{font-size:13px!important;min-height:66px}.daily-actions{gap:9px}.cover-content h1,.cover-tutorial h1{font-size:37px}.cover-brand{font-size:22px}}
+@media(max-height:580px){.reddit-shell .reddit-player{min-height:260px}.reddit-shell .reddit-next .primary{min-height:48px}.reddit-shell .reddit-scene-copy h1{font-size:27px}.reddit-shell .reddit-scene .choice{min-height:52px}.daily-panel{gap:7px}.daily-card{padding:15px 13px}.daily-card h1{font-size:27px}.daily-portrait{height:115px}.daily-choice{min-height:55px}.daily-card p{font-size:14px}.daily-actions{gap:8px}}
+@media(max-height:480px){.reddit-shell main.reddit-home{display:flex;flex-direction:column;overflow:auto}.reddit-shell .reddit-player{min-height:245px}.reddit-shell .reddit-advance{flex-shrink:0}.reddit-shell .reddit-scene{height:auto;max-height:100%;overflow:auto;display:flex;flex-direction:column}.reddit-shell .reddit-scene-copy{overflow:visible}.reddit-shell .reddit-scene>.choices{overflow:visible}.daily-panel{display:flex;overflow:auto}.daily-match{max-height:none;flex-shrink:0}.daily-actions,.daily-card{overflow:visible;max-height:none}.daily-header{flex-shrink:0}.daily-portrait{display:block;height:140px}}
+@media(min-width:900px) and (min-height:600px){.reddit-shell{grid-template-columns:174px minmax(0,1fr);grid-template-rows:58px minmax(0,1fr);padding:16px;gap:16px}.reddit-shell .topbar{grid-column:1/-1;grid-row:1;display:flex;justify-content:space-between;padding:0 10px}.reddit-shell .brand strong{font-size:18px}.reddit-shell .navigation{grid-column:1;grid-row:2;flex-direction:column;border:1px solid #455c76;border-radius:16px;padding:12px;justify-content:flex-start;gap:8px}.reddit-shell .nav-button{flex:none;flex-direction:row;justify-content:flex-start;gap:10px;padding:12px;font-size:13px}.reddit-shell main{grid-column:2;grid-row:2;padding:0 10px 20px}.reddit-shell main.reddit-home{max-width:900px;grid-template-columns:1.15fr .85fr;grid-template-rows:1fr;align-content:start;gap:24px}.reddit-shell .reddit-player{min-height:550px}.reddit-shell .reddit-advance{display:flex;flex-direction:column;gap:24px}.reddit-shell .reddit-next h2{font-size:32px}.reddit-shell .reddit-calendar{border-left:0;border-top:1px solid #455c76;padding:18px 0}.reddit-shell .reddit-identity h1{font-size:43px}.reddit-shell.immersive{grid-template-columns:1fr;grid-template-rows:58px minmax(0,1fr)}.reddit-shell.immersive main{grid-column:1;grid-row:2;max-width:1000px;width:100%;justify-self:center}.reddit-shell .reddit-scene{padding:30px;gap:24px}.reddit-shell .reddit-scene-copy h1{font-size:40px}.reddit-shell .reddit-scene .choices{grid-template-columns:repeat(3,minmax(0,1fr))}.reddit-shell .reddit-scene .choice{min-height:100px}.daily-panel{max-width:900px}.cover-content{max-width:440px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+.reddit-shell h1:focus{outline:none;box-shadow:none}
+.daily-card.daily-finish h1{font-size:54px;text-align:center;color:#e6c77b;text-shadow:0 3px 0 #594a30;margin:18px 0 22px;line-height:1.04}
+.daily-card.daily-finish>.daily-kicker{display:block;text-align:center;margin-top:10px}
+.daily-card.daily-finish>.daily-story{text-align:center;font-size:13px}
+
+.reddit-shell .cinema-bg{animation:none;transform:none}
+.reddit-shell .decision-sheet{backdrop-filter:none}
+.reddit-shell .result-choice{border:0;padding:0;margin:16px 0 23px}
+.reddit-shell .result-choice .chosen{font-weight:400}
+
+.cover-tutorial .cover-brand{font-family:EFText,Arial,sans-serif;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.13em;color:#e6c77b;margin:0 0 14px;display:block}
+.cover-tutorial .cover-brand::before{display:none}
+.daily-header{display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:7px}
+.daily-header>.daily-tools{display:flex;gap:4px}
+.daily-header>strong{font-size:11px;line-height:1.3;overflow-wrap:normal}
+.daily-tools .daily-icon{width:44px;height:44px;font-size:11px!important}
+.help-dialog h1:focus{outline:none;box-shadow:none}
+
+/* C2: layout polish shared by the shipped game and acceptance screenshots. */
+.reddit-shell{--ef-shell-inline:12px;--ef-shell-top:10px;--ef-shell-bottom:8px;padding:max(var(--ef-shell-top),env(safe-area-inset-top,0px)) max(var(--ef-shell-inline),env(safe-area-inset-right,0px)) max(var(--ef-shell-bottom),env(safe-area-inset-bottom,0px)) max(var(--ef-shell-inline),env(safe-area-inset-left,0px))}
+.daily-panel{--ef-daily-inline:16px;padding:max(12px,env(safe-area-inset-top,0px)) max(var(--ef-daily-inline),env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(var(--ef-daily-inline),env(safe-area-inset-left,0px))}
+.reddit-shell .reddit-player{overflow:hidden;min-width:0}
+.reddit-shell .reddit-identity h1,.reddit-shell .hero-copy h1,.reddit-shell .reddit-scene-copy h1,.reddit-sports-dialog h2{overflow-wrap:anywhere;min-width:0}
+.reddit-shell .data-row>*,.reddit-shell .consequence-row>*,.daily-rank>*{min-width:0;overflow-wrap:anywhere}
+.reddit-shell .nav-button{line-height:1.25;white-space:normal}
+.reddit-shell main,.reddit-scene,.daily-match,.daily-card,.help-dialog{scroll-padding-block:16px}
+.cover-button{font-family:EFText,Arial,sans-serif;overflow-wrap:anywhere}
+.help-dialog header{align-items:flex-start;gap:12px}.help-dialog header h1{flex:1;min-width:0}.help-dialog header button{flex:0 0 auto;margin:0}
+.text-export-dialog>div,.reddit-shell .dialog-actions{display:flex;flex-wrap:wrap;gap:10px}
+.text-export-dialog>div>button{flex:1 1 120px;margin:0}
+.reddit-sports-dialog>header>h2{flex:1;min-width:0}.reddit-sports-dialog>header>button{flex:0 0 auto}
+@media(max-width:360px){.reddit-shell{--ef-shell-inline:8px}.daily-panel{--ef-daily-inline:10px}}
+@media(min-width:900px) and (min-height:600px){.reddit-shell{--ef-shell-inline:16px;--ef-shell-top:16px;--ef-shell-bottom:16px}}
+/* One scroll surface keeps story and choices in reading order on short screens. */
+@media(max-height:700px) and (max-width:899px){
+ .reddit-shell .reddit-scene{display:flex;flex-direction:column;height:auto;max-height:100%;overflow:auto}
+ .reddit-shell .reddit-scene-copy{overflow:visible;flex:0 0 auto}
+ .reddit-shell .reddit-scene>.choices,.reddit-shell .reddit-scene>.result-continue{overflow:visible;max-height:none;flex:0 0 auto}
+ .daily-match{display:block;overflow:auto;max-height:100%}
+ .daily-card,.daily-actions{overflow:visible;max-height:none}
+}
+@media(hover:none){.reddit-shell .reddit-scene .choice:hover:not(:disabled){background:linear-gradient(145deg,#203c56,#142a42);border-color:#526d89}}
+/* Immersive stories own the content area at every breakpoint. */
+.reddit-shell.immersive .navigation{display:none}
+.reddit-shell.create-entry{grid-template-columns:minmax(0,1fr)}
+.reddit-shell.create-entry main{grid-column:1}
+.reddit-shell .alert.inline-alert{position:static;inset:auto;grid-column:1/-1;max-width:100%;margin:0 0 16px;box-shadow:none;flex-shrink:0}
+/* A language switch gets its own row instead of squeezing a long help title. */
+.help-dialog header{display:grid;grid-template-columns:minmax(0,1fr) auto}
+.help-dialog header h1{margin-bottom:8px}
+.help-dialog header .language-toggle{grid-column:1/-1;justify-self:start;margin:0 0 12px}
+
+/* C4: the simulation dashboard fits its available frame, including the action
+   and fixture summary. Keep scrolling as a fallback for enlarged text. */
+.reddit-shell main.reddit-home{height:100%;max-height:100%;min-height:0;grid-template-rows:minmax(0,1fr) auto;gap:12px;padding-bottom:4px;align-content:stretch}
+.reddit-shell .reddit-home .reddit-player{min-height:0;height:100%;padding:16px;border-radius:16px;flex-shrink:1}
+.reddit-shell .reddit-home .reddit-identity h1{font-size:clamp(25px,7vw,34px);margin:4px 0 6px;line-height:1.08}
+.reddit-shell .reddit-home .reddit-identity p{font-size:12px;line-height:1.35;margin:3px 0}
+.reddit-shell .reddit-home .reddit-metrics{gap:12px;margin-top:12px}
+.reddit-shell .reddit-home .reddit-metrics strong{font-size:20px}
+.reddit-shell .reddit-home .reddit-advance{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:12px;min-width:0;align-items:stretch;flex-shrink:1}
+.reddit-shell .reddit-home .reddit-next{min-width:0;padding:0;display:flex;flex-direction:column;align-items:stretch}
+.reddit-shell .reddit-home .reddit-next h2{font-size:clamp(18px,5vw,23px);line-height:1.12;margin:5px 0 6px;overflow-wrap:anywhere}
+.reddit-shell .reddit-home .reddit-next p{font-size:11px;line-height:1.35;margin:0 0 8px}
+.reddit-shell .reddit-home .reddit-next .primary{min-height:48px;margin-top:auto;padding:10px 8px;font-size:13px;line-height:1.3}
+.reddit-shell .reddit-home .reddit-calendar{border-top:0;border-left:1px solid #4a6078;padding:0 0 0 12px}
+.reddit-shell .reddit-home .reddit-league-link{font-size:11px;line-height:1.3;padding:5px 0;min-height:44px}
+.reddit-shell .reddit-home .reddit-fixture{display:grid;font-size:11px;line-height:1.3;margin-top:5px}
+.reddit-shell .reddit-home .reddit-fixture small{font-size:9px;line-height:1.3}
+@media(max-height:650px){
+ .reddit-shell:has(main.reddit-home){gap:7px;--ef-shell-top:6px;--ef-shell-bottom:6px}
+ .reddit-shell:has(main.reddit-home) .topbar{min-height:44px}
+ .reddit-shell:has(main.reddit-home) .navigation{min-height:50px;padding-top:3px}
+ .reddit-shell:has(main.reddit-home) .nav-button{min-height:44px}
+ .reddit-shell main.reddit-home{gap:9px}
+ .reddit-shell .reddit-home .reddit-player{padding:12px}
+ .reddit-shell .reddit-home .reddit-identity h1{font-size:25px}
+ .reddit-shell .reddit-home .reddit-metrics{margin-top:8px;gap:8px}
+ .reddit-shell .reddit-home .reddit-metrics strong{font-size:18px}
+ .reddit-shell .reddit-home .reddit-advance{gap:10px}
+ .reddit-shell .reddit-home .reddit-calendar{padding-left:10px}
+}
+@media(min-width:900px) and (min-height:600px){
+ .reddit-shell main.reddit-home{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:18px;max-width:1000px}
+ .reddit-shell .reddit-home .reddit-advance{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:14px;align-content:start}
+ .reddit-shell .reddit-home .reddit-next .primary{margin-top:6px}
+ .reddit-shell .reddit-home .reddit-calendar{border-left:0;border-top:1px solid #4a6078;padding:10px 0 0}
+}
+@media(min-width:900px) and (min-height:600px){
+ .reddit-shell .reddit-home .reddit-player{padding:22px}
+ .reddit-shell .reddit-home .reddit-identity h1{font-size:36px}
+ .reddit-shell .reddit-home .reddit-next h2{font-size:28px}
+ .reddit-shell .reddit-home .reddit-next p,.reddit-shell .reddit-home .reddit-fixture{font-size:13px}
+ .reddit-shell .reddit-home .reddit-league-link{font-size:13px}
+}
+
+@media(min-width:600px) and (max-height:599px){
+ .reddit-shell main.reddit-home{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);grid-template-rows:minmax(0,1fr);gap:14px;max-width:1000px}
+ .reddit-shell .reddit-home .reddit-advance{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:12px}
+ .reddit-shell .reddit-home .reddit-next h2{font-size:18px}
+ .reddit-shell .reddit-home .reddit-next .primary{min-height:44px;font-size:12px}
+ .reddit-shell .reddit-home .reddit-identity h1{font-size:clamp(20px,3vw,24px)}
+ .reddit-shell .reddit-home .reddit-metrics{gap:6px}
+}

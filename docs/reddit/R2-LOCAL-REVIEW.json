@@ -1,0 +1,897 @@
+{
+  "careerLayouts": [
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": [],
+      "title": "Álex Integración"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": [],
+      "title": "Álex Integración"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": [],
+      "title": "Álex Integración"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": [],
+      "title": "Álex Integración"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": [],
+      "title": "Álex Integración"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": [],
+      "title": "Álex Integración"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": [],
+      "title": "Your career"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": [],
+      "title": "Your career"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": [],
+      "title": "Your career"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": [],
+      "title": "Your career"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": [],
+      "title": "Your career"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": [],
+      "title": "Your career"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": [],
+      "title": "The world moves on"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": [],
+      "title": "The world moves on"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": [],
+      "title": "The world moves on"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": [],
+      "title": "The world moves on"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": [],
+      "title": "The world moves on"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": [],
+      "title": "The world moves on"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": [],
+      "title": "The people in your story"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": [],
+      "title": "The people in your story"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": [],
+      "title": "The people in your story"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": [],
+      "title": "The people in your story"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": [],
+      "title": "The people in your story"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": [],
+      "title": "The people in your story"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": [],
+      "title": "Your profile"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": [],
+      "title": "Your profile"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": [],
+      "title": "Your profile"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": [],
+      "title": "Your profile"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": [],
+      "title": "Your profile"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": [],
+      "title": "Your profile"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": [],
+      "title": "Your save"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": [],
+      "title": "Your save"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": [],
+      "title": "Your save"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": [],
+      "title": "Your save"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": [],
+      "title": "Your save"
+    },
+    {
+      "lang": "en",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": [],
+      "title": "Your save"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": [],
+      "title": "Álex Integración"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": [],
+      "title": "Álex Integración"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": [],
+      "title": "Álex Integración"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": [],
+      "title": "Álex Integración"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": [],
+      "title": "Álex Integración"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": [],
+      "title": "Álex Integración"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": [],
+      "title": "Tu carrera"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": [],
+      "title": "Tu carrera"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": [],
+      "title": "Tu carrera"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": [],
+      "title": "Tu carrera"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": [],
+      "title": "Tu carrera"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": [],
+      "title": "Tu carrera"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": [],
+      "title": "El mundo sigue"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": [],
+      "title": "El mundo sigue"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": [],
+      "title": "El mundo sigue"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": [],
+      "title": "El mundo sigue"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": [],
+      "title": "El mundo sigue"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": [],
+      "title": "El mundo sigue"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": [],
+      "title": "Las personas de tu historia"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": [],
+      "title": "Las personas de tu historia"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": [],
+      "title": "Las personas de tu historia"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": [],
+      "title": "Las personas de tu historia"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": [],
+      "title": "Las personas de tu historia"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": [],
+      "title": "Las personas de tu historia"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": [],
+      "title": "Tu perfil"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": [],
+      "title": "Tu perfil"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": [],
+      "title": "Tu perfil"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": [],
+      "title": "Tu perfil"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": [],
+      "title": "Tu perfil"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": [],
+      "title": "Tu perfil"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": [],
+      "title": "Tu partida"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": [],
+      "title": "Tu partida"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": [],
+      "title": "Tu partida"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": [],
+      "title": "Tu partida"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": [],
+      "title": "Tu partida"
+    },
+    {
+      "lang": "es",
+      "languageControls": 0,
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": [],
+      "title": "Tu partida"
+    }
+  ],
+  "dailyLayouts": [
+    {
+      "overflow": false,
+      "size": [
+        320,
+        480
+      ],
+      "smallTargets": []
+    },
+    {
+      "overflow": false,
+      "size": [
+        360,
+        800
+      ],
+      "smallTargets": []
+    },
+    {
+      "overflow": false,
+      "size": [
+        390,
+        844
+      ],
+      "smallTargets": []
+    },
+    {
+      "overflow": false,
+      "size": [
+        412,
+        915
+      ],
+      "smallTargets": []
+    },
+    {
+      "overflow": false,
+      "size": [
+        375,
+        600
+      ],
+      "smallTargets": []
+    },
+    {
+      "overflow": false,
+      "size": [
+        900,
+        650
+      ],
+      "smallTargets": []
+    }
+  ],
+  "keyboard": [
+    {
+      "focus": "Nueva partida",
+      "ring": "solid",
+      "scrollTop": 0
+    },
+    {
+      "focus": "DailyReto diario",
+      "ring": "solid",
+      "scrollTop": 0
+    },
+    {
+      "focus": "Tutorial",
+      "ring": "solid",
+      "scrollTop": 22
+    },
+    {
+      "focus": "Español",
+      "ring": "solid",
+      "scrollTop": 50.5
+    },
+    {
+      "focus": "English",
+      "ring": "solid",
+      "scrollTop": 50.5
+    }
+  ],
+  "nativeZoom": {
+    "before": {
+      "dpr": 1,
+      "scale": 1,
+      "width": 320
+    },
+    "result": "Shortcut produced no viewport/dpr/scale change; native zoom validation remains in R3 on Reddit."
+  },
+  "date": "2026-10-13",
+  "phase": "R2 local closed; native zoom remains in R3",
+  "redditTests": 293,
+  "passed": 293,
+  "previewBuild": true,
+  "previousCommitCI": {
+    "sha": "2b4f5c6e405f55e9a40d6d01b5510a85ea0364d3",
+    "runId": 38464595693,
+    "conclusion": "success"
+  },
+  "contrast": {
+    "primaryTextOnBlue": 4.74,
+    "entryFieldBoundaryOnPanel": 4.02
+  },
+  "releaseCertified": false,
+  "candidateFingerprint": "6e09b078d9f0a20f46113397ee1904cd6eca612dcbfcf7807ea47ba66ff9acc3"
+}

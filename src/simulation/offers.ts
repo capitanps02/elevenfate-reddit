@@ -1,3 +1,4 @@
+import { clubById } from '../catalog/football/index.js';
 import type { GameState } from "../core/types.js";
 import { selectBigClubDestination, selectMarketDestination } from "../catalog/football/market-destination.js";
 import {
@@ -268,6 +269,11 @@ function materializeCareerOffer(
     if(!terms.loan)terms.ownerClub=terms.club;
     const minimumMonths=options.allowVeteranShortTerm?1:(terms.loan?12:24);
     terms.months=Math.max(minimumMonths,terms.months);
+    // Expired income is not the wage of a newly offered paid football contract.
+    // Historical offers and non-Reddit simulation retain their original terms.
+    if(typeof s.world.redditCompetitionFrom === "string" && terms.salary<=0) {
+      terms.salary=Math.round(500+(clubById(terms.club)?.financialPower??30)*100);
+    }
     if(!terms.loan)terms.releaseClause=null;
   }
   terms.registrationClub=terms.club;if(!terms.loan)terms.ownerClub=terms.club;terms.tier=terms.leagueTier;

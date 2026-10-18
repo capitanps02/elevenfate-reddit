@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-13",
+  "source": "0.1.7 audited upload source",
+  "sourcePath": "/Users/capitanps/Documents/Codex/2026-10-12/ne/work/elevenfate-reddit",
+  "sourceFingerprint": "924fdc3e3baeb5ac65116430c48f5edcbcfba55226b9cd1ff8d6167572d5fa32",
+  "preserved": {
+    "src": {
+      "files": 197,
+      "matches": 197,
+      "mismatches": []
+    },
+    "reddit/analytics": {
+      "files": 2,
+      "matches": 2,
+      "mismatches": []
+    },
+    "reddit/telemetry": {
+      "files": 7,
+      "matches": 7,
+      "mismatches": []
+    },
+    "reddit/server": {
+      "files": 15,
+      "matches": 15,
+      "mismatches": []
+    },
+    "reddit/shared": {
+      "files": 8,
+      "matches": 8,
+      "mismatches": []
+    }
+  },
+  "retiredFiles": [
+    "reddit/client/boot-presentation.mjs",
+    "reddit/client/career-sports-locale.mjs",
+    "reddit/client/career-story-locale.mjs",
+    "reddit/client/daily-sports-locale.mjs",
+    "reddit/client/daily-story-locale.mjs",
+    "reddit/client/player-actions-locale.mjs",
+    "reddit/client/presentation-locale.mjs",
+    "reddit/i18n/career-entry-catalog.mjs",
+    "reddit/i18n/career-home-catalog.mjs",
+    "reddit/i18n/career-interactive-catalog.mjs",
+    "reddit/i18n/career-panels-catalog.mjs",
+    "reddit/i18n/career-period-catalog.mjs",
+    "reddit/i18n/career-record-catalog.mjs",
+    "reddit/i18n/career-save-catalog.mjs",
+    "reddit/i18n/career-story-content.mjs",
+    "reddit/i18n/daily-catalog.mjs",
+    "reddit/i18n/daily-sports-catalog.mjs",
+    "reddit/i18n/es.json",
+    "reddit/i18n/player-action-availability.mjs",
+    "reddit/i18n/player-action-content.mjs",
+    "reddit/server/daily-presentation.mjs",
+    "reddit/server/daily-sports-presentation.mjs",
+    "reddit/server/daily-story-policy.mjs",
+    "reddit/shared/sports-presentation.mjs",
+    "reddit/test/boot-locale.test.mjs",
+    "reddit/test/career-home-locale.test.mjs",
+    "reddit/test/career-interactive-locale.test.mjs",
+    "reddit/test/career-panels-locale.test.mjs",
+    "reddit/test/career-period-locale.test.mjs",
+    "reddit/test/career-record-locale.test.mjs",
+    "reddit/test/career-save-locale.test.mjs",
+    "reddit/test/career-sports-locale.test.mjs",
+    "reddit/test/career-story-locale.test.mjs",
+    "reddit/test/daily-history-locale.test.mjs",
+    "reddit/test/daily-locale.test.mjs",
+    "reddit/test/daily-sports-locale.test.mjs",
+    "reddit/test/daily-story-locale.test.mjs",
+    "reddit/test/player-action-availability-locale.test.mjs",
+    "reddit/test/player-actions-locale.test.mjs",
+    "reddit/test/presentation-locale.test.mjs"
+  ],
+  "localValidation": {
+    "focusedTests": 49,
+    "passed": 49,
+    "failed": 0,
+    "previewBuild": true,
+    "devvitConfig": true,
+    "redditTests": 291,
+    "redditPassed": 291,
+    "saveAndA19Tests": 142,
+    "saveAndA19Passed": 142,
+    "focusedTestsIncludedInRedditTests": true,
+    "extendedEngineTests": 81,
+    "extendedEnginePassed": 81,
+    "extendedCombinedBatchPassed": false,
+    "obsoleteLocaleExpectationFixedAndVerified": true
+  },
+  "releaseCertificationInherited": false,
+  "candidateFingerprint": "80e2f3e2d6d5d452990da34c054149e025693a1513a858239d4e5d9a5bcd284e",
+  "candidateCommit": "8bd6ff1272ea281d64ea30b03a99f01c6b917b1a"
+}

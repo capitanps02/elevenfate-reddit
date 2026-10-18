@@ -1,0 +1,93 @@
+:host{height:100dvh;--muir-primary-start:#e3c47f;--muir-primary-end:#be9550}
+.reddit-shell.immersive{grid-template-rows:48px minmax(0,1fr)}
+.reddit-shell main.cinema{display:grid;grid-template-rows:44px minmax(0,1fr);padding:0;gap:8px;overflow:hidden}
+.reddit-shell .cinema-top{padding:0 8px}.reddit-shell .cinema-top .glass{min-height:40px;padding:8px 12px;font-size:12px}
+.reddit-shell .reddit-scene{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:10px;width:100%;height:100%;max-height:none;margin:0;padding:16px;overflow:hidden;background:linear-gradient(145deg,#293229f5,#181e1bf5);border-radius:18px;scrollbar-gutter:auto}
+.reddit-scene-copy{min-height:0;overflow:auto;scrollbar-width:thin}.reddit-scene-copy h1{font-size:26px;margin:10px 0}.reddit-scene-copy .story-text{font-size:14px;line-height:1.4}.reddit-scene-copy .intel summary{font-size:11px;min-height:40px;padding:10px 0}
+.reddit-scene .choices{grid-template-columns:1fr;gap:6px;margin:0}.reddit-scene .choice{min-height:44px;padding:9px 10px;font-size:13px;line-height:1.3;border-radius:12px;background:#28392f}.reddit-scene .choice-key{background:#101911;color:#dfc38b;min-width:24px;width:24px;height:24px;font-size:10px}
+.reddit-scene .result-continue{min-height:46px;margin:0;background:linear-gradient(120deg,#ecd49a,#c49c57);color:#171b13}
+.reddit-shell{min-height:0;height:100dvh;grid-template-columns:1fr;grid-template-rows:48px minmax(0,1fr) 48px;padding:10px;gap:8px;background:radial-gradient(ellipse at 100% 0,#293226,transparent 65%),#101211}
+.reddit-shell .topbar{grid-column:1;grid-row:1;border:0;padding:0 8px;background:transparent;backdrop-filter:none;border-radius:0}
+.reddit-shell .brand-emblem{width:28px;height:28px}.reddit-shell .brand strong{font-size:16px}.reddit-shell .brand small,.reddit-shell .chapter{display:none}
+.reddit-shell .date-button{font-size:11px;min-height:40px;max-width:160px}.reddit-shell .pause-button{min-width:60px;height:40px;min-height:40px}
+.reddit-shell .navigation{grid-column:1;grid-row:3;position:static;flex-direction:row;justify-content:space-around;padding:0;border:0;border-top:1px solid #ffffff16;border-radius:0;background:transparent;backdrop-filter:none;gap:0}
+.reddit-shell .nav-button{flex:1;min-width:0;min-height:44px;padding:4px 1px;gap:3px;flex-direction:column;justify-content:center;font-size:9px;border-radius:8px}.reddit-shell .nav-button svg{width:16px;height:16px}.reddit-shell .nav-foot{display:none}
+.reddit-shell main{grid-column:1;grid-row:2;min-height:0;margin:0;padding:0 4px;overflow:auto}
+.reddit-shell main.reddit-home{display:grid;grid-template-rows:minmax(150px,1fr) auto auto;gap:12px;overflow-y:auto;overflow-x:hidden;max-width:700px;width:100%;justify-self:center}
+.reddit-home h1{font-size:clamp(28px,5vw,42px);margin:6px 0;line-height:1.05}.reddit-home p{margin:4px 0;font-size:13px;line-height:1.4}.reddit-home .eyebrow{margin:0;color:#dfc38b;font-size:10px}
+.reddit-player{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:0;overflow:hidden;border-radius:22px;background:#242d25;border:1px solid #dfc38b30;padding:20px;isolation:isolate}
+.reddit-player:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#101712f5,#10171260),linear-gradient(0deg,#101712,transparent 90%);z-index:-1}
+.reddit-portrait{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 30%;z-index:-2}
+.reddit-identity{position:relative}.reddit-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}.reddit-metrics>div{display:grid;grid-template-columns:1fr auto;gap:5px}.reddit-metrics span{font-size:11px;color:#bdc7c0}.reddit-metrics strong{font-size:16px}.reddit-metrics progress{grid-column:1/-1;width:100%;height:4px;accent-color:#d9bd7d}
+.reddit-next{padding:4px 6px}.reddit-next h2{font-size:20px;margin:5px 0}.reddit-next .primary{width:100%;min-height:50px;margin-top:12px;color:#191b14;font-weight:800;font-size:16px;border-radius:14px;background:linear-gradient(120deg,#ecd49a,#c49c57);border:0}
+.reddit-daily{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 8px;text-align:left;padding:14px 16px;border:1px solid #a7cfbd38;border-radius:16px;background:#263c32;color:#edf7f1;min-height:72px}.reddit-daily .eyebrow{grid-column:1/-1;color:#a9d5bf}.reddit-daily strong{font-size:12px;min-width:0;overflow-wrap:anywhere}.reddit-daily>span:last-child{font-size:12px;color:#d8eede}
+.reddit-shell .save-status{display:none}.reddit-shell .busy-status,.reddit-shell .pause-status{bottom:62px;font-size:11px}.reddit-shell.immersive{grid-template-rows:48px minmax(0,1fr)}
+@media(max-height:580px){.reddit-shell{padding:6px;gap:4px;grid-template-rows:40px minmax(0,1fr) 44px}.reddit-shell main.reddit-home{gap:8px;grid-template-rows:minmax(120px,1fr) auto auto}.reddit-player{padding:12px 16px}.reddit-home h1{font-size:26px}.reddit-metrics{margin-top:10px}.reddit-next h2{font-size:17px}.reddit-next p{font-size:11px}.reddit-next .primary{min-height:44px;margin-top:8px}.reddit-daily{padding:9px 14px;min-height:60px}}
+/* Match the game's charcoal/blue controls. Keep choices next to the story,
+   using only the copy area as a scroll container when vertical space runs out. */
+:host{--muir-primary-start:#0a6dcc;--muir-primary-end:#075fbd}
+.reddit-shell{background:#09090b}.reddit-shell main.cinema{background:#09090b;align-content:start;grid-template-rows:44px minmax(0,1fr)}
+.reddit-shell .reddit-scene{align-self:start;display:flex;flex-direction:column;height:auto;max-height:100%;gap:10px;background:#161618;border:1px solid #ffffff14;border-radius:16px;padding:16px;box-shadow:none}
+.reddit-scene-copy{flex:0 1 auto;min-height:0}.reddit-scene>.choices,.reddit-scene>.result-continue{flex:0 0 auto;max-height:60%;overflow:auto}
+.reddit-shell .reddit-scene .choice{background:#222225;border:1px solid #ffffff18;border-radius:10px;min-height:48px}.reddit-shell .reddit-scene .choice:hover{background:#102b45;border-color:#409cff}.reddit-shell .reddit-scene .choice-key{background:#ffffff08;color:#d6b86a;border-radius:6px}
+.reddit-shell .reddit-scene .result-choice{padding:10px 0;margin:8px 0;border:0;border-block:1px solid #ffffff12;background:transparent;border-radius:0;box-shadow:none}.reddit-shell .reddit-scene .result-choice .chosen{font-size:14px;margin:4px 0;color:#f5f5f7}
+.reddit-shell .reddit-scene .result-continue,.reddit-next .primary{background:#0a6dcc;color:white;border-radius:10px}
+.reddit-scene-copy .event-cutscene{max-height:110px;overflow:hidden;margin:0 0 10px;border-radius:10px}.reddit-scene-copy .event-cutscene img{height:84px;object-fit:cover}.reddit-scene-copy .event-cutscene p{font-size:10px;margin:4px 0}
+.reddit-scene-copy .intel{margin:8px 0 0}.reddit-shell .reddit-player{background:#161618}.reddit-shell .reddit-daily{background:#161618;border-color:#ffffff18;border-radius:12px}.reddit-shell .reddit-daily .eyebrow{color:#d6b86a}
+@media(max-height:580px){.reddit-shell .reddit-scene{padding:12px;gap:8px}.reddit-scene-copy h1{font-size:23px}.reddit-scene-copy .event-cutscene{display:none}}
+@media(max-height:400px) and (min-width:550px){.reddit-shell .reddit-scene{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);height:100%;align-self:stretch;align-items:start}.reddit-scene-copy{height:100%}.reddit-scene>.choices{max-height:100%}.reddit-shell .reddit-scene .result-continue{align-self:end}}
+.reddit-advance{display:grid;grid-template-columns:minmax(0,1fr) minmax(130px,.85fr);gap:12px;align-items:start}.reddit-calendar{min-width:0;padding:4px 6px;border-left:1px solid #ffffff12}.reddit-calendar .eyebrow{margin:0}.reddit-league-link{background:none;border:0;padding:5px 0;font-size:12px;color:#d6b86a;text-align:left;min-height:32px}.reddit-fixture{display:grid;grid-template-columns:1fr auto;gap:3px 6px;font-size:11px;margin-top:6px}.reddit-fixture small{grid-column:1/-1;color:#a1a1a6;font-size:9px}.reddit-fixture span{min-width:0;overflow-wrap:anywhere}.reddit-fixture strong{font-variant-numeric:tabular-nums}.reddit-fixture.upcoming{padding-top:6px;border-top:1px solid #ffffff12}
+.reddit-sports-dialog{width:min(620px,calc(100% - 20px));max-height:calc(100dvh - 24px);padding:16px;border:1px solid #ffffff20;background:#161618;color:#f5f5f7}.reddit-sports-dialog[open]{display:flex;flex-direction:column;overflow:hidden}.reddit-sports-dialog>header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:none}.reddit-sports-dialog h2{margin:0;font-size:18px}.reddit-sports-dialog header button{background:#222225;color:white;border:1px solid #ffffff18;padding:10px;border-radius:10px;min-height:44px}.reddit-sports-body{min-height:0;overflow:auto;margin-top:12px}.reddit-sports-body h3{font-size:16px;margin:16px 0 8px}.reddit-sports-body p{font-size:12px}.reddit-calendar-row{display:grid;grid-template-columns:75px 1fr auto;gap:8px;font-size:12px;padding:8px 0;border-bottom:1px solid #ffffff10}.reddit-calendar-row time{color:#a1a1a6}.reddit-league-table{border-collapse:collapse;width:100%;font-size:12px}.reddit-league-table td,.reddit-league-table th{padding:8px 4px;border-bottom:1px solid #ffffff10;text-align:right}.reddit-league-table td:nth-child(2),.reddit-league-table th:nth-child(2){text-align:left}.reddit-league-table .your-team{background:#0a6dcc28;color:#d6b86a}
+@media(max-height:580px){.reddit-calendar .reddit-fixture:not(.upcoming){display:none}.reddit-calendar .upcoming{margin-top:2px;padding-top:4px}.reddit-advance{gap:8px}.reddit-next h2{font-size:16px}.reddit-next .primary{font-size:14px;min-height:44px}.reddit-league-link{font-size:11px}}
+@media(hover:none){.reddit-shell button:hover{transform:none}.reddit-shell .reddit-scene .choice:hover{background:#222225;border-color:#ffffff18}}
+@media(max-height:400px) and (min-width:550px){.reddit-shell.immersive{padding:4px;gap:4px;grid-template-rows:36px minmax(0,1fr)}.reddit-shell main.cinema{grid-template-rows:32px minmax(0,1fr);gap:4px}.reddit-shell .cinema-top .glass{min-height:32px;padding:6px 10px;font-size:11px}.reddit-shell .reddit-scene{padding:8px;grid-template-columns:1fr 1.1fr;gap:8px}.reddit-shell .reddit-scene .choice{font-size:12px;line-height:1.25;padding:7px 8px;min-height:40px}.reddit-scene-copy h1{font-size:22px}}
+.reddit-sports-tabs{display:flex;gap:6px;flex-wrap:wrap;padding:8px 0}.reddit-sports-tabs button{flex:1;font-size:12px;padding:8px;min-width:0}.reddit-sports-tabs button[aria-pressed="true"]{background:#244766;border-color:#668caf}.reddit-calendar-row{grid-template-columns:1fr auto 1fr!important;gap:8px}.reddit-calendar-row span:last-of-type{text-align:right}.reddit-calendar-row small{grid-column:1/-1}.reddit-league-table{font-variant-numeric:tabular-nums}.reddit-sports-dialog{max-height:90dvh}.reddit-sports-body{overflow:auto}
+
+/* Sync stays inside the reserved header caption; it never covers a decision. */
+.reddit-save-indicator{display:block;height:12px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;line-height:12px;font-weight:400;letter-spacing:0;color:#a1a1a6}
+.reddit-save-indicator[data-pending="true"]::before{content:"";display:inline-block;width:4px;height:4px;margin:0 4px 1px 0;border-radius:50%;background:#9eafba}
+
+/* Same quiet, right-aligned status as Daily, with a reserved line. */
+.reddit-save-context{display:grid;justify-items:end;min-width:0}.reddit-save-context .date-button{min-height:28px;padding-block:0}.reddit-save-context .reddit-save-indicator{font-size:10px;text-align:right}
+
+
+/* Dedicated entry form reuses the save creation transaction. */
+.reddit-shell.create-entry{grid-template-rows:auto minmax(0,1fr)}
+.reddit-shell.create-entry .navigation{display:none}
+.reddit-shell .new-story-entry{width:100%;max-width:520px;justify-self:center;padding:16px 8px}
+.new-story-entry h1{font-size:28px;margin:12px 0}
+.new-story-entry .save-new-story{padding:20px;border-radius:24px}
+.new-story-entry .save-new-fields{grid-template-columns:1fr;gap:16px}
+.new-story-entry input{width:100%;min-height:48px;font-size:16px}
+.new-story-entry button{min-height:48px;margin-top:12px}
+.new-story-advanced summary{min-height:48px;padding:12px 0;cursor:pointer}
+.new-story-advanced p{font-size:13px;line-height:1.5}
+/* Text growth and small viewports may scroll in expanded mode; actions stay reachable. */
+.reddit-shell .topbar{flex-wrap:wrap;gap:4px;min-height:44px}.reddit-shell{padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(8px,env(safe-area-inset-bottom));grid-template-rows:auto minmax(0,1fr) auto}.reddit-shell .topbar>.date-button{min-height:44px;font-size:12px}.reddit-shell .reddit-home{overflow:auto;grid-template-rows:minmax(180px,auto) auto auto}.reddit-shell .reddit-player{overflow:visible}.reddit-shell .reddit-daily{min-width:0;overflow-wrap:anywhere}.reddit-shell .reddit-daily strong{white-space:normal}.reddit-shell .reddit-scene .choice{min-height:44px}.reddit-shell .reddit-save-context .date-button{min-height:44px}.reddit-shell .reddit-scene>.choices{overflow:auto;min-height:0}.reddit-shell .topbar button:focus-visible{outline:3px solid #409cff;outline-offset:2px}
+@media(max-width:360px){.reddit-shell .brand strong{font-size:13px}.reddit-shell .brand-emblem{width:20px;height:20px}.reddit-shell .topbar{padding:0}.reddit-shell .date-button{max-width:140px}.reddit-advance{grid-template-columns:minmax(0,1fr)}.reddit-calendar{border-left:0}.reddit-home h1{font-size:28px}}
+@media(max-height:480px){.reddit-shell main.reddit-home{display:flex;flex-direction:column;overflow:auto}.reddit-shell .reddit-player{flex-shrink:0;min-height:160px}.reddit-shell .reddit-advance,.reddit-shell .reddit-daily{flex-shrink:0}.reddit-shell .reddit-scene{overflow:auto;height:auto;max-height:100%}.reddit-shell .reddit-scene-copy{overflow:visible;flex-shrink:0}.reddit-shell .reddit-scene>.choices{overflow:visible;max-height:none}.reddit-shell.immersive{grid-template-rows:auto minmax(0,1fr)}}
+.reddit-shell .language-toggle{flex:0 0 98px;min-height:44px;width:98px;padding:8px 12px;border:1px solid #5cbb8b;border-radius:6px;background:#102d23;color:#d2ffe8;font:600 13px system-ui;letter-spacing:0}.reddit-shell .language-toggle:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.reddit-shell .language-toggle[hidden]{display:none!important}
+
+/* Visible field boundaries on the dedicated entry form. */
+.reddit-shell .new-story-entry input{border-color:#767680}
+
+.reddit-shell .reddit-league-link{min-height:44px}
+
+/* Cover owns help; the career header reserves its right corner for the save. */
+.reddit-shell .topbar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;padding:0;gap:6px}
+.reddit-shell .brand{min-width:0;gap:4px;justify-content:center}
+.reddit-shell .brand strong{font-size:13px}
+.reddit-shell .reddit-save-context{justify-self:end}
+.reddit-shell .reddit-save-context .date-button{max-width:128px;text-align:right;padding:4px;font-size:11px}
+.reddit-shell main.reddit-home{grid-template-rows:auto auto auto;align-content:start}
+.reddit-shell .reddit-player{min-height:clamp(240px,42dvh,420px);overflow:hidden}
+@media(max-width:360px){.reddit-shell .brand-emblem{display:none}.reddit-shell .brand strong{font-size:11px}.reddit-shell .reddit-save-context .date-button{max-width:118px}.reddit-shell .topbar>button{padding-inline:8px}}
+@media(max-height:480px){.reddit-shell .reddit-player{min-height:220px}}
+
+/* Simulation keeps one aligned portrait/action/calendar layout; Daily lives on the cover. */
+.reddit-shell main.reddit-home{grid-template-rows:auto auto;padding:0}
+.reddit-home .reddit-next{padding:4px 0}
+.reddit-home .reddit-calendar{padding:4px 0 4px 12px}
+.reddit-home .reddit-advance{gap:16px}
+@media(max-width:360px){.reddit-home .reddit-calendar{padding:4px 0}}
