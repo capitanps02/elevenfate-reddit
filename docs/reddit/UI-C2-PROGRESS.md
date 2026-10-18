@@ -1,5 +1,7 @@
 # C2 - Pulido integrado en el juego
 
+> Registro histórico de C2. Continuación: [candidata C3](PUBLICATION-C3.md), interfaz 100 % integrada y plan global 95 %; privada 0.1.8.1 comprobada.
+
 18 de octubre de 2026. Base bad9858; rama feat/reddit-cover-entry-20261012.
 
 Estado: **85 % del plan de interfaz C2; 5/6 pasadas cerradas; 1 pasada de destino restante**. El cierre de la versión publicada 0.1.8 es un trabajo distinto; C2 no se ha instalado ni publicado en Reddit.

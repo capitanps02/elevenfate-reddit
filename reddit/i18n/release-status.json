@@ -4,13 +4,16 @@
   "completeRegression": true,
   "visualAndLanguageReview": true,
   "implementationHash": "af255f7571563f681985aa75def7ebaa7e146ba1163c4326e499ec2edc4c19b2",
-  "redditPlaytest": false,
+  "redditPlaytest": true,
   "evidence": {
     "date": "2026-10-18",
     "redditAndUiTests": 335,
     "sessionAndSaveTests": 177,
     "spanishLayoutsReusedFromC2": 224,
     "englishViews": 56,
-    "additionalEnglishLayouts": 24
+    "additionalEnglishLayouts": 24,
+    "privateVersion": "0.1.8.1",
+    "privateBuildId": "EF-C3-c79a8987e58ab7c4",
+    "saveBytesIdentical": true
   }
 }

@@ -1,8 +1,8 @@
 # C3 - Preparación de publicación de la nueva interfaz
 
-18 de octubre de 2026. Nueva interfaz: 56 vistas implementadas e integradas al 100 % en la rama local. Plan global: 85 % mientras se cierra la validación de destino.
+18 de octubre de 2026. Nueva interfaz: 56 vistas implementadas e integradas al 100 % en la rama local. Plan global: **95 %; 5/6 pasadas cerradas, una pasada pendiente**.
 
-La versión pública instalada sigue siendo 0.1.8. Esta preparación no solicita su publicación ni cambia la instalación pública. La candidata privada se registrará en RELEASE-C3.json después de subirla y comprobarla.
+La versión pública instalada sigue siendo 0.1.8. Esta preparación no solicita su publicación ni cambia la instalación pública. Candidata **0.1.8.1**, instalada y comprobada en r/elevenfate_dev2; certificado RELEASE-C3.json.
 
 Compilación normal: `EF-C3-c79a8987e58ab7c4`. Fingerprint: `af255f7571563f681985aa75def7ebaa7e146ba1163c4326e499ec2edc4c19b2`.
 
@@ -12,7 +12,9 @@ La compilación normal conserva exactamente los 27 archivos de ejecución compar
 
 Controles añadidos: rechazo de builds con --locale-preview, archivos compilados alterados, identificadores mezclados y archivos de QA en producción. El catálogo y sus partidas sintéticas quedan fuera del paquete de Reddit. La CI ejecuta este control antes de aceptar una candidata.
 
-Pendiente en esta fase: instalar una versión privada, comprobar portada/carrera/Daily/ayuda/exportación con la partida privada intacta, cerrar la candidata y realizar la revisión en dispositivo físico. No se afirma una validación física a partir de tamaños de navegador.
+Comprobado en Reddit privado: portada, carrera, perfil, exportación, ayuda, español/inglés, entrada Daily, reglas y clasificación; presentación Mobile y Desktop del navegador. La exportación de carrera conserva exactamente sus bytes tras instalar la actualización. No se inicia un intento competitivo ni se avanza la carrera.
+
+Pendiente: T17, revisión en móvil físico, teclado y ampliación de texto en dispositivo. No se afirma una validación física a partir de tamaños de navegador. Las 56 vistas completas usan datos deterministas en el catálogo local; en Reddit se comprueban los recorridos accesibles con la partida conservada y la identidad exacta del mismo bundle.
 
 ## Preparar y verificar
 
@@ -20,7 +22,11 @@ Pendiente en esta fase: instalar una versión privada, comprobar portada/carrera
 
 `node scripts/check-reddit-production.mjs --candidate`
 
-Tras la comprobación en Reddit privado, el certificado redditPlaytest puede actualizarse para esa misma huella. Cualquier cambio posterior de implementación invalida la certificación automáticamente.
+El certificado redditPlaytest está actualizado para la huella comprobada en Reddit privado. Cualquier cambio posterior de implementación invalida la certificación automáticamente.
+
+## Entrega y aceptación
+
+La candidata incluye código, compilación normal, referencia PDF, plan ponderado, pruebas y un manifiesto SHA-256. Ejecutar `python3 verificar.py` en la carpeta descomprimida. Interfaz: 100 % creada e integrada. Preparación global: 95 %. La publicación pública y la aceptación física no se presentan como realizadas.
 
 ## Publicación posterior
 
