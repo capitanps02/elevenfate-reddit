@@ -1,6 +1,6 @@
 # ElevenFate Reddit — cola única de cierre
 
-> Interfaz C3, 18/10/2026: **100 % creada e integrada; plan global 95 %, 5/6 pasadas cerradas**. Candidata 0.1.8.1 comprobada en Reddit privado; pendiente T17 en móvil físico. La instalación pública conserva 0.1.8. [Estado y evidencias C3](PUBLICATION-C3.md). Las cifras siguientes corresponden a la publicación anterior.
+> Interfaz C4, 18/10/2026: **100 % integrada; plan global 95 %**. Simulación completa sin bajar: 99 comprobaciones de layout y candidata privada 0.1.8.2 comprobada. Pendiente revisión física. Pública 0.1.8 conservada. [Estado C4](SIMULATION-C4.md).
 
 14 de octubre de 2026 · Revisión 2.6 · **99 % · 3/4 pasadas cerradas · 1 pendiente de Reddit**.
 

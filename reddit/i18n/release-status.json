@@ -3,7 +3,7 @@
   "legacyCoverage": true,
   "completeRegression": true,
   "visualAndLanguageReview": true,
-  "implementationHash": "af255f7571563f681985aa75def7ebaa7e146ba1163c4326e499ec2edc4c19b2",
+  "implementationHash": "117d07f4cde5996cb48cbf10d6f6d54b3ff1f5af6b8cf33e6a06975c3dc76e27",
   "redditPlaytest": true,
   "evidence": {
     "date": "2026-10-18",
@@ -12,8 +12,13 @@
     "spanishLayoutsReusedFromC2": 224,
     "englishViews": 56,
     "additionalEnglishLayouts": 24,
-    "privateVersion": "0.1.8.1",
-    "privateBuildId": "EF-C3-c79a8987e58ab7c4",
-    "saveBytesIdentical": true
+    "sessionAndSaveTestsReused": 177,
+    "simulationLayouts": 90,
+    "longNameLayouts": 9,
+    "scope": "CSS-only simulation dashboard change; engine, save, network and game actions unchanged",
+    "privateVersion": "0.1.8.2",
+    "privateBuildId": "EF-C3-5a53a68679d19489",
+    "saveBytesIdentical": true,
+    "sessionAndSaveEvidence": "177 C3 tests reused: engine and save sources unchanged; no new full career test claimed"
   }
 }

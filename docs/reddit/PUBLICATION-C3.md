@@ -1,5 +1,7 @@
 # C3 - Preparación de publicación de la nueva interfaz
 
+> Registro histórico. La simulación vigente es [C4](SIMULATION-C4.md), privada 0.1.8.2; sus capturas sustituyen las vistas de simulación de C2/C3.
+
 18 de octubre de 2026. Nueva interfaz: 56 vistas implementadas e integradas al 100 % en la rama local. Plan global: **95 %; 5/6 pasadas cerradas, una pasada pendiente**.
 
 La versión pública instalada sigue siendo 0.1.8. Esta preparación no solicita su publicación ni cambia la instalación pública. Candidata **0.1.8.1**, instalada y comprobada en r/elevenfate_dev2; certificado RELEASE-C3.json.

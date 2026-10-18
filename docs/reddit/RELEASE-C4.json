@@ -1,0 +1,98 @@
+{
+  "version": "C4",
+  "candidateVersion": "0.1.8.2",
+  "buildId": "EF-C3-5a53a68679d19489",
+  "sourceFingerprint": "117d07f4cde5996cb48cbf10d6f6d54b3ff1f5af6b8cf33e6a06975c3dc76e27",
+  "interfaceImplementedPercent": 100,
+  "overallPercent": 95,
+  "remainingPasses": 1,
+  "privateTest": {
+    "date": "2026-10-18",
+    "version": "0.1.8.2",
+    "buildId": "EF-C3-5a53a68679d19489",
+    "desktop": {
+      "buttons": [
+        {
+          "rect": {
+            "bottom": 529,
+            "height": 44,
+            "left": 300.3984375,
+            "right": 520.171875,
+            "top": 485,
+            "width": 219.7734375,
+            "x": 300.3984375,
+            "y": 485
+          },
+          "text": "Simular próximo partido"
+        },
+        {
+          "rect": {
+            "bottom": 130,
+            "height": 44,
+            "left": 543.171875,
+            "right": 637.1484375,
+            "top": 86,
+            "width": 93.9765625,
+            "x": 543.171875,
+            "y": 86
+          },
+          "text": "Liga · Sin empezar"
+        }
+      ],
+      "height": 464,
+      "scroll": 0
+    },
+    "mobile": {
+      "buttons": [
+        {
+          "rect": {
+            "bottom": 529,
+            "height": 48,
+            "left": 12,
+            "right": 199.546875,
+            "top": 481,
+            "width": 187.546875,
+            "x": 12,
+            "y": 481
+          },
+          "text": "Simular próximo partido"
+        },
+        {
+          "rect": {
+            "bottom": 434.3125,
+            "height": 44,
+            "left": 220.546875,
+            "right": 314.5234375,
+            "top": 390.3125,
+            "width": 93.9765625,
+            "x": 220.546875,
+            "y": 390.3125
+          },
+          "text": "Liga · Sin empezar"
+        }
+      ],
+      "height": 464,
+      "scroll": 0
+    },
+    "save": {
+      "before": "14d9f1c50377a77b76ca10109a099f44327936f15eeb019a522341b96459e4ce",
+      "after": "14d9f1c50377a77b76ca10109a099f44327936f15eeb019a522341b96459e4ce",
+      "identical": true,
+      "bytes": 14058
+    },
+    "physicalDevice": false,
+    "publicUpdated": false
+  },
+  "validation": {
+    "uiAndRedditTestsPassed": 335,
+    "simulationLayouts": 90,
+    "longNameLayouts": 9,
+    "engineUnchangedFiles": 197,
+    "sessionAndSaveTestsReusedFromC3": 177
+  },
+  "publicVersionUnchanged": "0.1.8",
+  "pending": [
+    "Móvil físico, teclado y ampliación de texto"
+  ],
+  "visualReference": "C4-Simulacion.md; C2 PDF retained as historical reference; simulation captures superseded by C4"
+}

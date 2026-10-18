@@ -166,3 +166,56 @@ h1{line-height:1.1}.muted{color:var(--ef-muted)}.eyebrow{color:var(--ef-gold);fo
 .help-dialog header{display:grid;grid-template-columns:minmax(0,1fr) auto}
 .help-dialog header h1{margin-bottom:8px}
 .help-dialog header .language-toggle{grid-column:1/-1;justify-self:start;margin:0 0 12px}
+
+/* C4: the simulation dashboard fits its available frame, including the action
+   and fixture summary. Keep scrolling as a fallback for enlarged text. */
+.reddit-shell main.reddit-home{height:100%;max-height:100%;min-height:0;grid-template-rows:minmax(0,1fr) auto;gap:12px;padding-bottom:4px;align-content:stretch}
+.reddit-shell .reddit-home .reddit-player{min-height:0;height:100%;padding:16px;border-radius:16px;flex-shrink:1}
+.reddit-shell .reddit-home .reddit-identity h1{font-size:clamp(25px,7vw,34px);margin:4px 0 6px;line-height:1.08}
+.reddit-shell .reddit-home .reddit-identity p{font-size:12px;line-height:1.35;margin:3px 0}
+.reddit-shell .reddit-home .reddit-metrics{gap:12px;margin-top:12px}
+.reddit-shell .reddit-home .reddit-metrics strong{font-size:20px}
+.reddit-shell .reddit-home .reddit-advance{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:12px;min-width:0;align-items:stretch;flex-shrink:1}
+.reddit-shell .reddit-home .reddit-next{min-width:0;padding:0;display:flex;flex-direction:column;align-items:stretch}
+.reddit-shell .reddit-home .reddit-next h2{font-size:clamp(18px,5vw,23px);line-height:1.12;margin:5px 0 6px;overflow-wrap:anywhere}
+.reddit-shell .reddit-home .reddit-next p{font-size:11px;line-height:1.35;margin:0 0 8px}
+.reddit-shell .reddit-home .reddit-next .primary{min-height:48px;margin-top:auto;padding:10px 8px;font-size:13px;line-height:1.3}
+.reddit-shell .reddit-home .reddit-calendar{border-top:0;border-left:1px solid #4a6078;padding:0 0 0 12px}
+.reddit-shell .reddit-home .reddit-league-link{font-size:11px;line-height:1.3;padding:5px 0;min-height:44px}
+.reddit-shell .reddit-home .reddit-fixture{display:grid;font-size:11px;line-height:1.3;margin-top:5px}
+.reddit-shell .reddit-home .reddit-fixture small{font-size:9px;line-height:1.3}
+@media(max-height:650px){
+ .reddit-shell:has(main.reddit-home){gap:7px;--ef-shell-top:6px;--ef-shell-bottom:6px}
+ .reddit-shell:has(main.reddit-home) .topbar{min-height:44px}
+ .reddit-shell:has(main.reddit-home) .navigation{min-height:50px;padding-top:3px}
+ .reddit-shell:has(main.reddit-home) .nav-button{min-height:44px}
+ .reddit-shell main.reddit-home{gap:9px}
+ .reddit-shell .reddit-home .reddit-player{padding:12px}
+ .reddit-shell .reddit-home .reddit-identity h1{font-size:25px}
+ .reddit-shell .reddit-home .reddit-metrics{margin-top:8px;gap:8px}
+ .reddit-shell .reddit-home .reddit-metrics strong{font-size:18px}
+ .reddit-shell .reddit-home .reddit-advance{gap:10px}
+ .reddit-shell .reddit-home .reddit-calendar{padding-left:10px}
+}
+@media(min-width:900px) and (min-height:600px){
+ .reddit-shell main.reddit-home{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:18px;max-width:1000px}
+ .reddit-shell .reddit-home .reddit-advance{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:14px;align-content:start}
+ .reddit-shell .reddit-home .reddit-next .primary{margin-top:6px}
+ .reddit-shell .reddit-home .reddit-calendar{border-left:0;border-top:1px solid #4a6078;padding:10px 0 0}
+}
+@media(min-width:900px) and (min-height:600px){
+ .reddit-shell .reddit-home .reddit-player{padding:22px}
+ .reddit-shell .reddit-home .reddit-identity h1{font-size:36px}
+ .reddit-shell .reddit-home .reddit-next h2{font-size:28px}
+ .reddit-shell .reddit-home .reddit-next p,.reddit-shell .reddit-home .reddit-fixture{font-size:13px}
+ .reddit-shell .reddit-home .reddit-league-link{font-size:13px}
+}
+
+@media(min-width:600px) and (max-height:599px){
+ .reddit-shell main.reddit-home{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);grid-template-rows:minmax(0,1fr);gap:14px;max-width:1000px}
+ .reddit-shell .reddit-home .reddit-advance{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:12px}
+ .reddit-shell .reddit-home .reddit-next h2{font-size:18px}
+ .reddit-shell .reddit-home .reddit-next .primary{min-height:44px;font-size:12px}
+ .reddit-shell .reddit-home .reddit-identity h1{font-size:clamp(20px,3vw,24px)}
+ .reddit-shell .reddit-home .reddit-metrics{gap:6px}
+}
