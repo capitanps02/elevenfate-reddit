@@ -12,7 +12,7 @@ export function localeFingerprint(root){
   }
  }
  for(const directory of ['src','web','reddit/client','reddit/analytics','reddit/telemetry','reddit/server','reddit/shared','reddit/i18n','reddit/test','qa/fixtures/t5.1'])visit(directory);
- files.push('package.json','pnpm-lock.yaml','devvit.json','scripts/build.mjs','scripts/build-reddit.mjs','scripts/build-narrative-locales.mjs','scripts/legacy-narrative-sources.mjs','scripts/locale-fingerprint.mjs','scripts/check-locale-release.mjs');
+ files.push('package.json','pnpm-lock.yaml','devvit.json','scripts/build.mjs','scripts/build-reddit.mjs','scripts/build-narrative-locales.mjs','scripts/legacy-narrative-sources.mjs','scripts/locale-fingerprint.mjs','scripts/check-locale-release.mjs','scripts/reddit-release-manifest.mjs','scripts/check-reddit-production.mjs');
  const hash=createHash('sha256');
  for(const name of files.sort()){hash.update(name+'\0');hash.update(fs.readFileSync(path.join(root,name)));hash.update('\0');}
  return hash.digest('hex');

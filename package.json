@@ -78,8 +78,9 @@
     "test:reddit": "node scripts/build-narrative-locales.mjs && node --test reddit/test/*.test.mjs",
     "test:locales": "node scripts/build-narrative-locales.mjs --release && node --test reddit/test/locales.test.mjs reddit/test/daily-locales.test.mjs reddit/test/public-content-locales.test.mjs",
     "verify:reddit": "pnpm run build:reddit && node scripts/check-reddit-config.mjs && pnpm run test:reddit",
-    "upload:reddit": "node scripts/check-locale-release.mjs --candidate && devvit upload",
-    "publish:reddit": "node scripts/check-locale-release.mjs && devvit publish"
+    "upload:reddit": "node scripts/check-locale-release.mjs --candidate && node scripts/check-reddit-production.mjs --candidate && devvit upload",
+    "publish:reddit": "node scripts/check-locale-release.mjs && node scripts/check-reddit-production.mjs && devvit publish",
+    "prepare:reddit": "node scripts/build.mjs && node scripts/check-locale-release.mjs --candidate && node scripts/build-reddit.mjs && node scripts/check-reddit-production.mjs --candidate"
   },
   "devDependencies": {
     "@devvit/web": "0.14.7",

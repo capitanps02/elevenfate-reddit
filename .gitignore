@@ -35,3 +35,6 @@ android/.local/
 # Reddit generated packages
 reddit/public/
 reddit/build/
+
+# Generated local visual acceptance manifest
+visual-build.json

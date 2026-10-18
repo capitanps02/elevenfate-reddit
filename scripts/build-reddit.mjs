@@ -4,6 +4,7 @@ import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {build,context} from 'esbuild';
 import {localeFingerprint} from './locale-fingerprint.mjs';
+import {writeReleaseManifest} from './reddit-release-manifest.mjs';
 const root=path.resolve(import.meta.dirname,'..'),out=path.join(root,'reddit/public');
 const releaseStatus=JSON.parse(fs.readFileSync(path.join(root,'reddit/i18n/release-status.json'),'utf8'));
 const preview=process.argv.includes('--locale-preview');
@@ -24,6 +25,8 @@ fs.copyFileSync(path.join(root,'web/assets/brand/cover-en.jpg'),path.join(out,'c
 assets.brand_cover_en='./cover-en.jpg';
 fs.writeFileSync(path.join(out,'assets.json'),JSON.stringify(assets));
 fs.writeFileSync(path.join(out,'page.css'),fs.readFileSync(path.join(root,'reddit/client/daily.css'),'utf8')+'\n'+fs.readFileSync(path.join(root,'reddit/client/cover.css'),'utf8')+'\n'+fs.readFileSync(path.join(root,'reddit/client/locale.css'),'utf8')+'\n.notice{max-width:520px;margin:8vh auto;padding:24px;color:white;font-family:system-ui}.notice[hidden]{display:none}');
+fs.cpSync(path.join(root,'web/assets/fonts'),path.join(out,'fonts'),{recursive:true});
+fs.appendFileSync(path.join(out,'page.css'),'\n'+fs.readFileSync(path.join(root,'web/sport-theme.css'),'utf8'));
 const configs=[
  // Page chrome is Reddit-specific; original Android stylesheet stays untouched.
  {entryPoints:[path.join(root,'reddit/client/game.mjs'),path.join(root,'reddit/client/splash.mjs')],outdir:out,bundle:true,format:'esm',platform:'browser',target:'es2022',splitting:true,minify:true,loader:{'.css':'text'},metafile:true,define:{__ELEVENFATE_ENGLISH_ENABLED__:String(englishEnabled)}},
@@ -32,5 +35,9 @@ const configs=[
 for(let i=0;i<configs.length;i++){
  if(process.argv.includes('--watch')){const ctx=await context(configs[i]);await ctx.watch();}
  else{const result=await build(configs[i]);fs.mkdirSync(path.join(root,'reddit/build'),{recursive:true});fs.writeFileSync(path.join(root,`reddit/build/metafile-${i}.json`),JSON.stringify(result.metafile));}
+}
+if(!process.argv.includes('--watch')){
+ const release=writeReleaseManifest(root,{preview,englishEnabled});
+ console.log('Release build: '+release.buildId+'; locale preview: '+preview+'; English: '+englishEnabled);
 }
 console.log('ElevenFate Reddit: reused engine/UI; extracted images; no videos or native Android code.');

@@ -448,7 +448,7 @@ export function mountGame({observe:observer,root, GameSession, assets, css, stor
   function mainAction(v){
     if(v.screen==='offer')return button('Revisar oferta',openCinematic,'primary',{blockedWhenPaused:true});
     if(v.screen==='decision')return button('Una decisión te espera',openCinematic,'primary',{blockedWhenPaused:true});
-    if(v.screen==='result')return button('Volver a tu decisión',openCinematic,'primary',{blockedWhenPaused:true});
+    if(v.screen==='result')return button('Ver resultado',openCinematic,'primary',{blockedWhenPaused:true});
     if(v.screen==='epilogue')return button('Ver mi carrera',()=>navigate('career'),'primary');
     if(compactHome&&['career','home'].includes(v.screen)&&!['auto_simulating','paused'].includes(v.simulation?.mode))return button('Simular próximo partido',()=>run('continue',{maxDays:90}),'primary',{blockedWhenPaused:true});
     if(v.simulation){
@@ -842,7 +842,12 @@ export function mountGame({observe:observer,root, GameSession, assets, css, stor
     const nav=el('nav',undefined,'navigation');nav.setAttribute('aria-label',(locale?.text('Navegación principal') ?? 'Navegación principal'));for(const [key,label]of[['home','Inicio'],['career','Carrera'],['world','Mundo'],['relations','Relaciones'],['profile','Perfil'],['save','Tu partida']]){const b=button(label,()=>navigate(key),'nav-button');b.prepend(icon(key));if(key===view){b.classList.add('active');b.setAttribute('aria-current','page');}nav.append(b);}const foot=el('div',undefined,'nav-foot');foot.append(el('span','Cada elección cuenta.'),el('small','De principio a fin.'));nav.append(foot);frame.append(nav);
     const main=el('main');main.tabIndex=0;main.setAttribute('aria-busy',String(busy));frame.append(main);
     if(v){if(cinematic&&['decision','result','offer'].includes(v.screen))renderDecision(v,main);else({home,career,world,relations,profile,save:saves,new:newStory})[view](v,main);}else if(view==='save')saves(null,main);else if(view==='new')newStory(null,main);else{const cover=el('section',undefined,'brand-welcome');if(assets.brand_cover)cover.append(photo('brand_cover','brand-cover'));cover.append(el('h1','Tu historia está a punto de empezar'),el('p','Tu carrera. Tu destino.','muted'));main.append(cover);}
-    if(message){const alert=el('div',undefined,'alert');alert.setAttribute('role','alert');alert.append(el('p',message),button('Tu partida',()=>navigate('save')));frame.append(alert);}
+    if(message){
+      const alert=el('div',undefined,'alert');alert.setAttribute('role','alert');alert.append(el('p',message),button('Tu partida',()=>navigate('save')));
+      // Compact Reddit views keep errors in the reading flow, clear of recovery actions.
+      const inlineTarget=compactHome?(cinematic?main.querySelector('.reddit-scene-copy'):main):null;
+      if(inlineTarget){alert.classList.add('inline-alert');inlineTarget.prepend(alert);}else frame.append(alert);
+    }
     if(busy){if(!compactHome){const status=el('div',busyLabel,'busy-status');status.setAttribute('role','status');frame.append(status);}}else if(paused||v?.simulation?.mode==='paused'){if(!compactHome){const status=el('div','Juego en pausa · reanuda cuando quieras.','pause-status');status.setAttribute('role','status');frame.append(status);}}else if(v?.simulation?.mode==='auto_simulating'){const status=el('div','Simulando el siguiente tramo…','save-status');frame.append(status);}else{const status=el('div',session?'Guardado automático · '+decisionCount(v?.decisionsMade||0):'','save-status');frame.append(status);}
     if(v&&['auto_simulating','paused'].includes(v.simulation?.mode)){const live=el('span',v.simulation.mode==='paused'?'Simulación pausada.':'Simulación en curso.','p5-live-status');live.setAttribute('role','status');live.setAttribute('aria-live','polite');frame.append(live);}
     shell.append(frame);if(v?.simulation?.mode==='auto_simulating')lastAutoVisualAt=performance.now();

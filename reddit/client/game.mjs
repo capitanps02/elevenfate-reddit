@@ -4,9 +4,7 @@ import {createEntryNavigation} from './entry-navigation.mjs';
 import {createAnalytics} from './analytics.mjs';
 import {createAnalyticsPanel} from './analytics-panel.mjs';
 import {GameSession} from '../../dist/session/game-session.js';
-import {mountGame} from '../../web/game-ui.js';
-import css from '../../web/game-ui.css';
-import careerCss from './career.css';
+import {mountCareerPresentation as mountGame} from './career-presentation.mjs';
 import {createRedditSaveStore} from './save-store.mjs';
 import {createStoryScene} from './story-scene.mjs';
 import {mountDaily} from './daily.mjs';
@@ -68,7 +66,7 @@ try{
   navigation.enter('career',{push,context:{mhOwner:true,mhView:initialView,mhCinematic:false}});shown='career';
   clearCover();disposeDaily?.();disposeDaily=null;dailyPanel.hidden=true;host.hidden=false;
   disposeCareer?.();shadow.replaceChildren();
-  disposeCareer=mountGame({observe:(...args)=>{if(!host.hidden&&!document.querySelector('dialog[open]'))analytics?.observe(...args);},root:shadow,GameSession,assets,locale,exportText,preservePresentation,showLanguageControl:false,showPauseControl:false,css:css+'\n'+careerCss,compactHome:true,initialView,autoCreateOnLoad:false,deferAutoResume:true,onMenu:showCover,careerSports:createCareerSportsView(),saveStore:store,saveDescription:'reddit',cutsceneFactory:options=>createStoryScene({...options,locale}),storageKey:`elevenfate.reddit.${init.subredditId}.${init.userId}`});
+  disposeCareer=mountGame({observe:(...args)=>{if(!host.hidden&&!document.querySelector('dialog[open]'))analytics?.observe(...args);},root:shadow,GameSession,assets,locale,exportText,preservePresentation,showLanguageControl:false,showPauseControl:false,compactHome:true,initialView,autoCreateOnLoad:false,deferAutoResume:true,onMenu:showCover,careerSports:createCareerSportsView(),saveStore:store,saveDescription:'reddit',cutsceneFactory:options=>createStoryScene({...options,locale}),storageKey:`elevenfate.reddit.${init.subredditId}.${init.userId}`});
  }
  function openDaily(origin,{push=true}={}){
   if(!store||!sessionValid)return;analytics?.observe('screen','daily');

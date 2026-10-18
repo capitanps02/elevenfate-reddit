@@ -44,7 +44,7 @@ export function createHelp({request=fetch,onDeleted=()=>{},locale,exportText}={}
       }
       if(page==='deleted')body.prepend(node('p','Datos eliminados. El marcador competitivo caduca a las 00:00 UTC. Vuelve a abrir el juego para iniciar una sesión nueva.'));
     }
-    heading.focus({preventScroll:true});
+    dialog.scrollTop=0;heading.focus({preventScroll:true});
   }
   dialog.addEventListener('close',()=>analytics?.observe('screen',previousScreen));
   const unsubscribe=locale?.subscribe(()=>{if(dialog.open)preservePresentation(dialog,()=>render(currentPage));});

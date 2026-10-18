@@ -3,6 +3,14 @@
   "legacyCoverage": true,
   "completeRegression": true,
   "visualAndLanguageReview": true,
-  "implementationHash": "919b0619b17b8a6769b04120548cbc96c5b676745f786602fccc703c32a93db7",
-  "redditPlaytest": true
+  "implementationHash": "af255f7571563f681985aa75def7ebaa7e146ba1163c4326e499ec2edc4c19b2",
+  "redditPlaytest": false,
+  "evidence": {
+    "date": "2026-10-18",
+    "redditAndUiTests": 335,
+    "sessionAndSaveTests": 177,
+    "spanishLayoutsReusedFromC2": 224,
+    "englishViews": 56,
+    "additionalEnglishLayouts": 24
+  }
 }

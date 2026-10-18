@@ -1,5 +1,7 @@
 # ElevenFate Reddit — cola única de cierre
 
+> Interfaz C2, 18/10/2026: diseño integrado en la rama local; plan propio al 85 %, pendiente de validación en destino. [Seguimiento C2](UI-C2-PROGRESS.md). La cifra del cierre 0.1.8 que figura abajo corresponde a esa publicación anterior; C2 no se ha instalado en Reddit.
+
 14 de octubre de 2026 · Revisión 2.6 · **99 % · 3/4 pasadas cerradas · 1 pendiente de Reddit**.
 
 La 0.1.8 está instalada en **r/ElevenFate** y el post existente sirve efectivamente esa versión. La publicación se ha solicitado y Reddit muestra **Private · In Review** en el Directorio. Instalación, versión servida y aprobación son estados distintos: no se declara aprobación definitiva.
